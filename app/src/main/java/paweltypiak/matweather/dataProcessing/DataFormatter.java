@@ -85,42 +85,26 @@ public class DataFormatter {
         chill=channel.getWind().getChill();
         direction=channel.getWind().getDirection();
         speed=channel.getWind().getSpeed();
-        if( Integer.parseInt(direction)<11 ||Integer.parseInt(direction)>349 )
+        if( Integer.parseInt(direction)<22 ||Integer.parseInt(direction)>=337 )
             direction_name="N";
-        else if( Integer.parseInt(direction)>=11 &&Integer.parseInt(direction)<34 )
-            direction_name="NNE";
-        else if( Integer.parseInt(direction)>=34 &&Integer.parseInt(direction)<56 )
+        else if( Integer.parseInt(direction)>=22 &&Integer.parseInt(direction)<67 )
             direction_name="NE";
-        else if( Integer.parseInt(direction)>=56 &&Integer.parseInt(direction)<79 )
-            direction_name="ENE";
-        else if( Integer.parseInt(direction)>=79 &&Integer.parseInt(direction)<101 )
+        else if( Integer.parseInt(direction)>=67 &&Integer.parseInt(direction)<112 )
             direction_name="E";
-        else if( Integer.parseInt(direction)>=101 &&Integer.parseInt(direction)<124 )
-            direction_name="ESE";
-        else if( Integer.parseInt(direction)>=124 &&Integer.parseInt(direction)<146 )
+        else if( Integer.parseInt(direction)>=112 &&Integer.parseInt(direction)<157 )
             direction_name="SE";
-        else if( Integer.parseInt(direction)>=146 &&Integer.parseInt(direction)<169 )
-            direction_name="SSE";
-        else if( Integer.parseInt(direction)>=169 &&Integer.parseInt(direction)<191 )
+        else if( Integer.parseInt(direction)>=157 &&Integer.parseInt(direction)<202 )
             direction_name="S";
-        else if( Integer.parseInt(direction)>=191 &&Integer.parseInt(direction)<213 )
-            direction_name="SSW";
-        else if( Integer.parseInt(direction)>=213 &&Integer.parseInt(direction)<236 )
+        else if( Integer.parseInt(direction)>=202 &&Integer.parseInt(direction)<247 )
             direction_name="SW";
-        else if( Integer.parseInt(direction)>=236 &&Integer.parseInt(direction)<258)
-            direction_name="WSW";
-        else if( Integer.parseInt(direction)>=258 &&Integer.parseInt(direction)<281 )
+        else if( Integer.parseInt(direction)>=247 &&Integer.parseInt(direction)<292 )
             direction_name="W";
-        else if (Integer.parseInt(direction) >= 281 && Integer.parseInt(direction)<304 )
-            direction_name="WNW";
-        else if( Integer.parseInt(direction)>=304 &&Integer.parseInt(direction)<326 )
+        else if( Integer.parseInt(direction)>=292 &&Integer.parseInt(direction)<337 )
             direction_name="NW";
-        else if( Integer.parseInt(direction)>=326 &&Integer.parseInt(direction)< 349)
-            direction_name="NNW";
 
         chill=(int)(0.55*(chill-32));
         speed=(8/5)*speed;
-        Log.d("weather", "wind: " + chill+", "+direction+", "+speed+direction_name);
+        Log.d("weather", "wind: " + chill+", "+direction+", "+speed+", "+direction_name);
     }
 
     public int getHumidity() {
