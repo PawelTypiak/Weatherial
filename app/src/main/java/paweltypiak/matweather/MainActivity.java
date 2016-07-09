@@ -43,29 +43,52 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main); //layout init
         downloadData();//download weather data
+        setFailureDialog();
+        setProgressDialog();
     }
 
     public void downloadData(){
-        setFailureDialog();
-        setProgressDialog();
         progressDialog.show();
         downloader=new DataDownloader("Poznan",this);
     }
 
     @Override
     public void ServiceSuccess(Channel channel) {
-        //handle success
         setLayout(); //layout initialization
-        progressDialog.dismiss();
         getter = new DataGetter(channel); //data 1st step formatting
         setter = new DataSetter(this,getter); //data 2nd step formatting and setting
         Log.d("success", "success");
+        progressDialog.dismiss();
+
     }
 
     @Override
     public void ServiceFailure(Exception exception) {
         exception.printStackTrace();
         failureDialog.show();
+    }
+
+    public void setProgressDialog(){
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage(getString(R.string.dialog_downloading_data));
+        progressDialog.setCancelable(false);
+    }
+
+    public void setFailureDialog(){
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+        alertBuilder.setMessage(getString(R.string.dialog_service_failure))
+                .setCancelable(false)
+                .setPositiveButton(R.string.dialog_service_failure_refresh_button, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        downloadData();
+                    }
+                })
+                .setNegativeButton(R.string.dialog_service_failure_exit_button, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        finish();
+                    }
+                });
+        failureDialog = alertBuilder.create();
     }
 
     public void setLayout(){
@@ -82,29 +105,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         setButtonsClickable();
-    }
 
-    public void setProgressDialog(){
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage(getString(R.string.dialog_downloading_data));
-        progressDialog.setCancelable(false);
-    }
-
-    public void setFailureDialog(){
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-        alertBuilder.setMessage(getString(R.string.dialog_service_failure))
-                .setCancelable(false)
-                .setPositiveButton("odswiez", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        downloadData();
-                    }
-                })
-                .setNegativeButton("wyjdz", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        finish();
-                    }
-                });
-        failureDialog = alertBuilder.create();
     }
 
     public void setButtonsClickable(){

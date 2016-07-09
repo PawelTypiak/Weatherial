@@ -9,6 +9,8 @@
     <!-- Dialog strings -->
     <string name="dialog_downloading_data">Pobieram dane...</string>
     <string name="dialog_service_failure">Nie udało się połączyć z serwisem!</string>
+    <string name="dialog_service_failure_refresh_button">Odśwież</string>
+    <string name="dialog_service_failure_exit_button">Wyjdź</string>
 
     <!-- Options in navigation drawer -->
     <string name="settings">Settings</string>
