@@ -11,19 +11,21 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import paweltypiak.matweather.dataDownloading.DataDownloader;
 import paweltypiak.matweather.dataDownloading.DownloadCallback;
-import paweltypiak.matweather.dataProcessing.DataFormatter;
+import paweltypiak.matweather.dataProcessing.DataGetter;
+import paweltypiak.matweather.dataProcessing.DataSetter;
 import paweltypiak.matweather.jsonHandling.Channel;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, DownloadCallback{
 
-    private DataFormatter formatter;
+    private DataGetter getter;
+    private DataSetter setter;
     private DataDownloader downloader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        //layout initialization
         LayoutInitialization();
         //download initialization
         downloader=new DataDownloader("Poznan",this);
@@ -44,13 +46,13 @@ public class MainActivity extends AppCompatActivity
         //navigation drawer init
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
     }
 
     @Override
     public void ServiceSuccess(Channel channel) {
         //handle success
-        formatter = new DataFormatter(channel);
+        getter = new DataGetter(channel);
+        setter=new DataSetter(this,getter);
         Log.d("success", "success");
     }
 

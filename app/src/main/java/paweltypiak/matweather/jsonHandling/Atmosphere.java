@@ -4,7 +4,6 @@ import org.json.JSONObject;
 
 public class Atmosphere implements JSONPopulator {
 
-
     private int humidity;
     private String pressure;
     private String visibility;
@@ -12,11 +11,9 @@ public class Atmosphere implements JSONPopulator {
     public int getHumidity() {
         return humidity;
     }
-
     public String getPressure() {
         return pressure;
     }
-
     public String getVisibility() {
         return visibility;
     }

@@ -12,7 +12,6 @@ public class Item implements JSONPopulator{
     public Condition getCondition() {
         return condition;
     }
-
     public Forecast getForecast() {
         return forecast;
     }
@@ -21,11 +20,8 @@ public class Item implements JSONPopulator{
     public void populate(JSONObject data) {
         condition=new Condition();
         forecast=new Forecast();
-
-
         condition.populate(data.optJSONObject(("condition")));
         jsonArray=data.optJSONArray("forecast");
         forecast.forecast(jsonArray);
-
     }
 }

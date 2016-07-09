@@ -8,16 +8,12 @@ public class Condition implements JSONPopulator {
     private int temperature;
     private String description;
 
-
-
     public int getCode() {
         return code;
     }
-
     public int getTemperature() {
         return temperature;
     }
-
     public String getDescription() {
         return description;
     }

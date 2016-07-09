@@ -11,11 +11,9 @@ public class Wind implements JSONPopulator{
     public int getChill() {
         return chill;
     }
-
     public String getDirection() {
         return direction;
     }
-
     public int getSpeed() {
         return speed;
     }

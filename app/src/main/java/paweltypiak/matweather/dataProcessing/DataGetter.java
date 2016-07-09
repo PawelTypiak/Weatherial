@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import paweltypiak.matweather.jsonHandling.Channel;
 
-public class DataFormatter {
+public class DataGetter {
     private Channel channel;
     private int chill;
     private String direction;
@@ -24,10 +24,9 @@ public class DataFormatter {
     private int[] forecast_high;
     private int[] forecast_low;
 
-    public DataFormatter(Channel channel){
+    public DataGetter(Channel channel){
         Log.d("tag", "weather");
         this.channel=channel;
-        //format all the data
         formatAstronomy();
         formatAtmosphere();
         formatCondition();
@@ -36,16 +35,16 @@ public class DataFormatter {
     }
 
     public void formatAstronomy(){
-        DateFormat df = new SimpleDateFormat("hh:mm a");
-        DateFormat outputformat= new SimpleDateFormat("HH:mm");
+        DateFormat inputFormat = new SimpleDateFormat("hh:mm a");
+        DateFormat outputFormat= new SimpleDateFormat("HH:mm");
         Date date;
         sunrise=channel.getAstronomy().getSunrise().toString();
         sunset=channel.getAstronomy().getSunset().toString();
         try{
-            date= df.parse(sunrise);
-            sunrise = outputformat.format(date);
-            date=df.parse(sunset);
-            sunset=outputformat.format(date);
+            date= inputFormat.parse(sunrise);
+            sunrise = outputFormat.format(date);
+            date=inputFormat.parse(sunset);
+            sunset=outputFormat.format(date);
         }catch(ParseException pe){
             pe.printStackTrace();
         }
@@ -56,7 +55,7 @@ public class DataFormatter {
         pressure=channel.getAtmosphere().getPressure();
         int dot_number = pressure.indexOf(".");
         if (dot_number != -1)
-            pressure= pressure.substring(0 , dot_number); //this will give abc
+            pressure= pressure.substring(0 , dot_number);
         visibility=channel.getAtmosphere().getVisibility();
         Log.d("weather", "atmosphere: " + humidity+", "+pressure+", "+visibility);
     }
@@ -81,6 +80,7 @@ public class DataFormatter {
             Log.d("weather", "forecast: " + forecast_code[i]+", "+forecast_low[i]+", "+forecast_high[i]);
         }
     }
+
     public void formatWind(){
         chill=channel.getWind().getChill();
         direction=channel.getWind().getDirection();
@@ -101,7 +101,6 @@ public class DataFormatter {
             direction_name="W";
         else if( Integer.parseInt(direction)>=292 &&Integer.parseInt(direction)<337 )
             direction_name="NW";
-
         chill=(int)(0.55*(chill-32));
         speed=(8/5)*speed;
         Log.d("weather", "wind: " + chill+", "+direction+", "+speed+", "+direction_name);

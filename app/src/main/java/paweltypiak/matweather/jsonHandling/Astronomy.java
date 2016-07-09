@@ -10,7 +10,6 @@ public class Astronomy implements JSONPopulator {
     public String getSunrise() {
         return sunrise;
     }
-
     public String getSunset() {
         return sunset;
     }
