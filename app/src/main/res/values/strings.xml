@@ -6,6 +6,10 @@
 
     <string name="action_settings">Settings</string>
 
+    <!-- Dialog strings -->
+    <string name="dialog_downloading_data">Pobieram dane...</string>
+    <string name="dialog_service_failure">Nie udało się połączyć z serwisem!</string>
+
     <!-- Options in navigation drawer -->
     <string name="settings">Settings</string>
     <string name="about">About</string>

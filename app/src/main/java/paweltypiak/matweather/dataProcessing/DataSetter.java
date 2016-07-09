@@ -1,8 +1,13 @@
 package paweltypiak.matweather.dataProcessing;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -46,6 +51,8 @@ public class DataSetter {
     private int layoutHeight;
     private int imageTranslation;
     private int circleTranslation;
+    private ImageView yahooImageView;
+    private ImageView refreshImageView;
     private TextView titleTextView;
     private TextView dateTextView;
     private int conditionStringId;
@@ -124,10 +131,12 @@ public class DataSetter {
         getAppBarResources();
         calendar = Calendar.getInstance();
         dayFormat = DateFormat.format("EEEE", calendar);
-        dateFormat = DateFormat.format("dd MMMM", calendar);
+        dateFormat = DateFormat.format("d MMMM", calendar);
         String dayName=new String(dayFormat.toString().substring(0,1).toUpperCase()+ dayFormat.toString().substring(1));
         titleTextView.setText(R.string.weather_title);
         dateTextView.setText(dayName + ", " + dateFormat);
+        Picasso.with(activity.getApplicationContext()).load(R.drawable.refresh).fit().centerInside().into(refreshImageView);
+        Picasso.with(activity.getApplicationContext()).load(R.drawable.yahoo_logo).fit().centerInside().into(yahooImageView);
     }
 
     private void setCurrentLayout(){
@@ -292,6 +301,8 @@ public class DataSetter {
     private void getAppBarResources(){
         titleTextView =(TextView)activity.findViewById(R.id.app_bar_title_text);
         dateTextView =(TextView)activity.findViewById(R.id.app_bar_date_text);
+        refreshImageView=(ImageView)activity.findViewById(R.id.refresh_image);
+        yahooImageView=(ImageView)activity.findViewById(R.id.yahoo_image);
     }
 
     void getCurrentResources(){

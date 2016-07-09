@@ -34,7 +34,7 @@ public class DataGetter {
         formatWind();
     }
 
-    public void formatAstronomy(){
+    private void formatAstronomy(){
         DateFormat inputFormat = new SimpleDateFormat("hh:mm a");
         DateFormat outputFormat= new SimpleDateFormat("HH:mm");
         Date date;
@@ -50,7 +50,7 @@ public class DataGetter {
         }
     }
 
-    public void formatAtmosphere(){
+    private void formatAtmosphere(){
         humidity=channel.getAtmosphere().getHumidity();
         pressure=channel.getAtmosphere().getPressure();
         int dot_number = pressure.indexOf(".");
@@ -60,14 +60,14 @@ public class DataGetter {
         Log.d("weather", "atmosphere: " + humidity+", "+pressure+", "+visibility);
     }
 
-    public void formatCondition(){
+    private void formatCondition(){
         code=channel.getItem().getCondition().getCode();
         temperature=channel.getItem().getCondition().getTemperature();
         temperature=(int)(0.55*(temperature-32));
         Log.d("weather", "temperature: " + temperature);
     }
 
-    public void formatForecast(){
+    private void formatForecast(){
         forecast_code = new int[5];
         forecast_high = new int[5];
         forecast_low = new int[5];
@@ -81,7 +81,7 @@ public class DataGetter {
         }
     }
 
-    public void formatWind(){
+    private void formatWind(){
         chill=channel.getWind().getChill();
         direction=channel.getWind().getDirection();
         speed=channel.getWind().getSpeed();
