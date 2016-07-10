@@ -34,6 +34,9 @@ public class MainActivity extends AppCompatActivity
     private DataDownloader downloader;
     private ProgressDialog progressDialog;
     private AlertDialog failureDialog;
+    private AlertDialog yahooDialog;
+    private AlertDialog yahooWeatherDialog;
+    private AlertDialog exitDialog;
     private RelativeLayout yahooLayout;
     private RelativeLayout refreshLayout;
     private LinearLayout weatherLayout;
@@ -42,9 +45,9 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main); //layout init
+        setDialogs();
         downloadData();//download weather data
-        setFailureDialog();
-        setProgressDialog();
+
     }
 
     public void downloadData(){
@@ -59,7 +62,6 @@ public class MainActivity extends AppCompatActivity
         setter = new DataSetter(this,getter); //data 2nd step formatting and setting
         Log.d("success", "success");
         progressDialog.dismiss();
-
     }
 
     @Override
@@ -68,27 +70,86 @@ public class MainActivity extends AppCompatActivity
         failureDialog.show();
     }
 
+    private void setDialogs(){
+        setProgressDialog();
+        setFailureDialog();
+        setYahooDialog();
+        setYahooWeatherDialog();
+        setExitDialog();
+    }
+
     public void setProgressDialog(){
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage(getString(R.string.dialog_downloading_data));
+        progressDialog.setMessage(getString(R.string.downloading_data_dialog));
         progressDialog.setCancelable(false);
     }
 
     public void setFailureDialog(){
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-        alertBuilder.setMessage(getString(R.string.dialog_service_failure))
+        alertBuilder.setMessage(getString(R.string.service_failure_dialog))
                 .setCancelable(false)
-                .setPositiveButton(R.string.dialog_service_failure_refresh_button, new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.service_failure_refresh_button_dialog, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         downloadData();
                     }
                 })
-                .setNegativeButton(R.string.dialog_service_failure_exit_button, new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.service_failure_exit_button_dialog, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         finish();
                     }
                 });
         failureDialog = alertBuilder.create();
+    }
+
+    public void setYahooDialog(){
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+        alertBuilder.setMessage(getString(R.string.yahoo_redirect_message_dialog))
+                .setPositiveButton(R.string.yahoo_redirect_ok_button_dialog, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        String url = "https://www.yahoo.com/?ilc=401";
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(url));
+                        startActivity(i);
+                    }
+                })
+                .setNegativeButton(R.string.yahoo_redirect_cancel_button_dialog, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+        yahooDialog = alertBuilder.create();
+    }
+
+    public void setYahooWeatherDialog(){
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+        alertBuilder.setMessage(getString(R.string.yahoo_weather_redirect_message_dialog))
+                .setPositiveButton(R.string.yahoo_weather_redirect_ok_button_dialog, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        String url = "https://www.yahoo.com/news/weather/poland/greater-poland/poznan-514048";
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(url));
+                        startActivity(i);
+                    }
+                })
+                .setNegativeButton(R.string.yahoo_weather_redirect_cancel_button_dialog, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+        yahooWeatherDialog = alertBuilder.create();
+    }
+
+    public void setExitDialog(){
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+        alertBuilder.setMessage(getString(R.string.exit_message_dialog))
+                .setPositiveButton(R.string.exit_ok_button_dialog, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        finish();
+                    }
+                })
+                .setNegativeButton(R.string.exit_cancel_button_dialog, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+        exitDialog = alertBuilder.create();
     }
 
     public void setLayout(){
@@ -105,7 +166,6 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         setButtonsClickable();
-
     }
 
     public void setButtonsClickable(){
@@ -115,6 +175,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void setYahooClickable(){
+        //handling yahoo icon click
         yahooLayout=(RelativeLayout)findViewById(R.id.yahoo_layout);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             TypedValue outValue = new TypedValue();
@@ -124,15 +185,13 @@ public class MainActivity extends AppCompatActivity
         yahooLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String url = "https://www.yahoo.com/?ilc=401";
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                startActivity(i);
+                yahooDialog.show();
             }
         });
     }
 
     public void setWeatherClickable(){
+        //handling weather information click
         weatherLayout=(LinearLayout) findViewById(R.id.weather_layout);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             TypedValue outValue = new TypedValue();
@@ -142,15 +201,13 @@ public class MainActivity extends AppCompatActivity
         weatherLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String url = "https://www.yahoo.com/news/weather/poland/greater-poland/poznan-514048";
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                startActivity(i);
+                yahooWeatherDialog.show();
             }
         });
     }
 
     public void setRefreshClickable(){
+        //handling refresh button click
         refreshLayout=(RelativeLayout) findViewById(R.id.refresh_layout);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             TypedValue outValue = new TypedValue();
@@ -171,7 +228,7 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            exitDialog.show();
         }
     }
 

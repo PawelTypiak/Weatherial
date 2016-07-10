@@ -7,10 +7,19 @@
     <string name="action_settings">Settings</string>
 
     <!-- Dialog strings -->
-    <string name="dialog_downloading_data">Pobieram dane...</string>
-    <string name="dialog_service_failure">Nie udało się połączyć z serwisem!</string>
-    <string name="dialog_service_failure_refresh_button">Odśwież</string>
-    <string name="dialog_service_failure_exit_button">Wyjdź</string>
+    <string name="downloading_data_dialog">Pobieram dane...</string>
+    <string name="service_failure_dialog">Nie udało się połączyć z serwisem!</string>
+    <string name="service_failure_refresh_button_dialog">Odśwież</string>
+    <string name="service_failure_exit_button_dialog">Wyjdź</string>
+    <string name="yahoo_redirect_message_dialog">Czy chcesz przejść na witrynę Yahoo?</string>
+    <string name="yahoo_redirect_ok_button_dialog">Przejdź</string>
+    <string name="yahoo_redirect_cancel_button_dialog">Anuluj</string>
+    <string name="yahoo_weather_redirect_message_dialog">Czy chcesz przejść na witrynę Yahoo Weather?</string>
+    <string name="yahoo_weather_redirect_ok_button_dialog">Przejdź</string>
+    <string name="yahoo_weather_redirect_cancel_button_dialog">Anuluj</string>
+    <string name="exit_message_dialog">Czy na pewno chcesz opuścić program?</string>
+    <string name="exit_ok_button_dialog">Wyjdź</string>
+    <string name="exit_cancel_button_dialog">Anuluj</string>
 
     <!-- Options in navigation drawer -->
     <string name="settings">Settings</string>
