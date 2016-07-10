@@ -7,19 +7,24 @@
     <string name="action_settings">Settings</string>
 
     <!-- Dialog strings -->
-    <string name="downloading_data_dialog">Pobieram dane...</string>
-    <string name="service_failure_dialog">Nie udało się połączyć z serwisem!</string>
-    <string name="service_failure_refresh_button_dialog">Odśwież</string>
-    <string name="service_failure_exit_button_dialog">Wyjdź</string>
-    <string name="yahoo_redirect_message_dialog">Czy chcesz przejść na witrynę Yahoo?</string>
-    <string name="yahoo_redirect_ok_button_dialog">Przejdź</string>
-    <string name="yahoo_redirect_cancel_button_dialog">Anuluj</string>
-    <string name="yahoo_weather_redirect_message_dialog">Czy chcesz przejść na witrynę Yahoo Weather?</string>
-    <string name="yahoo_weather_redirect_ok_button_dialog">Przejdź</string>
-    <string name="yahoo_weather_redirect_cancel_button_dialog">Anuluj</string>
-    <string name="exit_message_dialog">Czy na pewno chcesz opuścić program?</string>
-    <string name="exit_ok_button_dialog">Wyjdź</string>
-    <string name="exit_cancel_button_dialog">Anuluj</string>
+    <string name="downloading_data_dialog_title">Łączenie z serwisem</string>
+    <string name="downloading_data_dialog_message">Pobieranie zawartości...</string>
+    <string name="service_failure_dialog_title">Błąd</string>
+    <string name="service_failure_dialog_message">Nie udało się połączyć z serwisem!</string>
+    <string name="service_failure_dialog_positive_button">Odśwież</string>
+    <string name="service_failure_dialog_negative_button">Wyjdź</string>
+    <string name="yahoo_redirect_dialog_title">Przekierowanie</string>
+    <string name="yahoo_redirect_dialog_message">Czy chcesz przejść na witrynę Yahoo?</string>
+    <string name="yahoo_redirect_dialog_positive_button">Przejdź</string>
+    <string name="yahoo_redirect_dialog_negative_button">Anuluj</string>
+    <string name="yahoo_weather_redirect_dialog_title">Przekierowanie</string>
+    <string name="yahoo_weather_redirect_dialog_message">Czy chcesz przejść na witrynę Yahoo Weather?</string>
+    <string name="yahoo_weather_redirect_dialog_positive_button">Przejdź</string>
+    <string name="yahoo_weather_redirect_dialog_negative_button">Anuluj</string>
+    <string name="exit_dialog_title">Wyjście</string>
+    <string name="exit_dialog_message">Czy na pewno chcesz opuścić program?</string>
+    <string name="exit_dialog_positive_button">Wyjdź</string>
+    <string name="exit_dialog_negative_button">Anuluj</string>
 
     <!-- Options in navigation drawer -->
     <string name="settings">Settings</string>

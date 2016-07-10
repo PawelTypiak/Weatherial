@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.view.ContextThemeWrapper;
 import android.util.Log;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,8 +18,12 @@ import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import paweltypiak.matweather.dataDownloading.DataDownloader;
 import paweltypiak.matweather.dataDownloading.DownloadCallback;
@@ -80,20 +85,22 @@ public class MainActivity extends AppCompatActivity
 
     public void setProgressDialog(){
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage(getString(R.string.downloading_data_dialog));
+        progressDialog.setTitle(getString(R.string.downloading_data_dialog_title));
+        progressDialog.setMessage(getString(R.string.downloading_data_dialog_message));
         progressDialog.setCancelable(false);
     }
 
     public void setFailureDialog(){
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-        alertBuilder.setMessage(getString(R.string.service_failure_dialog))
+        alertBuilder.setTitle(getString(R.string.service_failure_dialog_title))
+                .setMessage(getString(R.string.service_failure_dialog_message))
                 .setCancelable(false)
-                .setPositiveButton(R.string.service_failure_refresh_button_dialog, new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.service_failure_dialog_positive_button, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         downloadData();
                     }
                 })
-                .setNegativeButton(R.string.service_failure_exit_button_dialog, new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.service_failure_dialog_negative_button, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         finish();
                     }
@@ -103,8 +110,9 @@ public class MainActivity extends AppCompatActivity
 
     public void setYahooDialog(){
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-        alertBuilder.setMessage(getString(R.string.yahoo_redirect_message_dialog))
-                .setPositiveButton(R.string.yahoo_redirect_ok_button_dialog, new DialogInterface.OnClickListener() {
+        alertBuilder.setTitle(getString(R.string.yahoo_redirect_dialog_title))
+                .setMessage(getString(R.string.yahoo_redirect_dialog_message))
+                .setPositiveButton(R.string.yahoo_redirect_dialog_positive_button, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         String url = "https://www.yahoo.com/?ilc=401";
                         Intent i = new Intent(Intent.ACTION_VIEW);
@@ -112,7 +120,7 @@ public class MainActivity extends AppCompatActivity
                         startActivity(i);
                     }
                 })
-                .setNegativeButton(R.string.yahoo_redirect_cancel_button_dialog, new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.yahoo_redirect_dialog_negative_button, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                     }
                 });
@@ -121,8 +129,9 @@ public class MainActivity extends AppCompatActivity
 
     public void setYahooWeatherDialog(){
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-        alertBuilder.setMessage(getString(R.string.yahoo_weather_redirect_message_dialog))
-                .setPositiveButton(R.string.yahoo_weather_redirect_ok_button_dialog, new DialogInterface.OnClickListener() {
+        alertBuilder.setTitle(getString(R.string.yahoo_weather_redirect_dialog_title))
+                .setMessage(getString(R.string.yahoo_weather_redirect_dialog_message))
+                .setPositiveButton(R.string.yahoo_weather_redirect_dialog_positive_button, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         String url = "https://www.yahoo.com/news/weather/poland/greater-poland/poznan-514048";
                         Intent i = new Intent(Intent.ACTION_VIEW);
@@ -130,7 +139,7 @@ public class MainActivity extends AppCompatActivity
                         startActivity(i);
                     }
                 })
-                .setNegativeButton(R.string.yahoo_weather_redirect_cancel_button_dialog, new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.yahoo_weather_redirect_dialog_negative_button, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                     }
                 });
@@ -139,18 +148,21 @@ public class MainActivity extends AppCompatActivity
 
     public void setExitDialog(){
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-        alertBuilder.setMessage(getString(R.string.exit_message_dialog))
-                .setPositiveButton(R.string.exit_ok_button_dialog, new DialogInterface.OnClickListener() {
+        alertBuilder.setTitle(getString(R.string.exit_dialog_title))
+                .setMessage(getString(R.string.exit_dialog_message))
+                .setPositiveButton(R.string.exit_dialog_positive_button, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         finish();
                     }
                 })
-                .setNegativeButton(R.string.exit_cancel_button_dialog, new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.exit_dialog_negative_button, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                     }
                 });
         exitDialog = alertBuilder.create();
     }
+
+
 
     public void setLayout(){
         //toolbar init
