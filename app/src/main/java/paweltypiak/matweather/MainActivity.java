@@ -7,7 +7,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.view.ContextThemeWrapper;
+import android.support.v4.content.ContextCompat;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,11 +17,10 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -42,31 +42,34 @@ public class MainActivity extends AppCompatActivity
     private AlertDialog yahooDialog;
     private AlertDialog yahooWeatherDialog;
     private AlertDialog exitDialog;
-    private RelativeLayout yahooLayout;
-    private RelativeLayout refreshLayout;
-    private LinearLayout weatherLayout;
+    private AlertDialog aboutDialog;
+    private AlertDialog firstLoadingDialog;
+    private boolean isFirst;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main); //layout init
+        isFirst=true;
         setDialogs();
         downloadData();//download weather data
-
     }
 
     public void downloadData(){
-        progressDialog.show();
+        if(isFirst==true) firstLoadingDialog.show();
+        else progressDialog.show();
         downloader=new DataDownloader("Poznan",this);
     }
 
     @Override
     public void ServiceSuccess(Channel channel) {
-        setLayout(); //layout initialization
+        if(isFirst==true) setContentView(R.layout.activity_main); //layout init
+        initializeLayout(); //layout initialization
         getter = new DataGetter(channel); //data 1st step formatting
         setter = new DataSetter(this,getter); //data 2nd step formatting and setting
         Log.d("success", "success");
-        progressDialog.dismiss();
+        if(isFirst==true) firstLoadingDialog.dismiss();
+        else progressDialog.dismiss();
+        isFirst=false;
     }
 
     @Override
@@ -76,23 +79,35 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setDialogs(){
-        setProgressDialog();
-        setFailureDialog();
-        setYahooDialog();
-        setYahooWeatherDialog();
-        setExitDialog();
+        initializeProgressDialog();
+        initializeFirstLoadingDialog();
+        initializeFailureDialog();
+        initializeYahooDialog();
+        initializeYahooWeatherDialog();
+        initializeExitDialog();
+        initializeAboutDialog();
     }
 
-    public void setProgressDialog(){
-        progressDialog = new ProgressDialog(this);
+    public void initializeProgressDialog(){
+        progressDialog = new ProgressDialog(this, R.style.CustomDialogStyle);
         progressDialog.setTitle(getString(R.string.downloading_data_dialog_title));
         progressDialog.setMessage(getString(R.string.downloading_data_dialog_message));
         progressDialog.setCancelable(false);
     }
 
-    public void setFailureDialog(){
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+    public void initializeFirstLoadingDialog(){
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this, R.style.CustomLoadingDialogStyle);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.loading_dialog,null);
+        alertBuilder.setCancelable(false);
+        alertBuilder.setView(dialogView);
+        firstLoadingDialog = alertBuilder.create();
+    }
+
+    public void initializeFailureDialog(){
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this, R.style.CustomDialogStyle);
         alertBuilder.setTitle(getString(R.string.service_failure_dialog_title))
+                .setIcon(R.drawable.error_icon)
                 .setMessage(getString(R.string.service_failure_dialog_message))
                 .setCancelable(false)
                 .setPositiveButton(R.string.service_failure_dialog_positive_button, new DialogInterface.OnClickListener() {
@@ -108,9 +123,10 @@ public class MainActivity extends AppCompatActivity
         failureDialog = alertBuilder.create();
     }
 
-    public void setYahooDialog(){
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+    public void initializeYahooDialog(){
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this, R.style.CustomDialogStyle);
         alertBuilder.setTitle(getString(R.string.yahoo_redirect_dialog_title))
+                .setIcon(R.drawable.info_icon)
                 .setMessage(getString(R.string.yahoo_redirect_dialog_message))
                 .setPositiveButton(R.string.yahoo_redirect_dialog_positive_button, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -127,9 +143,10 @@ public class MainActivity extends AppCompatActivity
         yahooDialog = alertBuilder.create();
     }
 
-    public void setYahooWeatherDialog(){
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+    public void initializeYahooWeatherDialog(){
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this, R.style.CustomDialogStyle);
         alertBuilder.setTitle(getString(R.string.yahoo_weather_redirect_dialog_title))
+                .setIcon(R.drawable.info_icon)
                 .setMessage(getString(R.string.yahoo_weather_redirect_dialog_message))
                 .setPositiveButton(R.string.yahoo_weather_redirect_dialog_positive_button, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -146,9 +163,10 @@ public class MainActivity extends AppCompatActivity
         yahooWeatherDialog = alertBuilder.create();
     }
 
-    public void setExitDialog(){
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+    public void initializeExitDialog(){
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this, R.style.CustomDialogStyle);
         alertBuilder.setTitle(getString(R.string.exit_dialog_title))
+                .setIcon(R.drawable.warning_icon)
                 .setMessage(getString(R.string.exit_dialog_message))
                 .setPositiveButton(R.string.exit_dialog_positive_button, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -162,9 +180,33 @@ public class MainActivity extends AppCompatActivity
         exitDialog = alertBuilder.create();
     }
 
+    public void initializeAboutDialog(){
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this, R.style.CustomDialogStyle);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.about_dialog,null);
+        TextView aboutDesctiptionPart1=(TextView)dialogView.findViewById(R.id.about_dialog_text_part1);
+        TextView aboutDesctiptionPart2=(TextView)dialogView.findViewById(R.id.about_dialog_text_part2);
+        TextView aboutDesctiptionPart3=(TextView)dialogView.findViewById(R.id.about_dialog_text_part3);
+        TextView aboutDesctiptionPart4=(TextView)dialogView.findViewById(R.id.about_dialog_text_part4);
+        aboutDesctiptionPart1.setMovementMethod(LinkMovementMethod.getInstance());
+        aboutDesctiptionPart2.setMovementMethod(LinkMovementMethod.getInstance());
+        aboutDesctiptionPart3.setMovementMethod(LinkMovementMethod.getInstance());
+        aboutDesctiptionPart4.setMovementMethod(LinkMovementMethod.getInstance());
+        aboutDesctiptionPart1.setLinkTextColor( ContextCompat.getColor(this,R.color.textSecondaryDark));
+        aboutDesctiptionPart2.setLinkTextColor( ContextCompat.getColor(this,R.color.textSecondaryDark));
+        aboutDesctiptionPart3.setLinkTextColor( ContextCompat.getColor(this,R.color.textSecondaryDark));
+        aboutDesctiptionPart4.setLinkTextColor( ContextCompat.getColor(this,R.color.textSecondaryDark));
+        alertBuilder.setView(dialogView);
+        alertBuilder
+                .setPositiveButton(R.string.about_dialog_positive_button, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
 
+        aboutDialog = alertBuilder.create();
+    }
 
-    public void setLayout(){
+    public void initializeLayout(){
         //toolbar init
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -188,7 +230,7 @@ public class MainActivity extends AppCompatActivity
 
     public void setYahooClickable(){
         //handling yahoo icon click
-        yahooLayout=(RelativeLayout)findViewById(R.id.yahoo_layout);
+        RelativeLayout yahooLayout=(RelativeLayout)findViewById(R.id.yahoo_layout);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             TypedValue outValue = new TypedValue();
             this.getTheme().resolveAttribute(android.R.attr.selectableItemBackground, outValue, true);
@@ -204,13 +246,29 @@ public class MainActivity extends AppCompatActivity
 
     public void setWeatherClickable(){
         //handling weather information click
-        weatherLayout=(LinearLayout) findViewById(R.id.weather_layout);
+        LinearLayout currentLayout=(LinearLayout)findViewById(R.id.current_layout);
+        LinearLayout detailsLayout=(LinearLayout)findViewById(R.id.details_layout);
+        LinearLayout forecastLayout=(LinearLayout)findViewById(R.id.forecast_layout);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             TypedValue outValue = new TypedValue();
             this.getTheme().resolveAttribute(android.R.attr.selectableItemBackground, outValue, true);
-            weatherLayout.setBackgroundResource(outValue.resourceId);
+            currentLayout.setBackgroundResource(outValue.resourceId);
+            detailsLayout.setBackgroundResource(outValue.resourceId);
+            forecastLayout.setBackgroundResource(outValue.resourceId);
         }
-        weatherLayout.setOnClickListener(new View.OnClickListener() {
+        currentLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                yahooWeatherDialog.show();
+            }
+        });
+        detailsLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                yahooWeatherDialog.show();
+            }
+        });
+        forecastLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 yahooWeatherDialog.show();
@@ -220,7 +278,7 @@ public class MainActivity extends AppCompatActivity
 
     public void setRefreshClickable(){
         //handling refresh button click
-        refreshLayout=(RelativeLayout) findViewById(R.id.refresh_layout);
+        RelativeLayout refreshLayout=(RelativeLayout) findViewById(R.id.refresh_layout);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             TypedValue outValue = new TypedValue();
             this.getTheme().resolveAttribute(android.R.attr.selectableItemBackground, outValue, true);
@@ -244,6 +302,17 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent e) {
+        if (keyCode == KeyEvent.KEYCODE_MENU) {
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            if (!drawer.isDrawerOpen(GravityCompat.START)) {
+                drawer.openDrawer(GravityCompat.START);
+            }
+        }
+        return super.onKeyDown(keyCode, e);
+    }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -254,6 +323,7 @@ public class MainActivity extends AppCompatActivity
             // Handle options
         } else if (id == R.id.nav_button_about) {
             //Handle about
+            aboutDialog.show();
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

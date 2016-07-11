@@ -25,6 +25,14 @@
     <string name="exit_dialog_message">Czy na pewno chcesz opuścić program?</string>
     <string name="exit_dialog_positive_button">Wyjdź</string>
     <string name="exit_dialog_negative_button">Anuluj</string>
+    <string name="about_dialog_header">Witaj w <b>MatWeather</b> - prostej aplikacji pogodowej utworzonej zgodnie z filozofią <i>Material Design</i>.</string>
+    <string name="about_dialog_description_additional_information">Serwisy związane z aplikacją:</string>
+    <string name="about_dialog_description_part1">informacje pogodowe: <b><a href="https://developer.yahoo.com/weather/">Yahoo Weather API</a></b></string>
+    <string name="about_dialog_description_part2">informacje o lokalizacji: <b><a href="https://developers.google.com/maps/">Google Maps API</a></b></string>
+    <string name="about_dialog_description_part3">ikony: <b><a href="http://www.flaticon.com/">Flaticon</a></b></string>
+    <string name="about_dialog_description_part4">repozytorium: <b><a href="https://github.com/PawelTypiak/MatWeather">GitHub</a></b></string>
+    <string name="about_dialog_positive_button">Rozumiem</string>
+    <string name="first_loading_dialog_message">Ładowanie zawartości...</string>
 
     <!-- Options in navigation drawer -->
     <string name="settings">Settings</string>
