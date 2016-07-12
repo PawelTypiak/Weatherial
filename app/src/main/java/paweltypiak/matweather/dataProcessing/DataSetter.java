@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import paweltypiak.matweather.ColorTransformation;
 import paweltypiak.matweather.R;
 
 public class DataSetter {
@@ -150,15 +151,16 @@ public class DataSetter {
         chillTextView.setText(chill + "\u00B0");
     }
 
-    private void setSunPathLayout(final double scale, final long currentDiffMinutes, final long sunsetSunriseDiffMinutes){
+    private void setSunPathLayout(final double scale, final boolean isDay, final long currentDiffMinutes, final long sunsetSunriseDiffMinutes){
         ViewTreeObserver treeObserver = sunPathLayout.getViewTreeObserver();
         treeObserver.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             public boolean onPreDraw() {
                 sunPathLayout.getViewTreeObserver().removeOnPreDrawListener(this);
                 layoutHeight = sunPathLayout.getMeasuredHeight();
                 layoutWidth = sunPathLayout.getMeasuredWidth();
-                Picasso.with(activity.getApplicationContext()).load(R.drawable.sun_icon).resize((int) (layoutHeight * scale), (int) (layoutHeight * scale)).into(sunPathObjectImageView);
-                Picasso.with(activity.getApplicationContext()).load(R.drawable.weather_line).resize((int) (layoutWidth - layoutHeight * scale), (int) (layoutHeight)).into(sunPathBackgroudImageView);
+                if(isDay==true)Picasso.with(activity.getApplicationContext()).load(R.drawable.sun_icon).resize((int) (layoutHeight * scale), (int) (layoutHeight * scale)).into(sunPathObjectImageView);
+                else Picasso.with(activity.getApplicationContext()).load(R.drawable.moon_icon).resize((int) (layoutHeight * scale), (int) (layoutHeight * scale)).into(sunPathObjectImageView);
+                Picasso.with(activity.getApplicationContext()).load(R.drawable.weather_line).transform(new ColorTransformation(activity.getResources().getColor(R.color.divider))).resize((int) (layoutWidth - layoutHeight * scale), (int) (layoutHeight)).into(sunPathBackgroudImageView);
                 Picasso.with(activity.getApplicationContext()).load(R.drawable.weather_small_circle).resize((int) (layoutHeight * scale*0.15), (int) (layoutHeight * scale*0.15)).into(sunPathLeftCircleImageView);
                 Picasso.with(activity.getApplicationContext()).load(R.drawable.weather_small_circle).resize((int) (layoutHeight * scale * 0.15), (int) (layoutHeight * scale * 0.15)).into(sunPathRightCircleImageView);
                 imageTranslation = (int)((currentDiffMinutes *(layoutWidth-(layoutHeight * scale))/sunsetSunriseDiffMinutes));
@@ -196,7 +198,7 @@ public class DataSetter {
             final long sunsetSunriseDiffMinutes = sunsetSunriseDifference / (60 * 1000);
             final long currentDiffMinutes = currentDifference / (60 * 1000);
             Log.d("difference", "roznica: " + currentDiffMinutes);
-            setSunPathLayout(scale,currentDiffMinutes,sunsetSunriseDiffMinutes);
+            setSunPathLayout(scale,true,currentDiffMinutes,sunsetSunriseDiffMinutes);
         }
         else {
             Picasso.with(activity.getApplicationContext()).load(R.drawable.sunrise_icon).fit().centerInside().into(sunsetSunriseRightImageView);
@@ -217,7 +219,7 @@ public class DataSetter {
                 final long sunsetSunriseDiffMinutes = sunsetSunriseDifference / (60 * 1000);
                 final long currentDiffMinutes = currentDifference / (60 * 1000);
                 Log.d("difference", "roznica: sunrise_current_diffMinutes " + currentDiffMinutes);
-                setSunPathLayout(scale,currentDiffMinutes,sunsetSunriseDiffMinutes);
+                setSunPathLayout(scale,false,currentDiffMinutes,sunsetSunriseDiffMinutes);
             }
             else {
                 long currentDifference= Math.abs(now.getTime() - sunsetHour.getTime());
@@ -225,7 +227,7 @@ public class DataSetter {
                 final long sunsetSunriseDiffMinutes = sunsetSunriseDifference / (60 * 1000);
                 final long currentDiffMinutes = currentDifference / (60 * 1000);
                 Log.d("difference", "roznica: sunrise_current_diffMinutes " + currentDiffMinutes);
-                setSunPathLayout(scale,currentDiffMinutes,sunsetSunriseDiffMinutes);
+                setSunPathLayout(scale,false,currentDiffMinutes,sunsetSunriseDiffMinutes);
             }
         }
         Picasso.with(activity.getApplicationContext()).load(R.drawable.direction_icon).rotate(Float.parseFloat(direction)).fit().centerInside().into(directionImageView);
