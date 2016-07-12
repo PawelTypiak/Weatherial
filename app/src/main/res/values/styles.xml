@@ -37,5 +37,8 @@
     <style name="AppTheme.White">
         <item name="colorAccent">@color/white</item>
     </style>
+    <!--<style name="DialogTitleStyle" parent="TextAppearance.AppCompat.Title">
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>-->
 
 </resources>

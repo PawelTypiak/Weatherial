@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import paweltypiak.matweather.jsonHandling.Channel;
 
-public class DataGetter {
+public class DataInitializer {
     private Channel channel;
     private int chill;
     private String direction;
@@ -24,7 +24,7 @@ public class DataGetter {
     private int[] forecast_high;
     private int[] forecast_low;
 
-    public DataGetter(Channel channel){
+    public DataInitializer(Channel channel){
         Log.d("tag", "weather");
         this.channel=channel;
         formatAstronomy();

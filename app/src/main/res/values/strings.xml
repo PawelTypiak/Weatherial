@@ -5,38 +5,76 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="bullet">&#8226; </string>
 
     <!-- Dialog strings -->
-    <string name="downloading_data_dialog_title">Łączenie z serwisem</string>
-    <string name="downloading_data_dialog_message">Pobieranie zawartości...</string>
+    <string name="first_opening_dialog_title">Witaj!</string>
+    <string name="first_opening_dialog_description"><b>MatWeather</b> to prosta aplikacja pogodowa zaprojektowana zgodnie z filozofią <i>Material Design</i>. Do pobierania informacji o pogodzie wykorzystywane jest Yahoo Weather API, a dane o lokalizacji pobierane są przy pomocy Google Maps API</string>
+    <string name="first_opening_dialog_positive_button">Kontynuuj</string>
+    <string name="first_opening_dialog_negative_button">Wyjdź</string>
+    <string name="first_loading_dialog_message">Ładowanie zawartości...</string>
+    <string name="refresh_dialog_title">Łączenie z serwisem</string>
+    <string name="refresh_dialog_message">Pobieranie zawartości...</string>
     <string name="service_failure_dialog_title">Błąd</string>
     <string name="service_failure_dialog_message">Nie udało się połączyć z serwisem!</string>
     <string name="service_failure_dialog_positive_button">Odśwież</string>
     <string name="service_failure_dialog_negative_button">Wyjdź</string>
     <string name="yahoo_redirect_dialog_title">Przekierowanie</string>
-    <string name="yahoo_redirect_dialog_message">Czy chcesz przejść na witrynę Yahoo?</string>
-    <string name="yahoo_redirect_dialog_positive_button">Przejdź</string>
+    <string name="yahoo_redirect_dialog_message">Nastąpi przekierowanie na witrynę:</string>
+    <string name="yahoo_redirect_dialog_message_service_name"><b>Yahoo.com</b></string>
+    <string name="yahoo_redirect_dialog_positive_button">Kontynuuj</string>
     <string name="yahoo_redirect_dialog_negative_button">Anuluj</string>
     <string name="yahoo_weather_redirect_dialog_title">Przekierowanie</string>
-    <string name="yahoo_weather_redirect_dialog_message">Czy chcesz przejść na witrynę Yahoo Weather?</string>
-    <string name="yahoo_weather_redirect_dialog_positive_button">Przejdź</string>
+    <string name="yahoo_weather_redirect_dialog_message">Nastąpi przekierowanie do serwisu:</string>
+    <string name="yahoo_weather_redirect_dialog_message_service_name"><b>Yahoo Weather</b></string>
+    <string name="yahoo_weather_redirect_dialog_positive_button">Kontynuuj</string>
     <string name="yahoo_weather_redirect_dialog_negative_button">Anuluj</string>
     <string name="exit_dialog_title">Wyjście</string>
-    <string name="exit_dialog_message">Czy na pewno chcesz opuścić program?</string>
+    <string name="exit_dialog_message">Czy na pewno chcesz wyjsć z <b>MatWeather</b>?</string>
     <string name="exit_dialog_positive_button">Wyjdź</string>
     <string name="exit_dialog_negative_button">Anuluj</string>
-    <string name="about_dialog_header">Witaj w <b>MatWeather</b> - prostej aplikacji pogodowej utworzonej zgodnie z filozofią <i>Material Design</i>.</string>
-    <string name="about_dialog_description_additional_information">Serwisy związane z aplikacją:</string>
+    <string name="about_dialog_header">Witaj w <b>MatWeather</b> - prostej aplikacji pogodowej zaprojektowanej zgodnie z filozofią <i>Material Design</i>.</string>
+    <string name="about_dialog_description_additional_information">Informacje dodatkowe:</string>
     <string name="about_dialog_description_part1">informacje pogodowe: <b><a href="https://developer.yahoo.com/weather/">Yahoo Weather API</a></b></string>
     <string name="about_dialog_description_part2">informacje o lokalizacji: <b><a href="https://developers.google.com/maps/">Google Maps API</a></b></string>
     <string name="about_dialog_description_part3">ikony: <b><a href="http://www.flaticon.com/">Flaticon</a></b></string>
     <string name="about_dialog_description_part4">repozytorium: <b><a href="https://github.com/PawelTypiak/MatWeather">GitHub</a></b></string>
-    <string name="about_dialog_positive_button">Rozumiem</string>
-    <string name="first_loading_dialog_message">Ładowanie zawartości...</string>
+    <string name="about_dialog_negative_button">Cofnij</string>
+    <string name="feedback_dialog_title">Prześlij opinię</string>
+    <string name="feedback_dialog_message">Jeśli masz jakieś pytanie, bądź chcesz wyrazić opinię, wyślij wiadomość na adres:</string>
+    <string name="feedback_dialog_mail"><b>pawel.p.typiak@gmail.com</b></string>
+    <string name="feedback_dialog_positive_button">Wyślij wiadomość</string>
+    <string name="feedback_dialog_negative_button">Anuluj</string>
+    <string name="author_dialog_title">Autor</string>
+    <string name="author_dialog_mail_address">pawel.p.typiak@gmail.com</string>
+    <string name="author_dialog_mail_description">E-mail</string>
+    <string name="author_dialog_github">github.com/PawelTypiak</string>
+    <string name="author_dialog_github_description">GitHub</string>
+    <string name="author_dialog_negative_button">Cofnij</string>
+    <string name="no_email_application_dialog_title">Brak aplikacji!</string>
+    <string name="no_email_application_dialog_message">Niestety nie wykryto aplikacji służącej do wysyłania wiadomości E-mail. Czy chcesz skopiować adres <b>pawel.p.typiak@gmail.com</b> do schowka?</string>
+    <string name="no_email_application_dialog_positive_button">Skopiuj</string>
+    <string name="no_email_application_dialog_negative_button">Anuluj</string>
+
+    <!-- Clipboard texts-->
+    <string name="clipboard_mail_feedback_title">MatWeather - feedback</string>
+
+    <!-- Addresses-->
+    <string name="mail_address">pawel.p.typiak@gmail.com</string>
+    <string name="github_address">https://github.com/PawelTypiak/MatWeather</string>
+    <string name="yahoo_address">https://www.yahoo.com/?ilc=401</string>
+    <string name="yahoo_weather_address">https://www.yahoo.com/news/weather/poland/greater-poland/poznan-514048</string>
+
+    <!-- Toast messages-->
+    <string name="clipboard_toast_message">Skopiowano adres E-mail</string>
 
     <!-- Options in navigation drawer -->
-    <string name="settings">Settings</string>
+    <string name="settings">Ustawienia</string>
+    <string name="feedback">Prześlij opinię</string>
     <string name="about">About</string>
+    <string name="author">Author</string>
+
+
 
     <!-- Weather strings -->
     <string name="weather_title">Pogoda</string>

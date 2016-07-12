@@ -1,13 +1,8 @@
 package paweltypiak.matweather.dataProcessing;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Build;
 import android.text.format.DateFormat;
 import android.util.Log;
-import android.util.TypedValue;
-import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -17,6 +12,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
 import paweltypiak.matweather.R;
 
 public class DataSetter {
@@ -115,9 +111,9 @@ public class DataSetter {
     private TextView forecastLowTemperatureDay3TextView;
     private TextView forecastLowTemperatureDay4TextView;
     private Activity activity;
-    private DataGetter getter;
+    private DataInitializer getter;
 
-    public DataSetter(Activity activity, DataGetter getter) {
+    public DataSetter(Activity activity, DataInitializer getter) {
         this.getter=getter;
         this.activity=activity;
         getData();
@@ -144,6 +140,8 @@ public class DataSetter {
         conditionTextView.setText(conditionStringId);
         Picasso.with(activity.getApplicationContext()).load(conditionDrawableId).into(conditionImageView);
         temperatureTextView.setText(temperature + "\u00B0");
+
+
         Picasso.with(activity.getApplicationContext()).load(R.drawable.arrow).into(highTemperatureImageView);
         Picasso.with(activity.getApplicationContext()).load(R.drawable.arrow).rotate(180f).into(lowTemperatureImageView);
         highTemperatureTextView.setText(forecastHighTemperature[0] + "\u00B0");

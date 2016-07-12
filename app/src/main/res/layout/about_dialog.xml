@@ -14,8 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:paddingTop="30dp"
-            android:src="@drawable/main_icon"
-            android:id="@+id/about_dialog_app_about_icon_image"/>
+            android:id="@+id/about_dialog_app_icon_image"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -31,16 +30,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/dialog_margin_size"
+        android:paddingRight="@dimen/dialog_margin_size"
+        android:paddingTop="@dimen/dialog_margin_size"
+        android:id="@+id/about_dialog_description_layout">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:textSize="14dp"
+            android:textSize="@dimen/dialog_text_size"
             android:text="@string/about_dialog_header"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:layout_marginTop="24dp"
             android:layout_marginBottom="5dp"
             android:textColor="@color/textPrimaryDark"
             android:id="@+id/about_dialog_header_text"
@@ -48,85 +48,90 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
+            android:textSize="@dimen/dialog_text_size"
             android:textColor="@color/textSecondaryDark"
-            android:text="@string/about_dialog_description_additional_information"/>
+            android:text="@string/about_dialog_description_additional_information"
+            android:id="@+id/about_dialog_desctiption_additional_information_text"/>
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
             android:id="@+id/about_dialog_text_table_layout">
             <TableRow
-                android:id="@+id/about_dialog_text_table_row1"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:id="@+id/about_dialog_text_table_row1">
                 <TextView
-                    android:id="@+id/about_dialog_bullet1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="&#8226; "/>
+                    android:textSize="@dimen/dialog_text_size"
+                    android:text="@string/bullet"
+                    android:id="@+id/about_dialog_bullet1"/>
                 <TextView
-                    android:id="@+id/about_dialog_text_part1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textSize="@dimen/dialog_text_size"
                     android:text="@string/about_dialog_description_part1"
+                    android:id="@+id/about_dialog_text_part1"
                     />
             </TableRow>
             <TableRow
-                android:id="@+id/about_dialog_text_table_row2"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:id="@+id/about_dialog_text_table_row2">
                 <TextView
-                    android:id="@+id/about_dialog_bullet2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="&#8226; "/>
+                    android:textSize="@dimen/dialog_text_size"
+                    android:text="@string/bullet"
+                    android:id="@+id/about_dialog_bullet2"/>
                 <TextView
-                    android:id="@+id/about_dialog_text_part2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textSize="@dimen/dialog_text_size"
                     android:text="@string/about_dialog_description_part2"
+                    android:id="@+id/about_dialog_text_part2"
                     />
             </TableRow>
             <TableRow
-                android:id="@+id/about_dialog_text_table_row3"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:id="@+id/about_dialog_text_table_row3">
                 <TextView
-                    android:id="@+id/about_dialog_bullet3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="&#8226; "/>
+                    android:textSize="@dimen/dialog_text_size"
+                    android:text="@string/bullet"
+                    android:id="@+id/about_dialog_bullet3"/>
                 <TextView
-                    android:id="@+id/about_dialog_text_part3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textSize="@dimen/dialog_text_size"
                     android:text="@string/about_dialog_description_part3"
+                    android:id="@+id/about_dialog_text_part3"
                     />
             </TableRow>
             <TableRow
-                android:id="@+id/about_dialog_text_table_row4"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:id="@+id/about_dialog_text_table_row4">
                 <TextView
-                    android:id="@+id/about_dialog_bullet4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="&#8226; "/>
+                    android:textSize="@dimen/dialog_text_size"
+                    android:text="@string/bullet"
+                    android:id="@+id/about_dialog_bullet4"/>
                 <TextView
-                    android:id="@+id/about_dialog_text_part4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textSize="@dimen/dialog_text_size"
                     android:text="@string/about_dialog_description_part4"
+                    android:id="@+id/about_dialog_text_part4"
                     />
             </TableRow>
         </TableLayout>
     </LinearLayout>
-
 </LinearLayout>
