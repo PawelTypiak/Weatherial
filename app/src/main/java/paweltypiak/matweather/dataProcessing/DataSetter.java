@@ -12,9 +12,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
-import paweltypiak.matweather.ColorTransformation;
 import paweltypiak.matweather.R;
+import paweltypiak.matweather.UsableFunctions;
 
 public class DataSetter {
     private int chill;
@@ -112,10 +111,10 @@ public class DataSetter {
     private TextView forecastLowTemperatureDay3TextView;
     private TextView forecastLowTemperatureDay4TextView;
     private Activity activity;
-    private DataInitializer getter;
+    private DataInitializer dataInitializer;
 
-    public DataSetter(Activity activity, DataInitializer getter) {
-        this.getter=getter;
+    public DataSetter(Activity activity, DataInitializer dataInitializer) {
+        this.dataInitializer =dataInitializer;
         this.activity=activity;
         getData();
         setAppBarLayout();
@@ -160,7 +159,7 @@ public class DataSetter {
                 layoutWidth = sunPathLayout.getMeasuredWidth();
                 if(isDay==true)Picasso.with(activity.getApplicationContext()).load(R.drawable.sun_icon).resize((int) (layoutHeight * scale), (int) (layoutHeight * scale)).into(sunPathObjectImageView);
                 else Picasso.with(activity.getApplicationContext()).load(R.drawable.moon_icon).resize((int) (layoutHeight * scale), (int) (layoutHeight * scale)).into(sunPathObjectImageView);
-                Picasso.with(activity.getApplicationContext()).load(R.drawable.weather_line).transform(new ColorTransformation(activity.getResources().getColor(R.color.divider))).resize((int) (layoutWidth - layoutHeight * scale), (int) (layoutHeight)).into(sunPathBackgroudImageView);
+                Picasso.with(activity.getApplicationContext()).load(R.drawable.weather_line).transform(new UsableFunctions().new setDrawableColor(activity.getResources().getColor(R.color.dividerDark))).resize((int) (layoutWidth - layoutHeight * scale), (int) (layoutHeight)).into(sunPathBackgroudImageView);
                 Picasso.with(activity.getApplicationContext()).load(R.drawable.weather_small_circle).resize((int) (layoutHeight * scale*0.15), (int) (layoutHeight * scale*0.15)).into(sunPathLeftCircleImageView);
                 Picasso.with(activity.getApplicationContext()).load(R.drawable.weather_small_circle).resize((int) (layoutHeight * scale * 0.15), (int) (layoutHeight * scale * 0.15)).into(sunPathRightCircleImageView);
                 imageTranslation = (int)((currentDiffMinutes *(layoutWidth-(layoutHeight * scale))/sunsetSunriseDiffMinutes));
@@ -282,20 +281,20 @@ public class DataSetter {
     }
 
     void getData(){
-            chill = getter.getChill();
-            direction=getter.getDirection();
-            directionName =getter.getDirection_name();
-            speed=getter.getSpeed();
-            humidity=getter.getHumidity();
-            pressure=getter.getPressure();
-            visibility=getter.getVisibility();
-            sunrise=getter.getSunrise();
-            sunset=getter.getSunset();
-            code=getter.getCode();
-            temperature=getter.getTemperature();
-            forecastCode =getter.getForecast_code();
-            forecastHighTemperature =getter.getForecast_high();
-            forecastLowTemperature =getter.getForecast_low();
+            chill = dataInitializer.getChill();
+            direction= dataInitializer.getDirection();
+            directionName = dataInitializer.getDirection_name();
+            speed= dataInitializer.getSpeed();
+            humidity= dataInitializer.getHumidity();
+            pressure= dataInitializer.getPressure();
+            visibility= dataInitializer.getVisibility();
+            sunrise= dataInitializer.getSunrise();
+            sunset= dataInitializer.getSunset();
+            code= dataInitializer.getCode();
+            temperature= dataInitializer.getTemperature();
+            forecastCode = dataInitializer.getForecast_code();
+            forecastHighTemperature = dataInitializer.getForecast_high();
+            forecastLowTemperature = dataInitializer.getForecast_low();
     }
 
     private void getAppBarResources(){

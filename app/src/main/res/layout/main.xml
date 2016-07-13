@@ -207,7 +207,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/divider"
+        android:background="@color/dividerDark"
         android:id="@+id/current_details_separator"/>
     <LinearLayout
         android:layout_width="match_parent"
@@ -430,7 +430,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/divider"/>
+        android:background="@color/dividerDark"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
