@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setDialogs(){
+        //initializing all dialogs
         initializeRefreshDialog();
         initializeFirstLoadingDialog();
         initializeFailureDialog();
@@ -100,134 +101,200 @@ public class MainActivity extends AppCompatActivity
         initializeAuthorDialog();
     }
 
-    public void initializeRefreshDialog(){
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this, R.style.CustomDialogStyle);
+    //runnables to make passing methods as parameters possible
+    Runnable finishRunnable = new Runnable() {
+        public void run() {
+            finish();
+        }
+    };
+
+    Runnable downloadDataRunnable = new Runnable() {
+        public void run() {
+            downloadData();
+        }
+    };
+
+    public class copyToClipboardRunnable implements Runnable {
+        String text;
+        public copyToClipboardRunnable(String text) {
+            this.text=text;
+        }
+        public void run() {
+            copyToClipboard(text);
+        }
+    }
+
+    public class initializeWebIntentRunnable implements Runnable {
+        String url;
+        public initializeWebIntentRunnable(String url) {
+            this.url=url;
+        }
+        public void run() {
+            initializeWebIntent(url);
+        }
+    }
+
+    public class initializeEmailIntentRunnable implements Runnable {
+        String address;
+        String subject;
+        String body;
+        public initializeEmailIntentRunnable(String address, String subject, String body) {
+            this.address=address;
+            this.subject=subject;
+            this.body=body;
+        }
+        public void run() {
+            initializeEmailIntent(address,subject,body);
+        }
+    }
+
+    private AlertDialog dialogBuilder(View dialogView, int theme, String title, int iconResource, String message, boolean ifUncancelable, String positiveButtonText, final Runnable positiveButtonFunction, String negativeButtonText,  final Runnable negativeButtonFunction){
+       //custom dialog builder
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this, theme);
+        if(dialogView!=null)alertBuilder.setView(dialogView);
+        if(title!=null) alertBuilder.setTitle(title);
+        if(iconResource!=0)  alertBuilder.setIcon(iconResource);
+        if(message!=null) alertBuilder.setMessage(message);
+        if(ifUncancelable==true) alertBuilder.setCancelable(true);
+        if(positiveButtonText!=null) {
+            alertBuilder.setPositiveButton(positiveButtonText, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    if(positiveButtonFunction!=null) positiveButtonFunction.run();
+                }
+            });
+        }
+        if(negativeButtonText!=null) {
+            alertBuilder.setNegativeButton(negativeButtonText, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    if(negativeButtonFunction!=null) negativeButtonFunction.run();
+                }
+            });
+        }
+        AlertDialog dialog = alertBuilder.create();
+        return dialog;
+    }
+
+    private void initializeRefreshDialog(){
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.refresh_dialog,null);
-        alertBuilder.setView(dialogView);
-        alertBuilder.setTitle(getString(R.string.refresh_dialog_title))
-                .setCancelable(false);
-        refreshDialog = alertBuilder.create();
+        refreshDialog = dialogBuilder(dialogView,
+                R.style.CustomDialogStyle,
+                getString(R.string.refresh_dialog_title),
+                0,
+                null,
+                true,
+                null,
+                null,
+                null,
+                null);
     }
 
-    public void initializeNoEmailApplicationDialog(){
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this, R.style.CustomDialogStyle);
+    private void initializeNoEmailApplicationDialog(){
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.no_email_application_dialog,null);
-        alertBuilder.setView(dialogView);
-        alertBuilder.setTitle(getString(R.string.no_email_application_dialog_title))
-                .setIcon(R.drawable.error_icon)
-                .setPositiveButton(R.string.no_email_application_dialog_positive_button, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                       copyToClipboard(getString(R.string.mail_address));
-                    }
-                })
-                .setNegativeButton(R.string.no_email_application_dialog_negative_button, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                    }
-                });
-        noEmailApplicationDialog = alertBuilder.create();
+        noEmailApplicationDialog = dialogBuilder(dialogView,R.style.CustomDialogStyle,
+                getString(R.string.no_email_application_dialog_title),
+                R.drawable.error_icon,
+                null,
+                false,
+                getString(R.string.no_email_application_dialog_positive_button),
+                new copyToClipboardRunnable(getString(R.string.mail_address)),
+                getString( R.string.no_email_application_dialog_negative_button),
+                null);
     }
 
-    public void initializeFirstLoadingDialog(){
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this, R.style.CustomLoadingDialogStyle);
+    private void initializeFirstLoadingDialog(){
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.first_loading_dialog,null);
         ImageView iconImageView=(ImageView)dialogView.findViewById(R.id.first_loading_dialog_app_icon_image);
         Picasso.with(getApplicationContext()).load(R.drawable.app_icon).fit().centerInside().into(iconImageView);
-        alertBuilder.setCancelable(false);
-        alertBuilder.setView(dialogView);
-        firstLoadingDialog = alertBuilder.create();
+        firstLoadingDialog = dialogBuilder(dialogView,
+                R.style.CustomLoadingDialogStyle,
+                null,
+                0,
+                null,
+                true,null,
+                null,
+                null,
+                null
+                );
     }
 
-    public void initializeFailureDialog(){
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this, R.style.CustomDialogStyle);
+    private void initializeFailureDialog(){
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.failure_dialog,null);
-        alertBuilder.setView(dialogView);
-        alertBuilder.setTitle(getString(R.string.service_failure_dialog_title))
-                .setIcon(R.drawable.error_icon)
-                .setCancelable(false)
-                .setPositiveButton(R.string.service_failure_dialog_positive_button, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        downloadData();
-                    }
-                })
-                .setNegativeButton(R.string.service_failure_dialog_negative_button, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        finish();
-                    }
-                });
-        failureDialog = alertBuilder.create();
+        failureDialog = dialogBuilder(dialogView,
+                R.style.CustomDialogStyle,
+                getString(R.string.service_failure_dialog_title),
+                R.drawable.error_icon,
+                null,
+                true,
+                getString(R.string.service_failure_dialog_positive_button),
+                downloadDataRunnable,
+                getString(R.string.service_failure_dialog_negative_button),
+                finishRunnable
+                );
     }
 
-    public void initializeYahooRedirectDialog(){
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this, R.style.CustomDialogStyle);
+    private void initializeYahooRedirectDialog(){
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.yahoo_redirect_dialog,null);
-        alertBuilder.setView(dialogView);
-        alertBuilder.setTitle(getString(R.string.yahoo_redirect_dialog_title))
-                .setIcon(R.drawable.info_icon)
-                .setPositiveButton(R.string.yahoo_redirect_dialog_positive_button, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        initializeWebIntent(getString(R.string.yahoo_address));
-                    }
-                })
-                .setNegativeButton(R.string.yahoo_redirect_dialog_negative_button, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                    }
-                });
-        yahooRedirectDialog = alertBuilder.create();
+        yahooRedirectDialog = dialogBuilder(dialogView,
+                R.style.CustomDialogStyle,
+                getString(R.string.yahoo_redirect_dialog_title),
+                R.drawable.info_icon,
+                null,
+                false,
+                getString(R.string.yahoo_redirect_dialog_positive_button),
+                new initializeWebIntentRunnable(getString(R.string.yahoo_address)),
+                getString(R.string.yahoo_redirect_dialog_negative_button),
+                null
+                );
     }
 
-    public void initializeYahooWeatherRedirectDialog(){
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this, R.style.CustomDialogStyle);
+    private void initializeYahooWeatherRedirectDialog(){
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.yahoo_weather_redirect_dialog,null);
-        alertBuilder.setView(dialogView);
-        alertBuilder.setTitle(getString(R.string.yahoo_weather_redirect_dialog_title))
-                .setIcon(R.drawable.info_icon)
-                .setPositiveButton(R.string.yahoo_weather_redirect_dialog_positive_button, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        initializeWebIntent(getString(R.string.yahoo_weather_address));
-                    }
-                })
-                .setNegativeButton(R.string.yahoo_weather_redirect_dialog_negative_button, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                    }
-                });
-        yahooWeatherRedirectDialog = alertBuilder.create();
+        yahooWeatherRedirectDialog = dialogBuilder(dialogView,
+                R.style.CustomDialogStyle,
+                getString(R.string.yahoo_weather_redirect_dialog_title),
+                R.drawable.info_icon,
+                null,
+                false,
+                getString(R.string.yahoo_weather_redirect_dialog_positive_button),
+                new initializeWebIntentRunnable(getString(R.string.yahoo_weather_address)),
+                getString(R.string.yahoo_weather_redirect_dialog_negative_button),
+                null
+                );
     }
 
-    public void initializeExitDialog(){
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this, R.style.CustomDialogStyle);
+    private void initializeExitDialog(){
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.exit_dialog,null);
-        alertBuilder.setView(dialogView);
-        alertBuilder.setTitle(getString(R.string.exit_dialog_title))
-                .setIcon(R.drawable.warning_icon)
-                .setPositiveButton(R.string.exit_dialog_positive_button, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        finish();
-                    }
-                })
-                .setNegativeButton(R.string.exit_dialog_negative_button, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                    }
-                });
-        exitDialog = alertBuilder.create();
+        exitDialog = dialogBuilder(dialogView,
+                R.style.CustomDialogStyle,
+                getString(R.string.exit_dialog_title),
+                R.drawable.warning_icon,
+                null,
+                false,
+                getString(R.string.exit_dialog_positive_button),
+                finishRunnable,
+                getString(R.string.exit_dialog_negative_button),
+                null
+        );
     }
 
-    public void initializeAuthorDialog(){
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this, R.style.CustomDialogStyle);
+    private void initializeAuthorDialog(){
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.author_dialog,null);
+        //setting images
         ImageView emailImageView=(ImageView)dialogView.findViewById(R.id.author_dialog_mail_image);
         ImageView githubImageView=(ImageView)dialogView.findViewById(R.id.author_dialog_github_image);
-        LinearLayout mailLayout=(LinearLayout)dialogView.findViewById(R.id.author_dialog_mail_layout);
-        LinearLayout githubLayout=(LinearLayout)dialogView.findViewById(R.id.author_dialog_github_layout);
         Picasso.with(getApplicationContext()).load(R.drawable.email_icon).transform(new ColorTransformation(getResources().getColor(R.color.white))).fit().centerInside().into(emailImageView);
         Picasso.with(getApplicationContext()).load(R.drawable.github_icon).transform(new ColorTransformation(getResources().getColor(R.color.white))).fit().centerInside().into(githubImageView);
+        //making links clickable and focusable
+        LinearLayout mailLayout=(LinearLayout)dialogView.findViewById(R.id.author_dialog_mail_layout);
+        LinearLayout githubLayout=(LinearLayout)dialogView.findViewById(R.id.author_dialog_github_layout);
         setLayoutFocusable(mailLayout);
         setLayoutFocusable(githubLayout);
         mailLayout.setOnClickListener(new View.OnClickListener() {
@@ -242,23 +309,25 @@ public class MainActivity extends AppCompatActivity
                 initializeWebIntent(getString(R.string.github_address));
             }
         });
-        alertBuilder.setView(dialogView);
-        alertBuilder.setTitle(getString(R.string.author_dialog_title))
-                .setIcon(R.drawable.author_icon)
-                .setNegativeButton(R.string.author_dialog_negative_button, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                    }
-                });
-        authorDialog = alertBuilder.create();
+        authorDialog = dialogBuilder(dialogView,
+                R.style.CustomDialogStyle,
+                getString(R.string.author_dialog_title),
+                R.drawable.author_icon,
+                null,
+                false,
+                null,
+                null,
+                getString(R.string.author_dialog_negative_button),
+                null);
     }
 
-    public void initializeFeedbackDialog(){
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this, R.style.CustomDialogStyle);
+    private void initializeFeedbackDialog(){
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.feedback_dialog,null);
-
+        //making mail address clickable and focusable
         LinearLayout textLayout=(LinearLayout)dialogView.findViewById(R.id.feedback_dialog_mail_layout);
         setLayoutFocusable(textLayout);
+        //copy to alipboadrd after press
         textLayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
@@ -266,25 +335,23 @@ public class MainActivity extends AppCompatActivity
                 return false;
             }
         });
-        alertBuilder.setView(dialogView);
-        alertBuilder.setTitle(getString(R.string.feedback_dialog_title))
-                .setIcon(R.drawable.feedback_icon)
-                .setPositiveButton(R.string.feedback_dialog_positive_button, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        initializeEmailIntent(getString(R.string.mail_address),getString(R.string.clipboard_mail_feedback_title),null);
-                    }
-                })
-                .setNegativeButton(R.string.feedback_dialog_negative_button, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                    }
-                });
-        feedbackDialog = alertBuilder.create();
+        feedbackDialog = dialogBuilder(dialogView,
+                R.style.CustomDialogStyle,
+                getString(R.string.feedback_dialog_title),
+                R.drawable.feedback_icon,
+                null,
+                false,
+                getString(R.string.feedback_dialog_positive_button),
+                new initializeEmailIntentRunnable(getString(R.string.mail_address),getString(R.string.clipboard_mail_feedback_title),null),
+                getString(R.string.feedback_dialog_negative_button),
+                null
+                );
     }
 
-    public void initializeAboutDialog(){
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this, R.style.CustomDialogStyle);
+    private void initializeAboutDialog(){
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.about_dialog,null);
+        //initializing clickable hyperlinks
         TextView aboutDesctiptionPart1=(TextView)dialogView.findViewById(R.id.about_dialog_text_part1);
         TextView aboutDesctiptionPart2=(TextView)dialogView.findViewById(R.id.about_dialog_text_part2);
         TextView aboutDesctiptionPart3=(TextView)dialogView.findViewById(R.id.about_dialog_text_part3);
@@ -297,19 +364,23 @@ public class MainActivity extends AppCompatActivity
         aboutDesctiptionPart2.setLinkTextColor( ContextCompat.getColor(this,R.color.textSecondaryDark));
         aboutDesctiptionPart3.setLinkTextColor( ContextCompat.getColor(this,R.color.textSecondaryDark));
         aboutDesctiptionPart4.setLinkTextColor( ContextCompat.getColor(this,R.color.textSecondaryDark));
+        //setting app icon
         ImageView iconImageView=(ImageView)dialogView.findViewById(R.id.about_dialog_app_icon_image);
         Picasso.with(getApplicationContext()).load(R.drawable.app_icon).fit().centerInside().into(iconImageView);
-        alertBuilder.setView(dialogView);
-        alertBuilder
-                .setNegativeButton(R.string.about_dialog_negative_button, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                    }
-                });
-
-        aboutDialog = alertBuilder.create();
+        //initializing dialog
+        aboutDialog = dialogBuilder(dialogView,
+                R.style.CustomDialogStyle,
+                null,
+                0,
+                null,
+                false,
+                null,
+                null,
+                getString(R.string.about_dialog_negative_button),
+                null);
     }
 
-    public void initializeLayout(){
+    private void initializeLayout(){
         //toolbar init
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -325,13 +396,15 @@ public class MainActivity extends AppCompatActivity
         setButtonsClickable();
     }
 
-    public void initializeWebIntent(String url){
+    private void initializeWebIntent(String url){
+        //initialize web intent
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(url));
         startActivity(intent);
     }
 
-    public void initializeEmailIntent(String address, String subject, String body){
+    private void initializeEmailIntent(String address, String subject, String body){
+        //initialize email intent
         Intent intent = new Intent(Intent.ACTION_SENDTO);
         intent.setType("text/plain");
         if(subject!=null) intent.putExtra(Intent.EXTRA_SUBJECT, subject);
@@ -345,7 +418,8 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void copyToClipboard(String text){
+    private void copyToClipboard(String text){
+        //initialize copy to clipboard
         ClipboardManager myClipboard;
         ClipData myClip;
         myClipboard = (ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
@@ -354,7 +428,7 @@ public class MainActivity extends AppCompatActivity
         Toast.makeText(getApplicationContext(), getString(R.string.clipboard_toast_message),Toast.LENGTH_SHORT).show();
     }
 
-    public void setLayoutFocusable(LinearLayout layout){
+    private void setLayoutFocusable(LinearLayout layout){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             TypedValue outValue = new TypedValue();
             this.getTheme().resolveAttribute(android.R.attr.selectableItemBackground, outValue, true);
@@ -362,13 +436,13 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void setButtonsClickable(){
+    private void setButtonsClickable(){
         setYahooClickable();
         setWeatherClickable();
         setRefreshClickable();
     }
 
-    public void setYahooClickable(){
+    private void setYahooClickable(){
         //handling yahoo icon click
         LinearLayout yahooLayout=(LinearLayout)findViewById(R.id.yahoo_layout);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -384,18 +458,11 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    public void setWeatherClickable(){
+    private void setWeatherClickable(){
         //handling weather information click
         LinearLayout currentLayout=(LinearLayout)findViewById(R.id.current_layout);
         LinearLayout detailsLayout=(LinearLayout)findViewById(R.id.details_layout);
         LinearLayout forecastLayout=(LinearLayout)findViewById(R.id.forecast_layout);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            TypedValue outValue = new TypedValue();
-            this.getTheme().resolveAttribute(android.R.attr.selectableItemBackground, outValue, true);
-            currentLayout.setBackgroundResource(outValue.resourceId);
-            detailsLayout.setBackgroundResource(outValue.resourceId);
-            forecastLayout.setBackgroundResource(outValue.resourceId);
-        }
         currentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -416,7 +483,7 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    public void setRefreshClickable(){
+    private void setRefreshClickable(){
         //handling refresh button click
         LinearLayout refreshLayout=(LinearLayout) findViewById(R.id.refresh_layout);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -445,6 +512,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent e) {
         if (keyCode == KeyEvent.KEYCODE_MENU) {
+            //opening navigation drawer on back press
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             if (!drawer.isDrawerOpen(GravityCompat.START)) {
                 drawer.openDrawer(GravityCompat.START);

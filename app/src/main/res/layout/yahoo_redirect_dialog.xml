@@ -23,7 +23,7 @@
         android:textSize="@dimen/dialog_text_size"
         android:text="@string/yahoo_redirect_dialog_message_service_name"
         android:textColor="@color/textSecondaryDark"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:id="@+id/yahoo_dialog_description_service_name_text"
         />
 </LinearLayout>
