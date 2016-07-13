@@ -1,6 +1,5 @@
 package paweltypiak.matweather;
 
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ClipData;
@@ -21,7 +20,6 @@ import android.widget.Toast;
 import com.squareup.picasso.Transformation;
 
 public class UsableFunctions {
-
 
     public static void initializeWebIntent(Activity activity, String url){
         //initialize web intent

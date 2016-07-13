@@ -56,6 +56,9 @@
     <string name="no_email_application_dialog_positive_button">Skopiuj</string>
     <string name="no_email_application_dialog_negative_button">Anuluj</string>
 
+    <!-- First launch layout strings-->
+    <string name="first_launch_layout_start_button">Rozpocznij</string>
+
     <!-- Clipboard texts-->
     <string name="clipboard_mail_feedback_title">MatWeather - feedback</string>
 
@@ -73,7 +76,6 @@
     <string name="feedback">Prześlij opinię</string>
     <string name="about">About</string>
     <string name="author">Author</string>
-
 
 
     <!-- Weather strings -->

@@ -17,4 +17,6 @@
     <color name="textDisabledLight">#80FFFFFF</color>
     <color name="dividerLight">#1FFFFFFF</color>
     <color name="iconLight">#80FFFFFF</color>
+
+    <color name="startButton">#26FFFFFF</color>
 </resources>

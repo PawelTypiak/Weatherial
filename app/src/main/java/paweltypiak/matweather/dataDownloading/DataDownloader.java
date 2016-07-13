@@ -22,7 +22,7 @@ public class DataDownloader {
         refreshWeather(location);
     }
 
-    public void refreshWeather(String location){
+    private void refreshWeather(String location){
         //download all the information from yahoo
         this.location=location;
         new AsyncTask<String, Void, String>(){

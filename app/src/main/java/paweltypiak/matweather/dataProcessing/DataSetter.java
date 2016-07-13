@@ -280,7 +280,7 @@ public class DataSetter {
         Picasso.with(activity.getApplicationContext()).load(R.drawable.arrow).into(forecastHighTemperatureDay4ImageView);
     }
 
-    void getData(){
+    private void getData(){
             chill = dataInitializer.getChill();
             direction= dataInitializer.getDirection();
             directionName = dataInitializer.getDirection_name();
@@ -304,7 +304,7 @@ public class DataSetter {
         yahooImageView=(ImageView)activity.findViewById(R.id.yahoo_image);
     }
 
-    void getCurrentResources(){
+    private void getCurrentResources(){
         conditionStringId=activity.getResources().getIdentifier("condition_" + code, "string", activity.getPackageName());
         conditionDrawableId=activity.getResources().getIdentifier("drawable/icon_" + code, null, activity.getPackageName());
         conditionTextView =(TextView)activity.findViewById(R.id.current_conditions_text);
@@ -318,7 +318,7 @@ public class DataSetter {
         lowTemperatureImageView =(ImageView)activity.findViewById(R.id.low_temperature_image);
     }
 
-    void getDetailsResources(){
+    private void getDetailsResources(){
         sunsetSunriseLeftImageView =(ImageView)activity.findViewById(R.id.sunrise_sunset_left_image);
         sunsetSunriseRightImageView =(ImageView)activity.findViewById(R.id.sunrise_sunset_right_image);
         sunsetSunriseLeftTextView =(TextView)activity.findViewById(R.id.sunrise_sunset_left_text);
@@ -341,7 +341,7 @@ public class DataSetter {
         visibilityTextView =(TextView)activity.findViewById(R.id.visibility_text);
     }
 
-    void getForecastResouces(){
+    private void getForecastResouces(){
         forecastDay1Drawable=activity.getResources().getIdentifier("drawable/icon_" + forecastCode[1], null, activity.getPackageName());
         forecastDay2Drawable=activity.getResources().getIdentifier("drawable/icon_" + forecastCode[2], null, activity.getPackageName());
         forecastDay3Drawable=activity.getResources().getIdentifier("drawable/icon_" + forecastCode[3], null, activity.getPackageName());
