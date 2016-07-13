@@ -156,6 +156,7 @@ public class DataSetter {
             public boolean onPreDraw() {
                 sunPathLayout.getViewTreeObserver().removeOnPreDrawListener(this);
                 layoutHeight = sunPathLayout.getMeasuredHeight();
+                Log.d("height", "height "+layoutHeight);
                 layoutWidth = sunPathLayout.getMeasuredWidth();
                 if(isDay==true)Picasso.with(activity.getApplicationContext()).load(R.drawable.sun_icon).resize((int) (layoutHeight * scale), (int) (layoutHeight * scale)).into(sunPathObjectImageView);
                 else Picasso.with(activity.getApplicationContext()).load(R.drawable.moon_icon).resize((int) (layoutHeight * scale), (int) (layoutHeight * scale)).into(sunPathObjectImageView);
@@ -226,7 +227,7 @@ public class DataSetter {
                 final long sunsetSunriseDiffMinutes = sunsetSunriseDifference / (60 * 1000);
                 final long currentDiffMinutes = currentDifference / (60 * 1000);
                 Log.d("difference", "roznica: sunrise_current_diffMinutes " + currentDiffMinutes);
-                setSunPathLayout(scale,false,currentDiffMinutes,sunsetSunriseDiffMinutes);
+               setSunPathLayout(scale,false,currentDiffMinutes,sunsetSunriseDiffMinutes);
             }
         }
         Picasso.with(activity.getApplicationContext()).load(R.drawable.direction_icon).rotate(Float.parseFloat(direction)).fit().centerInside().into(directionImageView);
