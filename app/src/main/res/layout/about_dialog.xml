@@ -42,14 +42,14 @@
             android:textSize="@dimen/dialog_text_size"
             android:text="@string/about_dialog_header"
             android:layout_marginBottom="5dp"
-            android:textColor="@color/textPrimaryDark"
+            android:textColor="@color/textPrimaryLightBackground"
             android:id="@+id/about_dialog_header_text"
             />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/dialog_text_size"
-            android:textColor="@color/textSecondaryDark"
+            android:textColor="@color/textSecondaryLightBackground"
             android:text="@string/about_dialog_description_additional_information"
             android:id="@+id/about_dialog_desctiption_additional_information_text"/>
         <TableLayout

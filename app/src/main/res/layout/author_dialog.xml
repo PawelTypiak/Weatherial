@@ -34,7 +34,7 @@
                 android:layout_gravity="left"
                 android:textSize="@dimen/dialog_text_size"
                 android:text="@string/author_dialog_mail_address"
-                android:textColor="@color/textPrimaryDark"
+                android:textColor="@color/textPrimaryLightBackground"
                 android:id="@+id/author_dialog_mail_address_text"
                 />
             <TextView
@@ -43,7 +43,7 @@
                 android:layout_gravity="left"
                 android:textSize="@dimen/dialog_text_size"
                 android:text="@string/author_dialog_mail_description"
-                android:textColor="@color/textSecondaryDark"
+                android:textColor="@color/textSecondaryLightBackground"
                 android:id="@+id/author_dialog_mail_description_text"
                 />
         </LinearLayout>
@@ -75,7 +75,7 @@
                 android:layout_gravity="left"
                 android:textSize="@dimen/dialog_text_size"
                 android:text="@string/author_dialog_github"
-                android:textColor="@color/textPrimaryDark"
+                android:textColor="@color/textPrimaryLightBackground"
                 android:id="@+id/author_dialog_github_text"
                 />
             <TextView
@@ -84,7 +84,7 @@
                 android:layout_gravity="left"
                 android:textSize="@dimen/dialog_text_size"
                 android:text="@string/author_dialog_github_description"
-                android:textColor="@color/textSecondaryDark"
+                android:textColor="@color/textSecondaryLightBackground"
                 android:id="@+id/author_dialog_github_description_text"
                 />
         </LinearLayout>

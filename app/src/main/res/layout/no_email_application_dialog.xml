@@ -13,7 +13,7 @@
         android:layout_gravity="left"
         android:textSize="@dimen/dialog_text_size"
         android:text="@string/no_email_application_dialog_message"
-        android:textColor="@color/textSecondaryDark"
+        android:textColor="@color/textSecondaryLightBackground"
         android:id="@+id/no_email_application_dialog_description_text"
         />
 </LinearLayout>

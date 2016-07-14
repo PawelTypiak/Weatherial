@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/refresh_dialog_message"
-            android:textColor="@color/textSecondaryDark"
+            android:textColor="@color/textSecondaryLightBackground"
             android:textSize="@dimen/dialog_text_size"
             android:id="@+id/refresh_dialog_message"
             />

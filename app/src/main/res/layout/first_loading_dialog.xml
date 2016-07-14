@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/first_loading_dialog_message"
-            android:textColor="@color/textPrimaryLight"
+            android:textColor="@color/textPrimaryDarkBackground"
             android:textSize="@dimen/dialog_text_size"
             android:id="@+id/first_loading_dialog_message"
             />

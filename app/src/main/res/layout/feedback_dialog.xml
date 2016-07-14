@@ -13,7 +13,7 @@
         android:layout_gravity="left"
         android:textSize="@dimen/dialog_text_size"
         android:text="@string/feedback_dialog_message"
-        android:textColor="@color/textSecondaryDark"
+        android:textColor="@color/textSecondaryLightBackground"
         android:layout_marginBottom="5dp"
         android:id="@+id/feedback_dialog_description_text"
         />
@@ -29,7 +29,7 @@
             android:layout_gravity="center"
             android:textSize="@dimen/dialog_text_size"
             android:text="@string/feedback_dialog_mail"
-            android:textColor="@color/textSecondaryDark"
+            android:textColor="@color/textSecondaryLightBackground"
             android:layout_margin="5dp"
             android:id="@+id/feedback_dialog_mail_text"
             />

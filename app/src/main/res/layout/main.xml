@@ -2,7 +2,6 @@
 <android.support.v4.widget.SwipeRefreshLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="paweltypiak.matweather.MainActivity"
     android:fitsSystemWindows="true"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -25,7 +24,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="25dp"
-                android:textColor="@color/textPrimaryDark"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:id="@+id/current_conditions_text"/>
@@ -76,7 +74,6 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
                                     android:textSize="15dp"
-                                    android:textColor="@color/textPrimaryDark"
                                     android:gravity="left|center_vertical"
                                     android:id="@+id/high_temperature_text"/>
                             </LinearLayout>
@@ -94,7 +91,6 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
-                                    android:textColor="@color/textPrimaryDark"
                                     android:textSize="15dp"
                                     android:gravity="left|center_vertical"
                                     android:id="@+id/low_temperature_text"
@@ -105,7 +101,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:textSize="90dp"
-                            android:textColor="@color/textPrimaryDark"
                             android:includeFontPadding="false"
                             android:gravity="center"
                             android:layout_marginLeft="10dp"
@@ -121,7 +116,6 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:textColor="@color/textSecondaryDark"
                             android:gravity="top|right"
                             android:textSize="20dp"
                             android:id="@+id/chill_title_text"
@@ -129,7 +123,6 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:textColor="@color/textPrimaryDark"
                             android:gravity="top|left"
                             android:textSize="20dp"
                             android:id="@+id/chill_text"
@@ -142,8 +135,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/dividerDark"
-            android:id="@+id/current_details_separator"/>
+            android:background="@color/dividerLightBackground"
+            android:id="@+id/current_details_divider"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -176,7 +169,6 @@
                         android:layout_height="0dp"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:textColor="@color/textPrimaryDark"
                         android:id="@+id/sunrise_sunset_left_text"/>
                 </LinearLayout>
                 <RelativeLayout
@@ -214,6 +206,13 @@
                         android:layout_centerVertical="true"
                         android:id="@+id/sun_path_object_image"
                         />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:id="@+id/sun_path_object_background_image"
+                        />
 
                 </RelativeLayout>
                 <LinearLayout
@@ -232,7 +231,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:textColor="@color/textPrimaryDark"
                         android:gravity="center"
                         android:id="@+id/sunrise_sunset_right_text"/>
                 </LinearLayout>
@@ -272,7 +270,6 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/textPrimaryDark"
                         android:gravity="bottom|center_horizontal"
                         android:id="@+id/direction_text"/>
                 </LinearLayout>
@@ -293,7 +290,6 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/textPrimaryDark"
                         android:gravity="bottom|center_horizontal"
                         android:id="@+id/speed_text"/>
                 </LinearLayout>
@@ -314,7 +310,6 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/textPrimaryDark"
                         android:gravity="bottom|center_horizontal"
                         android:id="@+id/humidity_text"/>
                 </LinearLayout>
@@ -335,7 +330,6 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/textPrimaryDark"
                         android:gravity="bottom|center_horizontal"
                         android:id="@+id/pressure_text"/>
                 </LinearLayout>
@@ -356,7 +350,6 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/textPrimaryDark"
                         android:gravity="bottom|center_horizontal"
                         android:id="@+id/visibility_text"/>
                 </LinearLayout>
@@ -365,7 +358,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/dividerDark"/>
+            android:background="@color/dividerLightBackground"
+            android:id="@+id/details_forecast_divider"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -386,7 +380,6 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/textPrimaryDark"
                     android:gravity="center"
                     android:textSize="15dp"
                     android:id="@+id/forecast_day1_name"/>
@@ -417,7 +410,6 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/textPrimaryDark"
                             android:gravity="center"
                             android:layout_marginLeft="2dp"
                             android:layout_marginRight="5dp"
@@ -437,7 +429,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="2dp"
-                            android:textColor="@color/textPrimaryDark"
                             android:gravity="center"
                             android:id="@+id/forecast_day1_low_temperature_text"/>
                     </LinearLayout>
@@ -453,7 +444,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:textColor="@color/textPrimaryDark"
                     android:textSize="15dp"
                     android:id="@+id/forecast_day2_name_text"/>
                 <ImageView
@@ -486,7 +476,6 @@
                             android:gravity="center"
                             android:layout_marginLeft="2dp"
                             android:layout_marginRight="5dp"
-                            android:textColor="@color/textPrimaryDark"
                             android:id="@+id/forecast_day2_high_temperature_text"/>
 
                     </LinearLayout>
@@ -504,7 +493,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:textColor="@color/textPrimaryDark"
                             android:layout_marginLeft="2dp"
                             android:id="@+id/forecast_day2_low_temperature_text"/>
                     </LinearLayout>
@@ -521,7 +509,6 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textSize="15dp"
-                    android:textColor="@color/textPrimaryDark"
                     android:id="@+id/forecast_day3_name_text"/>
                 <ImageView
                     android:layout_width="match_parent"
@@ -553,7 +540,6 @@
                             android:gravity="center"
                             android:layout_marginLeft="2dp"
                             android:layout_marginRight="5dp"
-                            android:textColor="@color/textPrimaryDark"
                             android:id="@+id/forecast_day3_high_temperature_text"/>
                     </LinearLayout>
                     <LinearLayout
@@ -572,7 +558,6 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:layout_marginLeft="2dp"
-                            android:textColor="@color/textPrimaryDark"
                             android:id="@+id/forecast_day3_low_temperature_text"/>
                     </LinearLayout>
                 </LinearLayout>
@@ -588,7 +573,6 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textSize="15dp"
-                    android:textColor="@color/textPrimaryDark"
                     android:id="@+id/forecast_day4_name_text"/>
                 <ImageView
                     android:layout_width="match_parent"
@@ -620,7 +604,6 @@
                             android:gravity="center"
                             android:layout_marginLeft="2dp"
                             android:layout_marginRight="5dp"
-                            android:textColor="@color/textPrimaryDark"
                             android:id="@+id/forecast_day4_high_temperature_text"/>
                     </LinearLayout>
                     <LinearLayout
@@ -638,15 +621,10 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="2dp"
                             android:gravity="center"
-                            android:textColor="@color/textPrimaryDark"
                             android:id="@+id/forecast_day4_low_temperature_text"/>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
-
         </LinearLayout>
-
     </LinearLayout>
-
-
 </android.support.v4.widget.SwipeRefreshLayout>

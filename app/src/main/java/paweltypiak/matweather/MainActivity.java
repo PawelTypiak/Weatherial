@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.method.LinkMovementMethod;
@@ -17,6 +18,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -58,24 +60,30 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         isFirst=true;
+        setContentView(R.layout.activity_main);
+        setSwipeRefreshLayout();
         setDialogs();
         downloadData();//download weather data
     }
 
+
+    public void downloadData(){
+        if(isFirst==true) firstLoadingDialog.show();    //dialog at the beginning
+        else swipeRefreshLayout.setRefreshing(true);    //dialog when refresh
+        downloader=new DataDownloader("Poznan",this);   //downloading weather data for Poznan
+    }
+
     @Override
     public void ServiceSuccess(Channel channel) {
+        Log.d("successisfirst", "successisfirst "+ isFirst);
         if(isFirst==true) {
-            setContentView(R.layout.activity_main);
-            setSwipeRefreshLayout();
             initializeLayout(); //layout initialization
             getter = new DataInitializer(channel); //initializing weather data from JSON
             setter = new DataSetter(this,getter); //data formatting and weather layout setting
             firstLoadingDialog.dismiss();
         }
         else {
-            initializeLayout(); //layout initialization
             getter = new DataInitializer(channel); //initializing weather data from JSON
             setter = new DataSetter(this,getter); //data formatting and weather layout setting
             swipeRefreshLayout.setRefreshing(false);
@@ -85,11 +93,14 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void ServiceFailure(Exception exception) {
+        Log.d("failure", "failure ");
+        Log.d("failureisfirst", "failureisfirst "+ isFirst);
         //failure handling
-        if(isFirst=true) {
-            swipeRefreshLayout.setRefreshing(false);
+        if(isFirst==true) {
+
             firstLoadingDialog.dismiss();
         }
+        else swipeRefreshLayout.setRefreshing(false);
         exception.printStackTrace();
         failureDialog.show();
         isFirst=false;
@@ -200,6 +211,16 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
+    private void setFloatingActionButton(){
+        FloatingActionButton floatingActionButton=(FloatingActionButton)findViewById(R.id.main_fab);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+    }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -215,11 +236,7 @@ public class MainActivity extends AppCompatActivity
         downloadData();
     }
 
-    public void downloadData(){
-        if(isFirst==true) firstLoadingDialog.show();    //dialog at the beginning
-        else swipeRefreshLayout.setRefreshing(true);    //dialog when refresh
-        downloader=new DataDownloader("Poznan",this);   //downloading weather data for Poznan
-    }
+
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent e) {

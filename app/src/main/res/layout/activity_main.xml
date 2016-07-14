@@ -7,85 +7,10 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start"
     android:id="@+id/drawer_layout">
-    <LinearLayout
+    <include
+        layout="@layout/app_bar_main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:weightSum="1"
-        android:id="@+id/appbar_content_layout"
-        >
-        <android.support.design.widget.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.25"
-            android:id="@+id/app_bar">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/app_bar_layout">
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true"
-                    android:id="@+id/yahoo_layout">
-                    <ImageView
-                        android:layout_width="134px"
-                        android:layout_height="29px"
-                        android:id="@+id/yahoo_image"
-                        />
-                </LinearLayout>
-                <android.support.v7.widget.Toolbar
-                    android:layout_width="?attr/actionBarSize"
-                    android:layout_height="?attr/actionBarSize"
-                    android:layout_alignParentLeft="true"
-                    android:id="@+id/toolbar"/>
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentRight="true"
-                    android:id="@+id/refresh_layout">
-                    <ImageView
-                        android:layout_width="?attr/actionBarSize"
-                        android:layout_height="?attr/actionBarSize"
-                        android:padding="15dp"
-                        android:id="@+id/refresh_image"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:id="@+id/app_bar_text_layout">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="50dp"
-                        android:textColor="@color/textPrimaryLight"
-                        android:gravity="center"
-                        android:layout_marginTop="25dp"
-                        android:id="@+id/app_bar_title_text"
-                        />
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:textSize="25dp"
-                        android:textColor="@color/textPrimaryLight"
-                        android:gravity="center"
-                        android:layout_marginTop="10dp"
-                        android:id="@+id/app_bar_date_text"
-                        />
-                </LinearLayout>
-            </RelativeLayout>
-        </android.support.design.widget.AppBarLayout>
-        <include
-            layout="@layout/main"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.75"
-            />
-    </LinearLayout>
+        android:layout_height="match_parent" />
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
