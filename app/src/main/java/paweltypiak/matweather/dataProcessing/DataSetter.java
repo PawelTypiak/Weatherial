@@ -235,7 +235,6 @@ public class DataSetter {
         String dayName=new String(dayFormat.toString().substring(0,1).toUpperCase()+ dayFormat.toString().substring(1));
         titleTextView.setText(R.string.weather_title);
         dateTextView.setText(dayName + ", " + dateFormat);
-        Picasso.with(activity.getApplicationContext()).load(R.drawable.refresh).fit().centerInside().into(refreshImageView);
         Picasso.with(activity.getApplicationContext()).load(R.drawable.yahoo_logo).fit().centerInside().into(yahooImageView);
     }
 
@@ -397,7 +396,6 @@ public class DataSetter {
     private void getAppBarResources(){
         titleTextView =(TextView)activity.findViewById(R.id.app_bar_title_text);
         dateTextView =(TextView)activity.findViewById(R.id.app_bar_date_text);
-        refreshImageView=(ImageView)activity.findViewById(R.id.refresh_image);
         yahooImageView=(ImageView)activity.findViewById(R.id.yahoo_image);
     }
 

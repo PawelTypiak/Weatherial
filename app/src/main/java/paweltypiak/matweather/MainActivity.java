@@ -1,17 +1,10 @@
 package paweltypiak.matweather;
 
 import android.app.AlertDialog;
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.text.method.LinkMovementMethod;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -21,13 +14,10 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -56,6 +46,7 @@ public class MainActivity extends AppCompatActivity
     private boolean isFirst;
     private DialogInitializer dialogInitializer;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private ImageView favouritesImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,7 +142,7 @@ public class MainActivity extends AppCompatActivity
     private void setButtonsClickable(){
         setYahooClickable();
         setWeatherClickable();
-        setRefreshClickable();
+        setFavouritesClickable();
     }
 
     private void setYahooClickable(){
@@ -195,18 +186,27 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    private void setRefreshClickable(){
-        //handling refresh button click
-        LinearLayout refreshLayout=(LinearLayout) findViewById(R.id.refresh_layout);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            TypedValue outValue = new TypedValue();
-            this.getTheme().resolveAttribute(android.R.attr.selectableItemBackground, outValue, true);
-            refreshLayout.setBackgroundResource(outValue.resourceId);
-        }
+    private void setFavouritesClickable(){
+        //handling favourites button click
+
+        favouritesImageView=(ImageView)findViewById(R.id.favourites_image);
+        LinearLayout refreshLayout=(LinearLayout) findViewById(R.id.favourites_layout);
+        Picasso.with(getApplicationContext()).load(R.drawable.favourites_empty_icon).transform(new UsableFunctions().new setDrawableColor(getResources().getColor(R.color.white))).into(favouritesImageView);
+
         refreshLayout.setOnClickListener(new View.OnClickListener() {
+            boolean mark=false;
+
             @Override
             public void onClick(View v) {
-                downloadData();
+                if(mark==false){
+                    Picasso.with(getApplicationContext()).load(R.drawable.favourites_full_icon).transform(new UsableFunctions().new setDrawableColor(getResources().getColor(R.color.white))).into(favouritesImageView);
+                    mark=true;
+                }
+                else {
+                    Picasso.with(getApplicationContext()).load(R.drawable.favourites_empty_icon).transform(new UsableFunctions().new setDrawableColor(getResources().getColor(R.color.white))).into(favouritesImageView);
+                    mark=false;
+                }
+
             }
         });
     }
