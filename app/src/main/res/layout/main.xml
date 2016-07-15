@@ -382,7 +382,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textSize="15dp"
-                    android:id="@+id/forecast_day1_name"/>
+                    android:id="@+id/forecast_day1_name_text"/>
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -515,7 +515,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:layout_margin="10dp"
-                    android:id="@+id/forecast_day3_coditions_image"
+                    android:id="@+id/forecast_day3_conditions_image"
                     />
                 <LinearLayout
                     android:layout_width="wrap_content"
