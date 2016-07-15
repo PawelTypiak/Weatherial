@@ -4,11 +4,11 @@ import org.json.JSONObject;
 
 public class Atmosphere implements JSONPopulator {
 
-    private int humidity;
+    private String humidity;
     private String pressure;
     private String visibility;
 
-    public int getHumidity() {
+    public String getHumidity() {
         return humidity;
     }
     public String getPressure() {
@@ -20,7 +20,7 @@ public class Atmosphere implements JSONPopulator {
 
     @Override
     public void populate(JSONObject data) {
-        humidity=data.optInt("humidity");
+        humidity=data.optString("humidity");
         pressure=data.optString("pressure");
         visibility=data.optString("visibility");
     }

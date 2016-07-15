@@ -47,13 +47,18 @@ public class MainActivity extends AppCompatActivity
     private DialogInitializer dialogInitializer;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ImageView favouritesImageView;
+    private int temperature;
+    private int time;
+    private int pressure;
+    private int distance;
+    private int speed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         isFirst=true;
         setContentView(R.layout.activity_main);
-        setSwipeRefreshLayout();
+
         setDialogs();
         downloadData();//download weather data
     }
@@ -62,7 +67,7 @@ public class MainActivity extends AppCompatActivity
     public void downloadData(){
         if(isFirst==true) firstLoadingDialog.show();    //dialog at the beginning
         else swipeRefreshLayout.setRefreshing(true);    //dialog when refresh
-        downloader=new DataDownloader("Poznan",this);   //downloading weather data for Poznan
+        downloader=new DataDownloader("zamosc",this);   //downloading weather data for Poznan
     }
 
     @Override
@@ -70,12 +75,12 @@ public class MainActivity extends AppCompatActivity
         Log.d("successisfirst", "successisfirst "+ isFirst);
         if(isFirst==true) {
             initializeLayout(); //layout initialization
-            getter = new DataInitializer(channel); //initializing weather data from JSON
+            getter = new DataInitializer(this,channel,units(0,0,0,0,0)); //initializing weather data from JSON
             setter = new DataSetter(this,getter); //data formatting and weather layout setting
             firstLoadingDialog.dismiss();
         }
         else {
-            getter = new DataInitializer(channel); //initializing weather data from JSON
+            getter = new DataInitializer(this,channel,units(0,0,0,0,0)); //initializing weather data from JSON
             setter = new DataSetter(this,getter); //data formatting and weather layout setting
             swipeRefreshLayout.setRefreshing(false);
         }
@@ -95,6 +100,11 @@ public class MainActivity extends AppCompatActivity
         exception.printStackTrace();
         failureDialog.show();
         isFirst=false;
+    }
+
+    private int[] units(int time, int temperature, int speed, int distance, int pressure){
+        int [] units={time, temperature, speed, distance, pressure};
+        return units;
     }
 
     private void setSwipeRefreshLayout(){

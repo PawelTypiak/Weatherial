@@ -4,24 +4,24 @@ import org.json.JSONObject;
 
 public class Wind implements JSONPopulator{
 
-    private int chill;
+    private String chill;
     private String direction;
-    private int speed;
+    private String speed;
 
-    public int getChill() {
+    public String getChill() {
         return chill;
     }
     public String getDirection() {
         return direction;
     }
-    public int getSpeed() {
+    public String getSpeed() {
         return speed;
     }
 
     @Override
     public void populate(JSONObject data) {
-        chill=data.optInt("chill");
+        chill=data.optString("chill");
         direction=data.optString("direction");
-        speed=data.optInt("speed");
+        speed=data.optString("speed");
     }
 }

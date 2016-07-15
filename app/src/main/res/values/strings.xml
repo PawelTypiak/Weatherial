@@ -77,6 +77,13 @@
     <string name="about">About</string>
     <string name="author">Author</string>
 
+    <!-- Units-->
+    <string name="speed_kmh">km/h</string>
+    <string name="speed_mph">mi/h</string>
+    <string name="pressure_hpa">hPa</string>
+    <string name="pressure_mmHg">mmHg</string>
+    <string name="distance_km">km</string>
+    <string name="distance_mi">mi</string>
 
     <!-- Weather strings -->
     <string name="weather_title">Pogoda</string>

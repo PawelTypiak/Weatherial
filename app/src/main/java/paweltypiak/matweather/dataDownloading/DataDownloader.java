@@ -51,7 +51,9 @@ public class DataDownloader {
             @Override
             protected  void onPostExecute(String s){
                 if(s==null && error!=null){
+                    Log.d("blad null", "net ");
                     callback.ServiceFailure(error);
+
                     return;
                 }
                 try{
@@ -60,6 +62,7 @@ public class DataDownloader {
                     int count =queryResluts.optInt("count");
                     if (count == 0) {
                         callback.ServiceFailure(new OtherWeatherException("ServiceFailure"));
+                        Log.d("service", "service ");
                         return;
                     }
                     Channel channel = new Channel();

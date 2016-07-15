@@ -18,20 +18,27 @@ import paweltypiak.matweather.R;
 import paweltypiak.matweather.UsableFunctions;
 
 public class DataSetter {
-    private int chill;
+    private String chill;
     private String direction;
     private String directionName;
-    private int speed;
-    private int humidity;
+    private String speed;
+    private String humidity;
     private String pressure;
     private String visibility;
     private String sunrise;
     private String sunset;
     private int code;
-    private int temperature;
+    private String temperature;
     private int[] forecastCode;
-    private int[] forecastHighTemperature;
-    private int[] forecastLowTemperature;
+    private String[] forecastHighTemperature;
+    private String[] forecastLowTemperature;
+    private String link;
+    private String city;
+    private String country;
+    private String region;
+    private String lastBuildDate;
+    private double latitude;
+    private double longitude;
     private String dayName1;
     private String dayName2;
     private String dayName3;
@@ -48,9 +55,9 @@ public class DataSetter {
     private View currentDetailsDividerView;
     private View detailsForecastDividerView;
     private ImageView yahooImageView;
-    private ImageView refreshImageView;
-    private TextView titleTextView;
-    private TextView dateTextView;
+    private TextView primaryLocationTextView;
+    private TextView secondaryLocationTextView;
+    private TextView timeTextView;
     private int conditionStringId;
     private int conditionDrawableId;
     private TextView conditionTextView;
@@ -229,12 +236,21 @@ public class DataSetter {
 
     private void setAppBarLayout(){
         getAppBarResources();
-        calendar = Calendar.getInstance();
-        dayFormat = DateFormat.format("EEEE", calendar);
-        dateFormat = DateFormat.format("d MMMM", calendar);
-        String dayName=new String(dayFormat.toString().substring(0,1).toUpperCase()+ dayFormat.toString().substring(1));
-        titleTextView.setText(R.string.weather_title);
-        dateTextView.setText(dayName + ", " + dateFormat);
+       /* String time=lastBuildDate.substring(0,8);
+        SimpleDateFormat inputTimeFormat = new SimpleDateFormat("hh:mm a");
+        SimpleDateFormat outputTimeFormat= new SimpleDateFormat("HH:mm");
+        Date date;
+        try{
+            date= inputTimeFormat.parse(time);
+            time = outputTimeFormat.format(date);
+
+        }catch(ParseException pe){
+            pe.printStackTrace();
+        }*/
+
+        primaryLocationTextView.setText(city);
+        secondaryLocationTextView.setText(region+", "+country);
+        timeTextView.setText(lastBuildDate);
         Picasso.with(activity.getApplicationContext()).load(R.drawable.yahoo_logo).fit().centerInside().into(yahooImageView);
     }
 
@@ -244,17 +260,17 @@ public class DataSetter {
         conditionTextView.setText(conditionStringId);
         conditionTextView.setTextColor(textPrimaryColor);
         Picasso.with(activity.getApplicationContext()).load(conditionDrawableId).into(conditionImageView);
-        temperatureTextView.setText(temperature + "\u00B0");
+        temperatureTextView.setText(temperature);
         temperatureTextView.setTextColor(textPrimaryColor);
         Picasso.with(activity.getApplicationContext()).load(R.drawable.arrow).transform(new UsableFunctions().new setDrawableColor(iconColor)).into(highTemperatureImageView);
         Picasso.with(activity.getApplicationContext()).load(R.drawable.arrow).transform(new UsableFunctions().new setDrawableColor(iconColor)).rotate(180f).into(lowTemperatureImageView);
-        highTemperatureTextView.setText(forecastHighTemperature[0] + "\u00B0");
+        highTemperatureTextView.setText(forecastHighTemperature[0]);
         highTemperatureTextView.setTextColor(textPrimaryColor);
-        lowTemperatureTextView.setText(forecastLowTemperature[0] + "\u00B0");
+        lowTemperatureTextView.setText(forecastLowTemperature[0]);
         lowTemperatureTextView.setTextColor(textPrimaryColor);
         chillTitleTextView.setText(activity.getResources().getString(R.string.weather_chill) + ": ");
         chillTitleTextView.setTextColor(textSecondaryColor);
-        chillTextView.setText(chill + "\u00B0");
+        chillTextView.setText(chill);
         chillTextView.setTextColor(textPrimaryColor);
         currentDetailsDividerView.setBackgroundColor(dividerColor);
     }
@@ -315,13 +331,13 @@ public class DataSetter {
         Picasso.with(activity.getApplicationContext()).load(R.drawable.visibility_icon).fit().transform(new UsableFunctions().new setDrawableColor(iconColor)).centerInside().into(visibilityImageView);
         directionTextView.setText(directionName);
         directionTextView.setTextColor(textPrimaryColor);
-        speedTextView.setText(speed + " km/h");
+        speedTextView.setText(speed);
         speedTextView.setTextColor(textPrimaryColor);
-        humidityTextView.setText(humidity + " %");
+        humidityTextView.setText(humidity);
         humidityTextView.setTextColor(textPrimaryColor);
-        pressureTextView.setText(pressure+" hPa");
+        pressureTextView.setText(pressure);
         pressureTextView.setTextColor(textPrimaryColor);
-        visibilityTextView.setText(visibility+" km");
+        visibilityTextView.setText(visibility);
         visibilityTextView.setTextColor(textPrimaryColor);
         detailsForecastDividerView.setBackgroundColor(dividerColor);
     }
@@ -346,21 +362,21 @@ public class DataSetter {
         forecastDayName3TextView.setTextColor(textPrimaryColor);
         forecastDayName4TextView.setText(dayName4);
         forecastDayName4TextView.setTextColor(textPrimaryColor);
-        forecastHighTemperatureDay1TextView.setText(forecastHighTemperature[1] + "\u00B0");
+        forecastHighTemperatureDay1TextView.setText(forecastHighTemperature[1]);
         forecastHighTemperatureDay1TextView.setTextColor(textPrimaryColor);
-        forecastHighTemperatureDay2TextView.setText(forecastHighTemperature[2] + "\u00B0");
+        forecastHighTemperatureDay2TextView.setText(forecastHighTemperature[2]);
         forecastHighTemperatureDay2TextView.setTextColor(textPrimaryColor);
-        forecastHighTemperatureDay3TextView.setText(forecastHighTemperature[3] + "\u00B0");
+        forecastHighTemperatureDay3TextView.setText(forecastHighTemperature[3]);
         forecastHighTemperatureDay3TextView.setTextColor(textPrimaryColor);
-        forecastHighTemperatureDay4TextView.setText(forecastHighTemperature[4] + "\u00B0");
+        forecastHighTemperatureDay4TextView.setText(forecastHighTemperature[4]);
         forecastHighTemperatureDay4TextView.setTextColor(textPrimaryColor);
-        forecastLowTemperatureDay1TextView.setText(forecastLowTemperature[1] + "\u00B0");
+        forecastLowTemperatureDay1TextView.setText(forecastLowTemperature[1]);
         forecastLowTemperatureDay1TextView.setTextColor(textPrimaryColor);
-        forecastLowTemperatureDay2TextView.setText(forecastLowTemperature[2] + "\u00B0");
+        forecastLowTemperatureDay2TextView.setText(forecastLowTemperature[2]);
         forecastLowTemperatureDay2TextView.setTextColor(textPrimaryColor);
-        forecastLowTemperatureDay3TextView.setText(forecastLowTemperature[3] + "\u00B0");
+        forecastLowTemperatureDay3TextView.setText(forecastLowTemperature[3]);
         forecastLowTemperatureDay3TextView.setTextColor(textPrimaryColor);
-        forecastLowTemperatureDay4TextView.setText(forecastLowTemperature[4] + "\u00B0");
+        forecastLowTemperatureDay4TextView.setText(forecastLowTemperature[4]);
         forecastLowTemperatureDay4TextView.setTextColor(textPrimaryColor);
         Picasso.with(activity.getApplicationContext()).load(forecastDay1Drawable).into(forecastDayName1ImageView);
         Picasso.with(activity.getApplicationContext()).load(forecastDay2Drawable).into(forecastDayName2ImageView);
@@ -377,25 +393,33 @@ public class DataSetter {
     }
 
     private void getData(){
-            chill = dataInitializer.getChill();
-            direction= dataInitializer.getDirection();
-            directionName = dataInitializer.getDirection_name();
-            speed= dataInitializer.getSpeed();
-            humidity= dataInitializer.getHumidity();
-            pressure= dataInitializer.getPressure();
-            visibility= dataInitializer.getVisibility();
-            sunrise= dataInitializer.getSunrise();
-            sunset= dataInitializer.getSunset();
-            code= dataInitializer.getCode();
-            temperature= dataInitializer.getTemperature();
-            forecastCode = dataInitializer.getForecast_code();
-            forecastHighTemperature = dataInitializer.getForecast_high();
-            forecastLowTemperature = dataInitializer.getForecast_low();
+        link=dataInitializer.getLink();
+        city=dataInitializer.getCity();
+        country=dataInitializer.getCountry();
+        region=dataInitializer.getRegion();
+        lastBuildDate=dataInitializer.getLastBuildDate();
+        latitude=dataInitializer.getLatitude();
+        longitude=dataInitializer.getLongitude();
+        chill = dataInitializer.getChill();
+        direction= dataInitializer.getDirection();
+        directionName = dataInitializer.getDirection_name();
+        speed= dataInitializer.getSpeed();
+        humidity= dataInitializer.getHumidity();
+        pressure= dataInitializer.getPressure();
+        visibility= dataInitializer.getVisibility();
+        sunrise= dataInitializer.getSunrise();
+        sunset= dataInitializer.getSunset();
+        code= dataInitializer.getCode();
+        temperature= dataInitializer.getTemperature();
+        forecastCode = dataInitializer.getForecast_code();
+        forecastHighTemperature = dataInitializer.getForecast_high();
+        forecastLowTemperature = dataInitializer.getForecast_low();
     }
 
     private void getAppBarResources(){
-        titleTextView =(TextView)activity.findViewById(R.id.app_bar_title_text);
-        dateTextView =(TextView)activity.findViewById(R.id.app_bar_date_text);
+        primaryLocationTextView =(TextView)activity.findViewById(R.id.app_bar_primary_location_name_text);
+        secondaryLocationTextView =(TextView)activity.findViewById(R.id.app_bar_secondary_location_name_text);
+        timeTextView=(TextView)activity.findViewById(R.id.app_bar_time_text);
         yahooImageView=(ImageView)activity.findViewById(R.id.yahoo_image);
     }
 

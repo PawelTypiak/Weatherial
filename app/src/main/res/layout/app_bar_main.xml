@@ -52,27 +52,37 @@
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:id="@+id/app_bar_text_layout">
                     <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="2"
                         android:textSize="50dp"
                         android:textColor="@color/textPrimaryDarkBackground"
+                        android:layout_marginTop="20dp"
                         android:gravity="center"
-                        android:layout_marginTop="25dp"
-                        android:id="@+id/app_bar_title_text"
+                        android:id="@+id/app_bar_primary_location_name_text"
                         />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:textSize="25dp"
-                        android:textColor="@color/textPrimaryDarkBackground"
-                        android:gravity="center"
-                        android:layout_marginTop="10dp"
-                        android:id="@+id/app_bar_date_text"
+                        android:textSize="20dp"
+                        android:textColor="@color/textSecondaryDarkBackground"
+                        android:gravity="top|center_horizontal"
+                        android:id="@+id/app_bar_secondary_location_name_text"
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:textSize="15dp"
+                        android:textColor="@color/textSecondaryDarkBackground"
+                        android:layout_marginBottom="10dp"
+                        android:gravity="bottom|center_horizontal"
+                        android:id="@+id/app_bar_time_text"
                         />
                 </LinearLayout>
             </RelativeLayout>
