@@ -68,7 +68,7 @@ public class DialogInitializer {
             this.text=text;
         }
         public void run() {
-            UsableFunctions.copyToClipboard(activity,text);
+            UsefulFunctions.copyToClipboard(activity,text);
         }
     }
 
@@ -78,7 +78,7 @@ public class DialogInitializer {
             this.url=url;
         }
         public void run() {
-            UsableFunctions.initializeWebIntent(activity,url);
+            UsefulFunctions.initializeWebIntent(activity,url);
         }
     }
 
@@ -94,7 +94,7 @@ public class DialogInitializer {
             this.body=body;
         }
         public void run() {
-            UsableFunctions.initializeEmailIntent(activity,address,subject,body,dialog);
+            UsefulFunctions.initializeEmailIntent(activity,address,subject,body,dialog);
         }
     }
 
@@ -248,23 +248,23 @@ public class DialogInitializer {
         //setting images
         ImageView emailImageView=(ImageView)dialogView.findViewById(R.id.author_dialog_mail_image);
         ImageView githubImageView=(ImageView)dialogView.findViewById(R.id.author_dialog_github_image);
-        Picasso.with(activity.getApplicationContext()).load(R.drawable.email_icon).transform(new UsableFunctions().new setDrawableColor(activity.getResources().getColor(R.color.white))).fit().centerInside().into(emailImageView);
-        Picasso.with(activity.getApplicationContext()).load(R.drawable.github_icon).transform(new UsableFunctions().new setDrawableColor(activity.getResources().getColor(R.color.white))).fit().centerInside().into(githubImageView);
+        Picasso.with(activity.getApplicationContext()).load(R.drawable.email_icon).transform(new UsefulFunctions().new setDrawableColor(activity.getResources().getColor(R.color.white))).fit().centerInside().into(emailImageView);
+        Picasso.with(activity.getApplicationContext()).load(R.drawable.github_icon).transform(new UsefulFunctions().new setDrawableColor(activity.getResources().getColor(R.color.white))).fit().centerInside().into(githubImageView);
         //making links clickable and focusable
         LinearLayout mailLayout=(LinearLayout)dialogView.findViewById(R.id.author_dialog_mail_layout);
         LinearLayout githubLayout=(LinearLayout)dialogView.findViewById(R.id.author_dialog_github_layout);
-        UsableFunctions.setLayoutFocusable(activity,mailLayout);
-        UsableFunctions.setLayoutFocusable(activity,githubLayout);
+        UsefulFunctions.setLayoutFocusable(activity,mailLayout);
+        UsefulFunctions.setLayoutFocusable(activity,githubLayout);
         mailLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UsableFunctions.initializeEmailIntent(activity,activity.getString(R.string.mail_address),null,null,initializeNoEmailApplicationDialog());
+                UsefulFunctions.initializeEmailIntent(activity,activity.getString(R.string.mail_address),null,null,initializeNoEmailApplicationDialog());
             }
         });
         githubLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UsableFunctions.initializeWebIntent(activity,activity.getString(R.string.github_address));
+                UsefulFunctions.initializeWebIntent(activity,activity.getString(R.string.github_address));
             }
         });
         AlertDialog authorDialog = buildDialog(dialogView,
@@ -285,12 +285,12 @@ public class DialogInitializer {
         View dialogView = inflater.inflate(R.layout.feedback_dialog,null);
         //making mail address clickable and focusable
         LinearLayout textLayout=(LinearLayout)dialogView.findViewById(R.id.feedback_dialog_mail_layout);
-        UsableFunctions.setLayoutFocusable(activity,textLayout);
+        UsefulFunctions.setLayoutFocusable(activity,textLayout);
         //copy to alipboadrd after press
         textLayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                UsableFunctions.copyToClipboard(activity,activity.getString(R.string.mail_address));
+                UsefulFunctions.copyToClipboard(activity,activity.getString(R.string.mail_address));
                 return false;
             }
         });

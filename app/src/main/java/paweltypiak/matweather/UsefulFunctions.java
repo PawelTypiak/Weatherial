@@ -19,12 +19,22 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Transformation;
 
-public class UsableFunctions {
+public class UsefulFunctions {
 
     public static void initializeWebIntent(Activity activity, String url){
         //initialize web intent
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(url));
+        activity.startActivity(intent);
+    }
+
+    public static void initializeMapsIntent(Activity activity,double latitude, double longitude, String label){
+        String uriBegin = "geo:" + latitude + "," + longitude;
+        String query = latitude + "," + longitude + "(" + label + ")";
+        String encodedQuery = Uri.encode(query);
+        String uriString = uriBegin + "?q=" + encodedQuery + "&z=16";
+        Uri uri = Uri.parse(uriString);
+        Intent intent = new Intent(android.content.Intent.ACTION_VIEW, uri);
         activity.startActivity(intent);
     }
 

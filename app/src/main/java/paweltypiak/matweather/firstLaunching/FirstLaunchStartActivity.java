@@ -2,22 +2,18 @@ package paweltypiak.matweather.firstLaunching;
 
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
 import paweltypiak.matweather.DialogInitializer;
 import paweltypiak.matweather.MainActivity;
 import paweltypiak.matweather.R;
-import paweltypiak.matweather.UsableFunctions;
+import paweltypiak.matweather.UsefulFunctions;
 
 public class FirstLaunchStartActivity extends AppCompatActivity {
 
@@ -38,7 +34,7 @@ public class FirstLaunchStartActivity extends AppCompatActivity {
         appIconImageView=(ImageView)findViewById(R.id.first_launch_welcome_app_icon_image);
         buttonImageView=(ImageView)findViewById(R.id.first_launch_welcome_start_button_image);
         Picasso.with(getApplicationContext()).load(R.drawable.app_icon).fit().centerInside().into(appIconImageView);
-        Picasso.with(getApplicationContext()).load(R.drawable.next_arrow_icon).transform(new UsableFunctions().new setDrawableColor(this.getResources().getColor(R.color.white))).fit().centerInside().into(buttonImageView);
+        Picasso.with(getApplicationContext()).load(R.drawable.next_arrow_icon).transform(new UsefulFunctions().new setDrawableColor(this.getResources().getColor(R.color.white))).fit().centerInside().into(buttonImageView);
     }
 
     private void initializeDialog(){

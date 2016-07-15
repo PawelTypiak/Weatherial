@@ -158,11 +158,7 @@ public class MainActivity extends AppCompatActivity
     private void setYahooClickable(){
         //handling yahoo icon click
         LinearLayout yahooLayout=(LinearLayout)findViewById(R.id.yahoo_layout);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            TypedValue outValue = new TypedValue();
-            this.getTheme().resolveAttribute(android.R.attr.selectableItemBackground, outValue, true);
-            yahooLayout.setBackgroundResource(outValue.resourceId);
-        }
+        UsefulFunctions.setLayoutFocusable(this,yahooLayout);
         yahooLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -201,7 +197,7 @@ public class MainActivity extends AppCompatActivity
 
         favouritesImageView=(ImageView)findViewById(R.id.favourites_image);
         LinearLayout refreshLayout=(LinearLayout) findViewById(R.id.favourites_layout);
-        Picasso.with(getApplicationContext()).load(R.drawable.favourites_empty_icon).transform(new UsableFunctions().new setDrawableColor(getResources().getColor(R.color.white))).into(favouritesImageView);
+        Picasso.with(getApplicationContext()).load(R.drawable.favourites_empty_icon).transform(new UsefulFunctions().new setDrawableColor(getResources().getColor(R.color.white))).into(favouritesImageView);
 
         refreshLayout.setOnClickListener(new View.OnClickListener() {
             boolean mark=false;
@@ -209,11 +205,11 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 if(mark==false){
-                    Picasso.with(getApplicationContext()).load(R.drawable.favourites_full_icon).transform(new UsableFunctions().new setDrawableColor(getResources().getColor(R.color.white))).into(favouritesImageView);
+                    Picasso.with(getApplicationContext()).load(R.drawable.favourites_full_icon).transform(new UsefulFunctions().new setDrawableColor(getResources().getColor(R.color.white))).into(favouritesImageView);
                     mark=true;
                 }
                 else {
-                    Picasso.with(getApplicationContext()).load(R.drawable.favourites_empty_icon).transform(new UsableFunctions().new setDrawableColor(getResources().getColor(R.color.white))).into(favouritesImageView);
+                    Picasso.with(getApplicationContext()).load(R.drawable.favourites_empty_icon).transform(new UsefulFunctions().new setDrawableColor(getResources().getColor(R.color.white))).into(favouritesImageView);
                     mark=false;
                 }
 
