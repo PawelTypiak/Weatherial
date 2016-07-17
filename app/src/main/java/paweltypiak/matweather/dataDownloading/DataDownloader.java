@@ -52,7 +52,7 @@ public class DataDownloader {
             protected  void onPostExecute(String s){
                 if(s==null && error!=null){
                     Log.d("blad null", "net ");
-                    callback.ServiceFailure(error);
+                    callback.ServiceFailure(1);
 
                     return;
                 }
@@ -61,7 +61,7 @@ public class DataDownloader {
                     JSONObject queryResluts=data.getJSONObject("query");
                     int count =queryResluts.optInt("count");
                     if (count == 0) {
-                        callback.ServiceFailure(new OtherWeatherException("ServiceFailure"));
+                        callback.ServiceFailure(2);
                         Log.d("service", "service ");
                         return;
                     }

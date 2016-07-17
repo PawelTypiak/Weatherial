@@ -19,6 +19,10 @@
     <string name="service_failure_dialog_message">Nie udało się połączyć z serwisem!</string>
     <string name="service_failure_dialog_positive_button">Odśwież</string>
     <string name="service_failure_dialog_negative_button">Wyjdź</string>
+    <string name="internet_failure_dialog_title">Błąd</string>
+    <string name="internet_failure_dialog_message">Brak połączenia z internetem!</string>
+    <string name="internet_failure_dialog_positive_button">Odśwież</string>
+    <string name="internet_failure_dialog_negative_button">Wyjdź</string>
     <string name="yahoo_redirect_dialog_title">Przekierowanie</string>
     <string name="yahoo_redirect_dialog_message">Nastąpi przekierowanie na witrynę:</string>
     <string name="yahoo_redirect_dialog_message_service_name"><b>Yahoo.com</b></string>
@@ -55,6 +59,24 @@
     <string name="no_email_application_dialog_message">Niestety nie wykryto aplikacji służącej do wysyłania wiadomości E-mail. Czy chcesz skopiować adres <b>pawel.p.typiak@gmail.com</b> do schowka?</string>
     <string name="no_email_application_dialog_positive_button">Skopiuj</string>
     <string name="no_email_application_dialog_negative_button">Anuluj</string>
+    <string name="search_dialog_title">Szukaj</string>
+    <string name="search_dialog_edit_text_message">Wprowadź lokalizację</string>
+    <string name="search_dialog_positive_button">Wyszukaj</string>
+    <string name="search_dialog_negative_button">Anuluj</string>
+    <string name="no_localization_results_dialog_title">Wynik wyszukiwania</string>
+    <string name="no_localization_results_dialog_message">Niestety, nie znaleziono podanej lokalizacji.</string>
+    <string name="no_localization_results_dialog_negative_button">Anuluj</string>
+    <string name="no_localization_results_dialog_positive_button">Ponów</string>
+    <string name="localization_results_dialog_title">Wynik wyszukiwania</string>
+    <string name="localization_results_dialog_message">Znaleziono następującą lokalizację:</string>
+    <string name="localization_results_dialog_negative_button">Anuluj</string>
+    <string name="localization_results_dialog_neutral_button">Ponów</string>
+    <string name="localization_results_dialog_positive_button">Kontynuuj</string>
+    <string name="search_progress_dialog_message">Wyszukiwanie lokalizacji...</string>
+    <string name="empty_location_name_dialog_title">Błąd!</string>
+    <string name="empty_location_name_dialog_message">Wybierz lokalizację!</string>
+    <string name="empty_location_name_dialog_positive_button">Ok</string>
+    <string name="empty_location_name_dialog_negative_button">Anuluj</string>
 
     <!-- First launch layout strings-->
     <string name="first_launch_layout_start_button">Rozpocznij</string>

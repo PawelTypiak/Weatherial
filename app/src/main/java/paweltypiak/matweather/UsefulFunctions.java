@@ -14,7 +14,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.util.TypedValue;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Transformation;
@@ -69,6 +71,17 @@ public class UsefulFunctions {
             activity.getTheme().resolveAttribute(android.R.attr.selectableItemBackground, outValue, true);
             layout.setBackgroundResource(outValue.resourceId);
         }
+    }
+
+    public static void showKeyboard(Activity activity){
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(activity.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+
+    }
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+
     }
 
     public class setDrawableColor implements Transformation {

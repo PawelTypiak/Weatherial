@@ -1,7 +1,6 @@
 package paweltypiak.matweather;
 
 import android.app.AlertDialog;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -12,7 +11,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,7 +32,8 @@ public class MainActivity extends AppCompatActivity
     private DataSetter setter;
     private DataDownloader downloader;
     private AlertDialog refreshDialog;
-    private AlertDialog failureDialog;
+    private AlertDialog serviceFailureDialog;
+    private AlertDialog internetFailureDialog;
     private AlertDialog yahooRedirectDialog;
     private AlertDialog yahooWeatherRedirectDialog;
     private AlertDialog exitDialog;
@@ -43,44 +42,49 @@ public class MainActivity extends AppCompatActivity
     private AlertDialog feedbackDialog;
     private AlertDialog authorDialog;
     private AlertDialog noEmailApplicationDialog;
+    private AlertDialog searchDialog;
     private boolean isFirst;
     private DialogInitializer dialogInitializer;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private ImageView favouritesImageView;
+    private ImageView searchImageView;
     private int temperature;
     private int time;
     private int pressure;
     private int distance;
     private int speed;
+    private String localization;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         isFirst=true;
         setContentView(R.layout.activity_main);
-
+        initializeLayout(); //layout initialization
+        setSwipeRefreshLayout();
+        setFloatingActionButton();
         setDialogs();
-        downloadData();//download weather data
+        localization ="zamosc";
+        downloadData(localization);//download weather data
     }
 
 
-    public void downloadData(){
+    public void downloadData(String localization){
         if(isFirst==true) firstLoadingDialog.show();    //dialog at the beginning
         else swipeRefreshLayout.setRefreshing(true);    //dialog when refresh
-        downloader=new DataDownloader("zamosc",this);   //downloading weather data for Poznan
+        downloader=new DataDownloader(localization,this);   //downloading weather data for Poznan
     }
 
     @Override
     public void ServiceSuccess(Channel channel) {
         Log.d("successisfirst", "successisfirst "+ isFirst);
         if(isFirst==true) {
-            initializeLayout(); //layout initialization
-            getter = new DataInitializer(this,channel,units(0,0,0,0,0)); //initializing weather data from JSON
+
+            getter = new DataInitializer(this,channel, unitInitializer(0,0,0,0,0)); //initializing weather data from JSON
             setter = new DataSetter(this,getter); //data formatting and weather layout setting
             firstLoadingDialog.dismiss();
         }
         else {
-            getter = new DataInitializer(this,channel,units(0,0,0,0,0)); //initializing weather data from JSON
+            getter = new DataInitializer(this,channel, unitInitializer(0,0,0,0,0)); //initializing weather data from JSON
             setter = new DataSetter(this,getter); //data formatting and weather layout setting
             swipeRefreshLayout.setRefreshing(false);
         }
@@ -88,21 +92,19 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void ServiceFailure(Exception exception) {
-        Log.d("failure", "failure ");
-        Log.d("failureisfirst", "failureisfirst "+ isFirst);
+    public void ServiceFailure(int errorCode) {
         //failure handling
         if(isFirst==true) {
 
             firstLoadingDialog.dismiss();
         }
         else swipeRefreshLayout.setRefreshing(false);
-        exception.printStackTrace();
-        failureDialog.show();
+        if(errorCode==1) internetFailureDialog.show();
+        else serviceFailureDialog.show();
         isFirst=false;
     }
 
-    private int[] units(int time, int temperature, int speed, int distance, int pressure){
+    private int[] unitInitializer(int time, int temperature, int speed, int distance, int pressure){
         int [] units={time, temperature, speed, distance, pressure};
         return units;
     }
@@ -114,10 +116,11 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setDialogs(){
-        dialogInitializer=new DialogInitializer(this,downloadDataRunnable);
+        dialogInitializer=new DialogInitializer(this,downloadDataRunnable,unitInitializer(0,0,0,0,0));
         refreshDialog=dialogInitializer.getRefreshDialog();
         firstLoadingDialog=dialogInitializer.getFirstLoadingDialog();
-        failureDialog=dialogInitializer.getFailureDialog();
+        serviceFailureDialog =dialogInitializer.getServiceFailureDialog();
+        internetFailureDialog=dialogInitializer.getInternetFailureDialog();
         yahooRedirectDialog=dialogInitializer.getYahooRedirectDialog();
         yahooWeatherRedirectDialog=dialogInitializer.getYahooWeatherRedirectDialog();
         exitDialog=dialogInitializer.getExitDialog();
@@ -125,11 +128,12 @@ public class MainActivity extends AppCompatActivity
         aboutDialog=dialogInitializer.getAboutDialog();
         feedbackDialog=dialogInitializer.getFeedbackDialog();
         authorDialog=dialogInitializer.getAuthorDialog();
+        searchDialog=dialogInitializer.getSearchDialog();
     }
 
     Runnable downloadDataRunnable = new Runnable() {
         public void run() {
-            downloadData();
+            downloadData(localization);
         }
     };
 
@@ -152,7 +156,7 @@ public class MainActivity extends AppCompatActivity
     private void setButtonsClickable(){
         setYahooClickable();
         setWeatherClickable();
-        setFavouritesClickable();
+        setSearchClickable();
     }
 
     private void setYahooClickable(){
@@ -192,36 +196,41 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    private void setFavouritesClickable(){
-        //handling favourites button click
+    private void setSearchClickable(){
+        //handling search button click
 
-        favouritesImageView=(ImageView)findViewById(R.id.favourites_image);
-        LinearLayout refreshLayout=(LinearLayout) findViewById(R.id.favourites_layout);
-        Picasso.with(getApplicationContext()).load(R.drawable.favourites_empty_icon).transform(new UsefulFunctions().new setDrawableColor(getResources().getColor(R.color.white))).into(favouritesImageView);
+        searchImageView =(ImageView)findViewById(R.id.search_image);
+        LinearLayout searchLayout=(LinearLayout) findViewById(R.id.search_layout);
+        UsefulFunctions.setLayoutFocusable(this,searchLayout);
+        Picasso.with(getApplicationContext()).load(R.drawable.search_black_icon).transform(new UsefulFunctions().new setDrawableColor(getResources().getColor(R.color.white))).into(searchImageView);
 
-        refreshLayout.setOnClickListener(new View.OnClickListener() {
-            boolean mark=false;
-
+        searchLayout.setOnClickListener(
+                new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mark==false){
-                    Picasso.with(getApplicationContext()).load(R.drawable.favourites_full_icon).transform(new UsefulFunctions().new setDrawableColor(getResources().getColor(R.color.white))).into(favouritesImageView);
-                    mark=true;
-                }
-                else {
-                    Picasso.with(getApplicationContext()).load(R.drawable.favourites_empty_icon).transform(new UsefulFunctions().new setDrawableColor(getResources().getColor(R.color.white))).into(favouritesImageView);
-                    mark=false;
-                }
+                searchDialog.show();
 
+                UsefulFunctions.showKeyboard(MainActivity.this);
             }
         });
     }
 
     private void setFloatingActionButton(){
-        FloatingActionButton floatingActionButton=(FloatingActionButton)findViewById(R.id.main_fab);
+        final FloatingActionButton floatingActionButton=(FloatingActionButton)findViewById(R.id.main_fab);
+        floatingActionButton.setImageResource(R.drawable.add_black_icon);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            boolean mark=false;
+
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
+                if(mark==false){
+                    floatingActionButton.setImageResource(R.drawable.add_black_icon);
+                    mark=true;
+                }
+                else {
+                    floatingActionButton.setImageResource(R.drawable.remove_black_icon);
+                    mark=false;
+                }
 
             }
         });
@@ -239,7 +248,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onRefresh() {
-        downloadData();
+
+        downloadData(localization);
     }
 
 
