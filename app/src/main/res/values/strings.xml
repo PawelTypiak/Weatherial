@@ -78,6 +78,9 @@
     <string name="empty_location_name_dialog_positive_button">Ok</string>
     <string name="empty_location_name_dialog_negative_button">Anuluj</string>
 
+    <string name="refresh_message_pull_to_refresh">Pociągnij, żeby odświeżyć</string>
+    <string name="refresh_message_refreshing">Odświeżanie...</string>
+
     <!-- First launch layout strings-->
     <string name="first_launch_layout_start_button">Rozpocznij</string>
 

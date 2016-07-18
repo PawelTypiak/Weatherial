@@ -40,7 +40,8 @@ public class DataSetter {
     private String city;
     private String country;
     private String region;
-    private String lastBuildDate;
+    private String refreshTime;
+    private String timezone;
     private double latitude;
     private double longitude;
     private String[] dayName;
@@ -52,7 +53,7 @@ public class DataSetter {
     private ImageView yahooImageView;
     private TextView primaryLocationTextView;
     private TextView secondaryLocationTextView;
-    private TextView timeTextView;
+    private TextView timezoneTextView;
     private int conditionStringId;
     private int conditionDrawableId;
     private TextView conditionTextView;
@@ -85,6 +86,8 @@ public class DataSetter {
     private TextView humidityTextView;
     private TextView pressureTextView;
     private TextView visibilityTextView;
+    private ImageView refreshIconImageView;
+    private TextView refreshTimeTextView;
     private int[] forecastDrawable;
     private TextView[] forecastDayNameTextView;
     private ImageView[] forecastDayConditionsImageView;
@@ -156,7 +159,16 @@ public class DataSetter {
 
         primaryLocationTextView.setText(city);
         secondaryLocationTextView.setText(region+", "+country);
-        timeTextView.setText(lastBuildDate);
+        timezoneTextView.setText(refreshTime+" "+timezone);
+        refreshTimeTextView.setText("Przed chwilą");
+        int visibility = primaryLocationTextView.getVisibility();
+        primaryLocationTextView.setVisibility(View.GONE);
+        primaryLocationTextView.setVisibility(visibility);
+        secondaryLocationTextView.setVisibility(View.GONE);
+        secondaryLocationTextView.setVisibility(visibility);
+        timezoneTextView.setVisibility(View.GONE);
+        timezoneTextView.setVisibility(visibility);
+        Picasso.with(activity.getApplicationContext()).load(R.drawable.arrow).transform(new UsefulFunctions().new setDrawableColor(activity.getResources().getColor(R.color.textPrimaryDarkBackground))).rotate(180).fit().centerInside().into(refreshIconImageView);
         Picasso.with(activity.getApplicationContext()).load(R.drawable.yahoo_logo).fit().centerInside().into(yahooImageView);
         UsefulFunctions.setLayoutFocusable(activity,locationLayout);
         locationLayout.setOnClickListener(new View.OnClickListener() {
@@ -165,6 +177,12 @@ public class DataSetter {
                 UsefulFunctions.initializeMapsIntent(activity,latitude,longitude,city);
             }
         });
+    }
+
+    private String setTimeZone(String time){
+        String formattedTime=null;
+
+        return formattedTime;
     }
 
     private void setCurrentLayout(){
@@ -305,7 +323,6 @@ public class DataSetter {
                 }
             }
         }
-
         public boolean getDay() {
             return isDay;
         }
@@ -345,7 +362,8 @@ public class DataSetter {
         city=dataInitializer.getCity();
         country=dataInitializer.getCountry();
         region=dataInitializer.getRegion();
-        lastBuildDate=dataInitializer.getLastBuildDate();
+        timezone=dataInitializer.getTimezone();
+        refreshTime=dataInitializer.getRefreshTime();
         latitude=dataInitializer.getLatitude();
         longitude=dataInitializer.getLongitude();
         chill = dataInitializer.getChill();
@@ -367,7 +385,9 @@ public class DataSetter {
     private void getAppBarResources(){
         primaryLocationTextView =(TextView)activity.findViewById(R.id.app_bar_primary_location_name_text);
         secondaryLocationTextView =(TextView)activity.findViewById(R.id.app_bar_secondary_location_name_text);
-        timeTextView=(TextView)activity.findViewById(R.id.app_bar_time_text);
+        timezoneTextView =(TextView)activity.findViewById(R.id.app_bar_time_text);
+        refreshTimeTextView=(TextView)activity.findViewById(R.id.app_bar_refresh_text);
+        refreshIconImageView=(ImageView)activity.findViewById(R.id.app_bar_refresh_image);
         yahooImageView=(ImageView)activity.findViewById(R.id.yahoo_image);
         locationLayout=(LinearLayout) activity.findViewById(R.id.location_text_layout);
     }

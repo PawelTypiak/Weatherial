@@ -13,8 +13,13 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
+import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.Display;
+import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -74,14 +79,45 @@ public class UsefulFunctions {
     }
 
     public static void showKeyboard(Activity activity){
-        InputMethodManager imm = (InputMethodManager) activity.getSystemService(activity.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+        InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
 
     }
-    public static void hideKeyboard(Activity activity) {
+    public static void hideKeyboard(Activity activity, EditText editText) {
         InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
         inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+    }
 
+    public static void setViewVisible(View view){
+        view.setVisibility(View.VISIBLE);
+    }
+    public static void setViewInvisible(View view){
+        view.setVisibility(View.INVISIBLE);
+    }
+
+    public static int getPullOpacity(double screenPercentage,float movedDistance, Context context, boolean isVertical){
+        int screenWidth=getScreenResolution(context)[0];
+        int screenHeight=getScreenResolution(context)[1];
+        double alpha=0;
+        if(movedDistance<0) movedDistance=0;
+        if(isVertical==true){alpha=(movedDistance*255)/(screenPercentage*screenHeight);}
+        else {alpha=(movedDistance*255)/(screenPercentage*screenWidth);}
+        if(alpha>255) alpha=255;
+        else if(alpha<100) alpha=100;
+        return (int)Math.round(alpha);
+    }
+
+    public static int[] getScreenResolution(Context context)
+    {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        DisplayMetrics metrics = new DisplayMetrics();
+        display.getMetrics(metrics);
+        int width = metrics.widthPixels;
+        int height = metrics.heightPixels;
+        int resolution[]={width,height};
+        return resolution;
     }
 
     public class setDrawableColor implements Transformation {

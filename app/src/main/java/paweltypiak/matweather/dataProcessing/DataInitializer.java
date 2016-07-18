@@ -2,7 +2,7 @@ package paweltypiak.matweather.dataProcessing;
 
 import android.app.Activity;
 import android.util.Log;
-import java.text.DateFormat;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -17,6 +17,8 @@ public class DataInitializer {
     private String country;
     private String region;
     private String lastBuildDate;
+    private String refreshTime;
+    private String timezone;
     private String chill;
     private String direction;
     private String direction_name;
@@ -67,9 +69,20 @@ public class DataInitializer {
         }
 
         private String formatTime(String time) {
+            SimpleDateFormat inputFormat = new SimpleDateFormat("hh:mm a");
             if (units[0] == 0) {
-                SimpleDateFormat inputFormat = new SimpleDateFormat("hh:mm a");
-                SimpleDateFormat outputFormat = new SimpleDateFormat("HH:mm");
+                SimpleDateFormat outputFormat = new SimpleDateFormat("H:mm");
+                Date date;
+                try {
+                    date = inputFormat.parse(time);
+                    time = outputFormat.format(date);
+                } catch (ParseException pe) {
+                    pe.printStackTrace();
+                }
+
+            }
+            else {
+                SimpleDateFormat outputFormat = new SimpleDateFormat("h:mm a");
                 Date date;
                 try {
                     date = inputFormat.parse(time);
@@ -78,7 +91,6 @@ public class DataInitializer {
                 } catch (ParseException pe) {
                     pe.printStackTrace();
                 }
-
             }
             return time;
         }
@@ -125,10 +137,11 @@ public class DataInitializer {
     private void initializeLastBuildDate(){
         lastBuildDate=channel.getLastBuildDate();
         lastBuildDate=lastBuildDate.substring(17);
-        String time=lastBuildDate.substring(0,8);
-        time=unitFormatter.formatTime(time);
-        lastBuildDate=time+lastBuildDate.substring(8);
-        Log.d("weather","lastBuildDate: "+lastBuildDate);
+        refreshTime =lastBuildDate.substring(0,8);
+        refreshTime =unitFormatter.formatTime(refreshTime);
+        timezone=lastBuildDate.substring(9);
+        lastBuildDate= refreshTime +lastBuildDate.substring(8);
+        Log.d("weather","lastBuildDate: "+ refreshTime +" "+timezone);
     }
 
     private void initializeLocation(){
@@ -209,7 +222,8 @@ public class DataInitializer {
     public String getCountry() {return country;}public String getRegion() {return region;}
     public double getLatitude() {return latitude;}
     public double getLongitude() {return longitude;}
-    public String getLastBuildDate() {return lastBuildDate;}
+    public String getRefreshTime() {return refreshTime;}
+    public String getTimezone() {return timezone;}
     public String getHumidity() {
         return humidity;
     }

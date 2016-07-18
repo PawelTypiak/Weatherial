@@ -95,11 +95,14 @@ public class DialogInitializer  {
 
     private class showDialogRunnable implements Runnable {
         AlertDialog dialog;
-        public showDialogRunnable(AlertDialog dialog) {
+        boolean ifShowKeyboard;
+        public showDialogRunnable(AlertDialog dialog, boolean ifShowKeyboard) {
             this.dialog=dialog;
+            this.ifShowKeyboard=ifShowKeyboard;
         }
         public void run() {
             dialog.show();
+            if(ifShowKeyboard==true) UsefulFunctions.showKeyboard(activity);
         }
     }
 
@@ -177,8 +180,7 @@ public class DialogInitializer  {
 
             locationEditText=(EditText)dialogView.findViewById(R.id.search_edit_text);
             location=locationEditText.getText().toString();
-            InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(locationEditText.getWindowToken(), 0);
+            UsefulFunctions.hideKeyboard(activity,locationEditText);
             if(location.length()==0) emptyLocationNameDialog.show();
             else {
                 locationEditText.getText().clear();
@@ -195,7 +197,6 @@ public class DialogInitializer  {
             loalizationResultsDialog=initializeLocalizationResultsDialog(dataInitializer);
             loalizationResultsDialog.show();
             searchProgressDialog.dismiss();
-            Log.d("dialog lokalizacja","location: "+city+", "+region+", "+country);
         }
 
         @Override
@@ -242,7 +243,7 @@ public class DialogInitializer  {
     private AlertDialog initializeSearchDialog(){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.search_dialog,null);
-        EditText locationEditText=(EditText)dialogView.findViewById(R.id.search_edit_text);
+        final EditText locationEditText=(EditText)dialogView.findViewById(R.id.search_edit_text);
         /*InputMethodManager imm = (InputMethodManager)activity.getSystemService(activity.INPUT_METHOD_SERVICE);
         imm.showSoftInput(locationEditText, InputMethodManager.SHOW_IMPLICIT);*/
 
@@ -263,7 +264,7 @@ public class DialogInitializer  {
         searchDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
-                UsefulFunctions.hideKeyboard(activity);
+                UsefulFunctions.hideKeyboard(activity,locationEditText);
             }
         });
         return searchDialog;
@@ -280,7 +281,7 @@ public class DialogInitializer  {
                 null,
                 false,
                 activity.getString(R.string.empty_location_name_dialog_positive_button),
-                new showDialogRunnable(searchDialog),
+                new showDialogRunnable(searchDialog, true),
                 null,
                 null,
                 activity.getString(R.string.empty_location_name_dialog_negative_button),
@@ -321,7 +322,7 @@ public class DialogInitializer  {
                 null,
                 false,
                 activity.getString(R.string.no_localization_results_dialog_positive_button),
-                new showDialogRunnable(searchDialog),
+                new showDialogRunnable(searchDialog, true),
                 null,
                 null,
                 activity.getString(R.string.no_localization_results_dialog_negative_button),
@@ -349,8 +350,8 @@ public class DialogInitializer  {
                 false,
                 activity.getString(R.string.localization_results_dialog_positive_button),
                 new setMainLayoutRunnable(dataInitializer),
-                null,
-                null,
+                activity.getString(R.string.localization_results_dialog_neutral_button),
+                new showDialogRunnable(searchDialog,true),
                 activity.getString(R.string.localization_results_dialog_negative_button),
                 null);
         return localizationResultsDialog;

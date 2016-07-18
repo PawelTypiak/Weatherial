@@ -1,7 +1,9 @@
 package paweltypiak.matweather;
 
 import android.app.AlertDialog;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.design.widget.NavigationView;
@@ -13,12 +15,12 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-
+import android.widget.TextView;
 import com.squareup.picasso.Picasso;
-
 import paweltypiak.matweather.dataDownloading.DataDownloader;
 import paweltypiak.matweather.dataDownloading.DownloadCallback;
 import paweltypiak.matweather.dataProcessing.DataInitializer;
@@ -53,6 +55,10 @@ public class MainActivity extends AppCompatActivity
     private int distance;
     private int speed;
     private String localization;
+    private CoordinatorLayout mainLayout;
+    private LinearLayout weatherLayout;
+    private TextView refreshMessageTextView;
+    private ImageView refreshImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,8 +75,9 @@ public class MainActivity extends AppCompatActivity
 
 
     public void downloadData(String localization){
-        if(isFirst==true) firstLoadingDialog.show();    //dialog at the beginning
-        else swipeRefreshLayout.setRefreshing(true);    //dialog when refresh
+        if(isFirst==true) {
+            firstLoadingDialog.show();    //dialog at the beginning
+        }
         downloader=new DataDownloader(localization,this);   //downloading weather data for Poznan
     }
 
@@ -78,15 +85,17 @@ public class MainActivity extends AppCompatActivity
     public void ServiceSuccess(Channel channel) {
         Log.d("successisfirst", "successisfirst "+ isFirst);
         if(isFirst==true) {
-
             getter = new DataInitializer(this,channel, unitInitializer(0,0,0,0,0)); //initializing weather data from JSON
             setter = new DataSetter(this,getter); //data formatting and weather layout setting
+            UsefulFunctions.setViewVisible(mainLayout);
             firstLoadingDialog.dismiss();
         }
         else {
             getter = new DataInitializer(this,channel, unitInitializer(0,0,0,0,0)); //initializing weather data from JSON
             setter = new DataSetter(this,getter); //data formatting and weather layout setting
             swipeRefreshLayout.setRefreshing(false);
+            UsefulFunctions.setViewInvisible(refreshMessageTextView);
+            UsefulFunctions.setViewVisible(weatherLayout);
         }
         isFirst=false;  //first loading done
     }
@@ -98,7 +107,10 @@ public class MainActivity extends AppCompatActivity
 
             firstLoadingDialog.dismiss();
         }
-        else swipeRefreshLayout.setRefreshing(false);
+        else {
+            swipeRefreshLayout.setRefreshing(false);
+            UsefulFunctions.setViewInvisible(refreshMessageTextView);
+        }
         if(errorCode==1) internetFailureDialog.show();
         else serviceFailureDialog.show();
         isFirst=false;
@@ -113,6 +125,38 @@ public class MainActivity extends AppCompatActivity
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
+        swipeRefreshLayout.setOnTouchListener(new View.OnTouchListener() {
+        boolean isTouched=false;
+            float movedWidth;
+            float movedHeight;
+            float startWidth;
+            float startHeight;
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_MOVE){
+                    if(isTouched==false){
+                        UsefulFunctions.setViewVisible(refreshImageView);
+                        UsefulFunctions.setViewVisible(refreshMessageTextView);
+                        refreshMessageTextView.setText(getString(R.string.refresh_message_pull_to_refresh));
+                        isTouched=true;
+                        startWidth = event.getRawX();
+                        startHeight = event.getRawY();
+                    }
+                    movedWidth = event.getRawX() - startWidth;
+                    movedHeight = event.getRawY() - startHeight;
+
+                    int alpha=UsefulFunctions.getPullOpacity(0.15,movedHeight,MainActivity.this,true);
+                    refreshMessageTextView.setTextColor(Color.argb(alpha, 255, 255, 255));
+                    refreshImageView.setAlpha(alpha);
+                }
+                if(event.getAction()==MotionEvent.ACTION_UP){
+                    isTouched=false;
+                    UsefulFunctions.setViewInvisible(refreshImageView);
+                    UsefulFunctions.setViewInvisible(refreshMessageTextView);
+                }
+                return false;
+            }
+        });
     }
 
     private void setDialogs(){
@@ -138,6 +182,8 @@ public class MainActivity extends AppCompatActivity
     };
 
     private void initializeLayout(){
+        mainLayout=(CoordinatorLayout)findViewById(R.id.main_coordinator_layout);
+        UsefulFunctions.setViewInvisible(mainLayout);
         //toolbar init
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -150,6 +196,9 @@ public class MainActivity extends AppCompatActivity
         //navigation drawer init
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        refreshMessageTextView=(TextView)findViewById(R.id.app_bar_refresh_text);
+        refreshImageView=(ImageView) findViewById(R.id.app_bar_refresh_image);
+        weatherLayout=(LinearLayout) findViewById(R.id.weather_layout);
         setButtonsClickable();
     }
 
@@ -198,10 +247,9 @@ public class MainActivity extends AppCompatActivity
 
     private void setSearchClickable(){
         //handling search button click
-
         searchImageView =(ImageView)findViewById(R.id.search_image);
         LinearLayout searchLayout=(LinearLayout) findViewById(R.id.search_layout);
-        UsefulFunctions.setLayoutFocusable(this,searchLayout);
+        //UsefulFunctions.setLayoutFocusable(this,searchLayout);
         Picasso.with(getApplicationContext()).load(R.drawable.search_black_icon).transform(new UsefulFunctions().new setDrawableColor(getResources().getColor(R.color.white))).into(searchImageView);
 
         searchLayout.setOnClickListener(
@@ -231,10 +279,10 @@ public class MainActivity extends AppCompatActivity
                     floatingActionButton.setImageResource(R.drawable.remove_black_icon);
                     mark=false;
                 }
-
             }
         });
     }
+
 
     @Override
     public void onBackPressed() {
@@ -248,11 +296,13 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onRefresh() {
-
+        Log.d("refresh", "refresh ");
+        swipeRefreshLayout.setRefreshing(true);    //dialog when refresh
+        UsefulFunctions.setViewVisible(refreshMessageTextView);
+        refreshMessageTextView.setText(getString(R.string.refresh_message_refreshing));
+        UsefulFunctions.setViewInvisible(weatherLayout);
         downloadData(localization);
     }
-
-
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent e) {
@@ -271,8 +321,6 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-
         if (id == R.id.nav_button_settings) {
             // Handle options
         } else if (id == R.id.nav_button_about) {
