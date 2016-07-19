@@ -46,7 +46,6 @@ public class DataSetter {
     private double longitude;
     private String[] dayName;
     private Date now;
-    private LinearLayout locationLayout;
     private LinearLayout weatherLayout;
     private View currentDetailsDividerView;
     private View detailsForecastDividerView;
@@ -106,9 +105,15 @@ public class DataSetter {
     private int iconColor;
     private int objectIconColor;
     private int dialogColor;
+    private static DataInitializer datainit;
+
+    public static DataInitializer getDatainit() {
+        return datainit;
+    }
 
     public DataSetter(Activity activity, DataInitializer dataInitializer) {
         this.dataInitializer =dataInitializer;
+        datainit=dataInitializer;
         this.activity=activity;
         getData();
         sunPositionCounter=new SunPositionCounter();
@@ -170,13 +175,7 @@ public class DataSetter {
         timezoneTextView.setVisibility(visibility);
         Picasso.with(activity.getApplicationContext()).load(R.drawable.arrow).transform(new UsefulFunctions().new setDrawableColor(activity.getResources().getColor(R.color.textPrimaryDarkBackground))).rotate(180).fit().centerInside().into(refreshIconImageView);
         Picasso.with(activity.getApplicationContext()).load(R.drawable.yahoo_logo).fit().centerInside().into(yahooImageView);
-        UsefulFunctions.setLayoutFocusable(activity,locationLayout);
-        locationLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                UsefulFunctions.initializeMapsIntent(activity,latitude,longitude,city);
-            }
-        });
+
     }
 
     private String setTimeZone(String time){
@@ -389,7 +388,6 @@ public class DataSetter {
         refreshTimeTextView=(TextView)activity.findViewById(R.id.app_bar_refresh_text);
         refreshIconImageView=(ImageView)activity.findViewById(R.id.app_bar_refresh_image);
         yahooImageView=(ImageView)activity.findViewById(R.id.yahoo_image);
-        locationLayout=(LinearLayout) activity.findViewById(R.id.location_text_layout);
     }
 
     private void getCurrentResources(){

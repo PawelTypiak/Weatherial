@@ -43,8 +43,7 @@ public class DialogInitializer  {
     private Activity activity;
     private int[] units;
 
-
-   public DialogInitializer(Activity activity, Runnable reloadRunnable, int[] units){
+    public DialogInitializer(Activity activity, Runnable reloadRunnable, int[] units){
 
        this.units=units;
        this.activity=activity;
@@ -63,6 +62,8 @@ public class DialogInitializer  {
        this.searchProgressDialog=initializeSearchProgressDialog();
        this.noLocalizationResultsDialog=initializeNoLocalizationResultsDialog();
        this.emptyLocationNameDialog=initializeEmptyLocationNameDialog();
+
+
 
 
     }
@@ -93,7 +94,7 @@ public class DialogInitializer  {
     };
 
     private class showDialogRunnable implements Runnable {
-        AlertDialog dialog;
+        private AlertDialog dialog;
         boolean ifShowKeyboard;
         public showDialogRunnable(AlertDialog dialog, boolean ifShowKeyboard) {
             this.dialog=dialog;
@@ -106,7 +107,7 @@ public class DialogInitializer  {
     }
 
     private class copyToClipboardRunnable implements Runnable {
-        String text;
+        private String text;
         public copyToClipboardRunnable(String text) {
             this.text=text;
         }
@@ -116,12 +117,30 @@ public class DialogInitializer  {
     }
 
     private class initializeWebIntentRunnable implements Runnable {
-        String url;
+        private String url;
         public initializeWebIntentRunnable(String url) {
             this.url=url;
         }
         public void run() {
             UsefulFunctions.initializeWebIntent(activity,url);
+        }
+    }
+
+    private static class initializeMapsIntentRunnable implements Runnable{
+        private Activity activity;
+        private double latitude;
+        private double longitude;
+        private String label;
+        public initializeMapsIntentRunnable(Activity activity, double latitude, double longitude, String label){
+            this.activity=activity;
+            this.latitude=latitude;
+            this.longitude=longitude;
+            this.label=label;
+        }
+
+        @Override
+        public void run() {
+            UsefulFunctions.initializeMapsIntent(activity,latitude,longitude,label);
         }
     }
 
@@ -199,7 +218,7 @@ public class DialogInitializer  {
         }
     }
 
-    private AlertDialog buildDialog(View dialogView, int theme, String title, int iconResource, String message, boolean ifUncancelable, String positiveButtonText, final Runnable positiveButtonFunction, String neutralButtonText, final Runnable neutralButtonFunction, String negativeButtonText, final Runnable negativeButtonFunction){
+    private static AlertDialog buildDialog(Activity activity, View dialogView, int theme, String title, int iconResource, String message, boolean ifUncancelable, String positiveButtonText, final Runnable positiveButtonFunction, String neutralButtonText, final Runnable neutralButtonFunction, String negativeButtonText, final Runnable negativeButtonFunction){
         //custom dialog builder
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(activity, theme);
         if(dialogView!=null)alertBuilder.setView(dialogView);
@@ -238,6 +257,7 @@ public class DialogInitializer  {
         View dialogView = inflater.inflate(R.layout.search_dialog,null);
         final EditText locationEditText=(EditText)dialogView.findViewById(R.id.search_edit_text);
         AlertDialog searchDialog=buildDialog(
+                activity,
                 dialogView,
                 R.style.CustomDialogStyle,
                 activity.getString(R.string.search_dialog_title),
@@ -266,6 +286,7 @@ public class DialogInitializer  {
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
         messageTextView.setText(activity.getString(R.string.empty_location_name_dialog_message));
         AlertDialog emptyLocationNameDialog=buildDialog(
+                activity,
                 dialogView,
                 R.style.CustomDialogStyle,
                 activity.getString(R.string.empty_location_name_dialog_title),
@@ -288,6 +309,7 @@ public class DialogInitializer  {
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
         messageTextView.setText(activity.getString(R.string.no_localization_results_dialog_message));
         AlertDialog noLocalizationResultsDialog=buildDialog(
+                activity,
                 dialogView,
                 R.style.CustomDialogStyle,
                 activity.getString(R.string.no_localization_results_dialog_title),
@@ -310,6 +332,7 @@ public class DialogInitializer  {
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
         messageTextView.setText(activity.getString(R.string.no_email_application_dialog_message));
         AlertDialog noEmailApplicationDialog = buildDialog(
+                activity,
                 dialogView,R.style.CustomDialogStyle,
                 activity.getString(R.string.no_email_application_dialog_title),
                 R.drawable.error_icon,
@@ -330,6 +353,7 @@ public class DialogInitializer  {
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
         messageTextView.setText(activity.getString(R.string.service_failure_dialog_message));
         AlertDialog serviceFailureDialog = buildDialog(
+                activity,
                 dialogView,
                 R.style.CustomDialogStyle,
                 activity.getString(R.string.service_failure_dialog_title),
@@ -352,6 +376,7 @@ public class DialogInitializer  {
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
         messageTextView.setText(activity.getString(R.string.internet_failure_dialog_message));
         AlertDialog internetFailureDialog = buildDialog(
+                activity,
                 dialogView,
                 R.style.CustomDialogStyle,
                 activity.getString(R.string.internet_failure_dialog_title),
@@ -375,6 +400,7 @@ public class DialogInitializer  {
         messageTextView.setText(activity.getString(R.string.exit_dialog_message));
 
         AlertDialog exitDialog = buildDialog(
+                activity,
                 dialogView,
                 R.style.CustomDialogStyle,
                 activity.getString(R.string.exit_dialog_title),
@@ -399,6 +425,7 @@ public class DialogInitializer  {
         TextView message2TextView=(TextView)dialogView.findViewById(R.id.two_line_text_dialog_message2_text);
         message2TextView.setText(activity.getString(R.string.yahoo_redirect_dialog_message_service_name));
         AlertDialog yahooRedirectDialog = buildDialog(
+                activity,
                 dialogView,
                 R.style.CustomDialogStyle,
                 activity.getString(R.string.yahoo_redirect_dialog_title),
@@ -423,6 +450,7 @@ public class DialogInitializer  {
         TextView message2TextView=(TextView)dialogView.findViewById(R.id.two_line_text_dialog_message2_text);
         message2TextView.setText(activity.getString(R.string.yahoo_weather_redirect_dialog_message_service_name));
         AlertDialog yahooWeatherRedirectDialog = buildDialog(
+                activity,
                 dialogView,
                 R.style.CustomDialogStyle,
                 activity.getString(R.string.yahoo_weather_redirect_dialog_title),
@@ -460,6 +488,7 @@ public class DialogInitializer  {
             }
         });
         AlertDialog feedbackDialog = buildDialog(
+                activity,
                 dialogView,
                 R.style.CustomDialogStyle,
                 activity.getString(R.string.feedback_dialog_title),
@@ -482,6 +511,7 @@ public class DialogInitializer  {
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.progress_dialog_message);
         messageTextView.setText(activity.getString(R.string.search_progress_dialog_message));
         AlertDialog searchProgressDialog=buildDialog(
+                activity,
                 dialogView,
                 R.style.CustomDialogStyle,
                 activity.getString(R.string.search_dialog_title),
@@ -505,6 +535,7 @@ public class DialogInitializer  {
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.progress_dialog_message);
         messageTextView.setText(activity.getString(R.string.refresh_dialog_message));
         AlertDialog refreshDialog = buildDialog(
+                activity,
                 dialogView,
                 R.style.CustomDialogStyle,
                 activity.getString(R.string.refresh_dialog_title),
@@ -523,17 +554,18 @@ public class DialogInitializer  {
 
     private AlertDialog initializeLocalizationResultsDialog(DataInitializer dataInitializer) {
         LayoutInflater inflater = activity.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.maps_dialog, null);
+        View dialogView = inflater.inflate(R.layout.location_dialog, null);
         String city=dataInitializer.getCity();
         String region=dataInitializer.getRegion();
         String country=dataInitializer.getCountry();
-        TextView messageTextView=(TextView)dialogView.findViewById(R.id.maps_dialog_message_text);
+        TextView messageTextView=(TextView)dialogView.findViewById(R.id.location_dialog_message_text);
         messageTextView.setText(activity.getString(R.string.localization_results_dialog_message));
-        TextView cityTextView=(TextView)dialogView.findViewById(R.id.maps_dialog_city_text);
+        TextView cityTextView=(TextView)dialogView.findViewById(R.id.location_dialog_city_text);
         cityTextView.setText(city);
-        TextView regionCountryTextView=(TextView)dialogView.findViewById(R.id.maps_dialog_region_county_text);
+        TextView regionCountryTextView=(TextView)dialogView.findViewById(R.id.location_dialog_region_county_text);
         regionCountryTextView.setText(region+", "+country);
         AlertDialog localizationResultsDialog = buildDialog(
+                activity,
                 dialogView,
                 R.style.CustomDialogStyle,
                 activity.getString(R.string.localization_results_dialog_title),
@@ -549,12 +581,41 @@ public class DialogInitializer  {
         return localizationResultsDialog;
     }
 
+    public static void initializeMapsDialog(Activity activity) {
+        LayoutInflater inflater = activity.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.location_dialog, null);
+        String city=UsefulFunctions.getAppBarStrings(activity)[0];
+        String regionCountry=UsefulFunctions.getAppBarStrings(activity)[1];
+        TextView messageTextView=(TextView)dialogView.findViewById(R.id.location_dialog_message_text);
+        messageTextView.setText(activity.getString(R.string.maps_dialog_message));
+        TextView cityTextView=(TextView)dialogView.findViewById(R.id.location_dialog_city_text);
+        cityTextView.setText(city);
+        TextView regionCountryTextView=(TextView)dialogView.findViewById(R.id.location_dialog_region_county_text);
+        regionCountryTextView.setText(regionCountry);
+        AlertDialog localizationResultsDialog = buildDialog(
+                activity,
+                dialogView,
+                R.style.CustomDialogStyle,
+                activity.getString(R.string.maps_dialog_title),
+                R.drawable.maps_icon,
+                null,
+                false,
+                activity.getString(R.string.maps_dialog_positive_button),
+                new initializeMapsIntentRunnable(activity,DataSetter.getDatainit().getLatitude(),DataSetter.getDatainit().getLongitude(),city),
+                null,
+                null,
+                activity.getString(R.string.maps_dialog_negative_button),
+                null);
+       localizationResultsDialog.show();
+    }
+
     private AlertDialog initializeFirstLoadingDialog(){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.first_loading_dialog,null);
         ImageView iconImageView=(ImageView)dialogView.findViewById(R.id.first_loading_dialog_app_icon_image);
         Picasso.with(activity.getApplicationContext()).load(R.drawable.app_icon).fit().centerInside().into(iconImageView);
         AlertDialog firstLoadingDialog = buildDialog(
+                activity,
                 dialogView,
                 R.style.CustomLoadingDialogStyle,
                 null,
@@ -595,6 +656,7 @@ public class DialogInitializer  {
             }
         });
         AlertDialog authorDialog = buildDialog(
+                activity,
                 dialogView,
                 R.style.CustomDialogStyle,
                 activity.getString(R.string.author_dialog_title),
@@ -631,6 +693,7 @@ public class DialogInitializer  {
         Picasso.with(activity.getApplicationContext()).load(R.drawable.app_icon).fit().centerInside().into(iconImageView);
         //initializing dialog
         AlertDialog aboutDialog = buildDialog(
+                activity,
                 dialogView,
                 R.style.CustomDialogStyle,
                 null,
@@ -659,4 +722,5 @@ public class DialogInitializer  {
     public AlertDialog getAuthorDialog() {return authorDialog;}
     public AlertDialog getNoEmailApplicationDialog() {return noEmailApplicationDialog;}
     public AlertDialog getSearchDialog() {return searchDialog;}
+    public AlertDialog getMapsDialog() {return mapsDialog;}
 }

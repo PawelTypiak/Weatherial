@@ -78,6 +78,31 @@ public class UsefulFunctions {
         }
     }
 
+    public static String[] getAppBarStrings(Activity activity){
+        String[] location=new String[2];
+        TextView primaryLocationTextView=(TextView)activity.findViewById(R.id.app_bar_primary_location_name_text);
+        TextView secondaryLocationTextView=(TextView)activity.findViewById(R.id.app_bar_secondary_location_name_text);
+
+        location[0]=primaryLocationTextView.getText().toString();
+        location[1]=secondaryLocationTextView.getText().toString();
+
+        return location;
+    }
+
+    public static void setAppBarStrings(Activity activity, String primaryText, String secondaryText){
+        TextView primaryLocationTextView=(TextView)activity.findViewById(R.id.app_bar_primary_location_name_text);
+        TextView secondaryLocationTextView=(TextView)activity.findViewById(R.id.app_bar_secondary_location_name_text);
+
+        primaryLocationTextView.setText(primaryText);
+        secondaryLocationTextView.setText(secondaryText);
+
+        int visibility = primaryLocationTextView.getVisibility();
+        primaryLocationTextView.setVisibility(View.GONE);
+        primaryLocationTextView.setVisibility(visibility);
+        secondaryLocationTextView.setVisibility(View.GONE);
+        secondaryLocationTextView.setVisibility(visibility);
+    }
+
     public static void showKeyboard(Activity activity){
         InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(activity.INPUT_METHOD_SERVICE);
         inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);

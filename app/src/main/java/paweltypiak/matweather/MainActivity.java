@@ -45,10 +45,11 @@ public class MainActivity extends AppCompatActivity
     private AlertDialog authorDialog;
     private AlertDialog noEmailApplicationDialog;
     private AlertDialog searchDialog;
+    private AlertDialog mapsDialog;
     private boolean isFirst;
     private DialogInitializer dialogInitializer;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private ImageView searchImageView;
+
     private int temperature;
     private int time;
     private int pressure;
@@ -67,7 +68,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         initializeLayout(); //layout initialization
         setSwipeRefreshLayout();
-        setFloatingActionButton();
         setDialogs();
         localization ="zamosc";
         downloadData(localization);//download weather data
@@ -206,12 +206,14 @@ public class MainActivity extends AppCompatActivity
         setYahooClickable();
         setWeatherClickable();
         setSearchClickable();
+        setFloatingActionButton();
+        setLocationClickable();
+
     }
 
     private void setYahooClickable(){
         //handling yahoo icon click
         LinearLayout yahooLayout=(LinearLayout)findViewById(R.id.yahoo_layout);
-        UsefulFunctions.setLayoutFocusable(this,yahooLayout);
         yahooLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -247,9 +249,8 @@ public class MainActivity extends AppCompatActivity
 
     private void setSearchClickable(){
         //handling search button click
-        searchImageView =(ImageView)findViewById(R.id.search_image);
+        ImageView searchImageView =(ImageView)findViewById(R.id.search_image);
         LinearLayout searchLayout=(LinearLayout) findViewById(R.id.search_layout);
-        //UsefulFunctions.setLayoutFocusable(this,searchLayout);
         Picasso.with(getApplicationContext()).load(R.drawable.search_black_icon).transform(new UsefulFunctions().new setDrawableColor(getResources().getColor(R.color.white))).into(searchImageView);
 
         searchLayout.setOnClickListener(
@@ -261,6 +262,18 @@ public class MainActivity extends AppCompatActivity
                 UsefulFunctions.showKeyboard(MainActivity.this);
             }
         });
+    }
+
+    private void setLocationClickable(){
+        LinearLayout locactionLayout=(LinearLayout)findViewById(R.id.location_text_layout);
+        locactionLayout.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialogInitializer.initializeMapsDialog(MainActivity.this);
+
+                    }
+                });
     }
 
     private void setFloatingActionButton(){
@@ -279,6 +292,8 @@ public class MainActivity extends AppCompatActivity
                     floatingActionButton.setImageResource(R.drawable.remove_black_icon);
                     mark=false;
                 }
+                DataInitializer init=DataSetter.getDatainit();
+
             }
         });
     }
