@@ -77,6 +77,10 @@
     <string name="empty_location_name_dialog_message">Wybierz lokalizację!</string>
     <string name="empty_location_name_dialog_positive_button">Ok</string>
     <string name="empty_location_name_dialog_negative_button">Anuluj</string>
+    <string name="maps_dialog_title">Przekierowanie</string>
+    <string name="maps_dialog_message">Czy chcesz otworzyć lokację w aplikacji Google Maps?</string>
+    <string name="maps_dialog_negative_button">Anuluj</string>
+    <string name="maps_dialog_positive_button">Kontynuuj</string>
 
     <string name="refresh_message_pull_to_refresh">Pociągnij, żeby odświeżyć</string>
     <string name="refresh_message_refreshing">Odświeżanie...</string>
@@ -89,7 +93,7 @@
 
     <!-- Addresses-->
     <string name="mail_address">pawel.p.typiak@gmail.com</string>
-    <string name="github_address">https://github.com/PawelTypiak/MatWeather</string>
+    <string name="github_address">https://github.com/PawelTypiak?tab=repositories</string>
     <string name="yahoo_address">https://www.yahoo.com/?ilc=401</string>
     <string name="yahoo_weather_address">https://www.yahoo.com/news/weather/poland/greater-poland/poznan-514048</string>
 

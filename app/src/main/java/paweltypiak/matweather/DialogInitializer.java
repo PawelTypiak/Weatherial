@@ -2,18 +2,16 @@ package paweltypiak.matweather;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -42,6 +40,9 @@ public class DialogInitializer  {
     private AlertDialog loalizationResultsDialog;
     private AlertDialog emptyLocationNameDialog;
     private AlertDialog internetFailureDialog;
+    private AlertDialog mapsDialog;
+    private AlertDialog addToFavouritesDialog;
+    private AlertDialog deleteFromFavouritesDialog;
     private Activity activity;
     private int[] units;
 
@@ -65,6 +66,7 @@ public class DialogInitializer  {
        this.searchProgressDialog=initializeSearchProgressDialog();
        this.noLocalizationResultsDialog=initializeNoLocalizationResultsDialog();
        this.emptyLocationNameDialog=initializeEmptyLocationNameDialog();
+
 
     }
 
@@ -337,9 +339,9 @@ public class DialogInitializer  {
         String city="<b>"+dataInitializer.getCity()+"</b>";
         String region=dataInitializer.getRegion();
         String country=dataInitializer.getCountry();
-        TextView cityTextView=(TextView)dialogView.findViewById(R.id.localization_results_place_city_text);
+        TextView cityTextView=(TextView)dialogView.findViewById(R.id.localization_results_dialog_city_text);
         cityTextView.setText((Html.fromHtml(city)));
-        TextView regionCountryTextView=(TextView)dialogView.findViewById(R.id.localization_results_place_region_county_text);
+        TextView regionCountryTextView=(TextView)dialogView.findViewById(R.id.localization_results_dialog_region_county_text);
         regionCountryTextView.setText(region+", "+country);
         AlertDialog localizationResultsDialog = buildDialog(
                 dialogView,
@@ -468,7 +470,7 @@ public class DialogInitializer  {
                 activity.getString(R.string.yahoo_redirect_dialog_negative_button),
                 null
         );
-        return  initializeYahooWeatherRedirectDialog();
+        return  yahooRedirectDialog;
     }
 
     private AlertDialog initializeYahooWeatherRedirectDialog(){
@@ -518,10 +520,8 @@ public class DialogInitializer  {
         Picasso.with(activity.getApplicationContext()).load(R.drawable.email_icon).transform(new UsefulFunctions().new setDrawableColor(activity.getResources().getColor(R.color.white))).fit().centerInside().into(emailImageView);
         Picasso.with(activity.getApplicationContext()).load(R.drawable.github_icon).transform(new UsefulFunctions().new setDrawableColor(activity.getResources().getColor(R.color.white))).fit().centerInside().into(githubImageView);
         //making links clickable and focusable
-        LinearLayout mailLayout=(LinearLayout)dialogView.findViewById(R.id.author_dialog_mail_layout);
-        LinearLayout githubLayout=(LinearLayout)dialogView.findViewById(R.id.author_dialog_github_layout);
-        UsefulFunctions.setLayoutFocusable(activity,mailLayout);
-        UsefulFunctions.setLayoutFocusable(activity,githubLayout);
+        RelativeLayout mailLayout=(RelativeLayout)dialogView.findViewById(R.id.author_dialog_mail_button_layout);
+        RelativeLayout githubLayout=(RelativeLayout)dialogView.findViewById(R.id.author_dialog_github_button_layout);
         mailLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
