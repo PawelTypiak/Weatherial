@@ -308,9 +308,10 @@ public class MainActivity extends AppCompatActivity
     public void onRefresh() {
         Log.d("refresh", "refresh ");
         swipeRefreshLayout.setRefreshing(true);    //dialog when refresh
-        UsefulFunctions.setViewVisible(refreshMessageTextView);
         refreshMessageTextView.setAlpha(1);
         refreshMessageTextView.setText(getString(R.string.refresh_message_refreshing));
+        UsefulFunctions.setViewVisible(refreshMessageTextView);
+
         UsefulFunctions.setViewInvisible(weatherLayout);
         downloadData(DataSetter.getCurrentDataInitializer().getCity());
     }
