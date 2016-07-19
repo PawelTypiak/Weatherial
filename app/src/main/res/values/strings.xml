@@ -25,12 +25,12 @@
     <string name="internet_failure_dialog_negative_button">Wyjdź</string>
     <string name="yahoo_redirect_dialog_title">Przekierowanie</string>
     <string name="yahoo_redirect_dialog_message">Nastąpi przekierowanie na witrynę:</string>
-    <string name="yahoo_redirect_dialog_message_service_name"><b>Yahoo.com</b></string>
+    <string name="yahoo_redirect_dialog_message_service_name">Yahoo.com</string>
     <string name="yahoo_redirect_dialog_positive_button">Kontynuuj</string>
     <string name="yahoo_redirect_dialog_negative_button">Anuluj</string>
     <string name="yahoo_weather_redirect_dialog_title">Przekierowanie</string>
     <string name="yahoo_weather_redirect_dialog_message">Nastąpi przekierowanie do serwisu:</string>
-    <string name="yahoo_weather_redirect_dialog_message_service_name"><b>Yahoo Weather</b></string>
+    <string name="yahoo_weather_redirect_dialog_message_service_name">Yahoo Weather</string>
     <string name="yahoo_weather_redirect_dialog_positive_button">Kontynuuj</string>
     <string name="yahoo_weather_redirect_dialog_negative_button">Anuluj</string>
     <string name="exit_dialog_title">Wyjście</string>
@@ -46,7 +46,7 @@
     <string name="about_dialog_negative_button">Cofnij</string>
     <string name="feedback_dialog_title">Prześlij opinię</string>
     <string name="feedback_dialog_message">Jeśli masz jakieś pytanie, bądź chcesz wyrazić opinię, wyślij wiadomość na adres:</string>
-    <string name="feedback_dialog_mail"><b>pawel.p.typiak@gmail.com</b></string>
+    <string name="feedback_dialog_mail">pawel.p.typiak@gmail.com</string>
     <string name="feedback_dialog_positive_button">Wyślij wiadomość</string>
     <string name="feedback_dialog_negative_button">Anuluj</string>
     <string name="author_dialog_title">Autor</string>

@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textSize="@dimen/dialog_text_size"
-        android:text="@string/maps_dialog_message"
         android:textColor="@color/textSecondaryLightBackground"
         android:id="@+id/maps_dialog_message_text"
         />
@@ -29,6 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textSize="@dimen/dialog_text_size"
+            android:textStyle="bold"
             android:textColor="@color/textSecondaryLightBackground"
             android:id="@+id/maps_dialog_city_text"
             />
