@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import paweltypiak.matweather.R;
+import paweltypiak.matweather.UsefulFunctions;
 import paweltypiak.matweather.jsonHandling.Channel;
 
 public class DataInitializer {
@@ -37,13 +38,14 @@ public class DataInitializer {
     private double longitude;
     private UnitFormatter unitFormatter;
     private Activity activity;
+    private int[] units;
 
 
-    public DataInitializer(Activity activity, Channel channel, int[] units){
+    public DataInitializer(Activity activity, Channel channel){
         Log.d("tag", "weather");
         this.activity=activity;
         this.channel=channel;
-        unitFormatter=new UnitFormatter(units);
+        unitFormatter=new UnitFormatter();
         initializeLink();
         initializeLastBuildDate();
         initializeLocation();
@@ -62,9 +64,9 @@ public class DataInitializer {
         private double pressureUnit;
         private int[] units;
 
-        public UnitFormatter(int[] units) {
-            this.units = new int[5];
-            this.units = units;
+        public UnitFormatter() {
+
+            this.units = UsefulFunctions.getUnits();
 
         }
 

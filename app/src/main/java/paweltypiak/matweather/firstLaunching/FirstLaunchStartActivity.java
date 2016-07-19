@@ -39,7 +39,7 @@ public class FirstLaunchStartActivity extends AppCompatActivity {
 
     private void initializeDialog(){
         DialogInitializer dialogInitializer=new DialogInitializer(this);
-        exitDialog=dialogInitializer.getExitDialog();
+        exitDialog=dialogInitializer.initializeExitDialog();
     }
 
     private void setMainActivity() {

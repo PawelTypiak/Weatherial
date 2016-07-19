@@ -1,6 +1,7 @@
 package paweltypiak.matweather.dataProcessing;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +15,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import static paweltypiak.matweather.DialogInitializer.initializeMapsDialog;
+import static paweltypiak.matweather.DialogInitializer.initializeYahooWeatherRedirectDialog;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.UsefulFunctions;
 
@@ -105,17 +108,29 @@ public class DataSetter {
     private int iconColor;
     private int objectIconColor;
     private int dialogColor;
-    private static DataInitializer datainit;
+    private static DataInitializer currentDataInitializer;
+    private static AlertDialog mapsDialog;
+    private static AlertDialog yahooWeatherRedirectDialog;
 
-    public static DataInitializer getDatainit() {
-        return datainit;
+    public static DataInitializer getCurrentDataInitializer() {
+        return currentDataInitializer;
+    }
+
+    public static AlertDialog getYahooWeatherRedirectDialog() {
+        return yahooWeatherRedirectDialog;
+    }
+
+    public static AlertDialog getMapsDialog() {
+        return mapsDialog;
     }
 
     public DataSetter(Activity activity, DataInitializer dataInitializer) {
         this.dataInitializer =dataInitializer;
-        datainit=dataInitializer;
+        currentDataInitializer =dataInitializer;
         this.activity=activity;
         getData();
+        mapsDialog= initializeMapsDialog(activity,city,region,country,longitude,latitude);
+        yahooWeatherRedirectDialog=initializeYahooWeatherRedirectDialog(activity,link);
         sunPositionCounter=new SunPositionCounter();
         isDay =sunPositionCounter.getDay();
         setTheme();
@@ -266,7 +281,7 @@ public class DataSetter {
         detailsForecastDividerView.setBackgroundColor(dividerColor);
     }
 
-    public class SunPositionCounter {
+    private class SunPositionCounter {
         private boolean isDay;
         private long currentDiffMinutes;
         private long sunsetSunriseDiffMinutes;

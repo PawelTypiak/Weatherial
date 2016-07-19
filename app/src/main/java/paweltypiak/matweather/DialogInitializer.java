@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.support.v4.content.ContextCompat;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -17,96 +18,52 @@ import paweltypiak.matweather.dataDownloading.DataDownloader;
 import paweltypiak.matweather.dataDownloading.DownloadCallback;
 import paweltypiak.matweather.dataProcessing.DataInitializer;
 import paweltypiak.matweather.dataProcessing.DataSetter;
+import static paweltypiak.matweather.dataProcessing.DataSetter.getCurrentDataInitializer;
 import paweltypiak.matweather.jsonHandling.Channel;
 
 public class DialogInitializer  {
 
     private AlertDialog refreshDialog;
-    private AlertDialog serviceFailureDialog;
-    private AlertDialog yahooRedirectDialog;
-    private AlertDialog yahooWeatherRedirectDialog;
-    private AlertDialog exitDialog;
-    private AlertDialog aboutDialog;
-    private AlertDialog firstLoadingDialog;
-    private AlertDialog feedbackDialog;
-    private AlertDialog authorDialog;
-    private AlertDialog noEmailApplicationDialog;
-    private AlertDialog searchDialog;
-    private AlertDialog searchProgressDialog;
-    private AlertDialog noLocalizationResultsDialog;
-    private AlertDialog loalizationResultsDialog;
-    private AlertDialog emptyLocationNameDialog;
-    private AlertDialog internetFailureDialog;
-    private AlertDialog mapsDialog;
-    private AlertDialog addToFavouritesDialog;
-    private AlertDialog deleteFromFavouritesDialog;
-    private Activity activity;
-    private int[] units;
+    private static AlertDialog serviceFailureDialog;
+    private static AlertDialog yahooRedirectDialog;
+    private static AlertDialog yahooWeatherRedirectDialog;
+    private static AlertDialog exitDialog;
+    private static AlertDialog aboutDialog;
+    private static AlertDialog firstLoadingDialog;
+    private static AlertDialog feedbackDialog;
+    private static AlertDialog authorDialog;
+    private static AlertDialog noEmailApplicationDialog;
+    private static AlertDialog searchDialog;
+    private static AlertDialog searchProgressDialog;
+    private static AlertDialog noLocalizationResultsDialog;
+    private static AlertDialog localizationResultsDialog;
+    private static AlertDialog emptyLocationNameDialog;
+    private static AlertDialog internetFailureDialog;
+    private static AlertDialog mapsDialog;
+    private static AlertDialog addToFavouritesDialog;
+    private static AlertDialog deleteFromFavouritesDialog;
+    private static Activity activity;
 
-    public DialogInitializer(Activity activity, Runnable reloadRunnable, int[] units){
-
-       this.units=units;
-       this.activity=activity;
-       this.refreshDialog=initializeRefreshDialog();
-       this.firstLoadingDialog=initializeFirstLoadingDialog();
-       this.serviceFailureDialog = initializeServiceFailureDialog(reloadRunnable);
-       this.internetFailureDialog=initializeInternetFailureDialog(reloadRunnable);
-       this.yahooRedirectDialog=initializeYahooRedirectDialog();
-       this.yahooWeatherRedirectDialog=initializeYahooWeatherRedirectDialog();
-       this.exitDialog=initializeExitDialog();
-       this.noEmailApplicationDialog=initializeNoEmailApplicationDialog();
-       this.aboutDialog=initializeAboutDialog();
-       this.feedbackDialog=initializeFeedbackDialog();
-       this.authorDialog=initializeAuthorDialog();
-       this.searchDialog=initializeSearchDialog();
-       this.searchProgressDialog=initializeSearchProgressDialog();
-       this.noLocalizationResultsDialog=initializeNoLocalizationResultsDialog();
-       this.emptyLocationNameDialog=initializeEmptyLocationNameDialog();
-
-
-
-
-    }
-
-    public DialogInitializer(Activity activity){
-
-        this.activity=activity;
-        this.refreshDialog=initializeRefreshDialog();
-        this.firstLoadingDialog=initializeFirstLoadingDialog();
-        this.yahooRedirectDialog=initializeYahooRedirectDialog();
-        this.yahooWeatherRedirectDialog=initializeYahooWeatherRedirectDialog();
-        this.exitDialog=initializeExitDialog();
-        this.noEmailApplicationDialog=initializeNoEmailApplicationDialog();
-        this.aboutDialog=initializeAboutDialog();
-        this.feedbackDialog=initializeFeedbackDialog();
-        this.authorDialog=initializeAuthorDialog();
-        this.searchDialog=initializeSearchDialog();
-        this.searchProgressDialog=initializeSearchProgressDialog();
-        this.noLocalizationResultsDialog=initializeNoLocalizationResultsDialog();
-        this.emptyLocationNameDialog=initializeEmptyLocationNameDialog();
+    public DialogInitializer(Activity activity) {
+        this.activity = activity;
     }
 
     //runnables to make passing methods as parameters possible
-    private Runnable finishRunnable = new Runnable() {
+    private static Runnable finishRunnable = new Runnable() {
         public void run() {
             activity.finish();
         }
     };
 
-    private class showDialogRunnable implements Runnable {
-        private AlertDialog dialog;
-        boolean ifShowKeyboard;
-        public showDialogRunnable(AlertDialog dialog, boolean ifShowKeyboard) {
-            this.dialog=dialog;
-            this.ifShowKeyboard=ifShowKeyboard;
-        }
+    private static Runnable showSearchDialogRunnable = new Runnable() {
         public void run() {
-            dialog.show();
-            if(ifShowKeyboard==true) UsefulFunctions.showKeyboard(activity);
+            if(searchDialog==null) searchDialog=initializeSearchDialog();
+            searchDialog.show();
+            UsefulFunctions.showKeyboard(activity);
         }
-    }
+    };
 
-    private class copyToClipboardRunnable implements Runnable {
+    private static class copyToClipboardRunnable implements Runnable {
         private String text;
         public copyToClipboardRunnable(String text) {
             this.text=text;
@@ -116,7 +73,7 @@ public class DialogInitializer  {
         }
     }
 
-    private class initializeWebIntentRunnable implements Runnable {
+    private static class initializeWebIntentRunnable implements Runnable {
         private String url;
         public initializeWebIntentRunnable(String url) {
             this.url=url;
@@ -127,24 +84,23 @@ public class DialogInitializer  {
     }
 
     private static class initializeMapsIntentRunnable implements Runnable{
-        private Activity activity;
-        private double latitude;
-        private double longitude;
         private String label;
-        public initializeMapsIntentRunnable(Activity activity, double latitude, double longitude, String label){
-            this.activity=activity;
-            this.latitude=latitude;
-            this.longitude=longitude;
+        private double longitude;
+        private double latitude;
+
+        public initializeMapsIntentRunnable(String label, double longitude, double latitude){
             this.label=label;
+            this.longitude=longitude;
+            this.latitude=latitude;
         }
 
         @Override
         public void run() {
-            UsefulFunctions.initializeMapsIntent(activity,latitude,longitude,label);
+            UsefulFunctions.initializeMapsIntent(activity, longitude, latitude,label);
         }
     }
 
-    private class initializeEmailIntentRunnable implements Runnable {
+    private static class initializeEmailIntentRunnable implements Runnable {
         String address;
         String subject;
         String body;
@@ -160,35 +116,33 @@ public class DialogInitializer  {
         }
     }
 
-    private class setMainLayoutRunnable implements Runnable {
+    private static class setMainLayoutRunnable implements Runnable {
         DataInitializer dataInitializer;
         DataSetter dataSetter;
         public setMainLayoutRunnable(DataInitializer dataInitializer) {
-            this.dataInitializer=dataInitializer;
+                this.dataInitializer=dataInitializer;
         }
         public void run() {
             dataSetter=new DataSetter(activity,dataInitializer);
         }
     }
 
-    private class searchRunnable implements Runnable, DownloadCallback{
+    private static void initializeSearchRunnableDialogs(){
+        emptyLocationNameDialog=initializeEmptyLocationNameDialog();
+        searchProgressDialog=initializeSearchProgressDialog();
+        noLocalizationResultsDialog=initializeNoLocalizationResultsDialog();
+    }
+
+    private static class searchRunnable implements Runnable, DownloadCallback{
         private String location;
         private DataDownloader downloader;
-        private DownloadCallback downloadCallback;
         private DataInitializer dataInitializer;
-        private Activity activity;
-        private int []units;
         private View dialogView;
         private EditText locationEditText;
-        private String city;
-        private String region;
-        private String country;
 
-
-        public searchRunnable(View dialogView, Activity activity, int[] units){
+        public searchRunnable(View dialogView){
             this.dialogView=dialogView;
-            this.units=units;
-            this.activity=activity;
+            initializeSearchRunnableDialogs();
         }
 
         public void run(){
@@ -205,9 +159,9 @@ public class DialogInitializer  {
 
         @Override
         public void ServiceSuccess(Channel channel) {
-            dataInitializer=new DataInitializer(activity,channel,units);
-            loalizationResultsDialog=initializeLocalizationResultsDialog(dataInitializer);
-            loalizationResultsDialog.show();
+            dataInitializer=new DataInitializer(activity,channel);
+            localizationResultsDialog =initializeLocalizationResultsDialog(dataInitializer);
+            localizationResultsDialog.show();
             searchProgressDialog.dismiss();
         }
 
@@ -252,11 +206,11 @@ public class DialogInitializer  {
         return dialog;
     }
 
-    private AlertDialog initializeSearchDialog(){
+    public static AlertDialog initializeSearchDialog(){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.search_dialog,null);
         final EditText locationEditText=(EditText)dialogView.findViewById(R.id.search_edit_text);
-        AlertDialog searchDialog=buildDialog(
+        searchDialog=buildDialog(
                 activity,
                 dialogView,
                 R.style.CustomDialogStyle,
@@ -265,7 +219,7 @@ public class DialogInitializer  {
                 null,
                 false,
                 activity.getString(R.string.search_dialog_positive_button),
-                new searchRunnable(dialogView,activity,units),
+                new searchRunnable(dialogView),
                 null,
                 null,
                 activity.getString(R.string.search_dialog_negative_button),
@@ -280,12 +234,12 @@ public class DialogInitializer  {
         return searchDialog;
     }
 
-    private AlertDialog initializeEmptyLocationNameDialog(){
+    private static AlertDialog initializeEmptyLocationNameDialog(){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.one_line_text_dialog,null);
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
         messageTextView.setText(activity.getString(R.string.empty_location_name_dialog_message));
-        AlertDialog emptyLocationNameDialog=buildDialog(
+        emptyLocationNameDialog=buildDialog(
                 activity,
                 dialogView,
                 R.style.CustomDialogStyle,
@@ -294,7 +248,7 @@ public class DialogInitializer  {
                 null,
                 false,
                 activity.getString(R.string.empty_location_name_dialog_positive_button),
-                new showDialogRunnable(searchDialog, true),
+                showSearchDialogRunnable,
                 null,
                 null,
                 activity.getString(R.string.empty_location_name_dialog_negative_button),
@@ -303,12 +257,12 @@ public class DialogInitializer  {
         return emptyLocationNameDialog;
     }
 
-    private AlertDialog initializeNoLocalizationResultsDialog(){
+    private static AlertDialog initializeNoLocalizationResultsDialog(){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.one_line_text_dialog,null);
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
         messageTextView.setText(activity.getString(R.string.no_localization_results_dialog_message));
-        AlertDialog noLocalizationResultsDialog=buildDialog(
+        noLocalizationResultsDialog=buildDialog(
                 activity,
                 dialogView,
                 R.style.CustomDialogStyle,
@@ -317,7 +271,7 @@ public class DialogInitializer  {
                 null,
                 false,
                 activity.getString(R.string.no_localization_results_dialog_positive_button),
-                new showDialogRunnable(searchDialog, true),
+                showSearchDialogRunnable,
                 null,
                 null,
                 activity.getString(R.string.no_localization_results_dialog_negative_button),
@@ -326,12 +280,12 @@ public class DialogInitializer  {
         return noLocalizationResultsDialog;
     };
 
-    private AlertDialog initializeNoEmailApplicationDialog(){
+    private static AlertDialog initializeNoEmailApplicationDialog(){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.one_line_text_dialog,null);
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
         messageTextView.setText(activity.getString(R.string.no_email_application_dialog_message));
-        AlertDialog noEmailApplicationDialog = buildDialog(
+        noEmailApplicationDialog = buildDialog(
                 activity,
                 dialogView,R.style.CustomDialogStyle,
                 activity.getString(R.string.no_email_application_dialog_title),
@@ -347,12 +301,12 @@ public class DialogInitializer  {
         return noEmailApplicationDialog;
     }
 
-    private AlertDialog initializeServiceFailureDialog(Runnable runnable){
+    public static AlertDialog initializeServiceFailureDialog(Runnable runnable){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.one_line_text_dialog,null);
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
         messageTextView.setText(activity.getString(R.string.service_failure_dialog_message));
-        AlertDialog serviceFailureDialog = buildDialog(
+        serviceFailureDialog = buildDialog(
                 activity,
                 dialogView,
                 R.style.CustomDialogStyle,
@@ -370,12 +324,12 @@ public class DialogInitializer  {
         return serviceFailureDialog;
     }
 
-    private AlertDialog initializeInternetFailureDialog(Runnable runnable){
+    public static AlertDialog initializeInternetFailureDialog(Runnable runnable){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.one_line_text_dialog,null);
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
         messageTextView.setText(activity.getString(R.string.internet_failure_dialog_message));
-        AlertDialog internetFailureDialog = buildDialog(
+        internetFailureDialog = buildDialog(
                 activity,
                 dialogView,
                 R.style.CustomDialogStyle,
@@ -393,13 +347,13 @@ public class DialogInitializer  {
         return internetFailureDialog;
     }
 
-    private AlertDialog initializeExitDialog(){
+    public static AlertDialog initializeExitDialog(){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.one_line_text_dialog,null);
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
         messageTextView.setText(activity.getString(R.string.exit_dialog_message));
 
-        AlertDialog exitDialog = buildDialog(
+        exitDialog = buildDialog(
                 activity,
                 dialogView,
                 R.style.CustomDialogStyle,
@@ -417,14 +371,14 @@ public class DialogInitializer  {
         return exitDialog;
     }
 
-    private AlertDialog initializeYahooRedirectDialog(){
+    public static AlertDialog initializeYahooRedirectDialog(){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.two_line_text_dialog,null);
         TextView message1TextView=(TextView)dialogView.findViewById(R.id.two_line_text_dialog_message1_text);
         message1TextView.setText(activity.getString(R.string.yahoo_redirect_dialog_message));
         TextView message2TextView=(TextView)dialogView.findViewById(R.id.two_line_text_dialog_message2_text);
         message2TextView.setText(activity.getString(R.string.yahoo_redirect_dialog_message_service_name));
-        AlertDialog yahooRedirectDialog = buildDialog(
+        yahooRedirectDialog = buildDialog(
                 activity,
                 dialogView,
                 R.style.CustomDialogStyle,
@@ -442,14 +396,14 @@ public class DialogInitializer  {
         return  yahooRedirectDialog;
     }
 
-    private AlertDialog initializeYahooWeatherRedirectDialog(){
+    public static AlertDialog initializeYahooWeatherRedirectDialog(Activity activity, String link){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.two_line_text_dialog,null);
         TextView message1TextView=(TextView)dialogView.findViewById(R.id.two_line_text_dialog_message1_text);
         message1TextView.setText(activity.getString(R.string.yahoo_weather_redirect_dialog_message));
         TextView message2TextView=(TextView)dialogView.findViewById(R.id.two_line_text_dialog_message2_text);
         message2TextView.setText(activity.getString(R.string.yahoo_weather_redirect_dialog_message_service_name));
-        AlertDialog yahooWeatherRedirectDialog = buildDialog(
+        yahooWeatherRedirectDialog = buildDialog(
                 activity,
                 dialogView,
                 R.style.CustomDialogStyle,
@@ -458,7 +412,7 @@ public class DialogInitializer  {
                 null,
                 false,
                 activity.getString(R.string.yahoo_weather_redirect_dialog_positive_button),
-                new initializeWebIntentRunnable(activity.getString(R.string.yahoo_weather_address)),
+                new initializeWebIntentRunnable(link),
                 null,
                 null,
                 activity.getString(R.string.yahoo_weather_redirect_dialog_negative_button),
@@ -467,7 +421,7 @@ public class DialogInitializer  {
         return yahooWeatherRedirectDialog;
     }
 
-    private AlertDialog initializeFeedbackDialog(){
+    public static AlertDialog initializeFeedbackDialog(){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.two_line_text_dialog,null);
         TextView message1TextView=(TextView)dialogView.findViewById(R.id.two_line_text_dialog_message1_text);
@@ -487,7 +441,7 @@ public class DialogInitializer  {
                 return true;
             }
         });
-        AlertDialog feedbackDialog = buildDialog(
+        feedbackDialog = buildDialog(
                 activity,
                 dialogView,
                 R.style.CustomDialogStyle,
@@ -505,12 +459,12 @@ public class DialogInitializer  {
         return feedbackDialog;
     }
 
-    private AlertDialog initializeSearchProgressDialog(){
+    private static AlertDialog initializeSearchProgressDialog(){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.progress_dialog,null);
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.progress_dialog_message);
         messageTextView.setText(activity.getString(R.string.search_progress_dialog_message));
-        AlertDialog searchProgressDialog=buildDialog(
+        searchProgressDialog=buildDialog(
                 activity,
                 dialogView,
                 R.style.CustomDialogStyle,
@@ -529,7 +483,7 @@ public class DialogInitializer  {
         return searchProgressDialog;
     }
 
-    private AlertDialog initializeRefreshDialog(){
+/*    private AlertDialog initializeRefreshDialog(){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.progress_dialog,null);
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.progress_dialog_message);
@@ -550,9 +504,9 @@ public class DialogInitializer  {
                 null);
 
         return refreshDialog;
-    }
+    }*/
 
-    private AlertDialog initializeLocalizationResultsDialog(DataInitializer dataInitializer) {
+    private static AlertDialog initializeLocalizationResultsDialog(DataInitializer dataInitializer) {
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.location_dialog, null);
         String city=dataInitializer.getCity();
@@ -564,7 +518,7 @@ public class DialogInitializer  {
         cityTextView.setText(city);
         TextView regionCountryTextView=(TextView)dialogView.findViewById(R.id.location_dialog_region_county_text);
         regionCountryTextView.setText(region+", "+country);
-        AlertDialog localizationResultsDialog = buildDialog(
+        localizationResultsDialog = buildDialog(
                 activity,
                 dialogView,
                 R.style.CustomDialogStyle,
@@ -575,24 +529,22 @@ public class DialogInitializer  {
                 activity.getString(R.string.localization_results_dialog_positive_button),
                 new setMainLayoutRunnable(dataInitializer),
                 activity.getString(R.string.localization_results_dialog_neutral_button),
-                new showDialogRunnable(searchDialog,true),
+                showSearchDialogRunnable,
                 activity.getString(R.string.localization_results_dialog_negative_button),
                 null);
         return localizationResultsDialog;
     }
 
-    public static void initializeMapsDialog(Activity activity) {
+    public static AlertDialog initializeMapsDialog(Activity activity, String city, String region,String country,double longitude,double latitude) {
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.location_dialog, null);
-        String city=UsefulFunctions.getAppBarStrings(activity)[0];
-        String regionCountry=UsefulFunctions.getAppBarStrings(activity)[1];
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.location_dialog_message_text);
         messageTextView.setText(activity.getString(R.string.maps_dialog_message));
         TextView cityTextView=(TextView)dialogView.findViewById(R.id.location_dialog_city_text);
         cityTextView.setText(city);
         TextView regionCountryTextView=(TextView)dialogView.findViewById(R.id.location_dialog_region_county_text);
-        regionCountryTextView.setText(regionCountry);
-        AlertDialog localizationResultsDialog = buildDialog(
+        regionCountryTextView.setText(region+", "+country);
+        mapsDialog = buildDialog(
                 activity,
                 dialogView,
                 R.style.CustomDialogStyle,
@@ -601,20 +553,20 @@ public class DialogInitializer  {
                 null,
                 false,
                 activity.getString(R.string.maps_dialog_positive_button),
-                new initializeMapsIntentRunnable(activity,DataSetter.getDatainit().getLatitude(),DataSetter.getDatainit().getLongitude(),city),
+                new initializeMapsIntentRunnable(city, longitude, latitude),
                 null,
                 null,
                 activity.getString(R.string.maps_dialog_negative_button),
                 null);
-       localizationResultsDialog.show();
+       return mapsDialog;
     }
 
-    private AlertDialog initializeFirstLoadingDialog(){
+    public static AlertDialog initializeFirstLoadingDialog(){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.first_loading_dialog,null);
         ImageView iconImageView=(ImageView)dialogView.findViewById(R.id.first_loading_dialog_app_icon_image);
         Picasso.with(activity.getApplicationContext()).load(R.drawable.app_icon).fit().centerInside().into(iconImageView);
-        AlertDialog firstLoadingDialog = buildDialog(
+        firstLoadingDialog = buildDialog(
                 activity,
                 dialogView,
                 R.style.CustomLoadingDialogStyle,
@@ -632,7 +584,7 @@ public class DialogInitializer  {
         return firstLoadingDialog;
     }
 
-    private AlertDialog initializeAuthorDialog(){
+    public static AlertDialog initializeAuthorDialog(){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.author_dialog,null);
         //setting images
@@ -655,7 +607,7 @@ public class DialogInitializer  {
                 UsefulFunctions.initializeWebIntent(activity,activity.getString(R.string.github_address));
             }
         });
-        AlertDialog authorDialog = buildDialog(
+        authorDialog = buildDialog(
                 activity,
                 dialogView,
                 R.style.CustomDialogStyle,
@@ -672,7 +624,7 @@ public class DialogInitializer  {
         return authorDialog;
     }
 
-    private AlertDialog initializeAboutDialog(){
+    public static AlertDialog initializeAboutDialog(){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.about_dialog,null);
         //initializing clickable hyperlinks
@@ -692,7 +644,7 @@ public class DialogInitializer  {
         ImageView iconImageView=(ImageView)dialogView.findViewById(R.id.about_dialog_app_icon_image);
         Picasso.with(activity.getApplicationContext()).load(R.drawable.app_icon).fit().centerInside().into(iconImageView);
         //initializing dialog
-        AlertDialog aboutDialog = buildDialog(
+        aboutDialog = buildDialog(
                 activity,
                 dialogView,
                 R.style.CustomDialogStyle,
@@ -709,18 +661,4 @@ public class DialogInitializer  {
         return aboutDialog;
     }
 
-    public AlertDialog getRefreshDialog() {return refreshDialog;}
-    public AlertDialog getSearchProgressDialog() {return searchProgressDialog;}
-    public AlertDialog getInternetFailureDialog() {return internetFailureDialog;}
-    public AlertDialog getServiceFailureDialog() {return serviceFailureDialog;}
-    public AlertDialog getYahooRedirectDialog() {return yahooRedirectDialog;}
-    public AlertDialog getYahooWeatherRedirectDialog() {return yahooWeatherRedirectDialog;}
-    public AlertDialog getExitDialog() {return exitDialog;}
-    public AlertDialog getAboutDialog() {return aboutDialog;}
-    public AlertDialog getFirstLoadingDialog() {return firstLoadingDialog;}
-    public AlertDialog getFeedbackDialog() {return feedbackDialog;}
-    public AlertDialog getAuthorDialog() {return authorDialog;}
-    public AlertDialog getNoEmailApplicationDialog() {return noEmailApplicationDialog;}
-    public AlertDialog getSearchDialog() {return searchDialog;}
-    public AlertDialog getMapsDialog() {return mapsDialog;}
 }

@@ -78,7 +78,7 @@
     <string name="empty_location_name_dialog_positive_button">Ok</string>
     <string name="empty_location_name_dialog_negative_button">Anuluj</string>
     <string name="maps_dialog_title">Przekierowanie</string>
-    <string name="maps_dialog_message">Czy chcesz otworzyć lokację w aplikacji Google Maps?</string>
+    <string name="maps_dialog_message">Czy chcesz otworzyć lokację?</string>
     <string name="maps_dialog_negative_button">Anuluj</string>
     <string name="maps_dialog_positive_button">Kontynuuj</string>
 

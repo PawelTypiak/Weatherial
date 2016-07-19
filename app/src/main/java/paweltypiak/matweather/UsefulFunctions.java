@@ -28,6 +28,12 @@ import com.squareup.picasso.Transformation;
 
 public class UsefulFunctions {
 
+    private static int[] units={0,0,0,0,0};
+
+    public static int[] getUnits() {
+        return units;
+    }
+
     public static void initializeWebIntent(Activity activity, String url){
         //initialize web intent
         Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -35,7 +41,7 @@ public class UsefulFunctions {
         activity.startActivity(intent);
     }
 
-    public static void initializeMapsIntent(Activity activity,double latitude, double longitude, String label){
+    public static void initializeMapsIntent(Activity activity,double longitude, double latitude, String label){
         String uriBegin = "geo:" + latitude + "," + longitude;
         String query = latitude + "," + longitude + "(" + label + ")";
         String encodedQuery = Uri.encode(query);

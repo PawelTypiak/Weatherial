@@ -65,10 +65,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         isFirst=true;
-        setContentView(R.layout.activity_main);
         initializeLayout(); //layout initialization
-        setSwipeRefreshLayout();
-        setDialogs();
         localization ="zamosc";
         downloadData(localization);//download weather data
     }
@@ -85,13 +82,13 @@ public class MainActivity extends AppCompatActivity
     public void ServiceSuccess(Channel channel) {
         Log.d("successisfirst", "successisfirst "+ isFirst);
         if(isFirst==true) {
-            getter = new DataInitializer(this,channel, unitInitializer(0,0,0,0,0)); //initializing weather data from JSON
+            getter = new DataInitializer(this,channel); //initializing weather data from JSON
             setter = new DataSetter(this,getter); //data formatting and weather layout setting
             UsefulFunctions.setViewVisible(mainLayout);
             firstLoadingDialog.dismiss();
         }
         else {
-            getter = new DataInitializer(this,channel, unitInitializer(0,0,0,0,0)); //initializing weather data from JSON
+            getter = new DataInitializer(this,channel); //initializing weather data from JSON
             setter = new DataSetter(this,getter); //data formatting and weather layout setting
             swipeRefreshLayout.setRefreshing(false);
             UsefulFunctions.setViewInvisible(refreshMessageTextView);
@@ -116,17 +113,13 @@ public class MainActivity extends AppCompatActivity
         isFirst=false;
     }
 
-    private int[] unitInitializer(int time, int temperature, int speed, int distance, int pressure){
-        int [] units={time, temperature, speed, distance, pressure};
-        return units;
-    }
 
     private void setSwipeRefreshLayout(){
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
         swipeRefreshLayout.setOnTouchListener(new View.OnTouchListener() {
-        boolean isTouched=false;
+            boolean isTouched=false;
             float movedWidth;
             float movedHeight;
             float startWidth;
@@ -147,7 +140,7 @@ public class MainActivity extends AppCompatActivity
 
                     int alpha=UsefulFunctions.getPullOpacity(0.15,movedHeight,MainActivity.this,true);
                     refreshMessageTextView.setTextColor(Color.argb(alpha, 255, 255, 255));
-                    refreshImageView.setAlpha(alpha);
+                    refreshImageView.setAlpha((float)(alpha/255));
                 }
                 if(event.getAction()==MotionEvent.ACTION_UP){
                     isTouched=false;
@@ -160,19 +153,19 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setDialogs(){
-        dialogInitializer=new DialogInitializer(this,downloadDataRunnable,unitInitializer(0,0,0,0,0));
-        refreshDialog=dialogInitializer.getRefreshDialog();
-        firstLoadingDialog=dialogInitializer.getFirstLoadingDialog();
-        serviceFailureDialog =dialogInitializer.getServiceFailureDialog();
-        internetFailureDialog=dialogInitializer.getInternetFailureDialog();
-        yahooRedirectDialog=dialogInitializer.getYahooRedirectDialog();
-        yahooWeatherRedirectDialog=dialogInitializer.getYahooWeatherRedirectDialog();
-        exitDialog=dialogInitializer.getExitDialog();
-        noEmailApplicationDialog=dialogInitializer.getNoEmailApplicationDialog();
-        aboutDialog=dialogInitializer.getAboutDialog();
-        feedbackDialog=dialogInitializer.getFeedbackDialog();
-        authorDialog=dialogInitializer.getAuthorDialog();
-        searchDialog=dialogInitializer.getSearchDialog();
+        dialogInitializer=new DialogInitializer(this);
+        firstLoadingDialog=dialogInitializer.initializeFirstLoadingDialog();
+        serviceFailureDialog =dialogInitializer.initializeServiceFailureDialog(downloadDataRunnable);
+        internetFailureDialog=dialogInitializer.initializeInternetFailureDialog(downloadDataRunnable);
+        yahooRedirectDialog=dialogInitializer.initializeYahooRedirectDialog();
+        exitDialog=dialogInitializer.initializeExitDialog();
+        aboutDialog=dialogInitializer.initializeAboutDialog();
+        feedbackDialog=dialogInitializer.initializeFeedbackDialog();
+        authorDialog=dialogInitializer.initializeAuthorDialog();
+        searchDialog=dialogInitializer.initializeSearchDialog();
+
+
+
     }
 
     Runnable downloadDataRunnable = new Runnable() {
@@ -182,6 +175,7 @@ public class MainActivity extends AppCompatActivity
     };
 
     private void initializeLayout(){
+        setContentView(R.layout.activity_main);
         mainLayout=(CoordinatorLayout)findViewById(R.id.main_coordinator_layout);
         UsefulFunctions.setViewInvisible(mainLayout);
         //toolbar init
@@ -199,6 +193,8 @@ public class MainActivity extends AppCompatActivity
         refreshMessageTextView=(TextView)findViewById(R.id.app_bar_refresh_text);
         refreshImageView=(ImageView) findViewById(R.id.app_bar_refresh_image);
         weatherLayout=(LinearLayout) findViewById(R.id.weather_layout);
+        setSwipeRefreshLayout();
+        setDialogs();
         setButtonsClickable();
     }
 
@@ -208,7 +204,6 @@ public class MainActivity extends AppCompatActivity
         setSearchClickable();
         setFloatingActionButton();
         setLocationClickable();
-
     }
 
     private void setYahooClickable(){
@@ -230,18 +225,20 @@ public class MainActivity extends AppCompatActivity
         currentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                yahooWeatherRedirectDialog.show();
-            }
+                yahooWeatherRedirectDialog=DataSetter.getYahooWeatherRedirectDialog();
+                yahooWeatherRedirectDialog.show();           }
         });
         detailsLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                yahooWeatherRedirectDialog=DataSetter.getYahooWeatherRedirectDialog();
                 yahooWeatherRedirectDialog.show();
             }
         });
         forecastLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                yahooWeatherRedirectDialog=DataSetter.getYahooWeatherRedirectDialog();
                 yahooWeatherRedirectDialog.show();
             }
         });
@@ -270,8 +267,8 @@ public class MainActivity extends AppCompatActivity
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        dialogInitializer.initializeMapsDialog(MainActivity.this);
-
+                        mapsDialog=DataSetter.getMapsDialog();
+                        mapsDialog.show();
                     }
                 });
     }
@@ -281,7 +278,6 @@ public class MainActivity extends AppCompatActivity
         floatingActionButton.setImageResource(R.drawable.add_black_icon);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             boolean mark=false;
-
             @Override
             public void onClick(View v) {
                 if(mark==false){
@@ -292,12 +288,11 @@ public class MainActivity extends AppCompatActivity
                     floatingActionButton.setImageResource(R.drawable.remove_black_icon);
                     mark=false;
                 }
-                DataInitializer init=DataSetter.getDatainit();
+                DataInitializer init=DataSetter.getCurrentDataInitializer();
 
             }
         });
     }
-
 
     @Override
     public void onBackPressed() {
@@ -314,9 +309,10 @@ public class MainActivity extends AppCompatActivity
         Log.d("refresh", "refresh ");
         swipeRefreshLayout.setRefreshing(true);    //dialog when refresh
         UsefulFunctions.setViewVisible(refreshMessageTextView);
+        refreshMessageTextView.setAlpha(1);
         refreshMessageTextView.setText(getString(R.string.refresh_message_refreshing));
         UsefulFunctions.setViewInvisible(weatherLayout);
-        downloadData(localization);
+        downloadData(DataSetter.getCurrentDataInitializer().getCity());
     }
 
     @Override
