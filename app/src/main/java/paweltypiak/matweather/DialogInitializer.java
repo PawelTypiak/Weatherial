@@ -42,6 +42,7 @@ public class DialogInitializer  {
     private static AlertDialog mapsDialog;
     private static AlertDialog addToFavouritesDialog;
     private static AlertDialog deleteFromFavouritesDialog;
+    private static EditText searchEditText;
     private static Activity activity;
 
     public DialogInitializer(Activity activity) {
@@ -128,30 +129,40 @@ public class DialogInitializer  {
     }
 
     private static void initializeSearchRunnableDialogs(){
-        emptyLocationNameDialog=initializeEmptyLocationNameDialog();
-        searchProgressDialog=initializeSearchProgressDialog();
-        noLocalizationResultsDialog=initializeNoLocalizationResultsDialog();
+        if(emptyLocationNameDialog==null)emptyLocationNameDialog=initializeEmptyLocationNameDialog();
+        if(searchProgressDialog==null)searchProgressDialog=initializeSearchProgressDialog();
+        if(noLocalizationResultsDialog==null)noLocalizationResultsDialog=initializeNoLocalizationResultsDialog();
     }
 
     private static class searchRunnable implements Runnable, DownloadCallback{
-        private String location;
+        private static String location;
         private DataDownloader downloader;
         private DataInitializer dataInitializer;
         private View dialogView;
         private EditText locationEditText;
+        private boolean isReconnect;
 
+        public searchRunnable(){
+            isReconnect=true;
+        }
         public searchRunnable(View dialogView){
-            this.dialogView=dialogView;
+
             initializeSearchRunnableDialogs();
+            locationEditText=(EditText)dialogView.findViewById(R.id.search_edit_text);
+
+            isReconnect=false;
         }
 
         public void run(){
-            locationEditText=(EditText)dialogView.findViewById(R.id.search_edit_text);
-            location=locationEditText.getText().toString();
-            UsefulFunctions.hideKeyboard(activity,locationEditText);
+            if(isReconnect==false){
+                location=locationEditText.getText().toString();
+                UsefulFunctions.hideKeyboard(activity,locationEditText);
+            }
+            Log.d("run_location", location);
+
             if(location.length()==0) emptyLocationNameDialog.show();
             else {
-                locationEditText.getText().clear();
+
                 searchProgressDialog.show();
                 downloader=new DataDownloader(location,this);
             }
@@ -167,7 +178,11 @@ public class DialogInitializer  {
 
         @Override
         public void ServiceFailure(int errorCode) {
-            noLocalizationResultsDialog.show();
+            if(errorCode==1)   {
+                internetFailureDialog=initializeInternetFailureDialog(new searchRunnable());
+                internetFailureDialog.show();
+            }
+            else noLocalizationResultsDialog.show();
             searchProgressDialog.dismiss();
         }
     }
@@ -229,6 +244,7 @@ public class DialogInitializer  {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
                 UsefulFunctions.hideKeyboard(activity,locationEditText);
+                locationEditText.getText().clear();
             }
         });
         return searchDialog;
@@ -336,7 +352,7 @@ public class DialogInitializer  {
                 activity.getString(R.string.internet_failure_dialog_title),
                 R.drawable.error_icon,
                 null,
-                true,
+                false,
                 activity.getString(R.string.internet_failure_dialog_positive_button),
                 runnable,
                 null,
@@ -344,6 +360,7 @@ public class DialogInitializer  {
                 activity.getString(R.string.internet_failure_dialog_negative_button),
                 finishRunnable
         );
+
         return internetFailureDialog;
     }
 
@@ -468,7 +485,7 @@ public class DialogInitializer  {
                 activity,
                 dialogView,
                 R.style.CustomDialogStyle,
-                activity.getString(R.string.search_dialog_title),
+                null,
                 0,
                 null,
                 true,

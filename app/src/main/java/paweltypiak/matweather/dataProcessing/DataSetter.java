@@ -114,10 +114,10 @@ public class DataSetter {
     private DataFormatter dataFormatter;
 
     public DataSetter(Activity activity, DataInitializer dataInitializer) {
-        this.dataInitializer =dataInitializer;
+
         currentDataInitializer =dataInitializer;
         this.activity=activity;
-        dataFormatter=new DataFormatter(activity,dataInitializer);
+        dataFormatter=new DataFormatter(activity,currentDataInitializer);
         getData();
         updateDialogs();
         setTheme();
@@ -158,7 +158,6 @@ public class DataSetter {
         primaryLocationTextView.setText(city);
         secondaryLocationTextView.setText(region+", "+country);
         timezoneTextView.setText(time +" "+timezone);
-        refreshTimeTextView.setText("Przed chwilą");
         int visibility = primaryLocationTextView.getVisibility();
         primaryLocationTextView.setVisibility(View.GONE);
         primaryLocationTextView.setVisibility(visibility);
@@ -175,11 +174,8 @@ public class DataSetter {
         weatherLayout.setBackgroundColor(backgroundColor);
         conditionTextView.setText(conditionStringId);
         conditionTextView.setTextColor(textPrimaryColor);
-        Picasso.with(activity.getApplicationContext()).load(conditionDrawableId).into(conditionImageView);
         temperatureTextView.setText(temperature);
         temperatureTextView.setTextColor(textPrimaryColor);
-        Picasso.with(activity.getApplicationContext()).load(R.drawable.arrow).transform(new UsefulFunctions().new setDrawableColor(iconColor)).into(highTemperatureImageView);
-        Picasso.with(activity.getApplicationContext()).load(R.drawable.arrow).transform(new UsefulFunctions().new setDrawableColor(iconColor)).rotate(180f).into(lowTemperatureImageView);
         highTemperatureTextView.setText(forecastHighTemperature[0]);
         highTemperatureTextView.setTextColor(textPrimaryColor);
         lowTemperatureTextView.setText(forecastLowTemperature[0]);
@@ -188,6 +184,9 @@ public class DataSetter {
         chillTitleTextView.setTextColor(iconColor);
         chillTextView.setText(chill);
         chillTextView.setTextColor(textPrimaryColor);
+        Picasso.with(activity.getApplicationContext()).load(conditionDrawableId).into(conditionImageView);
+        Picasso.with(activity.getApplicationContext()).load(R.drawable.arrow).transform(new UsefulFunctions().new setDrawableColor(iconColor)).into(highTemperatureImageView);
+        Picasso.with(activity.getApplicationContext()).load(R.drawable.arrow).transform(new UsefulFunctions().new setDrawableColor(iconColor)).rotate(180f).into(lowTemperatureImageView);
         currentDetailsDividerView.setBackgroundColor(dividerColor);
     }
 
@@ -196,16 +195,16 @@ public class DataSetter {
         final double objectScale=0.5;
         final double lineScale=0.07;
         if(isDay ==true){
-            Picasso.with(activity.getApplicationContext()).load(R.drawable.sunrise_icon).transform(new UsefulFunctions().new setDrawableColor(iconColor)).fit().centerInside().into(sunsetSunriseLeftImageView);
-            Picasso.with(activity.getApplicationContext()).load(R.drawable.sunset_icon).transform(new UsefulFunctions().new setDrawableColor(iconColor)).fit().centerInside().into(sunsetSunriseRightImageView);
             sunsetSunriseLeftTextView.setText(sunrise);
             sunsetSunriseRightTextView.setText(sunset);
+            Picasso.with(activity.getApplicationContext()).load(R.drawable.sunrise_icon).transform(new UsefulFunctions().new setDrawableColor(iconColor)).fit().centerInside().into(sunsetSunriseLeftImageView);
+            Picasso.with(activity.getApplicationContext()).load(R.drawable.sunset_icon).transform(new UsefulFunctions().new setDrawableColor(iconColor)).fit().centerInside().into(sunsetSunriseRightImageView);
         }
         else {
-            Picasso.with(activity.getApplicationContext()).load(R.drawable.sunrise_icon).transform(new UsefulFunctions().new setDrawableColor(iconColor)).fit().centerInside().into(sunsetSunriseRightImageView);
-            Picasso.with(activity.getApplicationContext()).load(R.drawable.sunset_icon).fit().transform(new UsefulFunctions().new setDrawableColor(iconColor)).centerInside().into(sunsetSunriseLeftImageView);
             sunsetSunriseLeftTextView.setText(sunset);
             sunsetSunriseRightTextView.setText(sunrise);
+            Picasso.with(activity.getApplicationContext()).load(R.drawable.sunrise_icon).transform(new UsefulFunctions().new setDrawableColor(iconColor)).fit().centerInside().into(sunsetSunriseRightImageView);
+            Picasso.with(activity.getApplicationContext()).load(R.drawable.sunset_icon).fit().transform(new UsefulFunctions().new setDrawableColor(iconColor)).centerInside().into(sunsetSunriseLeftImageView);
         }
         sunsetSunriseLeftTextView.setTextColor(textPrimaryColor);
         sunsetSunriseRightTextView.setTextColor(textPrimaryColor);
@@ -214,7 +213,6 @@ public class DataSetter {
             public boolean onPreDraw() {
                 sunPathLayout.getViewTreeObserver().removeOnPreDrawListener(this);
                 layoutHeight = sunPathLayout.getMeasuredHeight();
-                Log.d("height", "height "+layoutHeight);
                 layoutWidth = sunPathLayout.getMeasuredWidth();
                 if(isDay==true){
                     Picasso.with(activity.getApplicationContext()).load(R.drawable.sun_icon).resize((int) (layoutHeight * objectScale), (int) (layoutHeight * objectScale)).transform(new UsefulFunctions().new setDrawableColor(objectIconColor)).into(sunPathObjectImageView);
@@ -225,20 +223,12 @@ public class DataSetter {
                 Picasso.with(activity.getApplicationContext()).load(R.drawable.weather_small_circle).transform(new UsefulFunctions().new setDrawableColor(iconColor)).resize((int) (layoutHeight * lineScale), (int) (layoutHeight * objectScale * 0.15)).into(sunPathRightCircleImageView);
                 imageTranslation = (int)((currentDiffMinutes *(layoutWidth-(layoutHeight * objectScale))/sunsetSunriseDiffMinutes));
                 circleTranslation = (int)(layoutHeight * objectScale/2);
-                Log.d("przesuniecie", "przesuniecie: " + imageTranslation);
-                Log.d("przesuniecie", "szerokosc: " + layoutWidth);
                 sunPathObjectImageView.setTranslationX(imageTranslation);
                 sunPathRightCircleImageView.setTranslationX(-circleTranslation);
                 sunPathLeftCircleImageView.setTranslationX(circleTranslation);
                 return true;
             }
         });
-        Picasso.with(activity.getApplicationContext()).load(R.drawable.direction_icon).transform(new UsefulFunctions().new setDrawableColor(iconColor)).rotate(Float.parseFloat(direction)).fit().centerInside().into(directionImageView);
-        Picasso.with(activity.getApplicationContext()).load(R.drawable.north_letter_icon).fit().centerInside().into(directionNorthImageView);
-        Picasso.with(activity.getApplicationContext()).load(R.drawable.speed_icon).fit().transform(new UsefulFunctions().new setDrawableColor(iconColor)).centerInside().into(speedImageView);
-        Picasso.with(activity.getApplicationContext()).load(R.drawable.humidity_icon).fit().transform(new UsefulFunctions().new setDrawableColor(iconColor)).centerInside().into(humidityImageView);
-        Picasso.with(activity.getApplicationContext()).load(R.drawable.pressure_icon).fit().transform(new UsefulFunctions().new setDrawableColor(iconColor)).centerInside().into(pressureImageView);
-        Picasso.with(activity.getApplicationContext()).load(R.drawable.visibility_icon).fit().transform(new UsefulFunctions().new setDrawableColor(iconColor)).centerInside().into(visibilityImageView);
         directionTextView.setText(directionName);
         directionTextView.setTextColor(textPrimaryColor);
         speedTextView.setText(speed);
@@ -249,6 +239,12 @@ public class DataSetter {
         pressureTextView.setTextColor(textPrimaryColor);
         visibilityTextView.setText(visibility);
         visibilityTextView.setTextColor(textPrimaryColor);
+        Picasso.with(activity.getApplicationContext()).load(R.drawable.direction_icon).transform(new UsefulFunctions().new setDrawableColor(iconColor)).rotate(Float.parseFloat(direction)).fit().centerInside().into(directionImageView);
+        Picasso.with(activity.getApplicationContext()).load(R.drawable.north_letter_icon).fit().centerInside().into(directionNorthImageView);
+        Picasso.with(activity.getApplicationContext()).load(R.drawable.speed_icon).fit().transform(new UsefulFunctions().new setDrawableColor(iconColor)).centerInside().into(speedImageView);
+        Picasso.with(activity.getApplicationContext()).load(R.drawable.humidity_icon).fit().transform(new UsefulFunctions().new setDrawableColor(iconColor)).centerInside().into(humidityImageView);
+        Picasso.with(activity.getApplicationContext()).load(R.drawable.pressure_icon).fit().transform(new UsefulFunctions().new setDrawableColor(iconColor)).centerInside().into(pressureImageView);
+        Picasso.with(activity.getApplicationContext()).load(R.drawable.visibility_icon).fit().transform(new UsefulFunctions().new setDrawableColor(iconColor)).centerInside().into(visibilityImageView);
         detailsForecastDividerView.setBackgroundColor(dividerColor);
     }
 
@@ -260,9 +256,11 @@ public class DataSetter {
             Calendar calendar = Calendar.getInstance();
             if (i == 0)
                 dayName[i] = activity.getResources().getString(R.string.weather_tomorrow_name);
-            calendar.add(Calendar.DATE, i + 1);
-            dayFormat = DateFormat.format("EEEE", calendar);
-            dayName[i] = new String(dayFormat.toString().substring(0, 1).toUpperCase() + dayFormat.toString().substring(1));
+            else{
+                calendar.add(Calendar.DATE, i + 1);
+                dayFormat = DateFormat.format("EEEE", calendar);
+                dayName[i] = new String(dayFormat.toString().substring(0, 1).toUpperCase() + dayFormat.toString().substring(1));
+            }
             forecastDayNameTextView[i].setText(dayName[i]);
             forecastDayNameTextView[i].setTextColor(textPrimaryColor);
             forecastHighTemperatureTextView[i].setText(forecastHighTemperature[i]);
@@ -317,7 +315,8 @@ public class DataSetter {
     private void getCurrentResources(){
         weatherLayout=(LinearLayout)activity.findViewById(R.id.weather_layout);
         conditionStringId=activity.getResources().getIdentifier("condition_" + code, "string", activity.getPackageName());
-        conditionDrawableId=activity.getResources().getIdentifier("drawable/icon_" + code, null, activity.getPackageName());
+        conditionDrawableId=activity.getResources().getIdentifier("drawable/conditions_icon_" + code, null, activity.getPackageName());
+        Log.d("resources", "drawable, code ,name "+conditionDrawableId+", "+code+", "+"drawable/conditions_icon_" + code);
         conditionTextView =(TextView)activity.findViewById(R.id.current_conditions_text);
         conditionImageView =(ImageView)activity.findViewById(R.id.current_conditions_image);
         temperatureTextView =(TextView)activity.findViewById(R.id.current_temperature_text);
@@ -364,7 +363,7 @@ public class DataSetter {
         forecastHighTemperatureImageView=new ImageView[4];
         forecastLowTemperatureImageView=new ImageView[4];
         for(int i=0;i<4;i++){
-            forecastDrawable[i]=activity.getResources().getIdentifier("drawable/icon_" + forecastCode[i+1], null, activity.getPackageName());
+            forecastDrawable[i]=activity.getResources().getIdentifier("drawable/conditions_icon_" + forecastCode[i+1], null, activity.getPackageName());
             forecastDayNameTextView[i] =(TextView)activity.findViewById(activity.getResources().getIdentifier("forecast_day"+(i+1)+"_name_text", "id", activity.getPackageName()));
             forecastDayConditionsImageView[i] =(ImageView)activity.findViewById(activity.getResources().getIdentifier("forecast_day"+(i+1)+"_conditions_image", "id",activity.getPackageName()));
             forecastHighTemperatureTextView[i]=(TextView)activity.findViewById(activity.getResources().getIdentifier("forecast_day"+(i+1)+"_high_temperature_text", "id",activity.getPackageName()));

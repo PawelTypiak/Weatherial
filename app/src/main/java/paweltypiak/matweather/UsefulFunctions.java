@@ -127,7 +127,7 @@ public class UsefulFunctions {
         view.setVisibility(View.INVISIBLE);
     }
 
-    public static int getPullOpacity(double screenPercentage,float movedDistance, Context context, boolean isVertical){
+    public static double getPullOpacity(double screenPercentage,float movedDistance, Context context, boolean isVertical){
         int screenWidth=getScreenResolution(context)[0];
         int screenHeight=getScreenResolution(context)[1];
         double alpha=0;
@@ -136,7 +136,7 @@ public class UsefulFunctions {
         else {alpha=(movedDistance*255)/(screenPercentage*screenWidth);}
         if(alpha>255) alpha=255;
         else if(alpha<100) alpha=100;
-        return (int)Math.round(alpha);
+        return alpha;
     }
 
     public static int[] getScreenResolution(Context context)

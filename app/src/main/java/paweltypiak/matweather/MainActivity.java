@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity
             setter = new DataSetter(this,getter); //data formatting and weather layout setting
             swipeRefreshLayout.setRefreshing(false);
             UsefulFunctions.setViewInvisible(refreshMessageTextView);
+            UsefulFunctions.setViewVisible(mainLayout);
             UsefulFunctions.setViewVisible(weatherLayout);
         }
         isFirst=false;  //first loading done
@@ -101,16 +102,24 @@ public class MainActivity extends AppCompatActivity
     public void ServiceFailure(int errorCode) {
         //failure handling
         if(isFirst==true) {
-
             firstLoadingDialog.dismiss();
+            if(errorCode==1) {
+                internetFailureDialog=dialogInitializer.initializeInternetFailureDialog(downloadDataRunnable);
+                internetFailureDialog.show();
+            }
+            else serviceFailureDialog.show();
         }
         else {
             swipeRefreshLayout.setRefreshing(false);
             UsefulFunctions.setViewInvisible(refreshMessageTextView);
+            if(errorCode==1) {
+                internetFailureDialog=dialogInitializer.initializeInternetFailureDialog(refreshRunnable);
+                internetFailureDialog.show();
+            }
+            else serviceFailureDialog.show();
         }
-        if(errorCode==1) internetFailureDialog.show();
-        else serviceFailureDialog.show();
-        isFirst=false;
+
+
     }
 
 
@@ -138,8 +147,8 @@ public class MainActivity extends AppCompatActivity
                     movedWidth = event.getRawX() - startWidth;
                     movedHeight = event.getRawY() - startHeight;
 
-                    int alpha=UsefulFunctions.getPullOpacity(0.15,movedHeight,MainActivity.this,true);
-                    refreshMessageTextView.setTextColor(Color.argb(alpha, 255, 255, 255));
+                    double alpha=UsefulFunctions.getPullOpacity(0.2,movedHeight,MainActivity.this,true);
+                    refreshMessageTextView.setTextColor(Color.argb((int)alpha, 255, 255, 255));
                     refreshImageView.setAlpha((float)(alpha/255));
                 }
                 if(event.getAction()==MotionEvent.ACTION_UP){
@@ -156,7 +165,7 @@ public class MainActivity extends AppCompatActivity
         dialogInitializer=new DialogInitializer(this);
         firstLoadingDialog=dialogInitializer.initializeFirstLoadingDialog();
         serviceFailureDialog =dialogInitializer.initializeServiceFailureDialog(downloadDataRunnable);
-        internetFailureDialog=dialogInitializer.initializeInternetFailureDialog(downloadDataRunnable);
+
         yahooRedirectDialog=dialogInitializer.initializeYahooRedirectDialog();
         exitDialog=dialogInitializer.initializeExitDialog();
         aboutDialog=dialogInitializer.initializeAboutDialog();
@@ -171,6 +180,11 @@ public class MainActivity extends AppCompatActivity
     Runnable downloadDataRunnable = new Runnable() {
         public void run() {
             downloadData(localization);
+        }
+    };
+    Runnable refreshRunnable = new Runnable() {
+        public void run() {
+            onRefresh();
         }
     };
 
@@ -308,7 +322,7 @@ public class MainActivity extends AppCompatActivity
     public void onRefresh() {
         Log.d("refresh", "refresh ");
         swipeRefreshLayout.setRefreshing(true);    //dialog when refresh
-        refreshMessageTextView.setAlpha(1);
+        refreshMessageTextView.setTextColor(Color.argb(255, 255, 255, 255));
         refreshMessageTextView.setText(getString(R.string.refresh_message_refreshing));
         UsefulFunctions.setViewVisible(refreshMessageTextView);
 
