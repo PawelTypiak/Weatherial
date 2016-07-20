@@ -2,6 +2,7 @@ package paweltypiak.matweather;
 
 import android.app.AlertDialog;
 import android.graphics.Color;
+
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -12,6 +13,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -19,12 +21,21 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
+
+import java.util.Calendar;
+import java.util.Date;
+
 import paweltypiak.matweather.dataDownloading.DataDownloader;
 import paweltypiak.matweather.dataDownloading.DownloadCallback;
 import paweltypiak.matweather.dataProcessing.DataInitializer;
 import paweltypiak.matweather.dataProcessing.DataSetter;
+
+import static paweltypiak.matweather.UsefulFunctions.getUnits;
+import static paweltypiak.matweather.dataProcessing.DataSetter.getTimeThreadStartedFlag;
+import static paweltypiak.matweather.dataProcessing.DataSetter.setStartTimeThread;
 import paweltypiak.matweather.jsonHandling.Channel;
 
 public class MainActivity extends AppCompatActivity
@@ -46,7 +57,6 @@ public class MainActivity extends AppCompatActivity
     private AlertDialog noEmailApplicationDialog;
     private AlertDialog searchDialog;
     private AlertDialog mapsDialog;
-    private boolean isFirst;
     private DialogInitializer dialogInitializer;
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -60,19 +70,19 @@ public class MainActivity extends AppCompatActivity
     private LinearLayout weatherLayout;
     private TextView refreshMessageTextView;
     private ImageView refreshImageView;
+    int run;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        isFirst=true;
+        UsefulFunctions.setIsFirst(true);
         initializeLayout(); //layout initialization
         localization ="zamosc";
         downloadData(localization);//download weather data
     }
 
-
     public void downloadData(String localization){
-        if(isFirst==true) {
+        if(UsefulFunctions.getIsFirst()==true) {
             firstLoadingDialog.show();    //dialog at the beginning
         }
         downloader=new DataDownloader(localization,this);   //downloading weather data for Poznan
@@ -80,12 +90,12 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void ServiceSuccess(Channel channel) {
-        Log.d("successisfirst", "successisfirst "+ isFirst);
-        if(isFirst==true) {
+        if(UsefulFunctions.getIsFirst()==true) {
             getter = new DataInitializer(this,channel); //initializing weather data from JSON
             setter = new DataSetter(this,getter); //data formatting and weather layout setting
             UsefulFunctions.setViewVisible(mainLayout);
             firstLoadingDialog.dismiss();
+            run=1;
         }
         else {
             getter = new DataInitializer(this,channel); //initializing weather data from JSON
@@ -95,13 +105,14 @@ public class MainActivity extends AppCompatActivity
             UsefulFunctions.setViewVisible(mainLayout);
             UsefulFunctions.setViewVisible(weatherLayout);
         }
-        isFirst=false;  //first loading done
+        UsefulFunctions.setIsFirst(false);  //first loading done
+
     }
 
     @Override
     public void ServiceFailure(int errorCode) {
         //failure handling
-        if(isFirst==true) {
+        if(UsefulFunctions.getIsFirst()==true) {
             firstLoadingDialog.dismiss();
             if(errorCode==1) {
                 internetFailureDialog=dialogInitializer.initializeInternetFailureDialog(downloadDataRunnable);
@@ -118,10 +129,7 @@ public class MainActivity extends AppCompatActivity
             }
             else serviceFailureDialog.show();
         }
-
-
     }
-
 
     private void setSwipeRefreshLayout(){
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
@@ -149,11 +157,12 @@ public class MainActivity extends AppCompatActivity
 
                     double alpha=UsefulFunctions.getPullOpacity(0.2,movedHeight,MainActivity.this,true);
                     refreshMessageTextView.setTextColor(Color.argb((int)alpha, 255, 255, 255));
+                    refreshMessageTextView.setText(getString(R.string.refresh_message_pull_to_refresh));
                     refreshImageView.setAlpha((float)(alpha/255));
                 }
                 if(event.getAction()==MotionEvent.ACTION_UP){
                     isTouched=false;
-                    UsefulFunctions.setViewInvisible(refreshImageView);
+                    UsefulFunctions.setViewGone(refreshImageView);
                     UsefulFunctions.setViewInvisible(refreshMessageTextView);
                 }
                 return false;
@@ -165,16 +174,12 @@ public class MainActivity extends AppCompatActivity
         dialogInitializer=new DialogInitializer(this);
         firstLoadingDialog=dialogInitializer.initializeFirstLoadingDialog();
         serviceFailureDialog =dialogInitializer.initializeServiceFailureDialog(downloadDataRunnable);
-
         yahooRedirectDialog=dialogInitializer.initializeYahooRedirectDialog();
         exitDialog=dialogInitializer.initializeExitDialog();
         aboutDialog=dialogInitializer.initializeAboutDialog();
         feedbackDialog=dialogInitializer.initializeFeedbackDialog();
         authorDialog=dialogInitializer.initializeAuthorDialog();
         searchDialog=dialogInitializer.initializeSearchDialog();
-
-
-
     }
 
     Runnable downloadDataRunnable = new Runnable() {
@@ -266,17 +271,17 @@ public class MainActivity extends AppCompatActivity
 
         searchLayout.setOnClickListener(
                 new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                searchDialog.show();
+                    @Override
+                    public void onClick(View v) {
+                        searchDialog.show();
 
-                UsefulFunctions.showKeyboard(MainActivity.this);
-            }
-        });
+                        UsefulFunctions.showKeyboard(MainActivity.this);
+                    }
+                });
     }
 
     private void setLocationClickable(){
-        LinearLayout locactionLayout=(LinearLayout)findViewById(R.id.location_text_layout);
+        RelativeLayout locactionLayout=(RelativeLayout) findViewById(R.id.location_text_layout);
         locactionLayout.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -302,8 +307,6 @@ public class MainActivity extends AppCompatActivity
                     floatingActionButton.setImageResource(R.drawable.remove_black_icon);
                     mark=false;
                 }
-                DataInitializer init=DataSetter.getCurrentDataInitializer();
-
             }
         });
     }
@@ -325,9 +328,8 @@ public class MainActivity extends AppCompatActivity
         refreshMessageTextView.setTextColor(Color.argb(255, 255, 255, 255));
         refreshMessageTextView.setText(getString(R.string.refresh_message_refreshing));
         UsefulFunctions.setViewVisible(refreshMessageTextView);
-
         UsefulFunctions.setViewInvisible(weatherLayout);
-        downloadData(DataSetter.getCurrentDataInitializer().getCity());
+        downloadData(DataSetter.getCurrentDataFormatter().getCity());
     }
 
     @Override
@@ -360,5 +362,17 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onPause() {
+        setStartTimeThread(false);
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        if(getTimeThreadStartedFlag()==true)    setStartTimeThread(true);
+        super.onResume();
     }
 }

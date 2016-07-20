@@ -14,6 +14,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.View;
@@ -27,6 +28,15 @@ import android.widget.Toast;
 import com.squareup.picasso.Transformation;
 
 public class UsefulFunctions {
+    private static boolean isFirst;
+
+    public static boolean getIsFirst() {
+        return isFirst;
+    }
+
+    public static void setIsFirst(boolean bool) {
+        isFirst = bool;
+    }
 
     private static int[] units={0,0,0,0,0};
 
@@ -126,6 +136,9 @@ public class UsefulFunctions {
     public static void setViewInvisible(View view){
         view.setVisibility(View.INVISIBLE);
     }
+    public static void setViewGone(View view){
+        view.setVisibility(View.GONE);
+    }
 
     public static double getPullOpacity(double screenPercentage,float movedDistance, Context context, boolean isVertical){
         int screenWidth=getScreenResolution(context)[0];
@@ -137,6 +150,27 @@ public class UsefulFunctions {
         if(alpha>255) alpha=255;
         else if(alpha<100) alpha=100;
         return alpha;
+    }
+
+    public static void initializeUiThread(final Activity activity, final Runnable runnable) {
+        Thread uiThread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    while (!isInterrupted()) {
+                        Thread.sleep(1000);
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                runnable.run();
+                            }
+                        });
+                    }
+                } catch (InterruptedException e) {
+                }
+            }
+        };
+        uiThread.start();
     }
 
     public static int[] getScreenResolution(Context context)

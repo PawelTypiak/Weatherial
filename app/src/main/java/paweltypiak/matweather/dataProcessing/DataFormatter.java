@@ -44,6 +44,8 @@ public class DataFormatter {
     private long currentDiffMinutes;
     private long sunsetSunriseDiffMinutes;
     private DataInitializer dataInitializer;
+    private Calendar timeDifferenceCalendar;
+    private int hourDifference;
 
     public DataFormatter(Activity activity, DataInitializer dataInitializer){
         this.units= UsefulFunctions.getUnits();
@@ -61,7 +63,7 @@ public class DataFormatter {
         formatForecast();
         formatWind();
         countSunPosition();
-        getTimeDifference();
+        countHourDifference();
     }
 
     private void formatLastBuildDate(){
@@ -128,29 +130,25 @@ public class DataFormatter {
         Log.d("weather_formatted", "wind: " + chill+", "+direction+", "+speed+", "+directionName);
     }
 
-    private void getTimeDifference() {
-        String formattedTime = null;
-        String hourTime=null;
-        String actualHourTime=null;
-        int hourDifference = 0;
-        SimpleDateFormat inputFormat;
+    private void countHourDifference() {
+        String timeHour=null;
+        String actualTimeHour=null;
+        SimpleDateFormat inputFormat=new SimpleDateFormat("H:mm");
         SimpleDateFormat outputFormat = new SimpleDateFormat("H");
-        if (UsefulFunctions.getUnits()[0] == 0) inputFormat = new SimpleDateFormat("H:mm");
-        else inputFormat = new SimpleDateFormat("h:mm a");
+
         Date date;
-        Calendar calendar = Calendar.getInstance();
+        Calendar calendar= Calendar.getInstance();
 
-            try {
-                actualHourTime = DateFormat.format("H", calendar).toString();
-                date = inputFormat.parse(time);
-                hourTime = outputFormat.format(date);
-            } catch (ParseException pe) {
-                pe.printStackTrace();
-            }
+        try {
+            actualTimeHour = DateFormat.format("H", calendar).toString();
+            date = inputFormat.parse(time24);
+            timeHour = outputFormat.format(date);
+        } catch (ParseException pe) {
+            pe.printStackTrace();
+        }
 
-        hourDifference=Integer.parseInt(actualHourTime)-Integer.parseInt(hourTime);
-        Log.d("hourdifference", "getTimeDifference: "+hourDifference);
-            //return formattedTime;
+        hourDifference=Integer.parseInt(timeHour)-Integer.parseInt(actualTimeHour);
+        Log.d("hourdifference", "countHourDifference: "+hourDifference);
     }
 
 
@@ -321,4 +319,5 @@ public class DataFormatter {
     public boolean getDay() {return isDay;}
     public long getCurrentDiffMinutes() {return currentDiffMinutes;}
     public long getSunsetSunriseDiffMinutes() {return sunsetSunriseDiffMinutes;}
+    public int getHourDifference(){return hourDifference;}
 }

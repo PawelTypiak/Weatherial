@@ -18,7 +18,6 @@ import paweltypiak.matweather.dataDownloading.DataDownloader;
 import paweltypiak.matweather.dataDownloading.DownloadCallback;
 import paweltypiak.matweather.dataProcessing.DataInitializer;
 import paweltypiak.matweather.dataProcessing.DataSetter;
-import static paweltypiak.matweather.dataProcessing.DataSetter.getCurrentDataInitializer;
 import paweltypiak.matweather.jsonHandling.Channel;
 
 public class DialogInitializer  {
@@ -582,7 +581,7 @@ public class DialogInitializer  {
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.first_loading_dialog,null);
         ImageView iconImageView=(ImageView)dialogView.findViewById(R.id.first_loading_dialog_app_icon_image);
-        Picasso.with(activity.getApplicationContext()).load(R.drawable.app_icon).fit().centerInside().into(iconImageView);
+        Picasso.with(activity.getApplicationContext()).load(R.drawable.app_icon_small).fit().centerInside().into(iconImageView);
         firstLoadingDialog = buildDialog(
                 activity,
                 dialogView,
@@ -659,7 +658,7 @@ public class DialogInitializer  {
         aboutDesctiptionPart4.setLinkTextColor( ContextCompat.getColor(activity,R.color.textSecondaryLightBackground));
         //setting app icon
         ImageView iconImageView=(ImageView)dialogView.findViewById(R.id.about_dialog_app_icon_image);
-        Picasso.with(activity.getApplicationContext()).load(R.drawable.app_icon).fit().centerInside().into(iconImageView);
+        Picasso.with(activity.getApplicationContext()).load(R.drawable.app_icon_small).fit().centerInside().into(iconImageView);
         //initializing dialog
         aboutDialog = buildDialog(
                 activity,

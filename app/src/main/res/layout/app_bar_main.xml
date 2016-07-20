@@ -25,59 +25,70 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_centerHorizontal="true"
-                    android:layout_below="@+id/app_bar_time_text"
+                    android:layout_marginTop="-5dp"
+                    android:layout_below="@+id/app_bar_time_layout"
                     android:id="@+id/app_bar_text_layout">
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="90dp"
                         android:orientation="vertical"
-                        android:paddingLeft="5dp"
-                        android:paddingRight="5dp"
-                        android:layout_marginBottom="15dp"
+                        android:paddingLeft="24dp"
+                        android:paddingRight="24dp"
+                        android:layout_marginBottom="8dp"
                         android:layout_centerHorizontal="true"
                         android:background="?selectableItemBackgroundBorderless"
                         android:id="@+id/location_text_layout">
-                        <TextView
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="45dp"
-                            android:layout_gravity="center_horizontal"
-                            android:maxLines="1"
-                            android:textColor="@color/textPrimaryDarkBackground"
-                            android:id="@+id/app_bar_primary_location_name_text"
-                            />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="20dp"
-                            android:maxLines="1"
-                            android:textColor="@color/textSecondaryDarkBackground"
-                            android:layout_gravity="center_horizontal"
-                            android:id="@+id/app_bar_secondary_location_name_text"
-                            />
-                    </LinearLayout>
+                            android:layout_centerInParent="true"
+                            android:orientation="vertical"
+
+                            android:id="@+id/location_text_inner_layout">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="45dp"
+                                android:maxLines="1"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:textColor="@color/textPrimaryDarkBackground"
+                                android:id="@+id/app_bar_primary_location_name_text"
+                                />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="20dp"
+                                android:maxLines="1"
+                                android:textColor="@color/textSecondaryDarkBackground"
+                                android:layout_gravity="center_horizontal"
+                                android:id="@+id/app_bar_secondary_location_name_text"
+                                />
+                        </LinearLayout>
+
+                    </RelativeLayout>
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
                         android:layout_centerHorizontal="true"
                         android:id="@+id/app_bar_refresh_layout"
                         android:layout_below="@+id/location_text_layout">
                         <ImageView
-                            android:layout_width="10dp"
-                            android:layout_height="10dp"
-                            android:layout_gravity="center"
-                            android:layout_marginRight="5dp"
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
                             android:visibility="invisible"
+                            android:layout_marginRight="3dp"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="-1dp"
                             android:id="@+id/app_bar_refresh_image"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="14dp"
-                            android:textColor="@color/white"
-                            android:gravity="center"
-                            android:visibility="invisible"
                             android:layout_gravity="center"
+                            android:textColor="@color/white"
+                            android:visibility="invisible"
+                            android:layout_alignLeft="@+id/app_bar_refresh_image"
                             android:id="@+id/app_bar_refresh_text"
                             />
 
@@ -102,16 +113,33 @@
                     android:layout_height="?attr/actionBarSize"
                     android:layout_alignParentLeft="true"
                     android:id="@+id/toolbar"/>
-                <TextView
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14dp"
-                    android:textColor="@color/textSecondaryDarkBackground"
-                    android:gravity="center"
-                    android:layout_marginTop="20dp"
+                    android:orientation="vertical"
                     android:layout_centerHorizontal="true"
-                    android:id="@+id/app_bar_time_text"
-                    />
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/app_bar_time_layout">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="14dp"
+                        android:textColor="@color/textSecondaryDarkBackground"
+                        android:gravity="center"
+                        android:layout_centerHorizontal="true"
+                        android:id="@+id/app_bar_time_text"
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="12dp"
+                        android:textColor="@color/textSecondaryDarkBackground"
+                        android:gravity="center"
+                        android:layout_centerHorizontal="true"
+                        android:id="@+id/app_bar_timezone_text"
+                        />
+                </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

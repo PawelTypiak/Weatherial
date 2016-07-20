@@ -15,6 +15,8 @@ import java.util.Calendar;
 import java.util.Date;
 import static paweltypiak.matweather.DialogInitializer.initializeMapsDialog;
 import static paweltypiak.matweather.DialogInitializer.initializeYahooWeatherRedirectDialog;
+import static paweltypiak.matweather.UsefulFunctions.getUnits;
+import static paweltypiak.matweather.UsefulFunctions.initializeUiThread;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.UsefulFunctions;
 
@@ -39,6 +41,7 @@ public class DataSetter {
     private String region;
     private String time;
     private String timezone;
+    private int hourDifference;
     private String lastBuildDate;
     private double latitude;
     private double longitude;
@@ -50,6 +53,7 @@ public class DataSetter {
     private ImageView yahooImageView;
     private TextView primaryLocationTextView;
     private TextView secondaryLocationTextView;
+    private TextView timeTextView;
     private TextView timezoneTextView;
     private int conditionStringId;
     private int conditionDrawableId;
@@ -86,7 +90,7 @@ public class DataSetter {
     private TextView pressureTextView;
     private TextView visibilityTextView;
     private ImageView refreshIconImageView;
-    private TextView refreshTimeTextView;
+    private TextView refreshMessageTextView;
     private int[] forecastDrawable;
     private TextView[] forecastDayNameTextView;
     private ImageView[] forecastDayConditionsImageView;
@@ -108,17 +112,25 @@ public class DataSetter {
     private int iconColor;
     private int objectIconColor;
     private int dialogColor;
-    private static DataInitializer currentDataInitializer;
+    private static DataFormatter currentDataFormatter;
     private static AlertDialog mapsDialog;
     private static AlertDialog yahooWeatherRedirectDialog;
     private DataFormatter dataFormatter;
+    private static boolean startTimeThread;
+    private static boolean timeThreadStartedFlag;
+    public static void setStartTimeThread(boolean startTimeThread) {
+        DataSetter.startTimeThread = startTimeThread;
+    }
+
+    public static boolean getTimeThreadStartedFlag() {
+        return timeThreadStartedFlag;
+    }
 
     public DataSetter(Activity activity, DataInitializer dataInitializer) {
-
-        currentDataInitializer =dataInitializer;
         this.activity=activity;
-        dataFormatter=new DataFormatter(activity,currentDataInitializer);
+        currentDataFormatter=new DataFormatter(activity, dataInitializer);
         getData();
+        if(UsefulFunctions.getIsFirst()==true)initializeUiThread(activity,timeUpdateRunnable);
         updateDialogs();
         setTheme();
         setAppBarLayout();
@@ -157,7 +169,10 @@ public class DataSetter {
         getAppBarResources();
         primaryLocationTextView.setText(city);
         secondaryLocationTextView.setText(region+", "+country);
-        timezoneTextView.setText(time +" "+timezone);
+
+        setStartTimeThread(true);
+        timeThreadStartedFlag =true;
+        timezoneTextView.setText(timezone);
         int visibility = primaryLocationTextView.getVisibility();
         primaryLocationTextView.setVisibility(View.GONE);
         primaryLocationTextView.setVisibility(visibility);
@@ -168,6 +183,20 @@ public class DataSetter {
         Picasso.with(activity.getApplicationContext()).load(R.drawable.arrow).transform(new UsefulFunctions().new setDrawableColor(activity.getResources().getColor(R.color.textPrimaryDarkBackground))).rotate(180).fit().centerInside().into(refreshIconImageView);
         Picasso.with(activity.getApplicationContext()).load(R.drawable.yahoo_logo).fit().centerInside().into(yahooImageView);
     }
+
+    Runnable timeUpdateRunnable = new Runnable() {
+        public void run() {
+            if (startTimeThread == true) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.add(Calendar.HOUR,getCurrentDataFormatter().getHourDifference());
+                String outputFormat;
+                if(getUnits()[0]==0) outputFormat="H:mm:ss";
+                else outputFormat="h:mm:ss a";
+                timeTextView.setText(DateFormat.format(outputFormat, calendar));
+                Log.d("czas", DateFormat.format(outputFormat, calendar).toString());
+            }
+        }
+    };
 
     private void setCurrentLayout(){
         getCurrentResources();
@@ -274,40 +303,43 @@ public class DataSetter {
     }
 
     private void getData(){
-        link=dataFormatter.getLink();
-        city=dataFormatter.getCity();
-        country=dataFormatter.getCountry();
-        region=dataFormatter.getRegion();
-        latitude=dataFormatter.getLatitude();
-        longitude=dataFormatter.getLongitude();
-        lastBuildDate=dataFormatter.getLastBuildDate();
-        chill = dataFormatter.getChill();
-        direction= dataFormatter.getDirection();
-        speed= dataFormatter.getSpeed();
-        humidity= dataFormatter.getHumidity();
-        pressure= dataFormatter.getPressure();
-        visibility= dataFormatter.getVisibility();
-        sunrise= dataFormatter.getSunrise();
-        sunset= dataFormatter.getSunset();
-        code= dataFormatter.getCode();
-        temperature= dataFormatter.getTemperature();
-        forecastCode = dataFormatter.getForecastCode();
-        forecastHighTemperature = dataFormatter.getForecastHighTemperature();
-        forecastLowTemperature = dataFormatter.getForecastLowTemperature();
-        directionName=dataFormatter.getDirectionName();
-        time=dataFormatter.getTime();
-        timezone=dataFormatter.getTimezone();
-        lastBuildDate=dataFormatter.getLastBuildDate();
-        isDay=dataFormatter.getDay();
-        currentDiffMinutes=dataFormatter.getCurrentDiffMinutes();
-        sunsetSunriseDiffMinutes=dataFormatter.getSunsetSunriseDiffMinutes();
+        link=currentDataFormatter.getLink();
+        city=currentDataFormatter.getCity();
+        country=currentDataFormatter.getCountry();
+        region=currentDataFormatter.getRegion();
+        latitude=currentDataFormatter.getLatitude();
+        longitude=currentDataFormatter.getLongitude();
+        lastBuildDate=currentDataFormatter.getLastBuildDate();
+        chill = currentDataFormatter.getChill();
+        direction= currentDataFormatter.getDirection();
+        speed= currentDataFormatter.getSpeed();
+        humidity= currentDataFormatter.getHumidity();
+        pressure= currentDataFormatter.getPressure();
+        visibility= currentDataFormatter.getVisibility();
+        sunrise= currentDataFormatter.getSunrise();
+        sunset= currentDataFormatter.getSunset();
+        code= currentDataFormatter.getCode();
+        temperature= currentDataFormatter.getTemperature();
+        forecastCode = currentDataFormatter.getForecastCode();
+        forecastHighTemperature = currentDataFormatter.getForecastHighTemperature();
+        forecastLowTemperature = currentDataFormatter.getForecastLowTemperature();
+        directionName=currentDataFormatter.getDirectionName();
+        time=currentDataFormatter.getTime();
+        timezone=currentDataFormatter.getTimezone();
+        hourDifference=currentDataFormatter.getHourDifference();
+        lastBuildDate=currentDataFormatter.getLastBuildDate();
+        isDay=currentDataFormatter.getDay();
+        currentDiffMinutes=currentDataFormatter.getCurrentDiffMinutes();
+        sunsetSunriseDiffMinutes=currentDataFormatter.getSunsetSunriseDiffMinutes();
+
     }
 
     private void getAppBarResources(){
         primaryLocationTextView =(TextView)activity.findViewById(R.id.app_bar_primary_location_name_text);
         secondaryLocationTextView =(TextView)activity.findViewById(R.id.app_bar_secondary_location_name_text);
-        timezoneTextView =(TextView)activity.findViewById(R.id.app_bar_time_text);
-        refreshTimeTextView=(TextView)activity.findViewById(R.id.app_bar_refresh_text);
+        timeTextView=(TextView)activity.findViewById(R.id.app_bar_time_text);
+        timezoneTextView =(TextView)activity.findViewById(R.id.app_bar_timezone_text);
+        refreshMessageTextView =(TextView)activity.findViewById(R.id.app_bar_refresh_text);
         refreshIconImageView=(ImageView)activity.findViewById(R.id.app_bar_refresh_image);
         yahooImageView=(ImageView)activity.findViewById(R.id.yahoo_image);
     }
@@ -373,7 +405,7 @@ public class DataSetter {
         }
     }
 
-    public static DataInitializer getCurrentDataInitializer() {return currentDataInitializer;}
+    public static DataFormatter getCurrentDataFormatter() {return currentDataFormatter;}
     public static AlertDialog getYahooWeatherRedirectDialog() {return yahooWeatherRedirectDialog;}
     public static AlertDialog getMapsDialog() {return mapsDialog;}
 }
