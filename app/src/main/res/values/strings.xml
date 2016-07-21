@@ -86,7 +86,30 @@
     <string name="refresh_message_refreshing">Odświeżanie...</string>
 
     <!-- First launch layout strings-->
-    <string name="first_launch_layout_start_button">Rozpocznij</string>
+    <string name="first_launch_layout_start_button">GET STARTED</string>
+    <string name="first_launch_layout_continue_button">KONTYNUUJ</string>
+    <string name="first_launch_layout_language_header">Wybierz wersję językową:</string>
+    <string name="first_launch_layout_language_english">angielski</string>
+    <string name="first_launch_layout_language_polish">polski</string>
+    <string name="first_launch_layout_units_temperature">temperatura:</string>
+    <string name="first_launch_layout_units_speed">prędkość:</string>
+    <string name="first_launch_layout_units_pressure">ciśnienie:</string>
+    <string name="first_launch_layout_units_distance">jednostki:</string>
+    <string name="first_launch_layout_units_hours">format czasu:</string>
+    <string name="first_launch_layout_units_temperature_unit_c">\u2103</string>
+    <string name="first_launch_layout_units_temperature_unit_f">\u2109</string>
+    <string name="first_launch_layout_units_speed_unit_km_h">km/h</string>
+    <string name="first_launch_layout_units_speed_unit_mi_h">mi/h</string>
+    <string name="first_launch_layout_units_pressure_unit_hpa">hPa</string>
+    <string name="first_launch_layout_units_pressure_unit_mmhg">mmHg</string>
+    <string name="first_launch_layout_units_distance_unit_km">km</string>
+    <string name="first_launch_layout_units_distance_unit_mi">mi</string>
+    <string name="first_launch_layout_units_hours_unit_24h">24H</string>
+    <string name="first_launch_layout_units_hours_unit_12h">12H</string>
+    <string name="first_launch_layout_location_header">Wybierz lokację</string>
+    <string name="first_launch_layout_location_current">Aktualna lokalizacja</string>
+    <string name="first_launch_layout_location_different">Inna lokalizacja</string>
+    <string name="first_launch_layout_search_message">Wyszukiwanie lokalizacji</string>
 
     <!-- Clipboard texts-->
     <string name="clipboard_mail_feedback_title">MatWeather - feedback</string>
