@@ -91,24 +91,35 @@
     <string name="first_launch_layout_language_header">Wybierz wersję językową:</string>
     <string name="first_launch_layout_language_english">angielski</string>
     <string name="first_launch_layout_language_polish">polski</string>
-    <string name="first_launch_layout_units_temperature">temperatura:</string>
-    <string name="first_launch_layout_units_speed">prędkość:</string>
-    <string name="first_launch_layout_units_pressure">ciśnienie:</string>
-    <string name="first_launch_layout_units_distance">jednostki:</string>
-    <string name="first_launch_layout_units_hours">format czasu:</string>
-    <string name="first_launch_layout_units_temperature_unit_c">\u2103</string>
-    <string name="first_launch_layout_units_temperature_unit_f">\u2109</string>
-    <string name="first_launch_layout_units_speed_unit_km_h">km/h</string>
-    <string name="first_launch_layout_units_speed_unit_mi_h">mi/h</string>
-    <string name="first_launch_layout_units_pressure_unit_hpa">hPa</string>
-    <string name="first_launch_layout_units_pressure_unit_mmhg">mmHg</string>
-    <string name="first_launch_layout_units_distance_unit_km">km</string>
-    <string name="first_launch_layout_units_distance_unit_mi">mi</string>
-    <string name="first_launch_layout_units_hours_unit_24h">24H</string>
-    <string name="first_launch_layout_units_hours_unit_12h">12H</string>
-    <string name="first_launch_layout_location_header">Wybierz lokację</string>
-    <string name="first_launch_layout_location_current">Aktualna lokalizacja</string>
-    <string name="first_launch_layout_location_different">Inna lokalizacja</string>
+    <string name="first_launch_layout_units_header">Wybierz jednostki:</string>
+    <string name="first_launch_layout_units_temperature_header">temperatura:</string>
+    <string name="first_launch_layout_units_speed_header">prędkość:</string>
+    <string name="first_launch_layout_units_pressure_header">ciśnienie:</string>
+    <string name="first_launch_layout_units_distance_header">odległość:</string>
+    <string name="first_launch_layout_units_hours_header">format czasu:</string>
+    <string-array name="first_launch_layout_units_temperature_units">
+        <item>\u2103</item>
+        <item>\u2109</item>
+    </string-array>
+    <string-array name="first_launch_layout_units_speed_units">
+        <item>km/h</item>
+        <item>mi/h</item>
+    </string-array>
+    <string-array name="first_launch_layout_units_distance_units">
+        <item>km</item>
+        <item>mi</item>
+    </string-array>
+    <string-array name="first_launch_layout_units_pressure_units">
+        <item>hPa</item>
+        <item>mmHg</item>
+    </string-array>
+    <string-array name="first_launch_layout_units_time_units">
+        <item>24h</item>
+        <item>12h</item>
+    </string-array>
+    <string name="first_launch_layout_location_header">Wybierz lokację:</string>
+    <string name="first_launch_layout_location_current">aktualna lokalizacja</string>
+    <string name="first_launch_layout_location_different">inna lokacja</string>
     <string name="first_launch_layout_search_message">Wyszukiwanie lokalizacji</string>
 
     <!-- Clipboard texts-->
