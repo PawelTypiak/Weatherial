@@ -7,6 +7,9 @@
     <string name="action_settings">Settings</string>
     <string name="bullet">&#8226; </string>
 
+    <string name="shared_preferences_key_name">paweltypiak.matweather.preference_file_key</string>
+    <string name="shared_preferences_language_key">language</string>
+
     <!-- Dialog strings -->
     <string name="first_opening_dialog_title">Witaj!</string>
     <string name="first_opening_dialog_description"><b>MatWeather</b> to prosta aplikacja pogodowa zaprojektowana zgodnie z filozofią <i>Material Design</i>. Do pobierania informacji o pogodzie wykorzystywane jest Yahoo Weather API, a dane o lokalizacji pobierane są przy pomocy Google Maps API</string>
