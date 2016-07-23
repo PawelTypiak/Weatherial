@@ -102,8 +102,8 @@ public class DataSetter {
     private DataInitializer dataInitializer;
     private int layoutWidth;
     private int layoutHeight;
-    private int imageTranslation;
-    private int circleTranslation;
+    private double objectScale;
+    private double lineScale;
     private boolean isDay;
     private int backgroundColor;
     private int textPrimaryColor;
@@ -118,6 +118,10 @@ public class DataSetter {
     private DataFormatter dataFormatter;
     private static boolean startTimeThread;
     private static boolean timeThreadStartedFlag;
+    private boolean newRefresh;
+    String sunsetSunriseDiffMinutesString;
+    String currentDiffMinutesString;
+    String isDayString;
     public static void setStartTimeThread(boolean startTimeThread) {
         DataSetter.startTimeThread = startTimeThread;
     }
@@ -127,6 +131,7 @@ public class DataSetter {
     }
 
     public DataSetter(Activity activity, DataInitializer dataInitializer) {
+        newRefresh=true;
         this.activity=activity;
         currentDataFormatter=new DataFormatter(activity, dataInitializer);
         getData();
@@ -169,7 +174,6 @@ public class DataSetter {
         getAppBarResources();
         primaryLocationTextView.setText(city);
         secondaryLocationTextView.setText(region+", "+country);
-
         setStartTimeThread(true);
         timeThreadStartedFlag =true;
         timezoneTextView.setText(timezone);
@@ -189,14 +193,55 @@ public class DataSetter {
             if (startTimeThread == true) {
                 Calendar calendar = Calendar.getInstance();
                 calendar.add(Calendar.HOUR,getCurrentDataFormatter().getHourDifference());
-                String outputFormat;
-                if(getUnits()[0]==0) outputFormat="H:mm:ss";
-                else outputFormat="h:mm:ss a";
-                timeTextView.setText(DateFormat.format(outputFormat, calendar));
-                Log.d("czas", DateFormat.format(outputFormat, calendar).toString());
+                setCurrentTime(calendar);
+                changeLayout(calendar);
             }
         }
     };
+
+    private void setCurrentTime(Calendar calendar){
+        String outputFormat;
+        if(getUnits()[0]==0) outputFormat="H:mm:ss";
+        else outputFormat="h:mm:ss a";
+        timeTextView.setText(DateFormat.format(outputFormat, calendar));
+    }
+    private void changeTimeOfDay(){
+        isDay=!isDay;
+        setTheme();
+        setCurrentLayout();
+        setDetailsLayout();
+        setForecastLayout();
+    }
+    private void changeLayout(Calendar calendar){
+        String outputMinutesFormat="H:mm";
+        String outputMinutesString=DateFormat.format(outputMinutesFormat, calendar).toString();
+        String[] sunPositionStrings=currentDataFormatter.countSunPosition(outputMinutesString);
+        if(newRefresh==true){
+            sunsetSunriseDiffMinutesString=sunPositionStrings[0];
+            currentDiffMinutesString=sunPositionStrings[1];
+            isDayString=sunPositionStrings[2];
+            newRefresh=false;
+            sunsetSunriseDiffMinutes=Long.parseLong(sunPositionStrings[0]);
+            currentDiffMinutes=Long.parseLong(sunPositionStrings[1]);
+            isDay=(Integer.parseInt(sunPositionStrings[1])) != 0;
+            setSunTranslation();
+        }
+        else{
+            if(!currentDiffMinutesString.equals(sunPositionStrings[1])){
+                if(!isDayString.equals(sunPositionStrings[2])){
+                    changeTimeOfDay();
+                }
+                sunsetSunriseDiffMinutesString=sunPositionStrings[0];
+                currentDiffMinutesString=sunPositionStrings[1];
+                isDayString=sunPositionStrings[2];
+                sunsetSunriseDiffMinutes=Long.parseLong(sunPositionStrings[0]);
+                currentDiffMinutes=Long.parseLong(sunPositionStrings[1]);
+                isDay=(Integer.parseInt(sunPositionStrings[1])) != 0;
+                Log.d("currentdifferent", currentDiffMinutesString);
+                setSunTranslation();
+            }
+        }
+    }
 
     private void setCurrentLayout(){
         getCurrentResources();
@@ -219,45 +264,49 @@ public class DataSetter {
         currentDetailsDividerView.setBackgroundColor(dividerColor);
     }
 
-    private void setDetailsLayout(){
-        getDetailsResources();
-        final double objectScale=0.5;
-        final double lineScale=0.07;
-        if(isDay ==true){
-            sunsetSunriseLeftTextView.setText(sunrise);
-            sunsetSunriseRightTextView.setText(sunset);
-            Picasso.with(activity.getApplicationContext()).load(R.drawable.sunrise_icon).transform(new UsefulFunctions().new setDrawableColor(iconColor)).fit().centerInside().into(sunsetSunriseLeftImageView);
-            Picasso.with(activity.getApplicationContext()).load(R.drawable.sunset_icon).transform(new UsefulFunctions().new setDrawableColor(iconColor)).fit().centerInside().into(sunsetSunriseRightImageView);
-        }
-        else {
-            sunsetSunriseLeftTextView.setText(sunset);
-            sunsetSunriseRightTextView.setText(sunrise);
-            Picasso.with(activity.getApplicationContext()).load(R.drawable.sunrise_icon).transform(new UsefulFunctions().new setDrawableColor(iconColor)).fit().centerInside().into(sunsetSunriseRightImageView);
-            Picasso.with(activity.getApplicationContext()).load(R.drawable.sunset_icon).fit().transform(new UsefulFunctions().new setDrawableColor(iconColor)).centerInside().into(sunsetSunriseLeftImageView);
-        }
-        sunsetSunriseLeftTextView.setTextColor(textPrimaryColor);
-        sunsetSunriseRightTextView.setTextColor(textPrimaryColor);
+    private void setSunTranslation(){
+
         ViewTreeObserver treeObserver = sunPathLayout.getViewTreeObserver();
         treeObserver.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             public boolean onPreDraw() {
                 sunPathLayout.getViewTreeObserver().removeOnPreDrawListener(this);
-                layoutHeight = sunPathLayout.getMeasuredHeight();
-                layoutWidth = sunPathLayout.getMeasuredWidth();
-                if(isDay==true){
-                    Picasso.with(activity.getApplicationContext()).load(R.drawable.sun_icon).resize((int) (layoutHeight * objectScale), (int) (layoutHeight * objectScale)).transform(new UsefulFunctions().new setDrawableColor(objectIconColor)).into(sunPathObjectImageView);
-                }
-                else Picasso.with(activity.getApplicationContext()).load(R.drawable.moon_icon).resize((int) (layoutHeight * objectScale), (int) (layoutHeight * objectScale)).transform(new UsefulFunctions().new setDrawableColor(objectIconColor)).into(sunPathObjectImageView);
-                Picasso.with(activity.getApplicationContext()).load(R.drawable.weather_line).transform(new UsefulFunctions().new setDrawableColor(dividerColor)).resize((int) (layoutWidth - layoutHeight * objectScale), (int) (layoutHeight)).into(sunPathBackgroudImageView);
-                Picasso.with(activity.getApplicationContext()).load(R.drawable.weather_small_circle).transform(new UsefulFunctions().new setDrawableColor(iconColor)).resize((int) (layoutHeight * lineScale), (int) (layoutHeight * objectScale*0.15)).into(sunPathLeftCircleImageView);
-                Picasso.with(activity.getApplicationContext()).load(R.drawable.weather_small_circle).transform(new UsefulFunctions().new setDrawableColor(iconColor)).resize((int) (layoutHeight * lineScale), (int) (layoutHeight * objectScale * 0.15)).into(sunPathRightCircleImageView);
-                imageTranslation = (int)((currentDiffMinutes *(layoutWidth-(layoutHeight * objectScale))/sunsetSunriseDiffMinutes));
-                circleTranslation = (int)(layoutHeight * objectScale/2);
+                int imageTranslation = (int)((currentDiffMinutes *(layoutWidth-(layoutHeight * objectScale))/sunsetSunriseDiffMinutes));
+                int circleTranslation = (int)(layoutHeight * objectScale/2);
                 sunPathObjectImageView.setTranslationX(imageTranslation);
                 sunPathRightCircleImageView.setTranslationX(-circleTranslation);
                 sunPathLeftCircleImageView.setTranslationX(circleTranslation);
                 return true;
             }
         });
+    }
+
+
+    private void setDetailsLayout(){
+        getDetailsResources();
+        objectScale=0.5;
+        lineScale=0.07;
+        layoutHeight = sunPathLayout.getMeasuredHeight();
+        layoutWidth = sunPathLayout.getMeasuredWidth();
+        if(isDay ==true){
+            sunsetSunriseLeftTextView.setText(sunrise);
+            sunsetSunriseRightTextView.setText(sunset);
+            Picasso.with(activity.getApplicationContext()).load(R.drawable.sunrise_icon).transform(new UsefulFunctions().new setDrawableColor(iconColor)).fit().centerInside().into(sunsetSunriseLeftImageView);
+            Picasso.with(activity.getApplicationContext()).load(R.drawable.sunset_icon).transform(new UsefulFunctions().new setDrawableColor(iconColor)).fit().centerInside().into(sunsetSunriseRightImageView);
+            Picasso.with(activity.getApplicationContext()).load(R.drawable.sun_icon).resize((int) (layoutHeight * objectScale), (int) (layoutHeight * objectScale)).transform(new UsefulFunctions().new setDrawableColor(objectIconColor)).into(sunPathObjectImageView);
+        }
+        else {
+            sunsetSunriseLeftTextView.setText(sunset);
+            sunsetSunriseRightTextView.setText(sunrise);
+            Picasso.with(activity.getApplicationContext()).load(R.drawable.sunrise_icon).transform(new UsefulFunctions().new setDrawableColor(iconColor)).fit().centerInside().into(sunsetSunriseRightImageView);
+            Picasso.with(activity.getApplicationContext()).load(R.drawable.sunset_icon).fit().transform(new UsefulFunctions().new setDrawableColor(iconColor)).centerInside().into(sunsetSunriseLeftImageView);
+            Picasso.with(activity.getApplicationContext()).load(R.drawable.moon_icon).resize((int) (layoutHeight * objectScale), (int) (layoutHeight * objectScale)).transform(new UsefulFunctions().new setDrawableColor(objectIconColor)).into(sunPathObjectImageView);
+        }
+        sunsetSunriseLeftTextView.setTextColor(textPrimaryColor);
+        sunsetSunriseRightTextView.setTextColor(textPrimaryColor);
+        Picasso.with(activity.getApplicationContext()).load(R.drawable.weather_line).transform(new UsefulFunctions().new setDrawableColor(dividerColor)).resize((int) (layoutWidth - layoutHeight * objectScale), (int) (layoutHeight)).into(sunPathBackgroudImageView);
+        Picasso.with(activity.getApplicationContext()).load(R.drawable.weather_small_circle).transform(new UsefulFunctions().new setDrawableColor(iconColor)).resize((int) (layoutHeight * lineScale), (int) (layoutHeight * lineScale)).into(sunPathLeftCircleImageView);
+        Picasso.with(activity.getApplicationContext()).load(R.drawable.weather_small_circle).transform(new UsefulFunctions().new setDrawableColor(iconColor)).resize((int) (layoutHeight * lineScale), (int) (layoutHeight * lineScale)).into(sunPathRightCircleImageView);
+        setSunTranslation();
         directionTextView.setText(directionName);
         directionTextView.setTextColor(textPrimaryColor);
         speedTextView.setText(speed);

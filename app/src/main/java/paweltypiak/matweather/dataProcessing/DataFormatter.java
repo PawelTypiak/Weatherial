@@ -7,6 +7,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
+
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.UsefulFunctions;
 
@@ -62,7 +64,8 @@ public class DataFormatter {
         formatCondition();
         formatForecast();
         formatWind();
-        countSunPosition();
+        countSunPosition(time24);
+
         countHourDifference();
     }
 
@@ -152,7 +155,7 @@ public class DataFormatter {
     }
 
 
-    private void countSunPosition(){
+    public String[] countSunPosition(String currentTime){
         Date sunriseHour=null;
         Date sunsetHour=null;
         Date beforeMidnight=null;
@@ -162,7 +165,7 @@ public class DataFormatter {
         try{
             sunriseHour= inputFormat.parse(sunrise24);
             sunsetHour= inputFormat.parse(sunset24);
-            now=inputFormat.parse(time24);
+            now=inputFormat.parse(currentTime);
         }catch(ParseException pe){
             pe.printStackTrace();
         }
@@ -194,6 +197,8 @@ public class DataFormatter {
                 currentDiffMinutes = currentDifference / (60 * 1000);
             }
         }
+        String outputString[]={Long.toString(sunsetSunriseDiffMinutes),Long.toString(currentDiffMinutes),Integer.toString((isDay)? 1 : 0)};
+         return outputString;
     }
 
     private String get24Time(String time){
