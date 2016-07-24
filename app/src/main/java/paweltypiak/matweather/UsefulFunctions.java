@@ -6,6 +6,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -27,6 +28,8 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Transformation;
 
+import java.util.StringTokenizer;
+
 public class UsefulFunctions {
     private static boolean isFirst;
 
@@ -38,10 +41,38 @@ public class UsefulFunctions {
         isFirst = bool;
     }
 
-    private static int[] units={0,0,0,0,0};
+    private static int[] unitsPreferences ={0,0,0,0,0};
+    private static int languagePreferences=0;
 
-    public static int[] getUnits() {
-        return units;
+    public static int[] getUnitsPreferences() {
+        return unitsPreferences;
+    }
+
+    public class SharedPreferencesReader{
+        private Activity activity;
+        private SharedPreferences sharedPreferences;
+        public SharedPreferencesReader(Activity activity){
+            this.activity=activity;
+            sharedPreferences =activity.getSharedPreferences(
+                    activity.getString(R.string.shared_preferences_key_name), activity.MODE_PRIVATE);
+            readLanguagePreferences();
+            readUnitsPreferences();
+        }
+        private void readLanguagePreferences(){
+            String languageString;
+            languageString=sharedPreferences.getString(activity.getString(R.string.shared_preferences_language_key), "en");
+            if(languageString.equals("en")) languagePreferences=0;
+            else languagePreferences=1;
+        }
+        private void readUnitsPreferences(){
+            String unitsString = sharedPreferences.getString("string", "0,0,0,0,0,");
+            StringTokenizer st = new StringTokenizer(unitsString, ",");
+            for (int i = 0; i < unitsPreferences.length; i++) {
+                unitsPreferences[i] = Integer.parseInt(st.nextToken());
+            }
+        }
+        private void readLocationPreferences(){
+        }
     }
 
     public static void initializeWebIntent(Activity activity, String url){

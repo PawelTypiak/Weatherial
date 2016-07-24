@@ -15,7 +15,7 @@ import java.util.Calendar;
 import java.util.Date;
 import static paweltypiak.matweather.DialogInitializer.initializeMapsDialog;
 import static paweltypiak.matweather.DialogInitializer.initializeYahooWeatherRedirectDialog;
-import static paweltypiak.matweather.UsefulFunctions.getUnits;
+import static paweltypiak.matweather.UsefulFunctions.getUnitsPreferences;
 import static paweltypiak.matweather.UsefulFunctions.initializeUiThread;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.UsefulFunctions;
@@ -201,7 +201,7 @@ public class DataSetter {
 
     private void setCurrentTime(Calendar calendar){
         String outputFormat;
-        if(getUnits()[0]==0) outputFormat="H:mm:ss";
+        if(getUnitsPreferences()[0]==0) outputFormat="H:mm:ss";
         else outputFormat="h:mm:ss a";
         timeTextView.setText(DateFormat.format(outputFormat, calendar));
     }

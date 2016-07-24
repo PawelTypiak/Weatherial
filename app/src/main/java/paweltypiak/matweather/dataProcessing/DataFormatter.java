@@ -7,7 +7,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Objects;
 
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.UsefulFunctions;
@@ -50,7 +49,7 @@ public class DataFormatter {
     private int hourDifference;
 
     public DataFormatter(Activity activity, DataInitializer dataInitializer){
-        this.units= UsefulFunctions.getUnits();
+        this.units= UsefulFunctions.getUnitsPreferences();
         this.activity=activity;
         this.dataInitializer=dataInitializer;
         getData();

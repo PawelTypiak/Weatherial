@@ -8,7 +8,8 @@
     <string name="bullet">&#8226; </string>
 
     <string name="shared_preferences_key_name">paweltypiak.matweather.preference_file_key</string>
-    <string name="shared_preferences_language_key">language</string>
+    <string name="shared_preferences_language_key">language_preferences</string>
+    <string name="shared_preferences_units_key">units_preferences</string>
 
     <!-- Dialog strings -->
     <string name="first_opening_dialog_title">Witaj!</string>
@@ -100,23 +101,23 @@
     <string name="first_launch_layout_units_pressure_header">ciśnienie:</string>
     <string name="first_launch_layout_units_distance_header">odległość:</string>
     <string name="first_launch_layout_units_hours_header">format czasu:</string>
-    <string-array name="first_launch_layout_units_temperature_units">
+    <string-array name="first_launch_layout_units_array_1">
         <item>\u2103</item>
         <item>\u2109</item>
     </string-array>
-    <string-array name="first_launch_layout_units_speed_units">
+    <string-array name="first_launch_layout_units_array_2">
         <item>km/h</item>
         <item>mi/h</item>
     </string-array>
-    <string-array name="first_launch_layout_units_distance_units">
+    <string-array name="first_launch_layout_units_array_3">
         <item>km</item>
         <item>mi</item>
     </string-array>
-    <string-array name="first_launch_layout_units_pressure_units">
+    <string-array name="first_launch_layout_units_array_4">
         <item>hPa</item>
         <item>mmHg</item>
     </string-array>
-    <string-array name="first_launch_layout_units_time_units">
+    <string-array name="first_launch_layout_units_array_5">
         <item>24h</item>
         <item>12h</item>
     </string-array>

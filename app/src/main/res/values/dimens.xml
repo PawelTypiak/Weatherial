@@ -13,4 +13,5 @@
     <dimen name="first_launch_configuration_title_text_size">20dp</dimen>
     <dimen name="first_launch_configuration_text_size">18dp</dimen>
     <dimen name="first_launch_units_dropdown_item_width">80dp</dimen>
+    <dimen name="first_launch_units_image_padding">25dp</dimen>
 </resources>

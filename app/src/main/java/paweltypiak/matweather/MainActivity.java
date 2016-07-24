@@ -13,7 +13,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -25,15 +24,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
-import java.util.Calendar;
-import java.util.Date;
-
 import paweltypiak.matweather.dataDownloading.DataDownloader;
 import paweltypiak.matweather.dataDownloading.DownloadCallback;
 import paweltypiak.matweather.dataProcessing.DataInitializer;
 import paweltypiak.matweather.dataProcessing.DataSetter;
 
-import static paweltypiak.matweather.UsefulFunctions.getUnits;
 import static paweltypiak.matweather.dataProcessing.DataSetter.getTimeThreadStartedFlag;
 import static paweltypiak.matweather.dataProcessing.DataSetter.setStartTimeThread;
 import paweltypiak.matweather.jsonHandling.Channel;
@@ -76,6 +71,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         UsefulFunctions.setIsFirst(true);
+        new UsefulFunctions().new SharedPreferencesReader(this);
         initializeLayout(); //layout initialization
         localization ="zamosc";
         downloadData(localization);//download weather data
