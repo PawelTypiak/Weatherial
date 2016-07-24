@@ -50,6 +50,7 @@ public class DataFormatter {
 
     public DataFormatter(Activity activity, DataInitializer dataInitializer){
         this.units= UsefulFunctions.getUnitsPreferences();
+
         this.activity=activity;
         this.dataInitializer=dataInitializer;
         getData();
@@ -160,6 +161,9 @@ public class DataFormatter {
         Date beforeMidnight=null;
         Date afterMidnight=null;
         Date now=null;
+        long sunsetSunriseDifference;
+        long currentDifference;
+
         SimpleDateFormat inputFormat= new SimpleDateFormat("H:mm");
         try{
             sunriseHour= inputFormat.parse(sunrise24);
@@ -170,10 +174,8 @@ public class DataFormatter {
         }
         if((now.after(sunriseHour)&&now.before(sunsetHour))||now.equals(sunriseHour)||now.equals(sunsetHour)){
             isDay =true;
-            long sunsetSunriseDifference = Math.abs(sunsetHour.getTime() - sunriseHour.getTime());
-            long currentDifference= Math.abs(now.getTime()-sunriseHour.getTime());
-            sunsetSunriseDiffMinutes = sunsetSunriseDifference / (60 * 1000);
-            currentDiffMinutes = currentDifference / (60 * 1000);
+            sunsetSunriseDifference = Math.abs(sunsetHour.getTime() - sunriseHour.getTime());
+            currentDifference= Math.abs(now.getTime()-sunriseHour.getTime());
         }
         else {
             isDay=false;
@@ -184,20 +186,18 @@ public class DataFormatter {
                 pe.printStackTrace();
             }
             long twentyFourHours = Math.abs(beforeMidnight.getTime()-afterMidnight.getTime());
-            long sunsetSunriseDifference=twentyFourHours-Math.abs(sunsetHour.getTime() - sunriseHour.getTime());
+            sunsetSunriseDifference=twentyFourHours-Math.abs(sunsetHour.getTime() - sunriseHour.getTime());
             if(now.before(sunriseHour)){
-                long currentDifference= sunsetSunriseDifference-Math.abs(now.getTime() - sunriseHour.getTime());
-                sunsetSunriseDiffMinutes = sunsetSunriseDifference / (60 * 1000);
-                currentDiffMinutes = currentDifference / (60 * 1000);
+                currentDifference= sunsetSunriseDifference-Math.abs(now.getTime() - sunriseHour.getTime());
             }
             else {
-                long currentDifference= Math.abs(now.getTime() - sunsetHour.getTime());
-                sunsetSunriseDiffMinutes = sunsetSunriseDifference / (60 * 1000);
-                currentDiffMinutes = currentDifference / (60 * 1000);
+                currentDifference= Math.abs(now.getTime() - sunsetHour.getTime());
             }
         }
+        sunsetSunriseDiffMinutes = sunsetSunriseDifference / (60*1000);
+        currentDiffMinutes = currentDifference / (60*1000);
         String outputString[]={Long.toString(sunsetSunriseDiffMinutes),Long.toString(currentDiffMinutes),Integer.toString((isDay)? 1 : 0)};
-         return outputString;
+        return outputString;
     }
 
     private String get24Time(String time){
@@ -214,9 +214,42 @@ public class DataFormatter {
         return time24;
     }
 
+    private String formatTemperatureUnit(String temperature){
+        if(units[0]==0){
+            temperature=Integer.toString((int)Math.round(0.55*(Integer.parseInt(temperature)-32)));
+        }
+        return temperature;
+    }
+    private String formatSpeedUnit(String speed){
+        if(units[1]==0){
+            speed=Integer.toString((int)Math.round(0.625*Integer.parseInt(speed)))+" "+activity.getResources().getString(R.string.speed_kmh);
+        }
+        else speed=speed+" "+activity.getResources().getString(R.string.speed_mph);
+        return speed;
+    }
+    private String formatDistanceUnit(String distance){
+        if (distance.indexOf(".") != -1) distance= distance.substring(0 , distance.indexOf("."));
+        if(units[2]==0) distance=distance+" "+activity.getResources().getString(R.string.distance_km);
+        else {
+            distance=Integer.toString((int)Math.round(0.62*Double.parseDouble(distance)));
+            distance=distance+" "+activity.getResources().getString(R.string.distance_mi);
+        }
+        return distance;
+    }
+    private String formatPressureUnit(String pressure){
+        if (pressure.indexOf(".") != -1) pressure= pressure.substring(0 , pressure.indexOf("."));
+        if(units[3]==0){
+            pressure=pressure+" "+activity.getResources().getString(R.string.pressure_hpa);
+        }
+        else {
+            pressure=Integer.toString((int)Math.round(0.0295*Integer.parseInt(pressure)));
+            pressure=pressure+" "+activity.getResources().getString(R.string.pressure_mmHg);
+        }
+        return pressure;
+    }
     private String formatTimeUnit(String time) {
         SimpleDateFormat inputFormat = new SimpleDateFormat("hh:mm a");
-        if (units[0] == 0) {
+        if (units[4] == 0) {
             SimpleDateFormat outputFormat = new SimpleDateFormat("H:mm");
             Date date;
             try {
@@ -239,39 +272,6 @@ public class DataFormatter {
             }
         }
         return time;
-    }
-    private String formatTemperatureUnit(String temperature){
-        if(units[1]==0){
-            temperature=Integer.toString((int)Math.round(0.55*(Integer.parseInt(temperature)-32)));
-        }
-        return temperature;
-    }
-    private String formatSpeedUnit(String speed){
-        if(units[2]==0){
-            speed=Integer.toString((int)Math.round(0.625*Integer.parseInt(speed)))+" "+activity.getResources().getString(R.string.speed_kmh);
-        }
-        else speed=speed+" "+activity.getResources().getString(R.string.speed_mph);
-        return speed;
-    }
-    private String formatDistanceUnit(String distance){
-        if (distance.indexOf(".") != -1) distance= distance.substring(0 , distance.indexOf("."));
-        if(units[3]==0) distance=distance+" "+activity.getResources().getString(R.string.distance_km);
-        else {
-            distance=Integer.toString((int)Math.round(0.62*Double.parseDouble(distance)));
-            distance=distance+" "+activity.getResources().getString(R.string.distance_mi);
-        }
-        return distance;
-    }
-    private String formatPressureUnit(String pressure){
-        if (pressure.indexOf(".") != -1) pressure= pressure.substring(0 , pressure.indexOf("."));
-        if(units[4]==0){
-            pressure=pressure+" "+activity.getResources().getString(R.string.pressure_hpa);
-        }
-        else {
-            pressure=Integer.toString((int)Math.round(0.0295*Integer.parseInt(pressure)));
-            pressure=pressure+" "+activity.getResources().getString(R.string.pressure_mmHg);
-        }
-        return pressure;
     }
 
     private void getData(){

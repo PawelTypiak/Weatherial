@@ -53,8 +53,7 @@ public class UsefulFunctions {
         private SharedPreferences sharedPreferences;
         public SharedPreferencesReader(Activity activity){
             this.activity=activity;
-            sharedPreferences =activity.getSharedPreferences(
-                    activity.getString(R.string.shared_preferences_key_name), activity.MODE_PRIVATE);
+            sharedPreferences= getSharedPreferences(activity);
             readLanguagePreferences();
             readUnitsPreferences();
         }
@@ -65,14 +64,25 @@ public class UsefulFunctions {
             else languagePreferences=1;
         }
         private void readUnitsPreferences(){
-            String unitsString = sharedPreferences.getString("string", "0,0,0,0,0,");
+            String unitsString = sharedPreferences.getString(activity.getString(R.string.shared_preferences_units_key), "0,0,0,0,0,");
+            Log.d("units_useful_func", unitsString);
             StringTokenizer st = new StringTokenizer(unitsString, ",");
             for (int i = 0; i < unitsPreferences.length; i++) {
                 unitsPreferences[i] = Integer.parseInt(st.nextToken());
+                Log.d("units_static", ""+ unitsPreferences[i]);
             }
+
         }
         private void readLocationPreferences(){
+
         }
+
+    }
+
+    public static SharedPreferences getSharedPreferences(Activity activity){
+        SharedPreferences sharedPreferences = activity.getSharedPreferences(
+                activity.getString(R.string.shared_preferences_key_name), activity.MODE_PRIVATE);
+        return sharedPreferences;
     }
 
     public static void initializeWebIntent(Activity activity, String url){

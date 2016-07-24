@@ -201,7 +201,7 @@ public class DataSetter {
 
     private void setCurrentTime(Calendar calendar){
         String outputFormat;
-        if(getUnitsPreferences()[0]==0) outputFormat="H:mm:ss";
+        if(getUnitsPreferences()[4]==0) outputFormat="H:mm:ss";
         else outputFormat="h:mm:ss a";
         timeTextView.setText(DateFormat.format(outputFormat, calendar));
     }
