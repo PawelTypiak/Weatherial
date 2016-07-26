@@ -132,6 +132,7 @@ public class DataSetter {
 
     public DataSetter(Activity activity, DataInitializer dataInitializer) {
         newRefresh=true;
+        Log.d("datasetter newrefresh", "true");
         this.activity=activity;
         currentDataFormatter=new DataFormatter(activity, dataInitializer);
         getData();
@@ -216,6 +217,7 @@ public class DataSetter {
         String outputMinutesFormat="H:mm";
         String outputMinutesString=DateFormat.format(outputMinutesFormat, calendar).toString();
         String[] sunPositionStrings=currentDataFormatter.countSunPosition(outputMinutesString);
+
         if(newRefresh==true){
             sunsetSunriseDiffMinutesString=sunPositionStrings[0];
             currentDiffMinutesString=sunPositionStrings[1];

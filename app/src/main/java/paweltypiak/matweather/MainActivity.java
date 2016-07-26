@@ -54,13 +54,7 @@ public class MainActivity extends AppCompatActivity
     private AlertDialog mapsDialog;
     private DialogInitializer dialogInitializer;
     private SwipeRefreshLayout swipeRefreshLayout;
-
-    private int temperature;
-    private int time;
-    private int pressure;
-    private int distance;
-    private int speed;
-    private String localization;
+    private String location;
     private CoordinatorLayout mainLayout;
     private LinearLayout weatherLayout;
     private TextView refreshMessageTextView;
@@ -70,11 +64,11 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        loadExtras();
         UsefulFunctions.setIsFirst(true);
         new UsefulFunctions().new SharedPreferencesReader(this);
         initializeLayout(); //layout initialization
-        localization ="zamosc";
-        downloadData(localization);//download weather data
+        downloadData(location);//download weather data
     }
 
     public void downloadData(String localization){
@@ -180,7 +174,7 @@ public class MainActivity extends AppCompatActivity
 
     Runnable downloadDataRunnable = new Runnable() {
         public void run() {
-            downloadData(localization);
+            downloadData(location);
         }
     };
     Runnable refreshRunnable = new Runnable() {
@@ -305,6 +299,14 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         });
+    }
+
+    private void loadExtras(){
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            location=extras.getString("differentLocationName");
+            Log.d("location from bundle", ""+location);
+        }
     }
 
     @Override

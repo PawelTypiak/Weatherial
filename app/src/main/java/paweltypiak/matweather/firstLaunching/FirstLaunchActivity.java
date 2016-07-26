@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -23,8 +24,9 @@ import paweltypiak.matweather.UsefulFunctions;
 
 public class FirstLaunchActivity extends AppCompatActivity {
 
-    AlertDialog exitDialog;
-    FragmentTransaction fragmentTransaction;
+    private AlertDialog exitDialog;
+    private FragmentTransaction fragmentTransaction;
+    private FirstLaunchConfigurationFragment configurationFragment;
     int step=0;
 
     @Override
@@ -58,8 +60,6 @@ public class FirstLaunchActivity extends AppCompatActivity {
         exitDialog=dialogInitializer.initializeExitDialog();
     }
 
-
-
     private void setMainActivityLayout() {
         setButtonIcon();
         final CardView startButtonCardView = (CardView) findViewById(R.id.first_launch_button_cardView);
@@ -81,9 +81,7 @@ public class FirstLaunchActivity extends AppCompatActivity {
                     step=3;
                 }
                 else if(step==3){
-                    Intent intent = new Intent(FirstLaunchActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
+                    initializeLoadingLocationFragment();
                 }
             }
         });
@@ -91,11 +89,31 @@ public class FirstLaunchActivity extends AppCompatActivity {
 
 
     private void setNestedConfigurationFragment(android.support.v4.app.Fragment nestedFragment,String tag){
-        FirstLaunchConfigurationFragment configurationFragment = (FirstLaunchConfigurationFragment)
+        configurationFragment = (FirstLaunchConfigurationFragment)
                 getSupportFragmentManager().findFragmentByTag("ConfigurationFragment");
         configurationFragment.insertNestedFragment(nestedFragment,tag);
     }
 
+    private void initializeLoadingLocationFragment(){
+        int choosenLocationOption=configurationFragment.getChoosenOptionFromLocationFragment();
+        String differentLocationName;
+        if(choosenLocationOption==1){
+            Toast.makeText(this, "Work in progress, choose other option",
+                    Toast.LENGTH_LONG).show();
+        }
+        else{
+            differentLocationName=configurationFragment.getDifferentLocationNameFromLocationFragment();
+            if(differentLocationName.length()==0||differentLocationName.equals(getString(R.string.first_launch_layout_location_different))){
+                configurationFragment.showEmptyLocationNameDialogInLocationFragment();
+            }
+            else{
+                Intent intent = new Intent(FirstLaunchActivity.this, MainActivity.class);
+                intent.putExtra("differentLocationName",differentLocationName);
+                startActivity(intent);
+                finish();
+            }
+        }
+    }
 
     @Override
     public void onBackPressed() {

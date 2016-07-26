@@ -17,6 +17,7 @@ import paweltypiak.matweather.R;
 public class FirstLaunchConfigurationFragment extends Fragment {
 
     private FragmentTransaction fragmentTransaction;
+    private FirstLaunchLocationFragment locationFragment;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.first_launch_configuraion_fragment, parent, false);
@@ -33,6 +34,22 @@ public class FirstLaunchConfigurationFragment extends Fragment {
         fragmentTransaction = getChildFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.first_launch_configuration_fragment_placeholder, nestedFragment,tag)
                 .commit();
+    }
+
+    public int getChoosenOptionFromLocationFragment(){
+        locationFragment = (FirstLaunchLocationFragment)
+                getChildFragmentManager().findFragmentByTag("LocationFragment");
+        int choosenOption=locationFragment.getChoosenLocationOption();
+        return choosenOption;
+    }
+
+    public String getDifferentLocationNameFromLocationFragment(){
+        String differentLocationNameString=locationFragment.getDifferentLocationName();
+        return differentLocationNameString;
+    }
+
+    public void showEmptyLocationNameDialogInLocationFragment(){
+        locationFragment.showEmptyLocationNameDialog();
     }
 
     private void setAppIcon(){

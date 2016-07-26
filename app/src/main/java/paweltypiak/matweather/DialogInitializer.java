@@ -2,6 +2,7 @@ package paweltypiak.matweather;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.support.v4.content.ContextCompat;
@@ -9,8 +10,11 @@ import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
@@ -39,6 +43,7 @@ public class DialogInitializer  {
     private static AlertDialog emptyLocationNameDialog;
     private static AlertDialog internetFailureDialog;
     private static AlertDialog mapsDialog;
+    private static AlertDialog differentLocationDialog;
     private static AlertDialog addToFavouritesDialog;
     private static AlertDialog deleteFromFavouritesDialog;
     private static EditText searchEditText;
@@ -59,6 +64,13 @@ public class DialogInitializer  {
         public void run() {
             if(searchDialog==null) searchDialog=initializeSearchDialog();
             searchDialog.show();
+            UsefulFunctions.showKeyboard(activity);
+        }
+    };
+
+    private static Runnable showDifferentLocationDialogRunnable = new Runnable() {
+        public void run() {
+            differentLocationDialog.show();
             UsefulFunctions.showKeyboard(activity);
         }
     };
@@ -119,16 +131,44 @@ public class DialogInitializer  {
     private static class setMainLayoutRunnable implements Runnable {
         DataInitializer dataInitializer;
         DataSetter dataSetter;
+
         public setMainLayoutRunnable(DataInitializer dataInitializer) {
-                this.dataInitializer=dataInitializer;
+            this.dataInitializer = dataInitializer;
         }
+
         public void run() {
-            dataSetter=new DataSetter(activity,dataInitializer);
+            dataSetter = new DataSetter(activity, dataInitializer);
         }
     }
 
+    private static class differentLocationDialogRunnable implements  Runnable{
+        private RadioButton radioButton;
+        private View dialogView;
+        private EditText editText;
+        private String text;
+
+        public differentLocationDialogRunnable(RadioButton radioButton, View dialogView) {
+            this.radioButton = radioButton;
+            this.dialogView=dialogView;
+        }
+        @Override
+        public void run() {
+            UsefulFunctions.hideKeyboard(activity);
+            editText=(EditText)dialogView.findViewById(R.id.search_edit_text);
+            text=editText.getText().toString();
+            if(text.length()==0) {
+                emptyLocationNameDialog=initializeEmptyLocationNameDialog(1);
+                emptyLocationNameDialog.show();
+            }
+            else{
+                radioButton.setText(text);
+            }
+        }
+    }
+
+
     private static void initializeSearchRunnableDialogs(){
-        if(emptyLocationNameDialog==null)emptyLocationNameDialog=initializeEmptyLocationNameDialog();
+        emptyLocationNameDialog=initializeEmptyLocationNameDialog(2);
         if(searchProgressDialog==null)searchProgressDialog=initializeSearchProgressDialog();
         if(noLocalizationResultsDialog==null)noLocalizationResultsDialog=initializeNoLocalizationResultsDialog();
     }
@@ -155,7 +195,7 @@ public class DialogInitializer  {
         public void run(){
             if(isReconnect==false){
                 location=locationEditText.getText().toString();
-                UsefulFunctions.hideKeyboard(activity,locationEditText);
+                UsefulFunctions.hideKeyboard(activity);
             }
             Log.d("run_location", location);
 
@@ -224,6 +264,7 @@ public class DialogInitializer  {
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.search_dialog,null);
         final EditText locationEditText=(EditText)dialogView.findViewById(R.id.search_edit_text);
+
         searchDialog=buildDialog(
                 activity,
                 dialogView,
@@ -242,18 +283,56 @@ public class DialogInitializer  {
         searchDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
-                UsefulFunctions.hideKeyboard(activity,locationEditText);
+                UsefulFunctions.hideKeyboard(activity);
                 locationEditText.getText().clear();
             }
         });
         return searchDialog;
     }
 
-    private static AlertDialog initializeEmptyLocationNameDialog(){
+    public static AlertDialog initializeDifferentLocationDialog(RadioButton radioButton){
+        LayoutInflater inflater = activity.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.search_dialog,null);
+        final EditText locationEditText=(EditText)dialogView.findViewById(R.id.search_edit_text);
+        String radioButtonString=radioButton.getText().toString();
+        if(!radioButtonString.equals(activity.getString(R.string.first_launch_layout_location_different))){
+            locationEditText.setText(radioButtonString);
+            locationEditText.setSelection(radioButtonString.length());
+        }
+        differentLocationDialog=buildDialog(
+                activity,
+                dialogView,
+                R.style.CustomDialogStyle,
+                activity.getString(R.string.different_location_dialog_title),
+                R.drawable.localization_icon,
+                null,
+                false,
+                activity.getString(R.string.different_location_dialog_positive_button),
+                new differentLocationDialogRunnable(radioButton,dialogView),
+                null,
+                null,
+                activity.getString(R.string.different_location_dialog_negative_button),
+                null
+        );
+        differentLocationDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                UsefulFunctions.hideKeyboard(activity);
+                locationEditText.getText().clear();
+            }
+        });
+        return differentLocationDialog;
+    }
+
+
+    public static AlertDialog initializeEmptyLocationNameDialog(int type){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.one_line_text_dialog,null);
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
         messageTextView.setText(activity.getString(R.string.empty_location_name_dialog_message));
+        Runnable runnable;
+        if(type==1) runnable=showDifferentLocationDialogRunnable;
+        else runnable=showSearchDialogRunnable;
         emptyLocationNameDialog=buildDialog(
                 activity,
                 dialogView,
@@ -263,7 +342,7 @@ public class DialogInitializer  {
                 null,
                 false,
                 activity.getString(R.string.empty_location_name_dialog_positive_button),
-                showSearchDialogRunnable,
+                runnable,
                 null,
                 null,
                 activity.getString(R.string.empty_location_name_dialog_negative_button),
@@ -449,7 +528,7 @@ public class DialogInitializer  {
         int backgroundResource = typedArray.getResourceId(0, 0);
         message2TextView.setBackgroundResource(backgroundResource);
         typedArray.recycle();
-        //copy to alipboadrd after press
+        //copy to clipboadrd after press
         message2TextView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
@@ -518,7 +597,6 @@ public class DialogInitializer  {
                 null,
                 null,
                 null);
-
         return refreshDialog;
     }*/
 
@@ -574,7 +652,7 @@ public class DialogInitializer  {
                 null,
                 activity.getString(R.string.maps_dialog_negative_button),
                 null);
-       return mapsDialog;
+        return mapsDialog;
     }
 
     public static AlertDialog initializeFirstLoadingDialog(){
