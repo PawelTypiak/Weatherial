@@ -12,6 +12,7 @@
     <string name="shared_preferences_units_key">units_preferences</string>
     <string name="extras_choosen_location_option_key">choosen_location_option</string>
     <string name="extras_different_location_name_key">different_location_name</string>
+    <string name="extras_data_initializer_key">data_initializer</string>
 
     <!-- Dialog strings -->
     <string name="first_opening_dialog_title">Witaj!</string>

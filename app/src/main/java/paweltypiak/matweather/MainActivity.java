@@ -1,8 +1,11 @@
 package paweltypiak.matweather;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.graphics.Color;
 
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -23,6 +26,15 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 
 import paweltypiak.matweather.dataDownloading.DataDownloader;
 import paweltypiak.matweather.dataDownloading.DownloadCallback;
@@ -59,66 +71,52 @@ public class MainActivity extends AppCompatActivity
     private LinearLayout weatherLayout;
     private TextView refreshMessageTextView;
     private ImageView refreshImageView;
-    int run;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         loadExtras();
         UsefulFunctions.setIsFirst(true);
-        new UsefulFunctions().new SharedPreferencesReader(this);
+        new UsefulFunctions().new SharedPreferencesReader(MainActivity.this);
         initializeLayout(); //layout initialization
-        downloadData(location);//download weather data
+        loadFirstLocation();
     }
 
-    public void downloadData(String localization){
-        if(UsefulFunctions.getIsFirst()==true) {
-            firstLoadingDialog.show();    //dialog at the beginning
+    public void downloadData(String location) {
+        downloader=new DataDownloader(location,this);
+    }
+    private void loadExtras(){
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            getter=extras.getParcelable(getString(R.string.extras_data_initializer_key));
         }
-        downloader=new DataDownloader(localization,this);   //downloading weather data for Poznan
+    }
+
+    private void loadFirstLocation(){
+        setter = new DataSetter(this,getter); //data formatting and weather layout setting
+        UsefulFunctions.setViewVisible(mainLayout);
+        UsefulFunctions.setIsFirst(false);
     }
 
     @Override
     public void ServiceSuccess(Channel channel) {
-        if(UsefulFunctions.getIsFirst()==true) {
-            getter = new DataInitializer(this,channel); //initializing weather data from JSON
-            setter = new DataSetter(this,getter); //data formatting and weather layout setting
-            UsefulFunctions.setViewVisible(mainLayout);
-            firstLoadingDialog.dismiss();
-            run=1;
-        }
-        else {
-            getter = new DataInitializer(this,channel); //initializing weather data from JSON
-            setter = new DataSetter(this,getter); //data formatting and weather layout setting
-            swipeRefreshLayout.setRefreshing(false);
-            UsefulFunctions.setViewInvisible(refreshMessageTextView);
-            UsefulFunctions.setViewVisible(mainLayout);
-            UsefulFunctions.setViewVisible(weatherLayout);
-        }
-        UsefulFunctions.setIsFirst(false);  //first loading done
-
+        getter = new DataInitializer(this,channel); //initializing weather data from JSON
+        setter = new DataSetter(this,getter); //data formatting and weather layout setting
+        swipeRefreshLayout.setRefreshing(false);
+        UsefulFunctions.setViewInvisible(refreshMessageTextView);
+        UsefulFunctions.setViewVisible(mainLayout);
+        UsefulFunctions.setViewVisible(weatherLayout);
     }
-
     @Override
     public void ServiceFailure(int errorCode) {
         //failure handling
-        if(UsefulFunctions.getIsFirst()==true) {
-            firstLoadingDialog.dismiss();
-            if(errorCode==1) {
-                internetFailureDialog=dialogInitializer.initializeInternetFailureDialog(false,downloadDataRunnable,null);
-                internetFailureDialog.show();
-            }
-            else serviceFailureDialog.show();
+        swipeRefreshLayout.setRefreshing(false);
+        UsefulFunctions.setViewInvisible(refreshMessageTextView);
+        if(errorCode==1) {
+            internetFailureDialog=dialogInitializer.initializeInternetFailureDialog(false,refreshRunnable,null);
+            internetFailureDialog.show();
         }
-        else {
-            swipeRefreshLayout.setRefreshing(false);
-            UsefulFunctions.setViewInvisible(refreshMessageTextView);
-            if(errorCode==1) {
-                internetFailureDialog=dialogInitializer.initializeInternetFailureDialog(false,refreshRunnable,null);
-                internetFailureDialog.show();
-            }
-            else serviceFailureDialog.show();
-        }
+        else serviceFailureDialog.show();
     }
 
     private void setSwipeRefreshLayout(){
@@ -299,14 +297,6 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         });
-    }
-
-    private void loadExtras(){
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            location=extras.getString("differentLocationName");
-            Log.d("location from bundle", ""+location);
-        }
     }
 
     @Override

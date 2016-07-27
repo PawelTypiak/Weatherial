@@ -99,9 +99,6 @@ public class DataSetter {
     private TextView[] forecastHighTemperatureTextView;
     private TextView[] forecastLowTemperatureTextView;
     private Activity activity;
-    private DataInitializer dataInitializer;
-    private int layoutWidth;
-    private int layoutHeight;
     private double objectScale;
     private double lineScale;
     private boolean isDay;
@@ -131,6 +128,7 @@ public class DataSetter {
     }
 
     public DataSetter(Activity activity, DataInitializer dataInitializer) {
+
         newRefresh=true;
         Log.d("datasetter newrefresh", "true");
         this.activity=activity;
@@ -173,6 +171,8 @@ public class DataSetter {
 
     private void setAppBarLayout(){
         getAppBarResources();
+        if(primaryLocationTextView==null) Log.d("pusty","jest null");
+        else Log.d("pusty","nie null");
         primaryLocationTextView.setText(city);
         secondaryLocationTextView.setText(region+", "+country);
         setStartTimeThread(true);
@@ -267,11 +267,23 @@ public class DataSetter {
     }
 
     private void setSunTranslation(){
-
         ViewTreeObserver treeObserver = sunPathLayout.getViewTreeObserver();
         treeObserver.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             public boolean onPreDraw() {
+                objectScale=0.5;
+                lineScale=0.07;
+                int layoutHeight = sunPathLayout.getMeasuredHeight();
+                int layoutWidth = sunPathLayout.getMeasuredWidth();
                 sunPathLayout.getViewTreeObserver().removeOnPreDrawListener(this);
+                if(isDay ==true){
+                    Picasso.with(activity.getApplicationContext()).load(R.drawable.sun_icon).resize((int) (layoutHeight * objectScale), (int) (layoutHeight * objectScale)).transform(new UsefulFunctions().new setDrawableColor(objectIconColor)).into(sunPathObjectImageView);
+                }
+                else {
+                    Picasso.with(activity.getApplicationContext()).load(R.drawable.moon_icon).resize((int) (layoutHeight * objectScale), (int) (layoutHeight * objectScale)).transform(new UsefulFunctions().new setDrawableColor(objectIconColor)).into(sunPathObjectImageView);
+                }
+                Picasso.with(activity.getApplicationContext()).load(R.drawable.weather_line).transform(new UsefulFunctions().new setDrawableColor(dividerColor)).resize((int) (layoutWidth - layoutHeight * objectScale), (int) (layoutHeight)).into(sunPathBackgroudImageView);
+                Picasso.with(activity.getApplicationContext()).load(R.drawable.weather_small_circle).transform(new UsefulFunctions().new setDrawableColor(iconColor)).resize((int) (layoutHeight * lineScale), (int) (layoutHeight * lineScale)).into(sunPathLeftCircleImageView);
+                Picasso.with(activity.getApplicationContext()).load(R.drawable.weather_small_circle).transform(new UsefulFunctions().new setDrawableColor(iconColor)).resize((int) (layoutHeight * lineScale), (int) (layoutHeight * lineScale)).into(sunPathRightCircleImageView);
                 int imageTranslation = (int)((currentDiffMinutes *(layoutWidth-(layoutHeight * objectScale))/sunsetSunriseDiffMinutes));
                 int circleTranslation = (int)(layoutHeight * objectScale/2);
                 sunPathObjectImageView.setTranslationX(imageTranslation);
@@ -285,29 +297,20 @@ public class DataSetter {
 
     private void setDetailsLayout(){
         getDetailsResources();
-        objectScale=0.5;
-        lineScale=0.07;
-        layoutHeight = sunPathLayout.getMeasuredHeight();
-        layoutWidth = sunPathLayout.getMeasuredWidth();
         if(isDay ==true){
             sunsetSunriseLeftTextView.setText(sunrise);
             sunsetSunriseRightTextView.setText(sunset);
             Picasso.with(activity.getApplicationContext()).load(R.drawable.sunrise_icon).transform(new UsefulFunctions().new setDrawableColor(iconColor)).fit().centerInside().into(sunsetSunriseLeftImageView);
             Picasso.with(activity.getApplicationContext()).load(R.drawable.sunset_icon).transform(new UsefulFunctions().new setDrawableColor(iconColor)).fit().centerInside().into(sunsetSunriseRightImageView);
-            Picasso.with(activity.getApplicationContext()).load(R.drawable.sun_icon).resize((int) (layoutHeight * objectScale), (int) (layoutHeight * objectScale)).transform(new UsefulFunctions().new setDrawableColor(objectIconColor)).into(sunPathObjectImageView);
         }
         else {
             sunsetSunriseLeftTextView.setText(sunset);
             sunsetSunriseRightTextView.setText(sunrise);
             Picasso.with(activity.getApplicationContext()).load(R.drawable.sunrise_icon).transform(new UsefulFunctions().new setDrawableColor(iconColor)).fit().centerInside().into(sunsetSunriseRightImageView);
             Picasso.with(activity.getApplicationContext()).load(R.drawable.sunset_icon).fit().transform(new UsefulFunctions().new setDrawableColor(iconColor)).centerInside().into(sunsetSunriseLeftImageView);
-            Picasso.with(activity.getApplicationContext()).load(R.drawable.moon_icon).resize((int) (layoutHeight * objectScale), (int) (layoutHeight * objectScale)).transform(new UsefulFunctions().new setDrawableColor(objectIconColor)).into(sunPathObjectImageView);
         }
         sunsetSunriseLeftTextView.setTextColor(textPrimaryColor);
         sunsetSunriseRightTextView.setTextColor(textPrimaryColor);
-        Picasso.with(activity.getApplicationContext()).load(R.drawable.weather_line).transform(new UsefulFunctions().new setDrawableColor(dividerColor)).resize((int) (layoutWidth - layoutHeight * objectScale), (int) (layoutHeight)).into(sunPathBackgroudImageView);
-        Picasso.with(activity.getApplicationContext()).load(R.drawable.weather_small_circle).transform(new UsefulFunctions().new setDrawableColor(iconColor)).resize((int) (layoutHeight * lineScale), (int) (layoutHeight * lineScale)).into(sunPathLeftCircleImageView);
-        Picasso.with(activity.getApplicationContext()).load(R.drawable.weather_small_circle).transform(new UsefulFunctions().new setDrawableColor(iconColor)).resize((int) (layoutHeight * lineScale), (int) (layoutHeight * lineScale)).into(sunPathRightCircleImageView);
         setSunTranslation();
         directionTextView.setText(directionName);
         directionTextView.setTextColor(textPrimaryColor);
@@ -383,9 +386,11 @@ public class DataSetter {
         currentDiffMinutes=currentDataFormatter.getCurrentDiffMinutes();
         sunsetSunriseDiffMinutes=currentDataFormatter.getSunsetSunriseDiffMinutes();
 
+        Log.d("miasto w setterze",city);
     }
 
     private void getAppBarResources(){
+        Log.d("jestem", "jestem");
         primaryLocationTextView =(TextView)activity.findViewById(R.id.app_bar_primary_location_name_text);
         secondaryLocationTextView =(TextView)activity.findViewById(R.id.app_bar_secondary_location_name_text);
         timeTextView=(TextView)activity.findViewById(R.id.app_bar_time_text);

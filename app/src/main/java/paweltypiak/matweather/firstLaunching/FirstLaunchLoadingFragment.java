@@ -160,13 +160,15 @@ public class FirstLaunchLoadingFragment extends Fragment implements DownloadCall
             messageTextView.setText(getString(R.string.first_launch_layout_loading_header_loading_content));
             UsefulFunctions.setViewVisible(messageTextView);
             Intent intent = new Intent(getActivity(), MainActivity.class);
-            intent.putExtra("differentLocationName",differentLocationName);
+            intent.putExtra(getString(R.string.extras_data_initializer_key),dataInitializer);
             startActivity(intent);
 
             getActivity().finish();
 
         }
     };
+
+
 
     private Runnable downloadRunnable = new Runnable() {
         public void run() {
