@@ -10,6 +10,8 @@
     <string name="shared_preferences_key_name">paweltypiak.matweather.preference_file_key</string>
     <string name="shared_preferences_language_key">language_preferences</string>
     <string name="shared_preferences_units_key">units_preferences</string>
+    <string name="extras_choosen_location_option_key">choosen_location_option</string>
+    <string name="extras_different_location_name_key">different_location_name</string>
 
     <!-- Dialog strings -->
     <string name="first_opening_dialog_title">Witaj!</string>
@@ -77,9 +79,10 @@
     <string name="no_localization_results_dialog_negative_button">Anuluj</string>
     <string name="no_localization_results_dialog_positive_button">Ponów</string>
     <string name="localization_results_dialog_title">Wynik wyszukiwania</string>
-    <string name="localization_results_dialog_message">Znaleziono następującą lokalizację:</string>
+    <string name="localization_results_dialog_message">Znaleziono następującą lokację:</string>
     <string name="localization_results_dialog_negative_button">Anuluj</string>
-    <string name="localization_results_dialog_neutral_button">Ponów</string>
+    <string name="localization_results_first_launch_dialog_negative_button">Wyjdź</string>
+    <string name="localization_results_dialog_neutral_button">Wyszukaj ponownie</string>
     <string name="localization_results_dialog_positive_button">Kontynuuj</string>
     <string name="search_progress_dialog_message">Wyszukiwanie lokalizacji...</string>
     <string name="empty_location_name_dialog_title">Błąd!</string>
@@ -129,7 +132,8 @@
     <string name="first_launch_layout_location_header">Wybierz lokację:</string>
     <string name="first_launch_layout_location_current">aktualna lokalizacja</string>
     <string name="first_launch_layout_location_different">inna lokacja</string>
-    <string name="first_launch_layout_search_message">Wyszukiwanie lokalizacji</string>
+    <string name="first_launch_layout_loading_header_searching_localization">Wyszukiwanie lokalizacji...</string>
+    <string name="first_launch_layout_loading_header_loading_content">Ładowanie zawartości...</string>
 
     <!-- Clipboard texts-->
     <string name="clipboard_mail_feedback_title">MatWeather - feedback</string>

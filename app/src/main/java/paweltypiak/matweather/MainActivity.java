@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity
         if(UsefulFunctions.getIsFirst()==true) {
             firstLoadingDialog.dismiss();
             if(errorCode==1) {
-                internetFailureDialog=dialogInitializer.initializeInternetFailureDialog(downloadDataRunnable);
+                internetFailureDialog=dialogInitializer.initializeInternetFailureDialog(false,downloadDataRunnable,null);
                 internetFailureDialog.show();
             }
             else serviceFailureDialog.show();
@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity
             swipeRefreshLayout.setRefreshing(false);
             UsefulFunctions.setViewInvisible(refreshMessageTextView);
             if(errorCode==1) {
-                internetFailureDialog=dialogInitializer.initializeInternetFailureDialog(refreshRunnable);
+                internetFailureDialog=dialogInitializer.initializeInternetFailureDialog(false,refreshRunnable,null);
                 internetFailureDialog.show();
             }
             else serviceFailureDialog.show();
@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity
         firstLoadingDialog=dialogInitializer.initializeFirstLoadingDialog();
         serviceFailureDialog =dialogInitializer.initializeServiceFailureDialog(downloadDataRunnable);
         yahooRedirectDialog=dialogInitializer.initializeYahooRedirectDialog();
-        exitDialog=dialogInitializer.initializeExitDialog();
+        exitDialog=dialogInitializer.initializeExitDialog(false,null);
         aboutDialog=dialogInitializer.initializeAboutDialog();
         feedbackDialog=dialogInitializer.initializeFeedbackDialog();
         authorDialog=dialogInitializer.initializeAuthorDialog();
