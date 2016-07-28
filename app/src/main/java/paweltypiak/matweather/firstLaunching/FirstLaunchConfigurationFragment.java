@@ -1,5 +1,6 @@
 package paweltypiak.matweather.firstLaunching;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -22,18 +23,34 @@ public class FirstLaunchConfigurationFragment extends Fragment{
     private FragmentTransaction fragmentTransaction;
     private FirstLaunchLocationFragment locationFragment;
     private FirstLaunchLoadingFragment loadingFragment;
+    private boolean isFirstLaunch;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getExtras();
         return inflater.inflate(R.layout.first_launch_configuraion_fragment, parent, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        insertNestedFragment(new FirstLaunchLanguageFragment(),"LanguageFragment");
         setAppIcon();
+        if(isFirstLaunch) insertNestedFragment(new FirstLaunchLanguageFragment(),"LanguageFragment");
+        else initializeLoadingLocation();
     }
+    public static FirstLaunchConfigurationFragment newInstance(boolean isFirstLaunch,Activity activity) {
+        FirstLaunchConfigurationFragment configurationFragment = new FirstLaunchConfigurationFragment();
+        Bundle extras = new Bundle();
+        extras.putBoolean(activity.getString(R.string.extras_is_first_launch_key), isFirstLaunch);
+        configurationFragment.setArguments(extras);
+        return configurationFragment;
+    }
+    private void getExtras(){
+        isFirstLaunch = getArguments().getBoolean(getString(R.string.extras_is_first_launch_key));
+    }
+
+
 
     private void setAppIcon(){
         ImageView appIconImageView;
@@ -55,7 +72,7 @@ public class FirstLaunchConfigurationFragment extends Fragment{
 
     public void insertLoadingFragment(int choosenLocationOption, String differentLocationName) {
         fragmentTransaction = getChildFragmentManager().beginTransaction();
-        loadingFragment = FirstLaunchLoadingFragment.newInstance(choosenLocationOption,differentLocationName,getActivity());
+        loadingFragment = FirstLaunchLoadingFragment.newInstance(isFirstLaunch,choosenLocationOption,differentLocationName,getActivity());
         fragmentTransaction.replace(R.id.first_launch_configuration_fragment_placeholder, loadingFragment, "LoadingFragment");
         fragmentTransaction.commit();
     }
@@ -76,21 +93,24 @@ public class FirstLaunchConfigurationFragment extends Fragment{
     }
 
     public void initializeLoadingLocation(){
-        int choosenLocationOption=getChoosenOptionFromLocationFragment();
-        String differentLocationName;
-        if(choosenLocationOption==1){
-            Toast.makeText(getActivity(), "Work in progress, choose other option",
-                    Toast.LENGTH_LONG).show();
-        }
-        else{
-            differentLocationName=getDifferentLocationNameFromLocationFragment();
-            if(differentLocationName.equals(getString(R.string.first_launch_layout_location_different))){
-                showEmptyLocationNameDialogInLocationFragment();
+        if(isFirstLaunch){
+            int choosenLocationOption=getChoosenOptionFromLocationFragment();
+            if(choosenLocationOption==1){
+                Toast.makeText(getActivity(), "Work in progress, choose other option",
+                        Toast.LENGTH_LONG).show();
             }
             else{
-                insertLoadingFragment(choosenLocationOption,differentLocationName);
+                String differentLocationName=getDifferentLocationNameFromLocationFragment();
+                if(differentLocationName.equals(getString(R.string.first_launch_layout_location_different))){
+                    showEmptyLocationNameDialogInLocationFragment();
+                }
+                else{
+                    insertLoadingFragment(choosenLocationOption,differentLocationName);
+                }
             }
         }
+        else insertLoadingFragment(0,"");
+
     }
 
 }

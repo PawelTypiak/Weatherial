@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity
     private void setDialogs(){
         dialogInitializer=new DialogInitializer(this);
         firstLoadingDialog=dialogInitializer.initializeFirstLoadingDialog();
-        serviceFailureDialog =dialogInitializer.initializeServiceFailureDialog(downloadDataRunnable);
+        serviceFailureDialog =dialogInitializer.initializeServiceFailureDialog(downloadDataRunnable,null);
         yahooRedirectDialog=dialogInitializer.initializeYahooRedirectDialog();
         exitDialog=dialogInitializer.initializeExitDialog(false,null);
         aboutDialog=dialogInitializer.initializeAboutDialog();

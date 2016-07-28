@@ -1,6 +1,7 @@
 package paweltypiak.matweather.firstLaunching;
 
 import android.app.AlertDialog;
+import android.content.SharedPreferences;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -23,15 +24,16 @@ public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaun
     private AlertDialog exitDialog;
     private FragmentTransaction fragmentTransaction;
     private FirstLaunchConfigurationFragment configurationFragment;
+    private boolean firstLaunch;
     int step=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_launch);
-        if (savedInstanceState == null) initializeFragment(new FirstLaunchStartFragment(),"StartFragment");
-        initializeDialog();
-        setMainActivityLayout();
+        firstLaunch=isFirstLaunch();
+        if(firstLaunch==true) initializeFirstLaunch();
+        else initializeNextLaunch();
     }
 
     private void setButtonIcon(){
@@ -44,21 +46,32 @@ public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaun
         buttonTextView.setText(getString(R.string.first_launch_layout_continue_button));
     }
 
-    private void initializeFragment(Fragment fragment, String tag){
+    private boolean isFirstLaunch(){
+        SharedPreferences sharedPreferences=UsefulFunctions.getSharedPreferences(this);
+        String savedLocation=sharedPreferences.getString(getString(R.string.shared_preferences_first_location_key),"");
+        Log.d("saved shared", "saved: "+savedLocation);
+        if(savedLocation.equals("")) return true;
+        else {
+            return false;
+        }
+    }
+
+    private void initializeConfigurationFragment(boolean isFirstLaunch){
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.first_launch_main_fragment_placeholder, fragment, tag);
+        configurationFragment=FirstLaunchConfigurationFragment.newInstance(isFirstLaunch,this);
+        fragmentTransaction.replace(R.id.first_launch_main_fragment_placeholder, configurationFragment, "ConfigurationFragment");
+        fragmentTransaction.commit();
+    }
+
+    private void initializeStartFragment(){
+        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        FirstLaunchStartFragment startFragment=new FirstLaunchStartFragment();
+        fragmentTransaction.replace(R.id.first_launch_main_fragment_placeholder, startFragment, "StartFragment");
         fragmentTransaction.commit();
     }
 
     private void setNestedConfigurationFragment(android.support.v4.app.Fragment nestedFragment,String tag){
-        configurationFragment = (FirstLaunchConfigurationFragment)
-                getSupportFragmentManager().findFragmentByTag("ConfigurationFragment");
         configurationFragment.insertNestedFragment(nestedFragment,tag);
-    }
-
-    private void initializeDialog(){
-        DialogInitializer dialogInitializer=new DialogInitializer(this);
-        exitDialog=dialogInitializer.initializeExitDialog(false,null);
     }
 
     public void showLocationFragment(){
@@ -66,9 +79,42 @@ public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaun
         setNestedConfigurationFragment(new FirstLaunchLocationFragment(),"LocationFragment");
     }
 
-    private void setMainActivityLayout() {
-        setButtonIcon();
+   /* private void getConfigurationFragment(){
+        configurationFragment = (FirstLaunchConfigurationFragment)
+                getSupportFragmentManager().findFragmentByTag("ConfigurationFragment");
+    }*/
+
+    private void initializeDialog(){
+        DialogInitializer dialogInitializer=new DialogInitializer(this);
+        exitDialog=dialogInitializer.initializeExitDialog(false,null);
+    }
+
+    private void initializeFirstLaunch(){
+        initializeStartFragment();
+        initializeDialog();
+        setStartButton();
+
+    }
+
+    private void initializeNextLaunch(){
+        initializeConfigurationFragment(firstLaunch);
+        setStartButton();
+    }
+
+    private void setStartButton(){
         startButtonCardView = (CardView) findViewById(R.id.first_launch_button_cardView);
+        if(firstLaunch==true){
+            setButtonIcon();
+            setStartButtonOnClickListener(startButtonCardView);
+        }
+        else{
+            UsefulFunctions.setViewInvisible(startButtonCardView);
+
+        }
+
+    }
+
+    private void setStartButtonOnClickListener(final CardView startButtonCardView){
         startButtonCardView.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -76,13 +122,13 @@ public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaun
                 setButtonText();
                 if(step==0){
                     Log.d("step", ""+step);
-                    initializeFragment(new FirstLaunchConfigurationFragment(),"ConfigurationFragment");
+                    initializeConfigurationFragment(firstLaunch);
                     step=1;
                 }
-                else if(step==1){
-                    Log.d("step", ""+step);
-                    setNestedConfigurationFragment(new FirstLaunchUnitsFragment(),"UnitsFragment");
-                    step=2;
+                else if (step == 1) {
+                    Log.d("step", "" + step);
+                    setNestedConfigurationFragment(new FirstLaunchUnitsFragment(), "UnitsFragment");
+                    step = 2;
                 }
                 else if(step==2){
                     Log.d("step", ""+step);
@@ -98,8 +144,48 @@ public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaun
         });
     }
 
+
+   /* private void setMainActivityLayout() {
+        setButtonIcon();
+        startButtonCardView = (CardView) findViewById(R.id.first_launch_button_cardView);
+
+        startButtonCardView.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                setButtonText();
+                if(step==0){
+                    Log.d("step", ""+step);
+                    initializeConfigurationFragment(firstLaunch);
+                    if(firstLaunch==false) UsefulFunctions.setViewInvisible(startButtonCardView);
+                    //getConfigurationFragment();
+                    step=1;
+                }
+                else {
+                    if (firstLaunch) {
+                        if (step == 1) {
+                            Log.d("step", "" + step);
+                            setNestedConfigurationFragment(new FirstLaunchUnitsFragment(), "UnitsFragment");
+                            step = 2;
+                        }
+                        else if(step==2){
+                            Log.d("step", ""+step);
+                            setNestedConfigurationFragment(new FirstLaunchLocationFragment(),"LocationFragment");
+                            step=3;
+                        }
+                        else if(step==3){
+                            Log.d("step", ""+step);
+                            configurationFragment.initializeLoadingLocation();
+                            UsefulFunctions.setViewInvisible(startButtonCardView);
+                        }
+                    }
+                }
+            }
+        });
+    }*/
+
     @Override
     public void onBackPressed() {
-       exitDialog.show();
+        if(firstLaunch==true) exitDialog.show();
     }
 }

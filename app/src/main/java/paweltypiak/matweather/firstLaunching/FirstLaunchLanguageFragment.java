@@ -33,20 +33,16 @@ public class FirstLaunchLanguageFragment extends Fragment{
 
     private void radioGroupListener(){
         SharedPreferences sharedPreferences = UsefulFunctions.getSharedPreferences(getActivity());
-        Log.d("jezyk", sharedPreferences.getString(getString(R.string.shared_preferences_language_key), "en"));
         final SharedPreferences.Editor editor = sharedPreferences.edit();
-
         RadioGroup radioGroup=(RadioGroup)getActivity().findViewById(R.id.first_launch_language_fragment_radio_group);
         radioGroup.check(getActivity().findViewById(R.id.first_launch_language_fragment_english_radio_button).getId());
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 if (i == R.id.first_launch_language_fragment_english_radio_button) {
-                    Log.d("radio", "en ");
                     editor.putString(getString(R.string.shared_preferences_language_key), "en");
                     editor.commit();
                 } else if (i == R.id.first_launch_language_fragment_polish_radio_button) {
-                    Log.d("radio", "pl ");
                     editor.putString(getString(R.string.shared_preferences_language_key), "pl");
                     editor.commit();
                 }

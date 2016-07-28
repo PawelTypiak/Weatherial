@@ -10,7 +10,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:id="@+id/first_launch_loading_fragment_content_layout"
         >
 
@@ -18,7 +19,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/first_launch_layout_loading_header_searching_localization"
             android:textColor="@color/textPrimaryDarkBackground"
             android:textSize="@dimen/first_launch_configuration_text_size"
             android:textStyle="bold"

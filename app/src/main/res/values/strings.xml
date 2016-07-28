@@ -10,6 +10,8 @@
     <string name="shared_preferences_key_name">paweltypiak.matweather.preference_file_key</string>
     <string name="shared_preferences_language_key">language_preferences</string>
     <string name="shared_preferences_units_key">units_preferences</string>
+    <string name="shared_preferences_first_location_key">first_location_key</string>
+    <string name="extras_is_first_launch_key">is_first_launch_key</string>
     <string name="extras_choosen_location_option_key">choosen_location_option</string>
     <string name="extras_different_location_name_key">different_location_name</string>
     <string name="extras_data_initializer_key">data_initializer</string>
@@ -134,6 +136,7 @@
     <string name="first_launch_layout_location_current">aktualna lokalizacja</string>
     <string name="first_launch_layout_location_different">inna lokacja</string>
     <string name="first_launch_layout_loading_header_searching_localization">Wyszukiwanie lokalizacji...</string>
+    <string name="first_launch_layout_loading_header_downloading_data">Pobieranie informacji pogodowych...</string>
     <string name="first_launch_layout_loading_header_loading_content">Ładowanie zawartości...</string>
 
     <!-- Clipboard texts-->

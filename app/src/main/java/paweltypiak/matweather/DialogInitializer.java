@@ -153,6 +153,8 @@ public class DialogInitializer  {
             UsefulFunctions.hideKeyboard(activity);
             editText=(EditText)dialogView.findViewById(R.id.search_edit_text);
             text=editText.getText().toString();
+            text=text.substring(0, 1).toUpperCase() + text.substring(1);
+            if(text.substring(text.length()-1).equals(" ")) text=text.substring(0,text.length()-1);
             if(text.length()==0) {
                 emptyLocationNameDialog=initializeEmptyLocationNameDialog(1);
                 emptyLocationNameDialog.show();
@@ -398,11 +400,12 @@ public class DialogInitializer  {
         return noEmailApplicationDialog;
     }
 
-    public static AlertDialog initializeServiceFailureDialog(Runnable positiveButtonRunnable){
+    public static AlertDialog initializeServiceFailureDialog(Runnable positiveButtonRunnable,Runnable negativeButtonRunnable){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.one_line_text_dialog,null);
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
         messageTextView.setText(activity.getString(R.string.service_failure_dialog_message));
+        if(negativeButtonRunnable==null) negativeButtonRunnable=showExitRunnable;
         serviceFailureDialog = buildDialog(
                 activity,
                 dialogView,
@@ -416,7 +419,7 @@ public class DialogInitializer  {
                 null,
                 null,
                 activity.getString(R.string.service_failure_dialog_negative_button),
-                showExitRunnable
+                negativeButtonRunnable
         );
         return serviceFailureDialog;
     }
