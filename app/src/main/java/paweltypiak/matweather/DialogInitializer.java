@@ -150,7 +150,7 @@ public class DialogInitializer  {
         }
         @Override
         public void run() {
-            UsefulFunctions.hideKeyboard(activity);
+            UsefulFunctions.hideKeyboard(activity,null);
             editText=(EditText)dialogView.findViewById(R.id.search_edit_text);
             text=editText.getText().toString();
             text=text.substring(0, 1).toUpperCase() + text.substring(1);
@@ -202,7 +202,7 @@ public class DialogInitializer  {
         public void run(){
             if(isReconnect==false){
                 location=locationEditText.getText().toString();
-                UsefulFunctions.hideKeyboard(activity);
+                UsefulFunctions.hideKeyboard(activity,locationEditText);
             }
             Log.d("run_location", location);
 
@@ -288,7 +288,7 @@ public class DialogInitializer  {
         searchDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
-                UsefulFunctions.hideKeyboard(activity);
+                UsefulFunctions.hideKeyboard(activity,null);
                 locationEditText.getText().clear();
             }
         });
@@ -322,7 +322,7 @@ public class DialogInitializer  {
         differentLocationDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
-                UsefulFunctions.hideKeyboard(activity);
+                UsefulFunctions.hideKeyboard(activity,null);
                 locationEditText.getText().clear();
             }
         });
