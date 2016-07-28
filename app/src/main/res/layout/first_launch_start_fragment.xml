@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_weight="5"
     android:id="@+id/first_launch_start_fragment_app_icon_layout">
     <LinearLayout
         android:layout_width="match_parent"

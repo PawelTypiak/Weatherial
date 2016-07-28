@@ -1,15 +1,18 @@
 package paweltypiak.matweather.firstLaunching;
 
 import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -53,8 +56,7 @@ public class FirstLaunchConfigurationFragment extends Fragment{
 
 
     private void setAppIcon(){
-        ImageView appIconImageView;
-        appIconImageView=(ImageView)getActivity().findViewById(R.id.first_launch_configuration_fragment_app_icon_image);
+        final ImageView appIconImageView=(ImageView)getActivity().findViewById(R.id.first_launch_configuration_fragment_app_icon_image);
         Picasso.with(getActivity()).load(R.drawable.app_icon).fit().centerInside().into(appIconImageView);
     }
 

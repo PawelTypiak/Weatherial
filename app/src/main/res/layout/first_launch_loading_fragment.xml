@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textColor="@color/textPrimaryDarkBackground"
-            android:textSize="@dimen/first_launch_configuration_text_size"
+            android:textSize="@dimen/first_launch_configuration_title_text_size"
             android:textStyle="bold"
             android:id="@+id/first_launch_loading_fragment_message"
             />

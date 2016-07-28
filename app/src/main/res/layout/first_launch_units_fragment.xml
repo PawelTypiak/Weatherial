@@ -18,10 +18,10 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:visibility="invisible"
-            android:textSize="20dp"
+            android:textSize="@dimen/first_launch_configuration_title_text_size"
             android:text="@string/first_launch_layout_units_header"
-            android:gravity="center"
             android:textStyle="bold"
+            android:gravity="center"
             android:textColor="@color/textPrimaryDarkBackground"
             android:id="@+id/first_launch_units_fragment_header_text"
             />
