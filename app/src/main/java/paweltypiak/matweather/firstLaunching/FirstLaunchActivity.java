@@ -109,7 +109,6 @@ public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaun
         }
         else{
             UsefulFunctions.setViewInvisible(startButtonCardView);
-
         }
 
     }
@@ -143,46 +142,6 @@ public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaun
             }
         });
     }
-
-
-   /* private void setMainActivityLayout() {
-        setButtonIcon();
-        startButtonCardView = (CardView) findViewById(R.id.first_launch_button_cardView);
-
-        startButtonCardView.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                setButtonText();
-                if(step==0){
-                    Log.d("step", ""+step);
-                    initializeConfigurationFragment(firstLaunch);
-                    if(firstLaunch==false) UsefulFunctions.setViewInvisible(startButtonCardView);
-                    //getConfigurationFragment();
-                    step=1;
-                }
-                else {
-                    if (firstLaunch) {
-                        if (step == 1) {
-                            Log.d("step", "" + step);
-                            setNestedConfigurationFragment(new FirstLaunchUnitsFragment(), "UnitsFragment");
-                            step = 2;
-                        }
-                        else if(step==2){
-                            Log.d("step", ""+step);
-                            setNestedConfigurationFragment(new FirstLaunchLocationFragment(),"LocationFragment");
-                            step=3;
-                        }
-                        else if(step==3){
-                            Log.d("step", ""+step);
-                            configurationFragment.initializeLoadingLocation();
-                            UsefulFunctions.setViewInvisible(startButtonCardView);
-                        }
-                    }
-                }
-            }
-        });
-    }*/
 
     @Override
     public void onBackPressed() {

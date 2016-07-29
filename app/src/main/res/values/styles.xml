@@ -3,21 +3,22 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="android:windowBackground">@color/colorPrimary</item>
+
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
-
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
 
     </style>
 
     <style name="AppTheme.MainTheme">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-    <style name="firstLaunchTheme" parent="AppTheme.MainTheme">
 
+
+    </style>
+    <style name="AppTheme.firstLaunchTheme">
+        <item name="android:windowBackground">@color/colorPrimary</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
@@ -50,6 +51,10 @@
     <style name="selectableText" parent="AppTheme.MainTheme">
         <item name="android:background">?android:selectableItemBackground</item>
 
+    </style>
+    <style name="checkBoxStyle" parent="Base.Theme.AppCompat">
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:textColorSecondary">@color/textSecondaryLightBackground</item>
     </style>
 
 </resources>

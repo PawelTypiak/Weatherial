@@ -59,6 +59,7 @@ public class DialogInitializer  {
     private static Runnable finishRunnable = new Runnable() {
         public void run() {
             activity.finish();
+            return;
         }
     };
 

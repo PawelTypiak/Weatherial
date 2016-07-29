@@ -35,6 +35,7 @@ public class FirstLaunchLoadingFragment extends Fragment implements DownloadCall
     private String location;
     private ProgressBar loadingBar;
     private TextView messageTextView;
+    private View marginView;
     private ChooseLocationAgainListener locationListener;
     private boolean isFirstLaunch;
 
@@ -85,6 +86,7 @@ public class FirstLaunchLoadingFragment extends Fragment implements DownloadCall
     private void getLayoutResources(){
         loadingBar=(ProgressBar)getActivity().findViewById(R.id.first_launch_loading_fragment_progress_circle);
         messageTextView=(TextView)getActivity().findViewById(R.id.first_launch_loading_fragment_message);
+        marginView=getActivity().findViewById(R.id.first_launch_loading_fragment_margin_view);
     }
 
     private void initializeFirstLaunch(){
@@ -110,7 +112,7 @@ public class FirstLaunchLoadingFragment extends Fragment implements DownloadCall
     @Override
     public void ServiceSuccess(Channel channel) {
         dataInitializer = new DataInitializer(getActivity(),channel); //initializing weather data from JSON
-        UsefulFunctions.setViewInvisible(loadingBar);
+        UsefulFunctions.setViewGone(loadingBar);
         if(isFirstLaunch){
             localizationResultsDialog=dialogInitializer.initializeLocalizationResultsDialog(1,dataInitializer,loadMainActivityRunnable,showLocationFragmentRunnable,showExitLocalizationResultDialogRunnable);
             localizationResultsDialog.show();
@@ -184,6 +186,7 @@ public class FirstLaunchLoadingFragment extends Fragment implements DownloadCall
     private Runnable loadMainActivityRunnable = new Runnable() {
         public void run() {
             //UsefulFunctions.setViewVisible(loadingBar);
+            UsefulFunctions.setViewVisible(marginView);
             messageTextView.setText(getString(R.string.first_launch_layout_loading_header_loading_content));
             if(isFirstLaunch) {
                 SharedPreferences sharedPreferences=UsefulFunctions.getSharedPreferences(getActivity());
@@ -195,12 +198,9 @@ public class FirstLaunchLoadingFragment extends Fragment implements DownloadCall
             intent.putExtra(getString(R.string.extras_data_initializer_key),dataInitializer);
             startActivity(intent);
             getActivity().finish();
+            return;
         }
     };
-
-
-
-
 
     private Runnable downloadRunnable = new Runnable() {
         public void run() {

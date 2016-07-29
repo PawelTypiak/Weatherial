@@ -20,8 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textColor="@color/textPrimaryDarkBackground"
-            android:textSize="@dimen/first_launch_configuration_title_text_size"
-            android:textStyle="bold"
+            android:textSize="@dimen/first_launch_configuration_text_size"
             android:id="@+id/first_launch_loading_fragment_message"
             />
         <ProgressBar
@@ -33,6 +32,12 @@
             android:layout_marginTop="20dp"
             android:theme="@style/AppTheme.White"
             android:id="@+id/first_launch_loading_fragment_progress_circle"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:visibility="gone"
+            android:id="@+id/first_launch_loading_fragment_margin_view"
             />
     </LinearLayout>
 </RelativeLayout>

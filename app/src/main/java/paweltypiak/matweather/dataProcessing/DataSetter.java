@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
+
 import static paweltypiak.matweather.DialogInitializer.initializeMapsDialog;
 import static paweltypiak.matweather.DialogInitializer.initializeYahooWeatherRedirectDialog;
 import static paweltypiak.matweather.UsefulFunctions.getUnitsPreferences;
@@ -115,16 +117,17 @@ public class DataSetter {
     private DataFormatter dataFormatter;
     private static boolean startTimeThread;
     private static boolean timeThreadStartedFlag;
-    private static boolean newRefresh;
-    String sunsetSunriseDiffMinutesString;
-    String currentDiffMinutesString;
-    String isDayString;
-    int layoutHeight;
-    int layoutWidth;
+    public static boolean newRefresh;
+    private String sunsetSunriseDiffMinutesString;
+    private String currentDiffMinutesString;
+    private String isDayString;
+    private int layoutHeight;
+    private int layoutWidth;
+    private static Thread uiThread;
 
 
     public DataSetter(Activity activity, DataInitializer dataInitializer) {
-
+        Log.d("jestem", "DataSetter:  jestem");
         newRefresh=true;
         this.activity=activity;
         currentDataFormatter=new DataFormatter(activity, dataInitializer);
@@ -135,9 +138,74 @@ public class DataSetter {
         setCurrentLayout();
         setDetailsLayout();
         setForecastLayout();
-        if(UsefulFunctions.getIsFirst()==true)initializeUiThread(activity,timeUpdateRunnable);
+        startUiThread();
+    }
+
+    private void startUiThread(){
+        if(UsefulFunctions.getIsFirst()==true){
+            uiThread=initializeUiThread(activity,timeUpdateRunnable);
+            uiThread.start();
+        }
         setStartTimeThread(true);
         timeThreadStartedFlag =true;
+    }
+
+    static public void interruptUiThread(){
+        uiThread.interrupt();
+    }
+
+    Runnable timeUpdateRunnable = new Runnable() {
+        public void run() {
+            if (startTimeThread == true) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.add(Calendar.HOUR,getCurrentDataFormatter().getHourDifference());
+                setCurrentTime(calendar);
+                updateLayout(calendar);
+            }
+        }
+    };
+
+    private void setCurrentTime(Calendar calendar){
+        String outputFormat;
+        if(getUnitsPreferences()[4]==0) outputFormat="H:mm:ss";
+        else outputFormat="h:mm:ss a";
+        timeTextView.setText(DateFormat.format(outputFormat, calendar));
+    }
+    private void changeTimeOfDay(){
+        isDay=!isDay;
+        setTheme();
+        setCurrentLayout();
+        setDetailsLayout();
+        setForecastLayout();
+    }
+    private void updateLayout(Calendar calendar){
+        String outputMinutesFormat="H:mm";
+        String outputMinutesString=DateFormat.format(outputMinutesFormat, calendar).toString();
+        String[] sunPositionStrings=currentDataFormatter.countSunPosition(outputMinutesString);
+
+        if(newRefresh==true){
+            assignSunPositionStrings(sunPositionStrings);
+            newRefresh=false;
+        }
+
+        else{
+            if(!currentDiffMinutesString.equals(sunPositionStrings[1])){
+                if(!isDayString.equals(sunPositionStrings[2])){
+                    changeTimeOfDay();
+                }
+                assignSunPositionStrings(sunPositionStrings);
+                setSunTranslation();
+            }
+        }
+    }
+
+    private void assignSunPositionStrings(String[] sunPositionStrings){
+        sunsetSunriseDiffMinutesString=sunPositionStrings[0];
+        currentDiffMinutesString=sunPositionStrings[1];
+        isDayString=sunPositionStrings[2];
+        sunsetSunriseDiffMinutes=Long.parseLong(sunPositionStrings[0]);
+        currentDiffMinutes=Long.parseLong(sunPositionStrings[1]);
+        isDay=(Integer.parseInt(sunPositionStrings[1])) != 0;
     }
 
     private void updateDialogs(){
@@ -182,57 +250,7 @@ public class DataSetter {
         Picasso.with(activity.getApplicationContext()).load(R.drawable.yahoo_logo).fit().centerInside().into(yahooImageView);
     }
 
-    Runnable timeUpdateRunnable = new Runnable() {
-        public void run() {
-            if (startTimeThread == true) {
-                Calendar calendar = Calendar.getInstance();
-                calendar.add(Calendar.HOUR,getCurrentDataFormatter().getHourDifference());
-                setCurrentTime(calendar);
-                updateLayout(calendar);
-            }
-        }
-    };
 
-    private void setCurrentTime(Calendar calendar){
-        String outputFormat;
-        if(getUnitsPreferences()[4]==0) outputFormat="H:mm:ss";
-        else outputFormat="h:mm:ss a";
-        timeTextView.setText(DateFormat.format(outputFormat, calendar));
-    }
-    private void changeTimeOfDay(){
-        isDay=!isDay;
-        setTheme();
-        setCurrentLayout();
-        setDetailsLayout();
-        setForecastLayout();
-    }
-    private void updateLayout(Calendar calendar){
-        String outputMinutesFormat="H:mm";
-        String outputMinutesString=DateFormat.format(outputMinutesFormat, calendar).toString();
-        String[] sunPositionStrings=currentDataFormatter.countSunPosition(outputMinutesString);
-        if(newRefresh==true){
-            assignSunPositionStrings(sunPositionStrings);
-            newRefresh=false;
-        }
-        else{
-            if(!currentDiffMinutesString.equals(sunPositionStrings[1])){
-                if(!isDayString.equals(sunPositionStrings[2])){
-                    changeTimeOfDay();
-                }
-                assignSunPositionStrings(sunPositionStrings);
-                setSunTranslation();
-            }
-        }
-    }
-
-    private void assignSunPositionStrings(String[] sunPositionStrings){
-        sunsetSunriseDiffMinutesString=sunPositionStrings[0];
-        currentDiffMinutesString=sunPositionStrings[1];
-        isDayString=sunPositionStrings[2];
-        sunsetSunriseDiffMinutes=Long.parseLong(sunPositionStrings[0]);
-        currentDiffMinutes=Long.parseLong(sunPositionStrings[1]);
-        isDay=(Integer.parseInt(sunPositionStrings[1])) != 0;
-    }
 
     private void setCurrentLayout(){
         getCurrentResources();

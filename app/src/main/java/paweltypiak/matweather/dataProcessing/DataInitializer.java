@@ -32,7 +32,6 @@ public class DataInitializer implements Parcelable {
     private String[] forecastLowTemperature;
     private double latitude;
     private double longitude;
-   // private UnitFormatter unitFormatter;
     private Activity activity;
     private int[] units;
 
@@ -50,8 +49,6 @@ public class DataInitializer implements Parcelable {
         initializeForecast();
         initizlizeWind();
     }
-
-
 
     private void initializeLink(){
         link=channel.getLink();

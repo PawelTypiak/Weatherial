@@ -197,7 +197,7 @@ public class UsefulFunctions {
         return alpha;
     }
 
-    public static void initializeUiThread(final Activity activity, final Runnable runnable) {
+    public static Thread initializeUiThread(final Activity activity, final Runnable runnable) {
         Thread uiThread = new Thread() {
             @Override
             public void run() {
@@ -215,8 +215,8 @@ public class UsefulFunctions {
                 }
             }
         };
-        Log.d("uihread", "start ");
-        uiThread.start();
+        Log.d("uithread", "start ");
+        return uiThread;
     }
 
     public static int[] getScreenResolution(Context context)

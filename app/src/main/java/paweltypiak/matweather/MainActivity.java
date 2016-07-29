@@ -292,7 +292,7 @@ public class MainActivity extends AppCompatActivity
                     mark=true;
                 }
                 else {
-                    floatingActionButton.setImageResource(R.drawable.remove_black_icon);
+                    floatingActionButton.setImageResource(R.drawable.edit_icon);
                     mark=false;
                 }
             }
@@ -360,7 +360,22 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onResume() {
-        if(getTimeThreadStartedFlag()==true)    setStartTimeThread(true);
+        if(getTimeThreadStartedFlag()==true)    {
+            setStartTimeThread(true);
+            DataSetter.newRefresh=true;
+        }
         super.onResume();
+    }
+
+    @Override
+    protected void onRestart() {
+        Log.d("onrestart", "onRestart: ");
+        super.onRestart();
+    }
+
+    @Override
+    protected void onDestroy() {
+        DataSetter.interruptUiThread();
+        super.onDestroy();
     }
 }
