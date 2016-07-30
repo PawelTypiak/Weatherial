@@ -98,8 +98,9 @@ public class FirstLaunchConfigurationFragment extends Fragment{
         if(isFirstLaunch){
             int choosenLocationOption=getChoosenOptionFromLocationFragment();
             if(choosenLocationOption==1){
-                Toast.makeText(getActivity(), "Work in progress, choose other option",
-                        Toast.LENGTH_LONG).show();
+                /*Toast.makeText(getActivity(), "Work in progress, choose other option",
+                        Toast.LENGTH_LONG).show();*/
+                insertLoadingFragment(choosenLocationOption,"");
             }
             else{
                 String differentLocationName=getDifferentLocationNameFromLocationFragment();

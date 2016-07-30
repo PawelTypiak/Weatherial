@@ -10,6 +10,7 @@
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/colorPrimary</item>
 
     </style>
 
@@ -18,7 +19,7 @@
 
     </style>
     <style name="AppTheme.firstLaunchTheme">
-        <item name="android:windowBackground">@color/colorPrimary</item>
+
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

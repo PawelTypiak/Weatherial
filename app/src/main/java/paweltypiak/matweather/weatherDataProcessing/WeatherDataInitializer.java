@@ -1,4 +1,4 @@
-package paweltypiak.matweather.dataProcessing;
+package paweltypiak.matweather.weatherDataProcessing;
 
 import android.app.Activity;
 import android.os.Parcel;
@@ -7,7 +7,7 @@ import android.util.Log;
 
 import paweltypiak.matweather.jsonHandling.Channel;
 
-public class DataInitializer implements Parcelable {
+public class WeatherDataInitializer implements Parcelable {
     private Channel channel;
     private String link;
     private String city;
@@ -36,7 +36,7 @@ public class DataInitializer implements Parcelable {
     private int[] units;
 
 
-    public DataInitializer(Activity activity, Channel channel){
+    public WeatherDataInitializer(Activity activity, Channel channel){
         Log.d("tag", "weather");
         this.activity=activity;
         this.channel=channel;
@@ -154,7 +154,7 @@ public class DataInitializer implements Parcelable {
     }
 
 
-    public DataInitializer(Parcel in){
+    public WeatherDataInitializer(Parcel in){
         String[] stringData = new String[17];
         in.readStringArray(stringData);
         this.link=stringData[0];
@@ -213,12 +213,12 @@ public class DataInitializer implements Parcelable {
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
-        public DataInitializer createFromParcel(Parcel in) {
-            return new DataInitializer(in);
+        public WeatherDataInitializer createFromParcel(Parcel in) {
+            return new WeatherDataInitializer(in);
         }
 
-        public DataInitializer[] newArray(int size) {
-            return new DataInitializer[size];
+        public WeatherDataInitializer[] newArray(int size) {
+            return new WeatherDataInitializer[size];
         }
     };
 }

@@ -1,11 +1,8 @@
 package paweltypiak.matweather;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.graphics.Color;
 
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -27,30 +24,21 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import paweltypiak.matweather.weatherDataDownloading.WeatherDataDownloader;
+import paweltypiak.matweather.weatherDataDownloading.WeatherDownloadCallback;
+import paweltypiak.matweather.weatherDataProcessing.WeatherDataInitializer;
+import paweltypiak.matweather.weatherDataProcessing.WeatherDataSetter;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
-
-import paweltypiak.matweather.dataDownloading.DataDownloader;
-import paweltypiak.matweather.dataDownloading.DownloadCallback;
-import paweltypiak.matweather.dataProcessing.DataInitializer;
-import paweltypiak.matweather.dataProcessing.DataSetter;
-
-import static paweltypiak.matweather.dataProcessing.DataSetter.getTimeThreadStartedFlag;
-import static paweltypiak.matweather.dataProcessing.DataSetter.setStartTimeThread;
+import static paweltypiak.matweather.weatherDataProcessing.WeatherDataSetter.getTimeThreadStartedFlag;
+import static paweltypiak.matweather.weatherDataProcessing.WeatherDataSetter.setStartTimeThread;
 import paweltypiak.matweather.jsonHandling.Channel;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, DownloadCallback, SwipeRefreshLayout.OnRefreshListener{
+        implements NavigationView.OnNavigationItemSelectedListener, WeatherDownloadCallback, SwipeRefreshLayout.OnRefreshListener{
 
-    private DataInitializer getter;
-    private DataSetter setter;
-    private DataDownloader downloader;
+    private WeatherDataInitializer getter;
+    private WeatherDataSetter setter;
+    private WeatherDataDownloader downloader;
     private AlertDialog refreshDialog;
     private AlertDialog serviceFailureDialog;
     private AlertDialog internetFailureDialog;
@@ -83,7 +71,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void downloadData(String location) {
-        downloader=new DataDownloader(location,this);
+        downloader=new WeatherDataDownloader(location,this);
     }
     private void loadExtras(){
         Bundle extras = getIntent().getExtras();
@@ -93,15 +81,15 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void loadFirstLocation(){
-        setter = new DataSetter(this,getter); //data formatting and weather layout setting
+        setter = new WeatherDataSetter(this,getter); //data formatting and weather layout setting
         UsefulFunctions.setViewVisible(mainLayout);
         UsefulFunctions.setIsFirst(false);
     }
 
     @Override
     public void ServiceSuccess(Channel channel) {
-        getter = new DataInitializer(this,channel); //initializing weather data from JSON
-        setter = new DataSetter(this,getter); //data formatting and weather layout setting
+        getter = new WeatherDataInitializer(this,channel); //initializing weather data from JSON
+        setter = new WeatherDataSetter(this,getter); //data formatting and weather layout setting
         swipeRefreshLayout.setRefreshing(false);
         UsefulFunctions.setViewInvisible(refreshMessageTextView);
         UsefulFunctions.setViewVisible(mainLayout);
@@ -232,20 +220,20 @@ public class MainActivity extends AppCompatActivity
         currentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                yahooWeatherRedirectDialog=DataSetter.getYahooWeatherRedirectDialog();
+                yahooWeatherRedirectDialog= WeatherDataSetter.getYahooWeatherRedirectDialog();
                 yahooWeatherRedirectDialog.show();           }
         });
         detailsLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                yahooWeatherRedirectDialog=DataSetter.getYahooWeatherRedirectDialog();
+                yahooWeatherRedirectDialog= WeatherDataSetter.getYahooWeatherRedirectDialog();
                 yahooWeatherRedirectDialog.show();
             }
         });
         forecastLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                yahooWeatherRedirectDialog=DataSetter.getYahooWeatherRedirectDialog();
+                yahooWeatherRedirectDialog= WeatherDataSetter.getYahooWeatherRedirectDialog();
                 yahooWeatherRedirectDialog.show();
             }
         });
@@ -274,7 +262,7 @@ public class MainActivity extends AppCompatActivity
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mapsDialog=DataSetter.getMapsDialog();
+                        mapsDialog= WeatherDataSetter.getMapsDialog();
                         mapsDialog.show();
                     }
                 });
@@ -317,7 +305,7 @@ public class MainActivity extends AppCompatActivity
         refreshMessageTextView.setText(getString(R.string.refresh_message_refreshing));
         UsefulFunctions.setViewVisible(refreshMessageTextView);
         UsefulFunctions.setViewInvisible(weatherLayout);
-        downloadData(DataSetter.getCurrentDataFormatter().getCity());
+        downloadData(WeatherDataSetter.getCurrentDataFormatter().getCity());
     }
 
     @Override
@@ -362,20 +350,13 @@ public class MainActivity extends AppCompatActivity
     protected void onResume() {
         if(getTimeThreadStartedFlag()==true)    {
             setStartTimeThread(true);
-            DataSetter.newRefresh=true;
+            WeatherDataSetter.newRefresh=true;
         }
         super.onResume();
     }
-
-    @Override
-    protected void onRestart() {
-        Log.d("onrestart", "onRestart: ");
-        super.onRestart();
-    }
-
     @Override
     protected void onDestroy() {
-        DataSetter.interruptUiThread();
+        WeatherDataSetter.interruptUiThread();
         super.onDestroy();
     }
 }

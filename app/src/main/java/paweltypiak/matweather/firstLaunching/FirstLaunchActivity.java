@@ -3,7 +3,6 @@ package paweltypiak.matweather.firstLaunching;
 import android.app.AlertDialog;
 import android.content.SharedPreferences;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -24,15 +23,15 @@ public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaun
     private AlertDialog exitDialog;
     private FragmentTransaction fragmentTransaction;
     private FirstLaunchConfigurationFragment configurationFragment;
-    private boolean firstLaunch;
+    private boolean isFirstLaunch;
     int step=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_launch);
-        firstLaunch=isFirstLaunch();
-        if(firstLaunch==true) initializeFirstLaunch();
+        isFirstLaunch =isFirstLaunch();
+        if(isFirstLaunch ==true) initializeFirstLaunch();
         else initializeNextLaunch();
     }
 
@@ -97,13 +96,13 @@ public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaun
     }
 
     private void initializeNextLaunch(){
-        initializeConfigurationFragment(firstLaunch);
+        initializeConfigurationFragment(isFirstLaunch);
         setStartButton();
     }
 
     private void setStartButton(){
         startButtonCardView = (CardView) findViewById(R.id.first_launch_button_cardView);
-        if(firstLaunch==true){
+        if(isFirstLaunch ==true){
             setButtonIcon();
             setStartButtonOnClickListener(startButtonCardView);
         }
@@ -121,7 +120,7 @@ public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaun
                 setButtonText();
                 if(step==0){
                     Log.d("step", ""+step);
-                    initializeConfigurationFragment(firstLaunch);
+                    initializeConfigurationFragment(isFirstLaunch);
                     step=1;
                 }
                 else if (step == 1) {
@@ -145,6 +144,6 @@ public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaun
 
     @Override
     public void onBackPressed() {
-        if(firstLaunch==true) exitDialog.show();
+        if(isFirstLaunch ==true) exitDialog.show();
     }
 }

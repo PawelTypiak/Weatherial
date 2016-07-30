@@ -1,4 +1,4 @@
-package paweltypiak.matweather.dataProcessing;
+package paweltypiak.matweather.weatherDataProcessing;
 
 import android.app.Activity;
 import android.text.format.DateFormat;
@@ -11,7 +11,7 @@ import java.util.Date;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.UsefulFunctions;
 
-public class DataFormatter {
+public class WeatherDataFormatter {
     private int[] units;
     private Activity activity;
     private String chill;
@@ -44,11 +44,11 @@ public class DataFormatter {
     private boolean isDay;
     private long currentDiffMinutes;
     private long sunsetSunriseDiffMinutes;
-    private DataInitializer dataInitializer;
+    private WeatherDataInitializer dataInitializer;
     private Calendar timeDifferenceCalendar;
     private int hourDifference;
 
-    public DataFormatter(Activity activity, DataInitializer dataInitializer){
+    public WeatherDataFormatter(Activity activity, WeatherDataInitializer dataInitializer){
         this.units= UsefulFunctions.getUnitsPreferences();
 
         this.activity=activity;

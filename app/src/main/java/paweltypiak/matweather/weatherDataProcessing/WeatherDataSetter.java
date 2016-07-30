@@ -1,4 +1,4 @@
-package paweltypiak.matweather.dataProcessing;
+package paweltypiak.matweather.weatherDataProcessing;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Objects;
 
 import static paweltypiak.matweather.DialogInitializer.initializeMapsDialog;
 import static paweltypiak.matweather.DialogInitializer.initializeYahooWeatherRedirectDialog;
@@ -22,7 +21,7 @@ import static paweltypiak.matweather.UsefulFunctions.initializeUiThread;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.UsefulFunctions;
 
-public class DataSetter {
+public class WeatherDataSetter {
     private String chill;
     private String direction;
     private String directionName;
@@ -111,10 +110,10 @@ public class DataSetter {
     private int iconColor;
     private int objectIconColor;
     private int dialogColor;
-    private static DataFormatter currentDataFormatter;
+    private static WeatherDataFormatter currentDataFormatter;
     private static AlertDialog mapsDialog;
     private static AlertDialog yahooWeatherRedirectDialog;
-    private DataFormatter dataFormatter;
+    private WeatherDataFormatter dataFormatter;
     private static boolean startTimeThread;
     private static boolean timeThreadStartedFlag;
     public static boolean newRefresh;
@@ -126,11 +125,11 @@ public class DataSetter {
     private static Thread uiThread;
 
 
-    public DataSetter(Activity activity, DataInitializer dataInitializer) {
-        Log.d("jestem", "DataSetter:  jestem");
+    public WeatherDataSetter(Activity activity, WeatherDataInitializer dataInitializer) {
+        Log.d("jestem", "WeatherDataSetter:  jestem");
         newRefresh=true;
         this.activity=activity;
-        currentDataFormatter=new DataFormatter(activity, dataInitializer);
+        currentDataFormatter=new WeatherDataFormatter(activity, dataInitializer);
         getData();
         updateDialogs();
         setTheme();
@@ -469,10 +468,11 @@ public class DataSetter {
         }
     }
 
-    public static DataFormatter getCurrentDataFormatter() {return currentDataFormatter;}
+    public static WeatherDataFormatter getCurrentDataFormatter() {return currentDataFormatter;}
     public static AlertDialog getYahooWeatherRedirectDialog() {return yahooWeatherRedirectDialog;}
     public static AlertDialog getMapsDialog() {return mapsDialog;}
-    public static void setStartTimeThread(boolean startTimeThread) {DataSetter.startTimeThread = startTimeThread;}
+    public static void setStartTimeThread(boolean startTimeThread) {
+        WeatherDataSetter.startTimeThread = startTimeThread;}
     public static boolean getTimeThreadStartedFlag() {
         return timeThreadStartedFlag;
     }

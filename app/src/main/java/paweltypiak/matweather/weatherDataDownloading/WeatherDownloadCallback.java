@@ -1,9 +1,9 @@
-package paweltypiak.matweather.dataDownloading;
+package paweltypiak.matweather.weatherDataDownloading;
 
 import paweltypiak.matweather.jsonHandling.Channel;
 
 
-public interface DownloadCallback {
+public interface WeatherDownloadCallback {
     void ServiceSuccess(Channel channel);
     void ServiceFailure(int errorCode);
 }

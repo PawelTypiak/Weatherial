@@ -1,4 +1,4 @@
-package paweltypiak.matweather.dataDownloading;
+package paweltypiak.matweather.weatherDataDownloading;
 
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -12,12 +12,12 @@ import java.net.URL;
 import java.net.URLConnection;
 import paweltypiak.matweather.jsonHandling.Channel;
 
-public class DataDownloader {
+public class WeatherDataDownloader {
 
-    private DownloadCallback callback;
+    private WeatherDownloadCallback callback;
     private String location;
     private  Exception error;
-    public DataDownloader(String location, DownloadCallback callback){
+    public WeatherDataDownloader(String location, WeatherDownloadCallback callback){
         this.callback=callback;
         refreshWeather(location);
     }
