@@ -1,20 +1,17 @@
 package paweltypiak.matweather.firstLaunching;
 
 import android.app.Activity;
-import android.os.Build;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -26,7 +23,11 @@ public class FirstLaunchConfigurationFragment extends Fragment{
     private FragmentTransaction fragmentTransaction;
     private FirstLaunchLocationFragment locationFragment;
     private FirstLaunchLoadingFragment loadingFragment;
+    private FirstLaunchLocalizationOptionsFragment localizationOptionsFragment;
     private boolean isFirstLaunch;
+    private boolean afterLocalizationOptionsFragment=false;
+    private int choosenLocationOption=0;
+    private int choosenLocalizationOption=0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -40,7 +41,7 @@ public class FirstLaunchConfigurationFragment extends Fragment{
         super.onViewCreated(view, savedInstanceState);
         setAppIcon();
         if(isFirstLaunch) insertNestedFragment(new FirstLaunchLanguageFragment(),"LanguageFragment");
-        else initializeLoadingLocation();
+        else initializeLoadingLocation(null);
     }
     public static FirstLaunchConfigurationFragment newInstance(boolean isFirstLaunch,Activity activity) {
         FirstLaunchConfigurationFragment configurationFragment = new FirstLaunchConfigurationFragment();
@@ -72,17 +73,24 @@ public class FirstLaunchConfigurationFragment extends Fragment{
         return childFragment;
     }
 
-    public void insertLoadingFragment(int choosenLocationOption, String differentLocationName) {
+    public void insertLoadingFragment(int choosenLocalizationOption,int choosenLocationOption, String differentLocationName, CardView startCardViewButton) {
         fragmentTransaction = getChildFragmentManager().beginTransaction();
-        loadingFragment = FirstLaunchLoadingFragment.newInstance(isFirstLaunch,choosenLocationOption,differentLocationName,getActivity());
+        loadingFragment = FirstLaunchLoadingFragment.newInstance(isFirstLaunch,choosenLocalizationOption,choosenLocationOption,differentLocationName,getActivity());
         fragmentTransaction.replace(R.id.first_launch_configuration_fragment_placeholder, loadingFragment, "LoadingFragment");
+        fragmentTransaction.commit();
+        if(startCardViewButton!=null)UsefulFunctions.setViewInvisible(startCardViewButton);
+    }
+
+    public void insertLocalizationOptionsFragment() {
+        fragmentTransaction = getChildFragmentManager().beginTransaction();
+        localizationOptionsFragment = new FirstLaunchLocalizationOptionsFragment();
+        fragmentTransaction.replace(R.id.first_launch_configuration_fragment_placeholder, localizationOptionsFragment, "LocalizationOptionsFragment");
         fragmentTransaction.commit();
     }
 
-    public int getChoosenOptionFromLocationFragment(){
+    public void getChoosenOptionFromLocationFragment(){
         locationFragment=(FirstLaunchLocationFragment)getChildFragment("LocationFragment");
-        int choosenOption=locationFragment.getChoosenLocationOption();
-        return choosenOption;
+        choosenLocationOption=locationFragment.getChoosenLocationOption();
     }
 
     public String getDifferentLocationNameFromLocationFragment(){
@@ -94,13 +102,21 @@ public class FirstLaunchConfigurationFragment extends Fragment{
         locationFragment.showEmptyLocationNameDialog();
     }
 
-    public void initializeLoadingLocation(){
+    public void initializeLoadingLocation(CardView startCardViewButton){
         if(isFirstLaunch){
-            int choosenLocationOption=getChoosenOptionFromLocationFragment();
+            if(choosenLocationOption==0) getChoosenOptionFromLocationFragment();
             if(choosenLocationOption==1){
-                /*Toast.makeText(getActivity(), "Work in progress, choose other option",
-                        Toast.LENGTH_LONG).show();*/
-                insertLoadingFragment(choosenLocationOption,"");
+                Log.d("afterlocopt", ""+afterLocalizationOptionsFragment);
+                if(afterLocalizationOptionsFragment==false){
+                    insertLocalizationOptionsFragment();
+                    afterLocalizationOptionsFragment=true;
+                }
+                else {
+                    choosenLocalizationOption=localizationOptionsFragment.getChoosenLocalizationOption();
+                    insertLoadingFragment(choosenLocalizationOption,choosenLocationOption, "",startCardViewButton);
+                    UsefulFunctions.setViewInvisible(startCardViewButton);
+                }
+
             }
             else{
                 String differentLocationName=getDifferentLocationNameFromLocationFragment();
@@ -108,12 +124,18 @@ public class FirstLaunchConfigurationFragment extends Fragment{
                     showEmptyLocationNameDialogInLocationFragment();
                 }
                 else{
-                    insertLoadingFragment(choosenLocationOption,differentLocationName);
+                    insertLoadingFragment(0,choosenLocationOption,differentLocationName,startCardViewButton);
                 }
             }
         }
-        else insertLoadingFragment(0,"");
+        else insertLoadingFragment(0,0,"",null);
 
+    }
+
+    private int getLocalizationOption(){
+        SharedPreferences sharedPreferences=UsefulFunctions.getSharedPreferences(getActivity());
+        int localizationOption=sharedPreferences.getInt(getString(R.string.shared_preferences_localization_option_key),0);
+        return localizationOption;
     }
 
 }

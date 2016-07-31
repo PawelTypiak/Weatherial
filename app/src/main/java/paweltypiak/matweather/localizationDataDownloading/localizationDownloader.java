@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -15,16 +16,11 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.ExecutionException;
-
+import paweltypiak.matweather.DialogInitializer;
+import paweltypiak.matweather.R;
 import paweltypiak.matweather.UsefulFunctions;
 
-/**
- * Created by Pawcioch on 30.07.2016.
- */
 public class LocalizationDownloader implements  ActivityCompat.OnRequestPermissionsResultCallback{
     private LocationManager locationManager;
     private Timer localizationTimer;
@@ -39,20 +35,30 @@ public class LocalizationDownloader implements  ActivityCompat.OnRequestPermissi
     private GeocodingDownloader geocodingDownloader;
     private AlertDialog localizationFailureDialog;
     private AlertDialog permissionDeniedDialog;
+    private AlertDialog providerUnavailableDialog;
     private GeocodingCallback geocodingCallack;
+    private boolean gpsEnabled=false;
+    private boolean networkEnabled=false;
+    int choosenLocalizationOption;
 
-    public LocalizationDownloader(Activity activity, GeocodingCallback geocodingCallback,AlertDialog localizationFailureDialog, AlertDialog permissionDeniedDialog, TextView messageTextView, ProgressBar loadingBar){
+    public LocalizationDownloader(Activity activity,
+                                  GeocodingCallback geocodingCallback,
+                                  AlertDialog localizationFailureDialog,
+                                  AlertDialog permissionDeniedDialog,
+                                  TextView messageTextView,
+                                  ProgressBar loadingBar,
+                                  int choosenLocalizationOption){
         this.activity=activity;
         this.geocodingCallack=geocodingCallback;
         this.localizationFailureDialog=localizationFailureDialog;
         this.permissionDeniedDialog=permissionDeniedDialog;
         this.messageTextView=messageTextView;
         this.loadingBar=loadingBar;
+        this.choosenLocalizationOption=choosenLocalizationOption;
         isPermissionGranted=checkPermissions();
         if(isPermissionGranted==true) getCurrentLocation();
         else ActivityCompat.requestPermissions( activity, new String[] {  android.Manifest.permission.ACCESS_FINE_LOCATION  },
                 MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
-        Log.d("permissions", "ispermissionsgranted: "+isPermissionGranted);
     }
 
     private boolean checkPermissions(){
@@ -78,45 +84,60 @@ public class LocalizationDownloader implements  ActivityCompat.OnRequestPermissi
         }
     }
 
-
     private void getCurrentLocation(){
-        boolean gpsEnabled=false;
-        boolean networkEnabled=false;
         if(locationManager==null) locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
+        Criteria locationCriteria = new Criteria();
+        locationCriteria.setAccuracy(Criteria.ACCURACY_MEDIUM);
         try{
             gpsEnabled=locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
             networkEnabled=locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-        }catch(Exception ex){}
+        }catch(Exception ex){
+            showDialog(localizationFailureDialog);
+        }
 
         if(!gpsEnabled && !networkEnabled) showDialog(localizationFailureDialog);
-        try {
-            if (gpsEnabled) {
-                Log.d("dostepnosc:", "gps");
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListenerGps);
+        else{
+            if (choosenLocalizationOption==1) {
+                if(gpsEnabled){
+                    Log.d("dostepnosc:", "gps");
+                    try {
+                        locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, locationListener, null);
+                    }catch (SecurityException exception){
+                        showDialog(permissionDeniedDialog);
+                        Log.d("permissions", ""+exception);
+                    }
+                }
+                else{
+                    Log.d("niedostepnosc:", "gps");
+                    DialogInitializer dialogInitializer=new DialogInitializer(activity);
+                    providerUnavailableDialog=dialogInitializer.initializeProviderUnavailableDialog(1,gpsUnavailableRunnable);
+                    providerUnavailableDialog.show();
+                }
             }
-            if (networkEnabled) {
-                Log.d("dostepnosc:", "net");
-                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListenerNetwork);
+            else if (choosenLocalizationOption==2) {
+                if(networkEnabled){
+                    Log.d("dostepnosc:", "net");
+                    try {
+                        locationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, locationListener, null);
+                    }catch (SecurityException exception){
+                        showDialog(permissionDeniedDialog);
+                        Log.d("permissions", ""+exception);
+                    }
+                } else{
+                    Log.d("niedostepnosc:", "net");
+                    DialogInitializer dialogInitializer=new DialogInitializer(activity);
+                    providerUnavailableDialog=dialogInitializer.initializeProviderUnavailableDialog(2,networkUnavailableRunnable);
+                    providerUnavailableDialog.show();
+                }
             }
-        }catch (SecurityException exception){
-            showDialog(permissionDeniedDialog);
-            Log.d("permissions", ""+exception);
         }
-        Log.d("timer", "zaczynam ");
-        localizationTimer = new Timer();
-        localizationTimer.schedule(new locationTimerTask(), 30000);
     }
 
-    private LocationListener locationListenerGps = new LocationListener() {
+    private LocationListener locationListener = new LocationListener() {
         public void onLocationChanged(Location location) {
-            localizationTimer.cancel();
             LocalizationDownloader.this.location=location;
-            try{
-                locationManager.removeUpdates(this);
-            }catch (SecurityException exception){
-                showDialog(permissionDeniedDialog);
-            }
-            Log.d("longitude gps", ""+location.getLatitude());
+            Log.d("longitude", ""+location.getLatitude());
+            Log.d("latitude", ""+location.getLatitude());
             geocodingDownloader=new GeocodingDownloader(location,geocodingCallack);
         }
         public void onProviderDisabled(String provider) {}
@@ -124,40 +145,34 @@ public class LocalizationDownloader implements  ActivityCompat.OnRequestPermissi
         public void onStatusChanged(String provider, int status, Bundle extras) {}
     };
 
-    private LocationListener locationListenerNetwork = new LocationListener() {
-        public void onLocationChanged(Location location) {
-            networkLocation=location;
-            try {
-                locationManager.removeUpdates(this);
-            }catch (SecurityException exception){
-                showDialog(permissionDeniedDialog);
-            }
-        }
-        public void onProviderDisabled(String provider) {}
-        public void onProviderEnabled(String provider) {}
-        public void onStatusChanged(String provider, int status, Bundle extras) {}
-    };
+    /*private int getLocalizationOption(){
+        SharedPreferences sharedPreferences=UsefulFunctions.getSharedPreferences(activity);
+        int localizationOption=sharedPreferences.getInt(activity.getString(R.string.shared_preferences_localization_option_key),0);
+        return localizationOption;
+    }*/
 
-    private class locationTimerTask extends TimerTask {
+    private Runnable networkUnavailableRunnable=new Runnable() {
         @Override
         public void run() {
-            try {
-                locationManager.removeUpdates(locationListenerGps);
-                locationManager.removeUpdates(locationListenerNetwork);
+            try{
+            locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER,locationListener,null);
+
             }catch (SecurityException exception){
                 showDialog(permissionDeniedDialog);
             }
-            location=networkLocation;
-            if(networkLocation==null) {
-                activity.runOnUiThread(new Runnable() {
-                    public void run() {
-                        showDialog(localizationFailureDialog);
-                    }
-                });
+        }
+    };
+    private Runnable gpsUnavailableRunnable=new Runnable() {
+        @Override
+        public void run() {
+            try{
+                locationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER,locationListener,null);
 
+            }catch (SecurityException exception){
+                showDialog(permissionDeniedDialog);
             }
         }
-    }
+    };
 
     private void showDialog(AlertDialog alertDialog){
         alertDialog.show();

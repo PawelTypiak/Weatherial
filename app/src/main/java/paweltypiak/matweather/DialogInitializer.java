@@ -45,6 +45,7 @@ public class DialogInitializer  {
     private static AlertDialog deleteFromFavouritesDialog;
     private static AlertDialog localizationFailureDialog;
     private static AlertDialog permissionDeniedDialog;
+    private static AlertDialog providerUnavailableDialog;
     private static EditText searchEditText;
     private static Activity activity;
 
@@ -234,7 +235,6 @@ public class DialogInitializer  {
                 internetFailureDialog.show();
             }
             else {
-
                 noLocalizationResultsDialog.show();
             }
             searchProgressDialog.dismiss();
@@ -358,6 +358,42 @@ public class DialogInitializer  {
                 negativeButtonRunnable
         );
         return localizationFailureDialog;
+    }
+
+    public static AlertDialog initializeProviderUnavailableDialog(int type,Runnable positiveButtonRunnable){
+        LayoutInflater inflater = activity.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.one_line_text_dialog,null);
+        TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
+        String message;
+        String title;
+        String positiveButtonString;
+        if(type==1){
+            message=activity.getString(R.string.gps_unavailable_dialog_message);
+            title=activity.getString(R.string.gps_unavailable_dialog_title);
+            positiveButtonString=activity.getString(R.string.gps_unavailable_dialog_positive_button);
+        }
+        else{
+            message=activity.getString(R.string.network_unavailable_dialog_message);
+            title=activity.getString(R.string.network_unavailable_dialog_title);
+            positiveButtonString=activity.getString(R.string.network_unavailable_dialog_positive_button);
+        }
+        messageTextView.setText(message);
+        providerUnavailableDialog=buildDialog(
+                activity,
+                dialogView,
+                R.style.CustomDialogStyle,
+                title,
+                R.drawable.warning_icon,
+                null,
+                true,
+                positiveButtonString,
+                positiveButtonRunnable,
+                null,
+                null,
+                null,
+                null
+        );
+        return providerUnavailableDialog;
     }
 
     public static AlertDialog initializePermissionDeniedDialog(Runnable positiveButtonRunnable, Runnable negativeButtonRunnable){

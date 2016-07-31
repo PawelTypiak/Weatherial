@@ -30,7 +30,7 @@ public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaun
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_launch);
-        isFirstLaunch =isFirstLaunch();
+        isFirstLaunch();
         if(isFirstLaunch ==true) initializeFirstLaunch();
         else initializeNextLaunch();
     }
@@ -45,14 +45,17 @@ public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaun
         buttonTextView.setText(getString(R.string.first_launch_layout_continue_button));
     }
 
-    private boolean isFirstLaunch(){
-        SharedPreferences sharedPreferences=UsefulFunctions.getSharedPreferences(this);
+    private void isFirstLaunch(){
+       /* SharedPreferences sharedPreferences=UsefulFunctions.getSharedPreferences(this);
         String savedLocation=sharedPreferences.getString(getString(R.string.shared_preferences_first_location_key),"");
         Log.d("saved shared", "saved: "+savedLocation);
         if(savedLocation.equals("")) return true;
         else {
             return false;
-        }
+        }*/
+        SharedPreferences sharedPreferences=UsefulFunctions.getSharedPreferences(this);
+        isFirstLaunch=sharedPreferences.getBoolean(getString(R.string.shared_preferences_is_first_launch_key),true);
+        Log.d("isFirst", ""+isFirstLaunch);
     }
 
     private void initializeConfigurationFragment(boolean isFirstLaunch){
@@ -76,6 +79,7 @@ public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaun
     public void showLocationFragment(){
         UsefulFunctions.setViewVisible(startButtonCardView);
         setNestedConfigurationFragment(new FirstLaunchLocationFragment(),"LocationFragment");
+        step=3;
     }
 
    /* private void getConfigurationFragment(){
@@ -135,8 +139,12 @@ public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaun
                 }
                 else if(step==3){
                     Log.d("step", ""+step);
-                    configurationFragment.initializeLoadingLocation();
-                    UsefulFunctions.setViewInvisible(startButtonCardView);
+                    configurationFragment.initializeLoadingLocation(startButtonCardView);
+                    step=4;
+                }
+                else if(step==4){
+                    Log.d("step", ""+step);
+                    configurationFragment.initializeLoadingLocation(startButtonCardView);
                 }
             }
         });
@@ -144,6 +152,6 @@ public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaun
 
     @Override
     public void onBackPressed() {
-        if(isFirstLaunch ==true) exitDialog.show();
+        if(isFirstLaunch ==true&&step!=4) exitDialog.show();
     }
 }

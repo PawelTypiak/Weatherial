@@ -5,22 +5,15 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 import paweltypiak.matweather.DialogInitializer;
 import paweltypiak.matweather.MainActivity;
@@ -33,10 +26,9 @@ import paweltypiak.matweather.weatherDataDownloading.WeatherDataDownloader;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDownloadCallback;
 import paweltypiak.matweather.weatherDataProcessing.WeatherDataInitializer;
 import paweltypiak.matweather.jsonHandling.Channel;
-import paweltypiak.matweather.weatherDataProcessing.WeatherDataSetter;
 
 public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownloadCallback,GeocodingCallback{
-    private int choosenOption;
+    private int choosenLocationOption;
     private String differentLocationName;
     private DialogInitializer dialogInitializer;
     private AlertDialog noLocalizationResultsDialog;
@@ -54,7 +46,9 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
     private View marginView;
     private ChooseLocationAgainListener locationListener;
     private boolean isFirstLaunch;
+    private int choosenLocalizationOption;
     private LocalizationDownloader localizationDownloader;
+    private SharedPreferences sharedPreferences;
 
 
     @Override
@@ -80,15 +74,17 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
         super.onViewCreated(view, savedInstanceState);
         initializeDialogs();
         getLayoutResources();
+        getSharedPreferences();
         if(isFirstLaunch) initializeFirstLaunch();
         else initializeNextLaunch();
 
     }
 
-    public static FirstLaunchLoadingFragment newInstance(boolean isFirstLaunch, int choosenOption, String differentLocationName, Activity activity) {
+    public static FirstLaunchLoadingFragment newInstance(boolean isFirstLaunch, int choosenLocalizationOption, int choosenLocationOption, String differentLocationName, Activity activity) {
         FirstLaunchLoadingFragment loadingFragment = new FirstLaunchLoadingFragment();
         Bundle extras = new Bundle();
-        extras.putInt(activity.getString(R.string.extras_choosen_location_option_key), choosenOption);
+        extras.putInt(activity.getString(R.string.extras_choosen_localization_option_key),choosenLocalizationOption);
+        extras.putInt(activity.getString(R.string.extras_choosen_location_option_key), choosenLocationOption);
         extras.putString(activity.getString(R.string.extras_different_location_name_key), differentLocationName);
         extras.putBoolean(activity.getString(R.string.extras_is_first_launch_key),isFirstLaunch);
         loadingFragment.setArguments(extras);
@@ -96,7 +92,8 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
     }
 
     private void getExtras(){
-        choosenOption = getArguments().getInt(getString(R.string.extras_choosen_location_option_key), 0);
+        choosenLocalizationOption=getArguments().getInt(getString(R.string.extras_choosen_localization_option_key), 0);
+        choosenLocationOption = getArguments().getInt(getString(R.string.extras_choosen_location_option_key), 0);
         differentLocationName = getArguments().getString(getString(R.string.extras_different_location_name_key), null);
         isFirstLaunch=getArguments().getBoolean(getString(R.string.extras_is_first_launch_key));
     }
@@ -107,9 +104,13 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
         marginView=getActivity().findViewById(R.id.first_launch_loading_fragment_margin_view);
     }
 
+    private void getSharedPreferences(){
+        sharedPreferences=UsefulFunctions.getSharedPreferences(getActivity());
+    }
+
     private void initializeFirstLaunch(){
 
-        if(choosenOption==1) {
+        if(choosenLocationOption ==1) {
             messageTextView.setText(R.string.first_launch_layout_loading_header_searching_localization);
             localizationDownloader=new LocalizationDownloader(
                     getActivity(),
@@ -117,7 +118,8 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
                     firstLaunchLocalizationFailureDialog,
                     firstLaunchPermissionDeniedDialog,
                     messageTextView,
-                    loadingBar
+                    loadingBar,
+                    choosenLocalizationOption
                     );
             Log.d("option", "option1");
         }
@@ -131,10 +133,24 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
 
     private void initializeNextLaunch(){
 
-        String firstLocation=UsefulFunctions.getSharedPreferences(getActivity()).getString(getString(R.string.shared_preferences_first_location_key),"0");
-        if(firstLocation.equals("1")){}// getCurrentLocation();
+        boolean isFirstLocationGeolocalization=sharedPreferences.getBoolean(getString(R.string.shared_preferences_is_first_location_geolocalization_key),true);
+        //
+        if(isFirstLocationGeolocalization){
+            int localizationOption=sharedPreferences.getInt(getString(R.string.shared_preferences_localization_option_key),1);
+            localizationDownloader=new LocalizationDownloader(
+                    getActivity(),
+                    this,
+                    firstLaunchLocalizationFailureDialog,
+                    firstLaunchPermissionDeniedDialog,
+                    messageTextView,
+                    loadingBar,
+                    localizationOption
+            );
+
+        }// localizationdownload; //sprawdzanie metody lokalizacji ze shared prefs
         else {
-            location=UsefulFunctions.getSharedPreferences(getActivity()).getString(getString(R.string.shared_preferences_first_location_key),"0");
+            String firstLocation=sharedPreferences.getString(getString(R.string.shared_preferences_first_location_key),"0");
+            location=firstLocation;
             downloadWeatherData(location);
         }
     }
@@ -153,7 +169,7 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
     public void ServiceSuccess(Channel channel) {
         dataInitializer = new WeatherDataInitializer(getActivity(),channel); //initializing weather data from JSON
         UsefulFunctions.setViewGone(loadingBar);
-        if(isFirstLaunch && choosenOption==2){
+        if(isFirstLaunch && choosenLocationOption ==2){
             localizationResultsDialog=dialogInitializer.initializeLocalizationResultsDialog(1,dataInitializer,loadMainActivityRunnable,showLocationFragmentRunnable,showExitLocalizationResultDialogRunnable);
             localizationResultsDialog.show();
 
@@ -176,8 +192,9 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
 
     @Override
     public void geocodeSuccess(Geocoding location) {
-
+        Log.d("location", "geocodeSuccess: ");
         downloadWeatherData(location.getAddress());
+        messageTextView.setText(getString(R.string.first_launch_layout_loading_header_downloading_data));
     }
 
     @Override
@@ -306,12 +323,22 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
             //UsefulFunctions.setViewVisible(loadingBar);
             UsefulFunctions.setViewVisible(marginView);
             messageTextView.setText(getString(R.string.first_launch_layout_loading_header_loading_content));
-            if(isFirstLaunch&&choosenOption==2) {
-                SharedPreferences sharedPreferences=UsefulFunctions.getSharedPreferences(getActivity());
-                sharedPreferences.edit().putString(getString(R.string.shared_preferences_first_location_key),differentLocationName).commit();
+            if(isFirstLaunch) {
 
-                UsefulFunctions.setViewVisible(messageTextView);
+                if(choosenLocationOption==1){
+                    //sharedpreferences o current localization i o metodzie lokalizacji
+                    Log.d("choosenLocalizationOpt", ""+choosenLocalizationOption);
+                    sharedPreferences.edit().putInt(getString(R.string.shared_preferences_localization_option_key), choosenLocalizationOption).commit();
+                    sharedPreferences.edit().putBoolean(getString(R.string.shared_preferences_is_first_location_geolocalization_key), true).commit();
+                }
+                else{
+                    Log.d("firstlocation", ""+differentLocationName);
+                    sharedPreferences.edit().putString(getString(R.string.shared_preferences_first_location_key),differentLocationName).commit();
+                    UsefulFunctions.setViewVisible(messageTextView);
+                }
+                sharedPreferences.edit().putBoolean(getString(R.string.shared_preferences_is_first_launch_key),false).commit();
             }
+
             Intent intent = new Intent(getActivity(), MainActivity.class);
             intent.putExtra(getString(R.string.extras_data_initializer_key),dataInitializer);
             startActivity(intent);

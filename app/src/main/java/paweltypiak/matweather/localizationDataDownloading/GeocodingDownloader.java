@@ -35,7 +35,6 @@ public class GeocodingDownloader {
             protected Geocoding doInBackground(Location... locations) {
 
                 Location location = locations[0];
-                Log.d("location", "latitude: "+location.getLatitude());
                 Log.d("reflocat", "jestem 1 ");
                 String endpoint = String.format("https://maps.googleapis.com/maps/api/geocode/json?latlng=%s,%s&key=%s", location.getLatitude(), location.getLongitude(), API_KEY);
 

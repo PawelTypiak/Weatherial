@@ -11,8 +11,12 @@
     <string name="shared_preferences_language_key">language_preferences</string>
     <string name="shared_preferences_units_key">units_preferences</string>
     <string name="shared_preferences_first_location_key">first_location_key</string>
+    <string name="shared_preferences_is_first_location_geolocalization_key">is_first_location_geolocalization_key</string>
+    <string name="shared_preferences_localization_option_key">localization_option_key</string>
+    <string name="shared_preferences_is_first_launch_key">is_first_launch_key</string>
     <string name="extras_is_first_launch_key">is_first_launch_key</string>
     <string name="extras_choosen_location_option_key">choosen_location_option</string>
+    <string name="extras_choosen_localization_option_key">choosen_localization_option</string>
     <string name="extras_different_location_name_key">different_location_name</string>
     <string name="extras_data_initializer_key">data_initializer</string>
 
@@ -115,6 +119,13 @@
     <string name="edit_location_dialog_positive_button_message">Zapisz</string>
     <string name="edit_location_dialog_negative_button">Anuluj</string>
     <string name="edit_location_dialog_neutral_button">Usuń</string>
+    <string name="gps_unavailable_dialog_title">GPS niedostępny</string>
+    <string name="gps_unavailable_dialog_message">Nastąpi wyszukanie lokalizacji za pomocą sieci.</string>
+    <string name="gps_unavailable_dialog_positive_button">Ok</string>
+    <string name="network_unavailable_dialog_title">Sieć niedostępna</string>
+    <string name="network_unavailable_dialog_message">Nastąpi wyszukanie lokalizacji za pomocą GPS.</string>
+    <string name="network_unavailable_dialog_positive_button">Ok</string>
+
 
     <string name="refresh_message_pull_to_refresh">Pociągnij, żeby odświeżyć</string>
     <string name="refresh_message_refreshing">Odświeżanie...</string>
@@ -151,9 +162,12 @@
         <item>24h</item>
         <item>12h</item>
     </string-array>
-    <string name="first_launch_layout_location_header">Wybierz lokację:</string>
+    <string name="first_launch_layout_location_header">Wybierz domyślną lokację:</string>
     <string name="first_launch_layout_location_current">aktualna lokalizacja</string>
     <string name="first_launch_layout_location_different">inna lokacja</string>
+    <string name="first_launch_layout_localization_options_header">Wybierz metodę lokalizacji:</string>
+    <string name="first_launch_layout_localization_options_gps">GPS (dokładna)</string>
+    <string name="first_launch_layout_localization_options_network">Sieć (szybka)</string>
     <string name="first_launch_layout_loading_header_searching_localization">Wyszukiwanie lokalizacji...</string>
     <string name="first_launch_layout_loading_header_downloading_data">Pobieranie informacji pogodowych...</string>
     <string name="first_launch_layout_loading_header_loading_content">Ładowanie zawartości...</string>

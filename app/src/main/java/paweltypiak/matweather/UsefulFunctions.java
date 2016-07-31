@@ -59,10 +59,8 @@ public class UsefulFunctions {
             readUnitsPreferences();
         }
         private void readLanguagePreferences(){
-            String languageString;
-            languageString=sharedPreferences.getString(activity.getString(R.string.shared_preferences_language_key), "en");
-            if(languageString.equals("en")) languagePreferences=0;
-            else languagePreferences=1;
+            languagePreferences=sharedPreferences.getInt(activity.getString(R.string.shared_preferences_language_key), 1);
+
         }
         private void readUnitsPreferences(){
             String unitsString = sharedPreferences.getString(activity.getString(R.string.shared_preferences_units_key), "0,0,0,0,0,");
