@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.support.v4.content.ContextCompat;
-import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -42,7 +41,7 @@ public class DialogInitializer  {
     private static AlertDialog mapsDialog;
     private static AlertDialog differentLocationDialog;
     private static AlertDialog addToFavouritesDialog;
-    private static AlertDialog deleteFromFavouritesDialog;
+    private static AlertDialog editFavouritesDialog;
     private static AlertDialog localizationFailureDialog;
     private static AlertDialog permissionDeniedDialog;
     private static AlertDialog providerUnavailableDialog;
@@ -158,13 +157,13 @@ public class DialogInitializer  {
             UsefulFunctions.hideKeyboard(activity,null);
             editText=(EditText)dialogView.findViewById(R.id.search_edit_text);
             text=editText.getText().toString();
-            text=text.substring(0, 1).toUpperCase() + text.substring(1);
-            if(text.substring(text.length()-1).equals(" ")) text=text.substring(0,text.length()-1);
             if(text.length()==0) {
                 emptyLocationNameDialog=initializeEmptyLocationNameDialog(1);
                 emptyLocationNameDialog.show();
             }
             else{
+                text=text.substring(0, 1).toUpperCase() + text.substring(1);
+                if(text.substring(text.length()-1).equals(" ")) text=text.substring(0,text.length()-1);
                 radioButton.setText(text);
             }
         }
@@ -174,13 +173,13 @@ public class DialogInitializer  {
     private static void initializeSearchRunnableDialogs(){
         emptyLocationNameDialog=initializeEmptyLocationNameDialog(2);
         if(searchProgressDialog==null)searchProgressDialog=initializeSearchProgressDialog();
-        //if(noLocalizationResultsDialog==null)noLocalizationResultsDialog=initializeNoLocalizationResultsDialog(2,showSearchDialogRunnable,null);
+        noLocalizationResultsDialog= initializeNoLocationResultsDialog(2,showSearchDialogRunnable,null);
     }
 
     private static Runnable showSearchDialogRunnable = new Runnable() {
         public void run() {
             if(searchDialog==null) searchDialog=initializeSearchDialog();
-            noLocalizationResultsDialog=initializeNoLocalizationResultsDialog(2,showSearchDialogRunnable,null);
+            noLocalizationResultsDialog= initializeNoLocationResultsDialog(2,showSearchDialogRunnable,null);
             searchDialog.show();
             UsefulFunctions.showKeyboard(activity);
         }
@@ -223,7 +222,7 @@ public class DialogInitializer  {
         @Override
         public void ServiceSuccess(Channel channel) {
             dataInitializer=new WeatherDataInitializer(activity,channel);
-            localizationResultsDialog =initializeLocalizationResultsDialog(2,dataInitializer,new setMainLayoutRunnable(dataInitializer),showSearchDialogRunnable,null);
+            localizationResultsDialog = initializeLocationResultsDialog(2,dataInitializer,new setMainLayoutRunnable(dataInitializer),showSearchDialogRunnable,null);
             localizationResultsDialog.show();
             searchProgressDialog.dismiss();
         }
@@ -445,7 +444,7 @@ public class DialogInitializer  {
         return emptyLocationNameDialog;
     }
 
-    public static AlertDialog initializeNoLocalizationResultsDialog(int type,Runnable positiveButtonRunnable, Runnable negativeButtonRunnable){
+    public static AlertDialog initializeNoLocationResultsDialog(int type, Runnable positiveButtonRunnable, Runnable negativeButtonRunnable){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.one_line_text_dialog,null);
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
@@ -680,7 +679,7 @@ public class DialogInitializer  {
         return searchProgressDialog;
     }
 
-    public static AlertDialog initializeLocalizationResultsDialog(int type, WeatherDataInitializer dataInitializer, Runnable positiveButtonRunnable, Runnable neutralButtonRunnable, Runnable negativeButtonRunnable) {
+    public static AlertDialog initializeLocationResultsDialog(int type, WeatherDataInitializer dataInitializer, Runnable positiveButtonRunnable, Runnable neutralButtonRunnable, Runnable negativeButtonRunnable) {
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.location_dialog, null);
         String city=dataInitializer.getCity();

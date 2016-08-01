@@ -76,7 +76,7 @@ public class FirstLaunchLocationFragment extends Fragment {
 
     public String getDifferentLocationName(){
         String differentLocationString=differentLocationRadioButton.getText().toString();
-
+        Log.d("diffradio", differentLocationString);
         return differentLocationString;
     }
 

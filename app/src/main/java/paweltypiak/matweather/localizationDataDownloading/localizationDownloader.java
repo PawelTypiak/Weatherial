@@ -23,12 +23,9 @@ import paweltypiak.matweather.UsefulFunctions;
 
 public class LocalizationDownloader implements  ActivityCompat.OnRequestPermissionsResultCallback{
     private LocationManager locationManager;
-    private Timer localizationTimer;
     private Activity activity;
     private ProgressBar loadingBar;
     private TextView messageTextView;
-    private Location networkLocation;
-    private Location gpsLocation;
     private Location location;
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION=1;
     private boolean isPermissionGranted;
@@ -85,6 +82,7 @@ public class LocalizationDownloader implements  ActivityCompat.OnRequestPermissi
     }
 
     private void getCurrentLocation(){
+        messageTextView.setText(activity.getString(R.string.first_launch_layout_loading_header_waiting_for_localization));
         if(locationManager==null) locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
         Criteria locationCriteria = new Criteria();
         locationCriteria.setAccuracy(Criteria.ACCURACY_MEDIUM);
@@ -94,7 +92,6 @@ public class LocalizationDownloader implements  ActivityCompat.OnRequestPermissi
         }catch(Exception ex){
             showDialog(localizationFailureDialog);
         }
-
         if(!gpsEnabled && !networkEnabled) showDialog(localizationFailureDialog);
         else{
             if (choosenLocalizationOption==1) {
@@ -138,7 +135,7 @@ public class LocalizationDownloader implements  ActivityCompat.OnRequestPermissi
             LocalizationDownloader.this.location=location;
             Log.d("longitude", ""+location.getLatitude());
             Log.d("latitude", ""+location.getLatitude());
-            geocodingDownloader=new GeocodingDownloader(location,geocodingCallack);
+            geocodingDownloader=new GeocodingDownloader(location,geocodingCallack,messageTextView,activity);
         }
         public void onProviderDisabled(String provider) {}
         public void onProviderEnabled(String provider) {}
@@ -150,6 +147,10 @@ public class LocalizationDownloader implements  ActivityCompat.OnRequestPermissi
         int localizationOption=sharedPreferences.getInt(activity.getString(R.string.shared_preferences_localization_option_key),0);
         return localizationOption;
     }*/
+
+    public Location getLocation() {
+        return location;
+    }
 
     private Runnable networkUnavailableRunnable=new Runnable() {
         @Override

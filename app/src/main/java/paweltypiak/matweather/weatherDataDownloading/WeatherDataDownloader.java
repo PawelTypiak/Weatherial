@@ -53,7 +53,6 @@ public class WeatherDataDownloader {
                 if(s==null && error!=null){
                     Log.d("blad null", "net ");
                     callback.ServiceFailure(1);
-
                     return;
                 }
                 try{
@@ -73,11 +72,5 @@ public class WeatherDataDownloader {
                 }
             }
         }.execute(location);
-    }
-
-    public class OtherWeatherException extends Exception{
-        public OtherWeatherException(String detailMessage){
-            super(detailMessage);
-        }
     }
 }

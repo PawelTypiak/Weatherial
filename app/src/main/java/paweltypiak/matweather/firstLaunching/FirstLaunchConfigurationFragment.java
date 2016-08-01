@@ -54,8 +54,6 @@ public class FirstLaunchConfigurationFragment extends Fragment{
         isFirstLaunch = getArguments().getBoolean(getString(R.string.extras_is_first_launch_key));
     }
 
-
-
     private void setAppIcon(){
         final ImageView appIconImageView=(ImageView)getActivity().findViewById(R.id.first_launch_configuration_fragment_app_icon_image);
         Picasso.with(getActivity()).load(R.drawable.app_icon).fit().centerInside().into(appIconImageView);
@@ -88,12 +86,17 @@ public class FirstLaunchConfigurationFragment extends Fragment{
         fragmentTransaction.commit();
     }
 
-    public void getChoosenOptionFromLocationFragment(){
-        locationFragment=(FirstLaunchLocationFragment)getChildFragment("LocationFragment");
-        choosenLocationOption=locationFragment.getChoosenLocationOption();
+    public int getChoosenOptionFromLocationFragment(){
+        try{
+            locationFragment=(FirstLaunchLocationFragment)getChildFragment("LocationFragment");
+            return locationFragment.getChoosenLocationOption();
+        }catch (Exception exception){
+            return 0;
+        }
     }
 
     public String getDifferentLocationNameFromLocationFragment(){
+        locationFragment=(FirstLaunchLocationFragment)getChildFragment("LocationFragment");
         String differentLocationNameString=locationFragment.getDifferentLocationName();
         return differentLocationNameString;
     }
@@ -104,38 +107,39 @@ public class FirstLaunchConfigurationFragment extends Fragment{
 
     public void initializeLoadingLocation(CardView startCardViewButton){
         if(isFirstLaunch){
-            if(choosenLocationOption==0) getChoosenOptionFromLocationFragment();
-            if(choosenLocationOption==1){
-                Log.d("afterlocopt", ""+afterLocalizationOptionsFragment);
-                if(afterLocalizationOptionsFragment==false){
-                    insertLocalizationOptionsFragment();
-                    afterLocalizationOptionsFragment=true;
-                }
-                else {
-                    choosenLocalizationOption=localizationOptionsFragment.getChoosenLocalizationOption();
-                    insertLoadingFragment(choosenLocalizationOption,choosenLocationOption, "",startCardViewButton);
-                    UsefulFunctions.setViewInvisible(startCardViewButton);
-                }
-
+            if(afterLocalizationOptionsFragment==true){
+                choosenLocalizationOption=localizationOptionsFragment.getChoosenLocalizationOption();
+                insertLoadingFragment(choosenLocalizationOption,1, "",startCardViewButton);
+                UsefulFunctions.setViewInvisible(startCardViewButton);
+                afterLocalizationOptionsFragment=false;
             }
             else{
-                String differentLocationName=getDifferentLocationNameFromLocationFragment();
-                if(differentLocationName.equals(getString(R.string.first_launch_layout_location_different))){
-                    showEmptyLocationNameDialogInLocationFragment();
+                choosenLocationOption=getChoosenOptionFromLocationFragment();
+                if(choosenLocationOption==1){
+                    Log.d("afterlocopt", ""+afterLocalizationOptionsFragment);
+                    if(afterLocalizationOptionsFragment==false){
+                        insertLocalizationOptionsFragment();
+                        afterLocalizationOptionsFragment=true;
+                    }
                 }
                 else{
-                    insertLoadingFragment(0,choosenLocationOption,differentLocationName,startCardViewButton);
+                    String differentLocationName=getDifferentLocationNameFromLocationFragment();
+                    if(differentLocationName.equals(getString(R.string.first_launch_layout_location_different))){
+                        showEmptyLocationNameDialogInLocationFragment();
+                    }
+                    else{
+                        insertLoadingFragment(0,choosenLocationOption,differentLocationName,startCardViewButton);
+                    }
                 }
             }
         }
-        else insertLoadingFragment(0,0,"",null);
-
+        else {
+            Log.d("nextlaunch", "nextlaunch");
+            insertLoadingFragment(0,0,"",null);
+        }
     }
 
-    private int getLocalizationOption(){
-        SharedPreferences sharedPreferences=UsefulFunctions.getSharedPreferences(getActivity());
-        int localizationOption=sharedPreferences.getInt(getString(R.string.shared_preferences_localization_option_key),0);
-        return localizationOption;
+    public int getChoosenLocationOption() {
+        return choosenLocationOption;
     }
-
 }

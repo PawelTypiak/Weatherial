@@ -36,6 +36,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/textSecondaryLightBackground"
             android:textSize="@dimen/dialog_text_size"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="20dp"
+            android:id="@+id/edit_location_dialog_checkbox"/>
     </LinearLayout>
 </RelativeLayout>

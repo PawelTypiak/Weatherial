@@ -26,6 +26,7 @@ import paweltypiak.matweather.UsefulFunctions;
 public class FirstLaunchUnitsFragment extends Fragment{
     private int units[]={0,0,0,0,0};
     private SharedPreferences sharedPreferences;
+    private TextView unitsHeaderTextView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.first_launch_units_fragment, parent, false);
@@ -39,6 +40,7 @@ public class FirstLaunchUnitsFragment extends Fragment{
     }
 
     private void initializeLayout() {
+        unitsHeaderTextView=(TextView)getActivity().findViewById(R.id.first_launch_units_fragment_header_text);
         for(int i=0;i<5;i++){
            final FirstLaunchSpinner spinner=initializeSpinner(i);
             setWhiteSpinnerArrow(spinner);
@@ -98,8 +100,7 @@ public class FirstLaunchUnitsFragment extends Fragment{
             public void onSuccess() {
                 UsefulFunctions.setViewVisible(spinner);
                 if(id==4){
-                    TextView textView=(TextView)getActivity().findViewById(R.id.first_launch_units_fragment_header_text);
-                    UsefulFunctions.setViewVisible(textView);
+                    UsefulFunctions.setViewVisible(unitsHeaderTextView);
                 }
             }
             @Override

@@ -46,13 +46,6 @@ public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaun
     }
 
     private void isFirstLaunch(){
-       /* SharedPreferences sharedPreferences=UsefulFunctions.getSharedPreferences(this);
-        String savedLocation=sharedPreferences.getString(getString(R.string.shared_preferences_first_location_key),"");
-        Log.d("saved shared", "saved: "+savedLocation);
-        if(savedLocation.equals("")) return true;
-        else {
-            return false;
-        }*/
         SharedPreferences sharedPreferences=UsefulFunctions.getSharedPreferences(this);
         isFirstLaunch=sharedPreferences.getBoolean(getString(R.string.shared_preferences_is_first_launch_key),true);
         Log.d("isFirst", ""+isFirstLaunch);
@@ -96,7 +89,6 @@ public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaun
         initializeStartFragment();
         initializeDialog();
         setStartButton();
-
     }
 
     private void initializeNextLaunch(){
@@ -139,12 +131,14 @@ public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaun
                 }
                 else if(step==3){
                     Log.d("step", ""+step);
+
                     configurationFragment.initializeLoadingLocation(startButtonCardView);
                     step=4;
                 }
                 else if(step==4){
                     Log.d("step", ""+step);
                     configurationFragment.initializeLoadingLocation(startButtonCardView);
+                    step=5;
                 }
             }
         });
@@ -152,6 +146,13 @@ public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaun
 
     @Override
     public void onBackPressed() {
-        if(isFirstLaunch ==true&&step!=4) exitDialog.show();
+        if(isFirstLaunch ==true){
+            if(step>3){
+                int locationOption=configurationFragment.getChoosenLocationOption();
+                if(locationOption==1&&step==4) exitDialog.show();
+            }
+            else exitDialog.show();
+        }
+        Log.d("step end", ""+step);
     }
 }

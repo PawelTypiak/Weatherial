@@ -14,13 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import paweltypiak.matweather.DialogInitializer;
 import paweltypiak.matweather.MainActivity;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.UsefulFunctions;
-import paweltypiak.matweather.jsonHandling.Geocoding;
 import paweltypiak.matweather.localizationDataDownloading.GeocodingCallback;
+import paweltypiak.matweather.localizationDataDownloading.GeocodingDownloader;
 import paweltypiak.matweather.localizationDataDownloading.LocalizationDownloader;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDataDownloader;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDownloadCallback;
@@ -31,14 +30,13 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
     private int choosenLocationOption;
     private String differentLocationName;
     private DialogInitializer dialogInitializer;
-    private AlertDialog noLocalizationResultsDialog;
-    private AlertDialog localizationResultsDialog;
-    private AlertDialog internetFailureDialog;
+    private AlertDialog noLocationResultsDialog;
+    private AlertDialog locationResultsDialog;
+    private AlertDialog internetFailureWeatherDialog;
+    private AlertDialog internetFailureLocalizationDialog;
     private AlertDialog serviceFailureDialog;
     private AlertDialog localizationFailureDialog;
     private AlertDialog permissionDeniedDialog;
-    private AlertDialog firstLaunchLocalizationFailureDialog;
-    private AlertDialog firstLaunchPermissionDeniedDialog;
     private WeatherDataInitializer dataInitializer;
     private String location;
     private ProgressBar loadingBar;
@@ -49,7 +47,7 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
     private int choosenLocalizationOption;
     private LocalizationDownloader localizationDownloader;
     private SharedPreferences sharedPreferences;
-
+    private boolean isFirstLocationGeolocalization;
 
     @Override
     public void onAttach(Context context) {
@@ -77,7 +75,6 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
         getSharedPreferences();
         if(isFirstLaunch) initializeFirstLaunch();
         else initializeNextLaunch();
-
     }
 
     public static FirstLaunchLoadingFragment newInstance(boolean isFirstLaunch, int choosenLocalizationOption, int choosenLocationOption, String differentLocationName, Activity activity) {
@@ -108,19 +105,21 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
         sharedPreferences=UsefulFunctions.getSharedPreferences(getActivity());
     }
 
-    private void initializeFirstLaunch(){
+    private void downloadLocalization(){
+        localizationDownloader=new LocalizationDownloader(
+                getActivity(),
+                this,
+                localizationFailureDialog,
+                permissionDeniedDialog,
+                messageTextView,
+                loadingBar,
+                choosenLocalizationOption
+        );
+    }
 
+    private void initializeFirstLaunch(){
         if(choosenLocationOption ==1) {
-            messageTextView.setText(R.string.first_launch_layout_loading_header_searching_localization);
-            localizationDownloader=new LocalizationDownloader(
-                    getActivity(),
-                    this,
-                    firstLaunchLocalizationFailureDialog,
-                    firstLaunchPermissionDeniedDialog,
-                    messageTextView,
-                    loadingBar,
-                    choosenLocalizationOption
-                    );
+            downloadLocalization();
             Log.d("option", "option1");
         }
         else {
@@ -128,39 +127,33 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
             downloadWeatherData(location);
             Log.d("option", "option2");
         }
-
     }
 
     private void initializeNextLaunch(){
-
-        boolean isFirstLocationGeolocalization=sharedPreferences.getBoolean(getString(R.string.shared_preferences_is_first_location_geolocalization_key),true);
-        //
+        isFirstLocationGeolocalization=sharedPreferences.getBoolean(getString(R.string.shared_preferences_is_first_location_geolocalization_key),true);
         if(isFirstLocationGeolocalization){
-            int localizationOption=sharedPreferences.getInt(getString(R.string.shared_preferences_localization_option_key),1);
-            localizationDownloader=new LocalizationDownloader(
-                    getActivity(),
-                    this,
-                    firstLaunchLocalizationFailureDialog,
-                    firstLaunchPermissionDeniedDialog,
-                    messageTextView,
-                    loadingBar,
-                    localizationOption
-            );
-
-        }// localizationdownload; //sprawdzanie metody lokalizacji ze shared prefs
+            Log.d("next", "geolokalizacja");
+            choosenLocalizationOption=sharedPreferences.getInt(getString(R.string.shared_preferences_localization_option_key),0);
+            Log.d("localizationoption", ""+choosenLocalizationOption);
+            if(choosenLocalizationOption==0){
+                //dialog
+            }
+            else{
+                Log.d("laduje", "initializeNextLaunch: ");
+                downloadLocalization();
+            }
+        }
         else {
+            Log.d("next", "different");
             String firstLocation=sharedPreferences.getString(getString(R.string.shared_preferences_first_location_key),"0");
             location=firstLocation;
             downloadWeatherData(location);
         }
     }
 
-
-
     private void downloadWeatherData(String location){
         UsefulFunctions.setViewVisible(loadingBar);
-        if(isFirstLaunch==true) messageTextView.setText(getString(R.string.first_launch_layout_loading_header_searching_localization));
-        else messageTextView.setText(getString(R.string.first_launch_layout_loading_header_downloading_data));
+        messageTextView.setText(getString(R.string.first_launch_layout_loading_header_downloading_data));
         UsefulFunctions.setViewVisible(messageTextView);
         WeatherDataDownloader downloader=new WeatherDataDownloader(location,this);   //downloading weather data for Poznan
     }
@@ -168,12 +161,9 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
     @Override
     public void ServiceSuccess(Channel channel) {
         dataInitializer = new WeatherDataInitializer(getActivity(),channel); //initializing weather data from JSON
-        UsefulFunctions.setViewGone(loadingBar);
         if(isFirstLaunch && choosenLocationOption ==2){
-            localizationResultsDialog=dialogInitializer.initializeLocalizationResultsDialog(1,dataInitializer,loadMainActivityRunnable,showLocationFragmentRunnable,showExitLocalizationResultDialogRunnable);
-            localizationResultsDialog.show();
-
-            UsefulFunctions.setViewInvisible(messageTextView);
+            locationResultsDialog =dialogInitializer.initializeLocationResultsDialog(1,dataInitializer,loadMainActivityRunnable,showLocationFragmentRunnable,new showExitDialogRunnable(showLocalizationResultDialogRunnable));
+            showDialog(locationResultsDialog);
         }
         else loadMainActivityRunnable.run();
     }
@@ -181,60 +171,55 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
     @Override
     public void ServiceFailure(int errorCode) {
         //failure handling
-        UsefulFunctions.setViewInvisible(loadingBar);
-        UsefulFunctions.setViewInvisible(messageTextView);
-        if(errorCode==1) {internetFailureDialog.show();}
+        if(errorCode==1) {showDialog(internetFailureWeatherDialog);}
         else{
-            if(isFirstLaunch) noLocalizationResultsDialog.show();
-            else {serviceFailureDialog.show();} //servisfailure
+            if(isFirstLaunch) {
+                showDialog(noLocationResultsDialog);
+            }
+            else {
+                if(isFirstLocationGeolocalization){
+                    showDialog(noLocationResultsDialog);
+                }
+                else{
+                    showDialog(serviceFailureDialog);
+                }
+            } //servisfailure
         }
     }
 
     @Override
-    public void geocodeSuccess(Geocoding location) {
+    public void geocodeSuccess(String location) {
         Log.d("location", "geocodeSuccess: ");
-        downloadWeatherData(location.getAddress());
-        messageTextView.setText(getString(R.string.first_launch_layout_loading_header_downloading_data));
+        this.location=location;
+        downloadWeatherData(this.location);
     }
 
     @Override
-    public void geocodeFailure(Exception exception) {
-        // GeoCoding failed, try loading weather data from the cache
-        Log.d("location", "geocodeFailure: ");
-
+    public void geocodeFailure(int errorCode) {
+        if(errorCode==1){
+            showDialog(internetFailureLocalizationDialog);
+        }
+        else{
+            showDialog(localizationFailureDialog);
+        }
     }
-
-   /* @Override
-    public void geocodeSuccess(LocationResult location) {
-        // completed geocoding successfully
-        weatherService.refreshWeather(location.getAddress());
-        Log.d("location", location.getAddress());
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(getString(R.string.pref_cached_location), location.getAddress());
-        editor.apply();
-    }
-
-    @Override
-    public void geocodeFailure(Exception exception) {
-        // GeoCoding failed, try loading weather data from the cache
-        Log.d("location", "geocodeFailure: ");
-        cacheService.load(this);
-    }*/
-
-
 
     private void initializeDialogs(){
         dialogInitializer=new DialogInitializer(getActivity());
-        noLocalizationResultsDialog=dialogInitializer.initializeNoLocalizationResultsDialog(1,showLocationFragmentRunnable,showExitNoLocalizationResultDialogRunnable);
-        internetFailureDialog=dialogInitializer.initializeInternetFailureDialog(true,downloadRunnable,showExitInternetFailureDialogRunnable);
-        serviceFailureDialog=dialogInitializer.initializeServiceFailureDialog(downloadRunnable,showExitServiceFailureDialogRunnable);
-        localizationFailureDialog=dialogInitializer.initializeLocalizationFailureDialog(tmp,showExitLocalizationFailureDialogRunnable);
-        firstLaunchLocalizationFailureDialog=dialogInitializer.initializeLocalizationFailureDialog(showLocationFragmentRunnable,showExitFirstLaunchLocalizationFailureDialogRunnable);
-        permissionDeniedDialog=dialogInitializer.initializePermissionDeniedDialog(tmp,showExitPermissionDeniedDialogRunnable);
-        firstLaunchPermissionDeniedDialog=dialogInitializer.initializePermissionDeniedDialog(showLocationFragmentRunnable,showExitFirstLaunchPermissionDeniedDialogRunnable);
-
+        internetFailureWeatherDialog=dialogInitializer.initializeInternetFailureDialog(true, downloadWeatherRunnable, new showExitDialogRunnable(showInternetFailureWeatherDialogRunnable));
+        internetFailureLocalizationDialog =dialogInitializer.initializeInternetFailureDialog(true, downloadLocationRunnable, new showExitDialogRunnable(showInternetFailureLocationDialogRunnable));
+        serviceFailureDialog=dialogInitializer.initializeServiceFailureDialog(downloadWeatherRunnable,new showExitDialogRunnable(showServiceFailureDialogRunnable));
+        if(isFirstLaunch){
+            noLocationResultsDialog =dialogInitializer.initializeNoLocationResultsDialog(1,showLocationFragmentRunnable,new showExitDialogRunnable(showNoLocalizationResultDialogRunnable));
+            localizationFailureDialog=dialogInitializer.initializeLocalizationFailureDialog(showLocationFragmentRunnable,new showExitDialogRunnable(showLocalizationFailureDialogRunnable));
+            permissionDeniedDialog=dialogInitializer.initializePermissionDeniedDialog(showLocationFragmentRunnable,new showExitDialogRunnable(showPermissionDeniedDialogRunnable));
+        }
+        else{
+            noLocationResultsDialog =dialogInitializer.initializeNoLocationResultsDialog(1,tmp,new showExitDialogRunnable(showNoLocalizationResultDialogRunnable));
+            localizationFailureDialog =dialogInitializer.initializeLocalizationFailureDialog(tmp, new showExitDialogRunnable(showLocalizationFailureDialogRunnable));
+            permissionDeniedDialog =dialogInitializer.initializePermissionDeniedDialog(tmp, new showExitDialogRunnable(showPermissionDeniedDialogRunnable));
+        }
     }
-
 
     private Runnable tmp=new Runnable() {
         @Override
@@ -244,101 +229,69 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
 
     };
 
-    private Runnable showExitLocalizationFailureDialogRunnable=new Runnable() {
-        @Override
-        public void run() {
-            AlertDialog exitLocalizationFailureDialog=dialogInitializer.initializeExitDialog(true,showLocalizationFailureDialogRunnable);
-            exitLocalizationFailureDialog.show();
-        }
-
+    private Runnable showInternetFailureWeatherDialogRunnable = new Runnable() {
+        public void run() {internetFailureWeatherDialog.show();}
     };
-
-    private Runnable showExitPermissionDeniedDialogRunnable=new Runnable() {
-        @Override
-        public void run() {
-            AlertDialog exitPermissionDeniedDialog=dialogInitializer.initializeExitDialog(true,showPermissionDeniedDialogRunnable);
-            exitPermissionDeniedDialog.show();
-        }
-
-    };
-
-    private Runnable showExitFirstLaunchLocalizationFailureDialogRunnable=new Runnable() {
-        @Override
-        public void run() {
-            AlertDialog exitFirstLaunchLocalizationFailureDialog=dialogInitializer.initializeExitDialog(true,showFirstLaunchLocalizationFailureDialogRunnable);
-            exitFirstLaunchLocalizationFailureDialog.show();
-        }
-
-    };
-
-    private Runnable showExitFirstLaunchPermissionDeniedDialogRunnable=new Runnable() {
-        @Override
-        public void run() {
-            AlertDialog exitFirstLaunchPermissionDeniedDialog=dialogInitializer.initializeExitDialog(true,showFirstLaunchPermissionDeniedDialogRunnable);
-            exitFirstLaunchPermissionDeniedDialog.show();
-        }
-    };
-
-    private Runnable showExitNoLocalizationResultDialogRunnable = new Runnable() {
-        public void run() {{
-            AlertDialog exitNoLocalizationResultDialog=dialogInitializer.initializeExitDialog(true,showNoLocalizationResultDialogRunnable);
-            exitNoLocalizationResultDialog.show();
-        }}
-    };
-
-    private Runnable showExitLocalizationResultDialogRunnable = new Runnable() {
-        public void run() {
-            AlertDialog exitLocalizationResultDialog=dialogInitializer.initializeExitDialog(true,showLocalizationResultDialogRunnable);
-            exitLocalizationResultDialog.show();}
-    };
-
-    private Runnable showExitInternetFailureDialogRunnable = new Runnable() {
-        public void run() {
-            AlertDialog exitInternetFailureDialog=dialogInitializer.initializeExitDialog(true,showInternetFailureDialogRunnable);
-            exitInternetFailureDialog.show();
-        }
-    };
-
-    private Runnable showExitServiceFailureDialogRunnable = new Runnable() {
-        public void run() {
-            AlertDialog exitServiceFailureDialog=dialogInitializer.initializeExitDialog(true,showServiceFailureDialogRunnable);
-            exitServiceFailureDialog.show();}
-    };
-
-    private Runnable showInternetFailureDialogRunnable = new Runnable() {
-        public void run() {internetFailureDialog.show();}
+    private Runnable showInternetFailureLocationDialogRunnable = new Runnable() {
+        public void run() {internetFailureLocalizationDialog.show();}
     };
     private Runnable showServiceFailureDialogRunnable = new Runnable() {public void run() {serviceFailureDialog.show();}};
     private Runnable showLocalizationResultDialogRunnable = new Runnable() {
-        public void run() {localizationResultsDialog.show();}
+        public void run() {locationResultsDialog.show();}
     };
     private Runnable showLocalizationFailureDialogRunnable = new Runnable() {public void run() {localizationFailureDialog.show();}};
     private Runnable showPermissionDeniedDialogRunnable = new Runnable() {public void run() {permissionDeniedDialog.show();}};
-    private Runnable showFirstLaunchLocalizationFailureDialogRunnable = new Runnable() {public void run() {localizationFailureDialog.show();}};
-    private Runnable showFirstLaunchPermissionDeniedDialogRunnable = new Runnable() {public void run() {permissionDeniedDialog.show();}};
-    private Runnable showNoLocalizationResultDialogRunnable = new Runnable() {public void run() {noLocalizationResultsDialog.show();}};
-
+    private Runnable showNoLocalizationResultDialogRunnable = new Runnable() {public void run() {noLocationResultsDialog.show();}};
+    private Runnable showLocationFragmentRunnable = new Runnable() {
+        public void run() {locationListener.showLocationFragment();}
+    };
+    private class showExitDialogRunnable implements Runnable {
+        private Runnable showDialogRunnable;
+        public showExitDialogRunnable(Runnable showDialogRunnable) {
+            this.showDialogRunnable = showDialogRunnable;
+        }
+        public void run() {
+            AlertDialog exitDialog=dialogInitializer.initializeExitDialog(true, showDialogRunnable);
+            exitDialog.show();
+        }
+    }
+    private void showDialog(AlertDialog alertDialog){
+        alertDialog.show();
+        UsefulFunctions.setViewInvisible(messageTextView);
+        UsefulFunctions.setViewGone(loadingBar);
+    }
+    private Runnable downloadWeatherRunnable = new Runnable() {
+        public void run() {
+            downloadWeatherData(location);}
+    };
+    private Runnable downloadLocationRunnable = new Runnable() {
+        public void run() {
+            GeocodingDownloader geocodingDownloader=new GeocodingDownloader(localizationDownloader.getLocation(),FirstLaunchLoadingFragment.this,messageTextView,getActivity());
+            UsefulFunctions.setViewVisible(messageTextView);
+            UsefulFunctions.setViewVisible(loadingBar);
+        }
+    };
     private Runnable loadMainActivityRunnable = new Runnable() {
         public void run() {
-            //UsefulFunctions.setViewVisible(loadingBar);
-            UsefulFunctions.setViewVisible(marginView);
             messageTextView.setText(getString(R.string.first_launch_layout_loading_header_loading_content));
+            UsefulFunctions.setViewGone(loadingBar);
+            UsefulFunctions.setViewVisible(marginView);
+            UsefulFunctions.setViewVisible(messageTextView);
             if(isFirstLaunch) {
-
                 if(choosenLocationOption==1){
-                    //sharedpreferences o current localization i o metodzie lokalizacji
-                    Log.d("choosenLocalizationOpt", ""+choosenLocalizationOption);
+                    Log.d("end", ""+choosenLocationOption);
                     sharedPreferences.edit().putInt(getString(R.string.shared_preferences_localization_option_key), choosenLocalizationOption).commit();
                     sharedPreferences.edit().putBoolean(getString(R.string.shared_preferences_is_first_location_geolocalization_key), true).commit();
                 }
                 else{
+                    Log.d("end", ""+choosenLocationOption);
                     Log.d("firstlocation", ""+differentLocationName);
                     sharedPreferences.edit().putString(getString(R.string.shared_preferences_first_location_key),differentLocationName).commit();
-                    UsefulFunctions.setViewVisible(messageTextView);
+                    sharedPreferences.edit().putBoolean(getString(R.string.shared_preferences_is_first_location_geolocalization_key), false).commit();
+                    //UsefulFunctions.setViewVisible(messageTextView);
                 }
                 sharedPreferences.edit().putBoolean(getString(R.string.shared_preferences_is_first_launch_key),false).commit();
             }
-
             Intent intent = new Intent(getActivity(), MainActivity.class);
             intent.putExtra(getString(R.string.extras_data_initializer_key),dataInitializer);
             startActivity(intent);
@@ -347,12 +300,5 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
         }
     };
 
-    private Runnable downloadRunnable = new Runnable() {
-        public void run() {
-            downloadWeatherData(location);}
-    };
-    private Runnable showLocationFragmentRunnable = new Runnable() {
-        public void run() {locationListener.showLocationFragment();}
-    };
     public interface ChooseLocationAgainListener {void showLocationFragment();}
 }

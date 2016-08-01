@@ -20,16 +20,4 @@ public class Geocoding implements JSONPopulator{
             address = data.optString("formatted_address");
         }
 
-       /* @Override
-        public JSONObject toJSON() {
-            JSONObject data = new JSONObject();
-
-            try {
-                data.put("formatted_address", address);
-            } catch (JSONException e) {}
-
-            return data;
-        }*/
-
-
 }
