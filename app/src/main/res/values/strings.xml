@@ -112,11 +112,11 @@
     <string name="maps_dialog_positive_button">Kontynuuj</string>
     <string name="add_location_dialog_title">Dodaj lokację</string>
     <string name="add_location_dialog_checkbox_message">ustaw jako lokację domyślną</string>
-    <string name="add_location_dialog_positive_button_message">Dodaj</string>
+    <string name="add_location_dialog_positive_button">Dodaj</string>
     <string name="add_location_dialog_negative_button">Anuluj</string>
     <string name="edit_location_dialog_title">Edytuj lokację</string>
     <string name="edit_location_dialog_checkbox_message">ustaw jako lokację domyślną</string>
-    <string name="edit_location_dialog_positive_button_message">Zapisz</string>
+    <string name="edit_location_dialog_positive_button">Zapisz</string>
     <string name="edit_location_dialog_negative_button">Anuluj</string>
     <string name="edit_location_dialog_neutral_button">Usuń</string>
     <string name="gps_unavailable_dialog_title">GPS niedostępny</string>

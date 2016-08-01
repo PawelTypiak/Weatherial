@@ -52,6 +52,8 @@ public class MainActivity extends AppCompatActivity
     private AlertDialog noEmailApplicationDialog;
     private AlertDialog searchDialog;
     private AlertDialog mapsDialog;
+    private AlertDialog addToFavouritesDialog;
+    private AlertDialog editFavouritesDialog;
     private DialogInitializer dialogInitializer;
     private SwipeRefreshLayout swipeRefreshLayout;
     private String location;
@@ -272,16 +274,20 @@ public class MainActivity extends AppCompatActivity
         final FloatingActionButton floatingActionButton=(FloatingActionButton)findViewById(R.id.main_fab);
         floatingActionButton.setImageResource(R.drawable.add_black_icon);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            boolean mark=false;
+            int mark=1;
             @Override
             public void onClick(View v) {
-                if(mark==false){
-                    floatingActionButton.setImageResource(R.drawable.add_black_icon);
-                    mark=true;
+                if(mark==1){
+                    floatingActionButton.setImageResource(R.drawable.edit_black_icon);
+                    editFavouritesDialog=dialogInitializer.initializeEditFavourites();
+                    editFavouritesDialog.show();
+                    mark=2;
                 }
                 else {
-                    floatingActionButton.setImageResource(R.drawable.edit_icon);
-                    mark=false;
+                    floatingActionButton.setImageResource(R.drawable.add_black_icon);
+                    addToFavouritesDialog=dialogInitializer.initializeAddToFavourites();
+                    addToFavouritesDialog.show();
+                    mark=1;
                 }
             }
         });

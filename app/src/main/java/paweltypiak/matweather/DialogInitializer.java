@@ -9,6 +9,7 @@ import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -653,6 +654,52 @@ public class DialogInitializer  {
                 null
         );
         return feedbackDialog;
+    }
+
+    public static AlertDialog initializeAddToFavourites(){
+        LayoutInflater inflater = activity.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.edit_location_dialog,null);
+        CheckBox checkBox=(CheckBox)dialogView.findViewById(R.id.edit_location_dialog_checkbox);
+        checkBox.setText(activity.getString(R.string.add_location_dialog_checkbox_message));
+        addToFavouritesDialog = buildDialog(
+                activity,
+                dialogView,
+                R.style.CustomDialogStyle,
+                activity.getString(R.string.add_location_dialog_title),
+                R.drawable.add_blue_icon,
+                null,
+                false,
+                activity.getString(R.string.add_location_dialog_positive_button),
+                null,
+                null,
+                null,
+                activity.getString(R.string.add_location_dialog_negative_button),
+                null
+        );
+        return addToFavouritesDialog;
+    }
+
+    public static AlertDialog initializeEditFavourites(){
+        LayoutInflater inflater = activity.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.edit_location_dialog,null);
+        CheckBox checkBox=(CheckBox)dialogView.findViewById(R.id.edit_location_dialog_checkbox);
+        checkBox.setText(activity.getString(R.string.edit_location_dialog_checkbox_message));
+        addToFavouritesDialog = buildDialog(
+                activity,
+                dialogView,
+                R.style.CustomDialogStyle,
+                activity.getString(R.string.edit_location_dialog_title),
+                R.drawable.edit_blue_icon,
+                null,
+                false,
+                activity.getString(R.string.edit_location_dialog_positive_button),
+                null,
+                activity.getString(R.string.edit_location_dialog_neutral_button),
+                null,
+                activity.getString(R.string.edit_location_dialog_negative_button),
+                null
+        );
+        return addToFavouritesDialog;
     }
 
     private static AlertDialog initializeSearchProgressDialog(){
