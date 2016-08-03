@@ -15,10 +15,13 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -30,6 +33,9 @@ import android.widget.Toast;
 import com.squareup.picasso.Transformation;
 
 import java.util.StringTokenizer;
+
+import paweltypiak.matweather.weatherDataProcessing.WeatherDataInitializer;
+import paweltypiak.matweather.weatherDataProcessing.WeatherDataSetter;
 
 public class UsefulFunctions {
     private static boolean isFirst;
@@ -126,12 +132,84 @@ public class UsefulFunctions {
         Toast.makeText(activity.getApplicationContext(), activity.getString(R.string.clipboard_toast_message),Toast.LENGTH_SHORT).show();
     }
 
-    public static void setLayoutFocusable(Activity activity, LinearLayout layout){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            TypedValue outValue = new TypedValue();
-            activity.getTheme().resolveAttribute(android.R.attr.selectableItemBackground, outValue, true);
-            layout.setBackgroundResource(outValue.resourceId);
+    public static String getFormattedString(String string){
+        if(string.length()!=0){
+            string=getStringWithUpperCase(string);
+            string=getStringWithoutLastSpace(string);
         }
+        return string;
+    }
+
+    private static String getStringWithoutLastSpace(String string){
+        if(string.length()!=0){
+            while(string.substring(string.length()-1).equals(" ")){
+                string=string.substring(0,string.length()-1);
+            }
+        }
+        return string;
+    }
+
+    private static String getStringWithoutFirstSpace(String string){
+        while(string.substring(0,1).equals(" ")){
+            string=string.substring(1,string.length());
+            if(string.length()==0) break;
+        }
+        return string;
+    }
+
+    private static String getStringWithUpperCase(String string){
+        string=getStringWithoutFirstSpace(string);
+        if(string.length()!=0) string=string.substring(0, 1).toUpperCase() + string.substring(1);
+        return string;
+    }
+
+    public static void customizeEditText(final EditText editText, final Activity activity){
+        final String hint=editText.getHint().toString();
+        editText.setHint("");
+        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            String previusEditTextString;
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                Log.d("onfocus", "onFocusChange: ");
+                if(editText.isFocused()) {
+                    previusEditTextString=editText.getText().toString();
+                    showKeyboard(activity);
+                }
+                else {
+                    String editTextString=editText.getText().toString();
+                    editTextString=getFormattedString(editTextString);
+                    if(editTextString.length()==0) editText.setText(previusEditTextString);
+                    else editText.setText(editTextString);
+                    hideKeyboard(activity,editText);
+                }
+            }
+        });
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(editText.getText().length()==0) editText.setHint(hint);
+                else editText.setHint("");
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
+        editText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                        && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                    editText.clearFocus();
+                    return false;
+                }
+                return false;
+            }
+        });
     }
 
     public static String[] getAppBarStrings(Activity activity){
@@ -141,6 +219,14 @@ public class UsefulFunctions {
 
         location[0]=primaryLocationTextView.getText().toString();
         location[1]=secondaryLocationTextView.getText().toString();
+
+        return location;
+    }
+
+    public static String[] getCurrentLocationStrings(){
+        String[] location=new String[2];
+        location[0]= WeatherDataSetter.getCurrentDataFormatter().getCity();
+        location[1]=WeatherDataSetter.getCurrentDataFormatter().getRegion()+", "+WeatherDataSetter.getCurrentDataFormatter().getCountry();
 
         return location;
     }
@@ -227,6 +313,31 @@ public class UsefulFunctions {
         int height = metrics.heightPixels;
         int resolution[]={width,height};
         return resolution;
+    }
+
+    public static int pixelsToDp(int pixels,Activity activity){
+        DisplayMetrics metrics = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        float logicalDensity = metrics.density;
+        int dp = (int) Math.ceil(pixels / logicalDensity);
+        return dp;
+    }
+
+    public static int dpToPixels(int dp,Activity activity){
+        DisplayMetrics metrics = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        float logicalDensity = metrics.density;
+        int pixels = (int) Math.ceil(dp * logicalDensity);
+        return pixels;
+    }
+
+    public static void setPadding(View view, Activity activity, int paddingLeft, int paddingTop, int paddingRight, int paddingBottom){
+        int paddingLeftPixels=dpToPixels(paddingLeft,activity);
+        int paddingTopPixels=dpToPixels(paddingTop,activity);
+        int paddingRightPixels=dpToPixels(paddingRight,activity);
+        int paddingBottomPixels=dpToPixels(paddingBottom,activity);
+
+        view.setPadding(paddingLeftPixels,paddingTopPixels,paddingRightPixels,paddingBottomPixels);
     }
 
     public class setDrawableColor implements Transformation {

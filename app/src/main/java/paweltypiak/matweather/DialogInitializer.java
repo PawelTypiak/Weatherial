@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.res.TypedArray;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
@@ -66,9 +67,6 @@ public class DialogInitializer  {
             return;
         }
     };
-
-
-
 
     private static class copyToClipboardRunnable implements Runnable {
         private String text;
@@ -147,7 +145,7 @@ public class DialogInitializer  {
         private RadioButton radioButton;
         private View dialogView;
         private EditText editText;
-        private String text;
+        private String editTextString;
 
         public differentLocationDialogRunnable(RadioButton radioButton, View dialogView) {
             this.radioButton = radioButton;
@@ -157,15 +155,14 @@ public class DialogInitializer  {
         public void run() {
             UsefulFunctions.hideKeyboard(activity,null);
             editText=(EditText)dialogView.findViewById(R.id.search_edit_text);
-            text=editText.getText().toString();
-            if(text.length()==0) {
+            editTextString=editText.getText().toString();
+            if(editTextString.length()==0) {
                 emptyLocationNameDialog=initializeEmptyLocationNameDialog(1);
                 emptyLocationNameDialog.show();
             }
             else{
-                text=text.substring(0, 1).toUpperCase() + text.substring(1);
-                if(text.substring(text.length()-1).equals(" ")) text=text.substring(0,text.length()-1);
-                radioButton.setText(text);
+                editTextString =UsefulFunctions.getFormattedString(editTextString);
+                radioButton.setText(editTextString);
             }
         }
     }
@@ -198,23 +195,19 @@ public class DialogInitializer  {
             isReconnect=true;
         }
         public searchRunnable(View dialogView){
-
             initializeSearchRunnableDialogs();
             locationEditText=(EditText)dialogView.findViewById(R.id.search_edit_text);
-
             isReconnect=false;
         }
 
         public void run(){
             if(isReconnect==false){
                 location=locationEditText.getText().toString();
+                location=UsefulFunctions.getFormattedString(location);
                 UsefulFunctions.hideKeyboard(activity,locationEditText);
             }
-            Log.d("run_location", location);
-
             if(location.length()==0) emptyLocationNameDialog.show();
             else {
-
                 searchProgressDialog.show();
                 downloader=new WeatherDataDownloader(location,this);
             }
@@ -656,11 +649,48 @@ public class DialogInitializer  {
         return feedbackDialog;
     }
 
-    public static AlertDialog initializeAddToFavourites(){
+    private static class addToFavouritesRunnable implements Runnable {
+        private View dialogView;
+        private FloatingActionButton floatingActionButton;
+
+        public addToFavouritesRunnable(View dialogView, FloatingActionButton floatingActionButton) {
+            this.dialogView = dialogView;
+            this.floatingActionButton=floatingActionButton;
+        }
+
+        public void run() {
+            Log.d("add_runnable", "run");
+            EditText headerEditText=(EditText)dialogView.findViewById(R.id.edit_location_dialog_header_edittext);
+            String customHeaderString=headerEditText.getText().toString();
+
+            EditText subheaderEditText=(EditText)dialogView.findViewById(R.id.edit_location_dialog_subheader_edittext);
+            String customSubheaderString=subheaderEditText.getText().toString();
+
+            String currentHeaderString=UsefulFunctions.getCurrentLocationStrings()[0];
+            String currentSubeaderString=UsefulFunctions.getCurrentLocationStrings()[1];
+
+            CheckBox checkBox=(CheckBox)dialogView.findViewById(R.id.edit_location_dialog_checkbox);
+            if(checkBox.isChecked()){
+                Log.d("checkbox", "checked");
+            }
+
+            floatingActionButton.setImageResource(R.drawable.edit_black_icon);
+            MainActivity.setfloatingActionButtonOnClickIndicator(2);
+        }
+    }
+
+    public static AlertDialog initializeAddToFavourites(FloatingActionButton floatingActionButton){
         LayoutInflater inflater = activity.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.edit_location_dialog,null);
-        CheckBox checkBox=(CheckBox)dialogView.findViewById(R.id.edit_location_dialog_checkbox);
-        checkBox.setText(activity.getString(R.string.add_location_dialog_checkbox_message));
+        final View dialogView = inflater.inflate(R.layout.edit_location_dialog,null);
+        dialogView.setFocusableInTouchMode(true);
+        dialogView.setClickable(true);
+        String [] location=UsefulFunctions.getCurrentLocationStrings();
+        EditText headerEditText=(EditText)dialogView.findViewById(R.id.edit_location_dialog_header_edittext);
+        headerEditText.setText(location[0]);
+        UsefulFunctions.customizeEditText(headerEditText,activity);
+        EditText subheaderEditText=(EditText)dialogView.findViewById(R.id.edit_location_dialog_subheader_edittext);
+        subheaderEditText.setText(location[1]);
+        UsefulFunctions.customizeEditText(subheaderEditText,activity);
         addToFavouritesDialog = buildDialog(
                 activity,
                 dialogView,
@@ -670,12 +700,18 @@ public class DialogInitializer  {
                 null,
                 false,
                 activity.getString(R.string.add_location_dialog_positive_button),
-                null,
+                new addToFavouritesRunnable(dialogView,floatingActionButton),
                 null,
                 null,
                 activity.getString(R.string.add_location_dialog_negative_button),
                 null
         );
+        addToFavouritesDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                UsefulFunctions.hideKeyboard(activity,null);
+            }
+        });
         return addToFavouritesDialog;
     }
 

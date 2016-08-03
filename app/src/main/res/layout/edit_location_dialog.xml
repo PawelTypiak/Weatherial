@@ -17,26 +17,36 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:singleLine="true"
             android:textSize="@dimen/dialog_text_size"
+            android:theme="@style/MyEditTextTheme"
             android:textStyle="bold"
+            android:hint="@string/edit_location_dialog_header_edit_text_hint"
+            android:textColorHint="@color/textDisabledLightBackground"
             android:textColor="@color/textSecondaryLightBackground"
-            android:id="@+id/edit_location_dialog_header_text"
+            android:id="@+id/edit_location_dialog_header_edittext"
             />
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:singleLine="true"
+            android:paddingTop="0dp"
+            android:hint="@string/edit_location_dialog_subheader_edit_text_hint"
+            android:theme="@style/MyEditTextTheme"
+            android:textColorHint="@color/textDisabledLightBackground"
             android:textSize="@dimen/dialog_text_size"
             android:textColor="@color/textSecondaryLightBackground"
-            android:id="@+id/edit_location_dialog_subheader_text"
+            android:id="@+id/edit_location_dialog_subheader_edittext"
             />
         <android.support.v7.widget.AppCompatCheckBox
             android:theme="@style/checkBoxStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/textSecondaryLightBackground"
+            android:layout_marginTop="5dp"
             android:textSize="@dimen/dialog_text_size"
-            android:layout_marginTop="20dp"
+            android:text="@string/add_location_dialog_checkbox_message"
             android:id="@+id/edit_location_dialog_checkbox"/>
     </LinearLayout>
 </RelativeLayout>

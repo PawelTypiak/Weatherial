@@ -78,7 +78,7 @@
     <string name="different_location_dialog_negative_button">Anuluj</string>
     <string name="different_location_dialog_edit_text_message">Wprowadź nazwę lokacji:</string>
     <string name="search_dialog_title">Szukaj</string>
-    <string name="search_dialog_edit_text_message">Wprowadź nazwę lokacji:</string>
+    <string name="search_dialog_edit_text_hint">Wprowadź nazwę lokacji:</string>
     <string name="search_dialog_positive_button">Wyszukaj</string>
     <string name="search_dialog_negative_button">Anuluj</string>
     <string name="no_localization_results_dialog_title">Niepowodzenie!</string>
@@ -114,6 +114,8 @@
     <string name="add_location_dialog_checkbox_message">ustaw jako lokację domyślną</string>
     <string name="add_location_dialog_positive_button">Dodaj</string>
     <string name="add_location_dialog_negative_button">Anuluj</string>
+    <string name="edit_location_dialog_header_edit_text_hint">Podaj nazwę główną</string>
+    <string name="edit_location_dialog_subheader_edit_text_hint">Podaj nazwę pomocniczą</string>
     <string name="edit_location_dialog_title">Edytuj lokację</string>
     <string name="edit_location_dialog_checkbox_message">ustaw jako lokację domyślną</string>
     <string name="edit_location_dialog_positive_button">Zapisz</string>

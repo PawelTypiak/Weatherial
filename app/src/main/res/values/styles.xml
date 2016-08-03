@@ -58,4 +58,10 @@
         <item name="android:textColorSecondary">@color/textSecondaryLightBackground</item>
     </style>
 
+    <style name="MyEditTextTheme">
+        <!-- Used for the bottom line when not selected / focused -->
+        <item name="colorControlNormal">@color/transparent</item>
+        <!-- colorControlActivated & colorControlHighlight use the colorAccent color by default -->
+    </style>
+
 </resources>

@@ -61,6 +61,8 @@ public class MainActivity extends AppCompatActivity
     private LinearLayout weatherLayout;
     private TextView refreshMessageTextView;
     private ImageView refreshImageView;
+    private static int floatingActionButtonOnClickIndicator;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -273,25 +275,31 @@ public class MainActivity extends AppCompatActivity
     private void setFloatingActionButton(){
         final FloatingActionButton floatingActionButton=(FloatingActionButton)findViewById(R.id.main_fab);
         floatingActionButton.setImageResource(R.drawable.add_black_icon);
+        floatingActionButtonOnClickIndicator =1;
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            int mark=1;
             @Override
             public void onClick(View v) {
-                if(mark==1){
-                    floatingActionButton.setImageResource(R.drawable.edit_black_icon);
-                    editFavouritesDialog=dialogInitializer.initializeEditFavourites();
-                    editFavouritesDialog.show();
-                    mark=2;
+                if(floatingActionButtonOnClickIndicator ==1){
+                   // floatingActionButton.setImageResource(R.drawable.edit_black_icon);
+                    addToFavouritesDialog=dialogInitializer.initializeAddToFavourites(floatingActionButton);
+                    addToFavouritesDialog.show();
+
+                    //floatingActionButtonOnClickIndicator=2;
                 }
                 else {
                     floatingActionButton.setImageResource(R.drawable.add_black_icon);
-                    addToFavouritesDialog=dialogInitializer.initializeAddToFavourites();
-                    addToFavouritesDialog.show();
-                    mark=1;
+                    editFavouritesDialog=dialogInitializer.initializeEditFavourites();
+                    editFavouritesDialog.show();
+                   // floatingActionButtonOnClickIndicator=1;
                 }
             }
         });
     }
+
+    public static void setfloatingActionButtonOnClickIndicator(int  onClickIndicator) {
+        floatingActionButtonOnClickIndicator = onClickIndicator;
+    }
+
 
     @Override
     public void onBackPressed() {
