@@ -14,11 +14,7 @@ import android.widget.RadioGroup;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.UsefulFunctions;
 
-/**
- * Created by Pawcioch on 22.07.2016.
- */
 public class FirstLaunchLanguageFragment extends Fragment{
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -32,21 +28,16 @@ public class FirstLaunchLanguageFragment extends Fragment{
     }
 
     private void radioGroupListener(){
-        SharedPreferences sharedPreferences = UsefulFunctions.getSharedPreferences(getActivity());
-        final SharedPreferences.Editor editor = sharedPreferences.edit();
         RadioGroup radioGroup=(RadioGroup)getActivity().findViewById(R.id.first_launch_language_fragment_radio_group);
         radioGroup.check(getActivity().findViewById(R.id.first_launch_language_fragment_english_radio_button).getId());
-        editor.putInt(getString(R.string.shared_preferences_language_key), 1);
-        editor.commit();
+        UsefulFunctions.setLanguage(getActivity(),1);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 if (i == R.id.first_launch_language_fragment_english_radio_button) {
-                    editor.putInt(getString(R.string.shared_preferences_language_key), 1);
-                    editor.commit();
+                    UsefulFunctions.setLanguage(getActivity(),1);
                 } else if (i == R.id.first_launch_language_fragment_polish_radio_button) {
-                    editor.putInt(getString(R.string.shared_preferences_language_key), 2);
-                    editor.commit();
+                    UsefulFunctions.setLanguage(getActivity(),2);
                 }
             }
         });

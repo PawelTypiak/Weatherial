@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity
     private AlertDialog mapsDialog;
     private AlertDialog addToFavouritesDialog;
     private AlertDialog editFavouritesDialog;
+    private AlertDialog duplicateDialog;
     private DialogInitializer dialogInitializer;
     private SwipeRefreshLayout swipeRefreshLayout;
     private String location;
@@ -68,8 +69,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         loadExtras();
-        UsefulFunctions.setIsFirst(true);
-        new UsefulFunctions().new SharedPreferencesReader(MainActivity.this);
+        UsefulFunctions.setIsFirstRefresh(true);
         initializeLayout(); //layout initialization
         loadFirstLocation();
     }
@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity
     private void loadFirstLocation(){
         setter = new WeatherDataSetter(this,getter); //data formatting and weather layout setting
         UsefulFunctions.setViewVisible(mainLayout);
-        UsefulFunctions.setIsFirst(false);
+        UsefulFunctions.setIsFirstRefresh(false);
     }
 
     @Override
@@ -160,6 +160,7 @@ public class MainActivity extends AppCompatActivity
         feedbackDialog=dialogInitializer.initializeFeedbackDialog();
         authorDialog=dialogInitializer.initializeAuthorDialog();
         searchDialog=dialogInitializer.initializeSearchDialog();
+        duplicateDialog=dialogInitializer.initializeDuplicateDialog();
     }
 
     Runnable downloadDataRunnable = new Runnable() {
@@ -254,7 +255,6 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onClick(View v) {
                         searchDialog.show();
-
                         UsefulFunctions.showKeyboard(MainActivity.this);
                     }
                 });
@@ -280,17 +280,16 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 if(floatingActionButtonOnClickIndicator ==1){
-                   // floatingActionButton.setImageResource(R.drawable.edit_black_icon);
-                    addToFavouritesDialog=dialogInitializer.initializeAddToFavourites(floatingActionButton);
-                    addToFavouritesDialog.show();
-
-                    //floatingActionButtonOnClickIndicator=2;
+                    if(UsefulFunctions.areCoordinatesEqual(MainActivity.this)) duplicateDialog.show();
+                    else {
+                        addToFavouritesDialog = dialogInitializer.initializeAddToFavourites(floatingActionButton);
+                        addToFavouritesDialog.show();
+                    }
                 }
                 else {
                     floatingActionButton.setImageResource(R.drawable.add_black_icon);
                     editFavouritesDialog=dialogInitializer.initializeEditFavourites();
                     editFavouritesDialog.show();
-                   // floatingActionButtonOnClickIndicator=1;
                 }
             }
         });

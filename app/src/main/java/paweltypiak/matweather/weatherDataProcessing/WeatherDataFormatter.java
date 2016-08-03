@@ -49,8 +49,7 @@ public class WeatherDataFormatter {
     private int hourDifference;
 
     public WeatherDataFormatter(Activity activity, WeatherDataInitializer dataInitializer){
-        this.units= UsefulFunctions.getUnitsPreferences();
-
+        this.units= UsefulFunctions.getUnits(activity);
         this.activity=activity;
         this.dataInitializer=dataInitializer;
         getData();
@@ -65,18 +64,15 @@ public class WeatherDataFormatter {
         formatForecast();
         formatWind();
         countSunPosition(time24);
-
         countHourDifference();
     }
 
     private void formatLastBuildDate(){
-
         lastBuildDate=lastBuildDate.substring(17);
         unformattedTime =lastBuildDate.substring(0,8);
         time =formatTimeUnit(unformattedTime);
         time24=get24Time(unformattedTime);
         timezone=lastBuildDate.substring(9);
-
         Log.d("weather_formatted","lastBuildDate: "+ time +" "+timezone);
     }
 
@@ -88,7 +84,6 @@ public class WeatherDataFormatter {
     }
 
     private void formatAstronomy(){
-
         sunrise24=get24Time(sunrise);
         sunset24=get24Time(sunset);
         sunrise=formatTimeUnit(sunrise);
@@ -102,7 +97,6 @@ public class WeatherDataFormatter {
     }
 
     private void formatForecast(){
-
         for(int i=0;i<5;i++){
             forecastLowTemperature[i]=formatTemperatureUnit(forecastLowTemperature[i])+"\u00B0";
             forecastHighTemperature[i]=formatTemperatureUnit(forecastHighTemperature[i])+"\u00B0";
@@ -111,7 +105,6 @@ public class WeatherDataFormatter {
     }
 
     private void formatWind(){
-
         if( Integer.parseInt(direction)<22 ||Integer.parseInt(direction)>=337 )
             directionName="N";
         else if( Integer.parseInt(direction)>=22 &&Integer.parseInt(direction)<67 )
@@ -138,10 +131,8 @@ public class WeatherDataFormatter {
         String actualTimeHour=null;
         SimpleDateFormat inputFormat=new SimpleDateFormat("H:mm");
         SimpleDateFormat outputFormat = new SimpleDateFormat("H");
-
         Date date;
         Calendar calendar= Calendar.getInstance();
-
         try {
             actualTimeHour = DateFormat.format("H", calendar).toString();
             date = inputFormat.parse(time24);
@@ -149,11 +140,9 @@ public class WeatherDataFormatter {
         } catch (ParseException pe) {
             pe.printStackTrace();
         }
-
         hourDifference=Integer.parseInt(timeHour)-Integer.parseInt(actualTimeHour);
         Log.d("hourdifference", "countHourDifference: "+hourDifference);
     }
-
 
     public String[] countSunPosition(String currentTime){
         Date sunriseHour=null;
@@ -163,7 +152,6 @@ public class WeatherDataFormatter {
         Date now=null;
         long sunsetSunriseDifference;
         long currentDifference;
-
         SimpleDateFormat inputFormat= new SimpleDateFormat("H:mm");
         try{
             sunriseHour= inputFormat.parse(sunrise24);
@@ -258,7 +246,6 @@ public class WeatherDataFormatter {
             } catch (ParseException pe) {
                 pe.printStackTrace();
             }
-
         }
         else {
             SimpleDateFormat outputFormat = new SimpleDateFormat("h:mm a");

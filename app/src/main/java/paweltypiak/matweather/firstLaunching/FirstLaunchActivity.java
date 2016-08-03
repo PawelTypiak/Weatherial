@@ -30,7 +30,7 @@ public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaun
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_launch);
-        isFirstLaunch();
+        isFirstLaunch=UsefulFunctions.getIsFirstLaunch(this);
         if(isFirstLaunch ==true) initializeFirstLaunch();
         else initializeNextLaunch();
     }
@@ -43,12 +43,6 @@ public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaun
     private void setButtonText(){
         TextView buttonTextView=(TextView)findViewById(R.id.first_launch_button_text);
         buttonTextView.setText(getString(R.string.first_launch_layout_continue_button));
-    }
-
-    private void isFirstLaunch(){
-        SharedPreferences sharedPreferences=UsefulFunctions.getSharedPreferences(this);
-        isFirstLaunch=sharedPreferences.getBoolean(getString(R.string.shared_preferences_is_first_launch_key),true);
-        Log.d("isFirst", ""+isFirstLaunch);
     }
 
     private void initializeConfigurationFragment(boolean isFirstLaunch){
@@ -105,7 +99,6 @@ public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaun
         else{
             UsefulFunctions.setViewInvisible(startButtonCardView);
         }
-
     }
 
     private void setStartButtonOnClickListener(final CardView startButtonCardView){
@@ -131,7 +124,6 @@ public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaun
                 }
                 else if(step==3){
                     Log.d("step", ""+step);
-
                     configurationFragment.initializeLoadingLocation(startButtonCardView);
                     step=4;
                 }

@@ -16,7 +16,6 @@ import java.util.Date;
 
 import static paweltypiak.matweather.DialogInitializer.initializeMapsDialog;
 import static paweltypiak.matweather.DialogInitializer.initializeYahooWeatherRedirectDialog;
-import static paweltypiak.matweather.UsefulFunctions.getUnitsPreferences;
 import static paweltypiak.matweather.UsefulFunctions.initializeUiThread;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.UsefulFunctions;
@@ -123,11 +122,13 @@ public class WeatherDataSetter {
     private int layoutHeight;
     private int layoutWidth;
     private static Thread uiThread;
+    private int units[];
 
 
     public WeatherDataSetter(Activity activity, WeatherDataInitializer dataInitializer) {
         Log.d("jestem", "WeatherDataSetter:  jestem");
         newRefresh=true;
+        units=UsefulFunctions.getUnits(activity);
         this.activity=activity;
         currentDataFormatter=new WeatherDataFormatter(activity, dataInitializer);
         getData();
@@ -141,7 +142,7 @@ public class WeatherDataSetter {
     }
 
     private void startUiThread(){
-        if(UsefulFunctions.getIsFirst()==true){
+        if(UsefulFunctions.getIsFirstRefresh()==true){
             uiThread=initializeUiThread(activity,timeUpdateRunnable);
             uiThread.start();
         }
@@ -166,7 +167,7 @@ public class WeatherDataSetter {
 
     private void setCurrentTime(Calendar calendar){
         String outputFormat;
-        if(getUnitsPreferences()[4]==0) outputFormat="H:mm:ss";
+        if(units[4]==0) outputFormat="H:mm:ss";
         else outputFormat="h:mm:ss a";
         timeTextView.setText(DateFormat.format(outputFormat, calendar));
     }

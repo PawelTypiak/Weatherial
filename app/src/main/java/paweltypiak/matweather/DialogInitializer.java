@@ -47,8 +47,10 @@ public class DialogInitializer  {
     private static AlertDialog localizationFailureDialog;
     private static AlertDialog permissionDeniedDialog;
     private static AlertDialog providerUnavailableDialog;
+    private static AlertDialog duplicateDialog;
     private static EditText searchEditText;
     private static Activity activity;
+
 
     public DialogInitializer(Activity activity) {
         this.activity = activity;
@@ -170,7 +172,7 @@ public class DialogInitializer  {
 
     private static void initializeSearchRunnableDialogs(){
         emptyLocationNameDialog=initializeEmptyLocationNameDialog(2);
-        if(searchProgressDialog==null)searchProgressDialog=initializeSearchProgressDialog();
+        searchProgressDialog=initializeSearchProgressDialog();
         noLocalizationResultsDialog= initializeNoLocationResultsDialog(2,showSearchDialogRunnable,null);
     }
 
@@ -290,6 +292,7 @@ public class DialogInitializer  {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
                 UsefulFunctions.hideKeyboard(activity,null);
+                Log.d("ond", "onDismiss: ");
                 locationEditText.getText().clear();
             }
         });
@@ -410,6 +413,29 @@ public class DialogInitializer  {
                 negativeButtonRunnable
         );
         return permissionDeniedDialog;
+    }
+
+    public static AlertDialog initializeDuplicateDialog(){
+        LayoutInflater inflater = activity.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.one_line_text_dialog,null);
+        TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
+        messageTextView.setText(activity.getString(R.string.duplicate_dialog_message));
+        duplicateDialog=buildDialog(
+                activity,
+                dialogView,
+                R.style.CustomDialogStyle,
+                activity.getString(R.string.duplicate_dialog_title),
+                R.drawable.info_icon,
+                null,
+                false,
+                activity.getString(R.string.duplicate_dialog_positive_button),
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+        return duplicateDialog;
     }
 
     public static AlertDialog initializeEmptyLocationNameDialog(int type){
@@ -659,23 +685,22 @@ public class DialogInitializer  {
         }
 
         public void run() {
-            Log.d("add_runnable", "run");
             EditText headerEditText=(EditText)dialogView.findViewById(R.id.edit_location_dialog_header_edittext);
-            String customHeaderString=headerEditText.getText().toString();
-
             EditText subheaderEditText=(EditText)dialogView.findViewById(R.id.edit_location_dialog_subheader_edittext);
+            String customHeaderString=headerEditText.getText().toString();
             String customSubheaderString=subheaderEditText.getText().toString();
-
-            String currentHeaderString=UsefulFunctions.getCurrentLocationStrings()[0];
-            String currentSubeaderString=UsefulFunctions.getCurrentLocationStrings()[1];
-
+            String customLocationString=customHeaderString+"%"+customSubheaderString;
+            UsefulFunctions.saveNewFavouriteLocationName(customLocationString,activity);
+            UsefulFunctions.saveNewFavouriteLocationAddress(activity);
+            UsefulFunctions.saveNewFavouriteLocationCoordinates(activity);
             CheckBox checkBox=(CheckBox)dialogView.findViewById(R.id.edit_location_dialog_checkbox);
             if(checkBox.isChecked()){
                 Log.d("checkbox", "checked");
+                UsefulFunctions.setFirstLocation(activity,null);
             }
-
-            floatingActionButton.setImageResource(R.drawable.edit_black_icon);
-            MainActivity.setfloatingActionButtonOnClickIndicator(2);
+            UsefulFunctions.getFirstLocation(activity);
+            //  floatingActionButton.setImageResource(R.drawable.edit_black_icon);
+            // MainActivity.setfloatingActionButtonOnClickIndicator(2);
         }
     }
 

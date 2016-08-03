@@ -38,19 +38,14 @@ public class FirstLaunchLocalizationOptionsFragment extends Fragment{
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 if (i == R.id.first_launch_localization_options_fragment_gps_radio_button) {
                     Log.d("localization_option", "gps");
-                    /*editor.putInt(getString(R.string.shared_preferences_localization_option_key), 1);
-                    editor.commit();*/
                     choosenLocalizationOption=1;
                 } else if (i == R.id.first_launch_localization_options_fragment_network_radio_button) {
                     Log.d("localization_option", "network");
-                    /*editor.putInt(getString(R.string.shared_preferences_localization_option_key), 2);
-                    editor.commit();*/
                     choosenLocalizationOption=2;
                 }
             }
         });
     }
-
     public int getChoosenLocalizationOption() {
         return choosenLocalizationOption;
     }

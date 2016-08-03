@@ -48,6 +48,7 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
     private LocalizationDownloader localizationDownloader;
     private SharedPreferences sharedPreferences;
     private boolean isFirstLocationGeolocalization;
+    private String firstLocation;
 
     @Override
     public void onAttach(Context context) {
@@ -130,10 +131,10 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
     }
 
     private void initializeNextLaunch(){
-        isFirstLocationGeolocalization=sharedPreferences.getBoolean(getString(R.string.shared_preferences_is_first_location_geolocalization_key),true);
-        if(isFirstLocationGeolocalization){
+        firstLocation=UsefulFunctions.getFirstLocation(getActivity());
+        if(firstLocation==null){
             Log.d("next", "geolokalizacja");
-            choosenLocalizationOption=sharedPreferences.getInt(getString(R.string.shared_preferences_localization_option_key),0);
+            choosenLocalizationOption=UsefulFunctions.getLocalizationOptionKey(getActivity());
             Log.d("localizationoption", ""+choosenLocalizationOption);
             if(choosenLocalizationOption==0){
                 //dialog
@@ -145,7 +146,6 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
         }
         else {
             Log.d("next", "different");
-            String firstLocation=sharedPreferences.getString(getString(R.string.shared_preferences_first_location_key),"0");
             location=firstLocation;
             downloadWeatherData(location);
         }
@@ -177,7 +177,7 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
                 showDialog(noLocationResultsDialog);
             }
             else {
-                if(isFirstLocationGeolocalization){
+                if(firstLocation==null){
                     showDialog(noLocationResultsDialog);
                 }
                 else{
@@ -280,17 +280,20 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
             if(isFirstLaunch) {
                 if(choosenLocationOption==1){
                     Log.d("end", ""+choosenLocationOption);
-                    sharedPreferences.edit().putInt(getString(R.string.shared_preferences_localization_option_key), choosenLocalizationOption).commit();
-                    sharedPreferences.edit().putBoolean(getString(R.string.shared_preferences_is_first_location_geolocalization_key), true).commit();
+                    UsefulFunctions.setLocalizationOptionKey(getActivity(),choosenLocalizationOption);
+                    UsefulFunctions.resetFirstLocation(getActivity());
                 }
                 else{
                     Log.d("end", ""+choosenLocationOption);
                     Log.d("firstlocation", ""+differentLocationName);
-                    sharedPreferences.edit().putString(getString(R.string.shared_preferences_first_location_key),differentLocationName).commit();
-                    sharedPreferences.edit().putBoolean(getString(R.string.shared_preferences_is_first_location_geolocalization_key), false).commit();
+                    String city=dataInitializer.getCity();
+                    String region=dataInitializer.getRegion();
+                    String country=dataInitializer.getCountry();
+                    String locationName=city+", "+region+", "+country;
+                    UsefulFunctions.setFirstLocation(getActivity(),locationName);
                     //UsefulFunctions.setViewVisible(messageTextView);
                 }
-                sharedPreferences.edit().putBoolean(getString(R.string.shared_preferences_is_first_launch_key),false).commit();
+                UsefulFunctions.setIsFirstLaunch(getActivity());
             }
             Intent intent = new Intent(getActivity(), MainActivity.class);
             intent.putExtra(getString(R.string.extras_data_initializer_key),dataInitializer);
@@ -299,6 +302,5 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
             return;
         }
     };
-
     public interface ChooseLocationAgainListener {void showLocationFragment();}
 }

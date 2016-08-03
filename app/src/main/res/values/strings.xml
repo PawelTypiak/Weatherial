@@ -14,6 +14,9 @@
     <string name="shared_preferences_is_first_location_geolocalization_key">is_first_location_geolocalization_key</string>
     <string name="shared_preferences_localization_option_key">localization_option_key</string>
     <string name="shared_preferences_is_first_launch_key">is_first_launch_key</string>
+    <string name="shared_preferences_favourite_locations_names_key">favourites_locations_key</string>
+    <string name="shared_preferences_favourite_locations_addresses_key">favourites_locations_addresses</string>
+    <string name="shared_preferences_favourite_locations_coordinates_key">favourites_locations_coordinates</string>
     <string name="extras_is_first_launch_key">is_first_launch_key</string>
     <string name="extras_choosen_location_option_key">choosen_location_option</string>
     <string name="extras_choosen_localization_option_key">choosen_localization_option</string>
@@ -72,7 +75,6 @@
     <string name="no_email_application_dialog_message">Niestety nie wykryto aplikacji służącej do wysyłania wiadomości E-mail. Czy chcesz skopiować adres <b>pawel.p.typiak@gmail.com</b> do schowka?</string>
     <string name="no_email_application_dialog_positive_button">Skopiuj</string>
     <string name="no_email_application_dialog_negative_button">Anuluj</string>
-
     <string name="different_location_dialog_title">Inna lokacja</string>
     <string name="different_location_dialog_positive_button">Ok</string>
     <string name="different_location_dialog_negative_button">Anuluj</string>
@@ -127,6 +129,9 @@
     <string name="network_unavailable_dialog_title">Sieć niedostępna</string>
     <string name="network_unavailable_dialog_message">Nastąpi wyszukanie lokalizacji za pomocą GPS.</string>
     <string name="network_unavailable_dialog_positive_button">Ok</string>
+    <string name="duplicate_dialog_title">Duplikat</string>
+    <string name="duplicate_dialog_message">Lokacja o tych samych współrzędnych już znajduje się w ulubionych.</string>
+    <string name="duplicate_dialog_positive_button">Ok</string>
 
 
     <string name="refresh_message_pull_to_refresh">Pociągnij, żeby odświeżyć</string>

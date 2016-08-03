@@ -25,7 +25,6 @@ import paweltypiak.matweather.UsefulFunctions;
 
 public class FirstLaunchUnitsFragment extends Fragment{
     private int units[]={0,0,0,0,0};
-    private SharedPreferences sharedPreferences;
     private TextView unitsHeaderTextView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -35,7 +34,6 @@ public class FirstLaunchUnitsFragment extends Fragment{
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        sharedPreferences=UsefulFunctions.getSharedPreferences(getActivity());
         initializeLayout();
     }
 
@@ -114,20 +112,12 @@ public class FirstLaunchUnitsFragment extends Fragment{
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 units[id]=i;
-                sharedPreferences.edit().putString(getString(R.string.shared_preferences_units_key), buildStringFromIntArray(units)).commit();
+                UsefulFunctions.setUnits(getActivity(),units);
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
-    }
-
-    private String buildStringFromIntArray(int[] intArray){
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < intArray.length; i++) {
-            stringBuilder.append(intArray[i]).append(",");
-        }
-        return stringBuilder.toString();
     }
 
     public static class FirstLaunchSpinner extends Spinner {
@@ -144,9 +134,6 @@ public class FirstLaunchUnitsFragment extends Fragment{
             super.setSelection(position);
             if (listener != null)
                 listener.onItemSelected(null, null, position, 0);
-        }
-        public void setOnItemSelectedEvenIfUnchangedListener(OnItemSelectedListener listener) {
-            this.listener = listener;
         }
     }
 }

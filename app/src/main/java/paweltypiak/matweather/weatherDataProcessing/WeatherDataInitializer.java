@@ -5,6 +5,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
+import paweltypiak.matweather.UsefulFunctions;
 import paweltypiak.matweather.jsonHandling.Channel;
 
 public class WeatherDataInitializer implements Parcelable {
@@ -63,7 +64,8 @@ public class WeatherDataInitializer implements Parcelable {
     private void initializeLocation(){
         city=channel.getLocation().getCity();
         country=channel.getLocation().getCountry();
-        region=channel.getLocation().getRegion();
+        region= UsefulFunctions.getFormattedString(channel.getLocation().getRegion());
+        Log.d("region pre", "p"+region);
         latitude=channel.getItem().getLatitude();
         longitude=channel.getItem().getLongitude();
         Log.d("weather","location: "+city+", "+region+", "+country+", "+latitude+", "+longitude);
