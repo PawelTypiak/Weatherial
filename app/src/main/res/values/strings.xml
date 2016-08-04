@@ -138,6 +138,9 @@
     <string name="favourites_dialog_positive_button">Wybierz</string>
     <string name="favourites_dialog_neutral_button">Edytuj</string>
     <string name="favourites_dialog_negative_button">Anuluj</string>
+    <string name="no_favourites_dialog_title">Brak ulubionych</string>
+    <string name="no_favourites_dialog_positive_button">Ok</string>
+    <string name="no_favourites_dialog_message">Nie masz żadnych zapisanych lokacji.</string>
 
 
     <string name="refresh_message_pull_to_refresh">Pociągnij, żeby odświeżyć</string>

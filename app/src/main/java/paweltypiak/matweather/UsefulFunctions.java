@@ -13,6 +13,7 @@ import android.graphics.Canvas;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -33,6 +34,9 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Transformation;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.StringTokenizer;
 
 import paweltypiak.matweather.weatherDataDownloading.WeatherDataSetter;
@@ -215,6 +219,51 @@ public class UsefulFunctions {
                     && coordinates[1].equals(getCurrentLocationCoordinates()[1])) isEqual=true;
         }
         return isEqual;
+    }
+
+    public static void setfloatingActionButtonOnClickIndicator(Activity activity,int  fabIndicator) {
+        FloatingActionButton floatingActionButton=(FloatingActionButton)activity.findViewById(R.id.main_fab);
+        MainActivity.setFloatingActionButtonOnClickIndicator(fabIndicator);
+        if(fabIndicator==1) floatingActionButton.setImageResource(R.drawable.add_black_icon);
+        else floatingActionButton.setImageResource(R.drawable.edit_black_icon);
+    }
+
+    public static List<String>[] getFavouriteLocationList(Activity activity){
+        String[] favourites=getFavouriteLocationsNames(activity);
+        String[] favouritesHeaderNames=new String[favourites.length];
+        String[] favouritesSubeaderNames=new String[favourites.length];
+        for(int i=0;i<favourites.length;i++){
+            StringTokenizer stringTokenizer = new StringTokenizer(favourites[i], "%");
+            String locationPartName[]={"",""};
+            int size=stringTokenizer.countTokens();
+            Log.d("tokinizersize", ""+stringTokenizer.countTokens());
+            for (int j = 0; j < size; j++) {
+                locationPartName[j] = stringTokenizer.nextToken();
+                Log.d("partname", ""+locationPartName[j]);
+            }
+            /*favourites[i]="<b>"+locationPartName[0]+"</b>";
+            Log.d("favourites1", ""+favourites[i]);
+            if(!locationPartName[1].equals(""))favourites[i]=favourites[i]+", "+locationPartName[1];
+            Log.d("favourites2", ""+favourites[i]);*/
+            favouritesHeaderNames[i]=locationPartName[0];
+            favouritesSubeaderNames[i]=locationPartName[1];
+        }
+        List<String> favouritesArrayList[]=new List[2];
+        favouritesArrayList[0]= Arrays.asList(favouritesHeaderNames);
+        favouritesArrayList[1]=Arrays.asList(favouritesSubeaderNames);
+        return favouritesArrayList;
+    }
+
+    public static String makeLocationsDialogName(String header, String subheader){
+        String name="<b>"+header+"</b>";
+        if(!subheader.equals(""))name=name+", "+subheader;
+        return name;
+    }
+
+    public static String getLocationAddress(int id,Activity activity){
+        String[] addresses=getFavouriteLocationsAddresses(activity);
+        Log.d("adres", addresses[id]);
+        return addresses[id];
     }
 
     public static void initializeWebIntent(Activity activity, String url){
@@ -522,11 +571,6 @@ public class UsefulFunctions {
         int paddingBottomPixels=dpToPixels(paddingBottom,activity);
 
         view.setPadding(paddingLeftPixels,paddingTopPixels,paddingRightPixels,paddingBottomPixels);
-    }
-
-    public static void getFavouriteLocationsList(Activity activity){
-        String[] favourites=getFavouriteLocationsNames(activity);
-
     }
 
     public class setDrawableColor implements Transformation {

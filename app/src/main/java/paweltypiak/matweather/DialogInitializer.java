@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
+import android.text.Html;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.util.TypedValue;
@@ -55,6 +57,7 @@ public class DialogInitializer  {
     private static AlertDialog providerUnavailableDialog;
     private static AlertDialog duplicateDialog;
     private static AlertDialog favouritesDialog;
+    private static AlertDialog emptyLocationListDialog;
     private static EditText searchEditText;
     private static Activity activity;
 
@@ -565,6 +568,29 @@ public class DialogInitializer  {
         return serviceFailureDialog;
     }
 
+    public static AlertDialog initializeEmptyLocationListDialog(){
+        LayoutInflater inflater = activity.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.one_line_text_dialog,null);
+        TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
+        messageTextView.setText(activity.getString(R.string.no_favourites_dialog_message));
+        emptyLocationListDialog = buildDialog(
+                activity,
+                dialogView,
+                R.style.CustomDialogStyle,
+                activity.getString(R.string.no_favourites_dialog_title),
+                R.drawable.info_icon,
+                null,
+                true,
+                activity.getString(R.string.no_favourites_dialog_positive_button),
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+        return emptyLocationListDialog;
+    }
+
     public static AlertDialog initializeInternetFailureDialog(boolean isUncancelable,Runnable positiveButtonRunnable,Runnable negativeButtonRunnable){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.one_line_text_dialog,null);
@@ -991,16 +1017,23 @@ public class DialogInitializer  {
     public static AlertDialog initializeFavouritesDialog(){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.radiogroup_dialog,null);
-        String[] favourites=UsefulFunctions.getFavouriteLocationsNames(activity);
-        RadioGroup rg = (RadioGroup) dialogView.findViewById(R.id.radiogroup_dialog_radiogroup);
-
-        for(int i=0;i<favourites.length;i++){
-            RadioButton rb=new RadioButton(activity); // dynamically creating RadioButton and adding to RadioGroup.
-            rb.setText(favourites[i]);
-            rb.setTextSize(TypedValue.COMPLEX_UNIT_DIP,18);
-            rb.setTextColor(activity.getResources().getColor(R.color.textSecondaryLightBackground));
-            if(i!=favourites.length-1)UsefulFunctions.setRadiogroupMargins(rb,activity,0,0,0,5);
-            rg.addView(rb);
+        //String[] favourites=UsefulFunctions.getFavouriteLocationsNames(activity);
+        RadioGroup radioGroup = (RadioGroup) dialogView.findViewById(R.id.radiogroup_dialog_radiogroup);
+        List<String> favouritesList[] = UsefulFunctions.getFavouriteLocationList(activity);
+        int size=favouritesList[0].size();
+        for(int i=0;i<size;i++){
+            RadioButton radioButton=new RadioButton(activity); // dynamically creating RadioButton and adding to RadioGroup.
+            String locationHeader=favouritesList[0].get(i);
+            String locationSubheader=favouritesList[1].get(i);
+            String locationName=UsefulFunctions.makeLocationsDialogName(locationHeader,locationSubheader);
+            radioButton.setText(Html.fromHtml(locationName));
+            radioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX,activity.getResources().getDimensionPixelSize(R.dimen.locations_list_text_size));
+            radioButton.setSingleLine();
+            radioButton.setEllipsize(TextUtils.TruncateAt.END);
+            radioButton.setTextColor(activity.getResources().getColor(R.color.textSecondaryLightBackground));
+            if(i!=size-1)UsefulFunctions.setRadiogroupMargins(radioButton,activity,0,0,0,16);
+            radioGroup.addView(radioButton);
+            UsefulFunctions.getLocationAddress(i,activity);
         }
 
         //initializing dialog

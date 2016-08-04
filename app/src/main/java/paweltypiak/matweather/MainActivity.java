@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity
     private AlertDialog editFavouritesDialog;
     private AlertDialog duplicateDialog;
     private AlertDialog favouritesDialog;
+    private AlertDialog emptyLocationListDialog;
     private DialogInitializer dialogInitializer;
     private SwipeRefreshLayout swipeRefreshLayout;
     private String location;
@@ -65,6 +66,7 @@ public class MainActivity extends AppCompatActivity
     private ImageView refreshImageView;
     private static int floatingActionButtonOnClickIndicator;
     private NavigationView navigationView;
+    private static FloatingActionButton floatingActionButton;
 
 
     @Override
@@ -126,6 +128,7 @@ public class MainActivity extends AppCompatActivity
         authorDialog=dialogInitializer.initializeAuthorDialog();
         searchDialog=dialogInitializer.initializeSearchDialog();
         duplicateDialog=dialogInitializer.initializeDuplicateDialog();
+        emptyLocationListDialog=dialogInitializer.initializeEmptyLocationListDialog();
 
     }
 
@@ -239,9 +242,9 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setFloatingActionButton(){
-        final FloatingActionButton floatingActionButton=(FloatingActionButton)findViewById(R.id.main_fab);
-        floatingActionButton.setImageResource(R.drawable.add_black_icon);
-        floatingActionButtonOnClickIndicator =1;
+        floatingActionButton=(FloatingActionButton)findViewById(R.id.main_fab);
+
+        UsefulFunctions.setfloatingActionButtonOnClickIndicator(this,1);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -261,8 +264,8 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    public static void setfloatingActionButtonOnClickIndicator(int  onClickIndicator) {
-        floatingActionButtonOnClickIndicator = onClickIndicator;
+    public static void setFloatingActionButtonOnClickIndicator(int floatingActionButtonOnClickIndicator) {
+        MainActivity.floatingActionButtonOnClickIndicator = floatingActionButtonOnClickIndicator;
     }
 
     private void setSwipeRefreshLayout(){
@@ -348,8 +351,12 @@ public class MainActivity extends AppCompatActivity
         }
         else if(id==R.id.nav_button_favourites){
             UsefulFunctions.checkNavigationDrawerMenuItem(MainActivity.this,1);
-            favouritesDialog=dialogInitializer.initializeFavouritesDialog();
-            favouritesDialog.show();
+            if(UsefulFunctions.getFavouriteLocationsAddresses(MainActivity.this).length==0) emptyLocationListDialog.show();
+            else{
+                favouritesDialog=dialogInitializer.initializeFavouritesDialog();
+                favouritesDialog.show();
+            }
+
         }
         else if (id == R.id.nav_button_settings) {
             // Handle options
