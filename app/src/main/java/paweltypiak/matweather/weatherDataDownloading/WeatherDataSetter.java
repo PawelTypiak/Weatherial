@@ -1,4 +1,4 @@
-package paweltypiak.matweather.weatherDataProcessing;
+package paweltypiak.matweather.weatherDataDownloading;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -17,6 +17,8 @@ import java.util.Date;
 import static paweltypiak.matweather.DialogInitializer.initializeMapsDialog;
 import static paweltypiak.matweather.DialogInitializer.initializeYahooWeatherRedirectDialog;
 import static paweltypiak.matweather.UsefulFunctions.initializeUiThread;
+import static paweltypiak.matweather.UsefulFunctions.setViewVisible;
+
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.UsefulFunctions;
 
@@ -126,23 +128,20 @@ public class WeatherDataSetter {
 
 
     public WeatherDataSetter(Activity activity, WeatherDataInitializer dataInitializer) {
-        Log.d("jestem", "WeatherDataSetter:  jestem");
-        newRefresh=true;
-        units=UsefulFunctions.getUnits(activity);
         this.activity=activity;
         currentDataFormatter=new WeatherDataFormatter(activity, dataInitializer);
+        newRefresh=true;
+        units=UsefulFunctions.getUnits(activity);
         getData();
         updateDialogs();
         setTheme();
         setAppBarLayout();
-        setCurrentLayout();
-        setDetailsLayout();
-        setForecastLayout();
+        setWeatherLayout();
         startUiThread();
     }
 
     private void startUiThread(){
-        if(UsefulFunctions.getIsFirstRefresh()==true){
+        if(UsefulFunctions.getIsFirstWeatherDownloading()==true){
             uiThread=initializeUiThread(activity,timeUpdateRunnable);
             uiThread.start();
         }
@@ -174,20 +173,16 @@ public class WeatherDataSetter {
     private void changeTimeOfDay(){
         isDay=!isDay;
         setTheme();
-        setCurrentLayout();
-        setDetailsLayout();
-        setForecastLayout();
+        setWeatherLayout();
     }
     private void updateLayout(Calendar calendar){
         String outputMinutesFormat="H:mm";
         String outputMinutesString=DateFormat.format(outputMinutesFormat, calendar).toString();
         String[] sunPositionStrings=currentDataFormatter.countSunPosition(outputMinutesString);
-
         if(newRefresh==true){
             assignSunPositionStrings(sunPositionStrings);
             newRefresh=false;
         }
-
         else{
             if(!currentDiffMinutesString.equals(sunPositionStrings[1])){
                 if(!isDayString.equals(sunPositionStrings[2])){
@@ -236,21 +231,27 @@ public class WeatherDataSetter {
 
     private void setAppBarLayout(){
         getAppBarResources();
-        primaryLocationTextView.setText(city);
+        /*primaryLocationTextView.setText(city);
         secondaryLocationTextView.setText(region+", "+country);
         timezoneTextView.setText(timezone);
         int visibility = primaryLocationTextView.getVisibility();
         primaryLocationTextView.setVisibility(View.GONE);
         primaryLocationTextView.setVisibility(visibility);
         secondaryLocationTextView.setVisibility(View.GONE);
-        secondaryLocationTextView.setVisibility(visibility);
-        timezoneTextView.setVisibility(View.GONE);
-        timezoneTextView.setVisibility(visibility);
+        secondaryLocationTextView.setVisibility(visibility);*/
+        UsefulFunctions.setAppBarStrings(activity,city,region+", "+country);
+        UsefulFunctions.setViewGone(timezoneTextView);
+        timezoneTextView.setText(timezone);
+        UsefulFunctions.setViewVisible(timezoneTextView);
         Picasso.with(activity.getApplicationContext()).load(R.drawable.arrow).transform(new UsefulFunctions().new setDrawableColor(activity.getResources().getColor(R.color.textPrimaryDarkBackground))).rotate(180).fit().centerInside().into(refreshIconImageView);
         Picasso.with(activity.getApplicationContext()).load(R.drawable.yahoo_logo).fit().centerInside().into(yahooImageView);
     }
 
-
+    private void setWeatherLayout(){
+        setCurrentLayout();
+        setDetailsLayout();
+        setForecastLayout();
+    }
 
     private void setCurrentLayout(){
         getCurrentResources();

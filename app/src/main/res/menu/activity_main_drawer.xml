@@ -12,11 +12,6 @@
             android:icon="@drawable/favourites_full_icon"
             android:checkable="true"
             android:title="@string/nav_drawer_favourites" />
-        <item
-            android:id="@+id/nav_button_szukaj"
-            android:icon="@drawable/search_blue_icon"
-            android:checkable="true"
-            android:title="@string/nav_drawer_search" />
 
     </menu>
     </item>

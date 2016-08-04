@@ -26,11 +26,11 @@ import com.squareup.picasso.Picasso;
 
 import paweltypiak.matweather.weatherDataDownloading.WeatherDataDownloader;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDownloadCallback;
-import paweltypiak.matweather.weatherDataProcessing.WeatherDataInitializer;
-import paweltypiak.matweather.weatherDataProcessing.WeatherDataSetter;
+import paweltypiak.matweather.weatherDataDownloading.WeatherDataInitializer;
+import paweltypiak.matweather.weatherDataDownloading.WeatherDataSetter;
 
-import static paweltypiak.matweather.weatherDataProcessing.WeatherDataSetter.getTimeThreadStartedFlag;
-import static paweltypiak.matweather.weatherDataProcessing.WeatherDataSetter.setStartTimeThread;
+import static paweltypiak.matweather.weatherDataDownloading.WeatherDataSetter.getTimeThreadStartedFlag;
+import static paweltypiak.matweather.weatherDataDownloading.WeatherDataSetter.setStartTimeThread;
 import paweltypiak.matweather.jsonHandling.Channel;
 
 public class MainActivity extends AppCompatActivity
@@ -63,13 +63,14 @@ public class MainActivity extends AppCompatActivity
     private TextView refreshMessageTextView;
     private ImageView refreshImageView;
     private static int floatingActionButtonOnClickIndicator;
+    private NavigationView navigationView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         loadExtras();
-        UsefulFunctions.setIsFirstRefresh(true);
+        UsefulFunctions.setIsFirstWeatherDownloading(true);
         initializeLayout(); //layout initialization
         loadFirstLocation();
     }
@@ -87,7 +88,7 @@ public class MainActivity extends AppCompatActivity
     private void loadFirstLocation(){
         setter = new WeatherDataSetter(this,getter); //data formatting and weather layout setting
         UsefulFunctions.setViewVisible(mainLayout);
-        UsefulFunctions.setIsFirstRefresh(false);
+        UsefulFunctions.setIsFirstWeatherDownloading(false);
     }
 
     @Override
@@ -111,44 +112,7 @@ public class MainActivity extends AppCompatActivity
         else serviceFailureDialog.show();
     }
 
-    private void setSwipeRefreshLayout(){
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
-        swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
-        swipeRefreshLayout.setOnTouchListener(new View.OnTouchListener() {
-            boolean isTouched=false;
-            float movedWidth;
-            float movedHeight;
-            float startWidth;
-            float startHeight;
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_MOVE){
-                    if(isTouched==false){
-                        UsefulFunctions.setViewVisible(refreshImageView);
-                        UsefulFunctions.setViewVisible(refreshMessageTextView);
-                        refreshMessageTextView.setText(getString(R.string.refresh_message_pull_to_refresh));
-                        isTouched=true;
-                        startWidth = event.getRawX();
-                        startHeight = event.getRawY();
-                    }
-                    movedWidth = event.getRawX() - startWidth;
-                    movedHeight = event.getRawY() - startHeight;
 
-                    double alpha=UsefulFunctions.getPullOpacity(0.2,movedHeight,MainActivity.this,true);
-                    refreshMessageTextView.setTextColor(Color.argb((int)alpha, 255, 255, 255));
-                    refreshMessageTextView.setText(getString(R.string.refresh_message_pull_to_refresh));
-                    refreshImageView.setAlpha((float)(alpha/255));
-                }
-                if(event.getAction()==MotionEvent.ACTION_UP){
-                    isTouched=false;
-                    UsefulFunctions.setViewGone(refreshImageView);
-                    UsefulFunctions.setViewInvisible(refreshMessageTextView);
-                }
-                return false;
-            }
-        });
-    }
 
     private void setDialogs(){
         dialogInitializer=new DialogInitializer(this);
@@ -188,7 +152,7 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
         //navigation drawer init
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         refreshMessageTextView=(TextView)findViewById(R.id.app_bar_refresh_text);
         refreshImageView=(ImageView) findViewById(R.id.app_bar_refresh_image);
@@ -299,6 +263,45 @@ public class MainActivity extends AppCompatActivity
         floatingActionButtonOnClickIndicator = onClickIndicator;
     }
 
+    private void setSwipeRefreshLayout(){
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
+        swipeRefreshLayout.setOnTouchListener(new View.OnTouchListener() {
+            boolean isTouched=false;
+            float movedWidth;
+            float movedHeight;
+            float startWidth;
+            float startHeight;
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_MOVE){
+                    if(isTouched==false){
+                        UsefulFunctions.setViewVisible(refreshImageView);
+                        UsefulFunctions.setViewVisible(refreshMessageTextView);
+                        refreshMessageTextView.setText(getString(R.string.refresh_message_pull_to_refresh));
+                        isTouched=true;
+                        startWidth = event.getRawX();
+                        startHeight = event.getRawY();
+                    }
+                    movedWidth = event.getRawX() - startWidth;
+                    movedHeight = event.getRawY() - startHeight;
+
+                    double alpha=UsefulFunctions.getPullOpacity(0.2,movedHeight,MainActivity.this,true);
+                    refreshMessageTextView.setTextColor(Color.argb((int)alpha, 255, 255, 255));
+                    refreshMessageTextView.setText(getString(R.string.refresh_message_pull_to_refresh));
+                    refreshImageView.setAlpha((float)(alpha/255));
+                }
+                if(event.getAction()==MotionEvent.ACTION_UP){
+                    isTouched=false;
+                    UsefulFunctions.setViewGone(refreshImageView);
+                    UsefulFunctions.setViewInvisible(refreshMessageTextView);
+                }
+                return false;
+            }
+        });
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -318,7 +321,8 @@ public class MainActivity extends AppCompatActivity
         refreshMessageTextView.setText(getString(R.string.refresh_message_refreshing));
         UsefulFunctions.setViewVisible(refreshMessageTextView);
         UsefulFunctions.setViewInvisible(weatherLayout);
-        downloadData(WeatherDataSetter.getCurrentDataFormatter().getCity());
+        String location[]=UsefulFunctions.getCurrentLocationStrings();
+        downloadData(location[0]+", "+location[1]);
     }
 
     @Override
@@ -336,9 +340,14 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
-        if (id == R.id.nav_button_settings) {
+        if(id==R.id.nav_button_geolocalization){
+            UsefulFunctions.checkNavigationDrawerMenuItem(MainActivity.this,0);
+        }
+        else if(id==R.id.nav_button_favourites){
+            UsefulFunctions.checkNavigationDrawerMenuItem(MainActivity.this,1);
+        }
+        else if (id == R.id.nav_button_settings) {
             // Handle options
         } else if (id == R.id.nav_button_about) {
             //Handle about
@@ -363,7 +372,7 @@ public class MainActivity extends AppCompatActivity
     protected void onResume() {
         if(getTimeThreadStartedFlag()==true)    {
             setStartTimeThread(true);
-            WeatherDataSetter.newRefresh=true;
+            //WeatherDataSetter.newRefresh=true;
         }
         super.onResume();
     }

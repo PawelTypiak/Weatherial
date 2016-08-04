@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
@@ -19,8 +20,8 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDataDownloader;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDownloadCallback;
-import paweltypiak.matweather.weatherDataProcessing.WeatherDataInitializer;
-import paweltypiak.matweather.weatherDataProcessing.WeatherDataSetter;
+import paweltypiak.matweather.weatherDataDownloading.WeatherDataInitializer;
+import paweltypiak.matweather.weatherDataDownloading.WeatherDataSetter;
 import paweltypiak.matweather.jsonHandling.Channel;
 
 public class DialogInitializer  {
@@ -132,6 +133,7 @@ public class DialogInitializer  {
         }
 
         public void run() {
+            UsefulFunctions.uncheckNavigationDrawerMenuItems(activity);
             dataSetter = new WeatherDataSetter(activity, dataInitializer);
         }
     }
@@ -140,6 +142,13 @@ public class DialogInitializer  {
         public void run() {
             differentLocationDialog.show();
             UsefulFunctions.showKeyboard(activity);
+        }
+    };
+
+    private static Runnable showAddToFavouritesDialogRunnable=new Runnable() {
+        @Override
+        public void run() {
+            addToFavouritesDialog.show();
         }
     };
 
@@ -442,10 +451,18 @@ public class DialogInitializer  {
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.one_line_text_dialog,null);
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
-        messageTextView.setText(activity.getString(R.string.empty_location_name_dialog_message));
-        Runnable positiveButtonRunnable;
-        if(type==1) positiveButtonRunnable=showDifferentLocationDialogRunnable;
-        else positiveButtonRunnable=showSearchDialogRunnable;
+        Runnable positiveButtonRunnable=null;
+        String message=null;
+        if(type==1||type==2){
+            if(type==1) positiveButtonRunnable=showDifferentLocationDialogRunnable;
+            else if(type==2) positiveButtonRunnable=showSearchDialogRunnable;
+            message=activity.getString(R.string.empty_location_name_dialog_message);
+        }
+        else if(type==3){
+            positiveButtonRunnable=showAddToFavouritesDialogRunnable;
+            message=activity.getString(R.string.empty_location_header_dialog_message);
+        }
+        messageTextView.setText(message);
         emptyLocationNameDialog=buildDialog(
                 activity,
                 dialogView,
@@ -689,18 +706,30 @@ public class DialogInitializer  {
             EditText subheaderEditText=(EditText)dialogView.findViewById(R.id.edit_location_dialog_subheader_edittext);
             String customHeaderString=headerEditText.getText().toString();
             String customSubheaderString=subheaderEditText.getText().toString();
-            String customLocationString=customHeaderString+"%"+customSubheaderString;
-            UsefulFunctions.saveNewFavouriteLocationName(customLocationString,activity);
-            UsefulFunctions.saveNewFavouriteLocationAddress(activity);
-            UsefulFunctions.saveNewFavouriteLocationCoordinates(activity);
-            CheckBox checkBox=(CheckBox)dialogView.findViewById(R.id.edit_location_dialog_checkbox);
-            if(checkBox.isChecked()){
-                Log.d("checkbox", "checked");
-                UsefulFunctions.setFirstLocation(activity,null);
+            if(customHeaderString.equals("")) {
+                UsefulFunctions.hideKeyboard(activity,headerEditText);
+                emptyLocationNameDialog=initializeEmptyLocationNameDialog(3);
+                emptyLocationNameDialog.show();
             }
-            UsefulFunctions.getFirstLocation(activity);
-            //  floatingActionButton.setImageResource(R.drawable.edit_black_icon);
-            // MainActivity.setfloatingActionButtonOnClickIndicator(2);
+            else{
+                String customLocationString=customHeaderString+"%"+customSubheaderString;
+                UsefulFunctions.saveNewFavouriteLocationName(customLocationString,activity);
+                UsefulFunctions.saveNewFavouriteLocationAddress(activity);
+                UsefulFunctions.saveNewFavouriteLocationCoordinates(activity);
+                CheckBox checkBox=(CheckBox)dialogView.findViewById(R.id.edit_location_dialog_checkbox);
+                if(checkBox.isChecked()){
+                    Log.d("checkbox", "checked");
+                    String currentLocationHeaderString=UsefulFunctions.getCurrentLocationStrings()[0];
+                    String currentLocationSubheaderString=UsefulFunctions.getCurrentLocationStrings()[1];
+                    String currentLocationName=currentLocationHeaderString+", "+currentLocationSubheaderString;
+                    UsefulFunctions.setFirstLocation(activity,currentLocationName);
+                }
+                UsefulFunctions.setAppBarStrings(activity,customHeaderString,customSubheaderString);
+                UsefulFunctions.checkNavigationDrawerMenuItem(activity,1);
+                //  floatingActionButton.setImageResource(R.drawable.edit_black_icon);
+                // MainActivity.setfloatingActionButtonOnClickIndicator(2);
+            }
+
         }
     }
 

@@ -13,12 +13,14 @@ import android.graphics.Canvas;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.support.design.widget.NavigationView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -30,15 +32,15 @@ import com.squareup.picasso.Transformation;
 
 import java.util.StringTokenizer;
 
-import paweltypiak.matweather.weatherDataProcessing.WeatherDataSetter;
+import paweltypiak.matweather.weatherDataDownloading.WeatherDataSetter;
 
 public class UsefulFunctions {
-    private static boolean isFirstRefresh;
-    public static boolean getIsFirstRefresh() {
-        return isFirstRefresh;
+    private static boolean isFirstWeatherDownloading;
+    public static boolean getIsFirstWeatherDownloading() {
+        return isFirstWeatherDownloading;
     }
-    public static void setIsFirstRefresh(boolean bool) {
-        isFirstRefresh = bool;
+    public static void setIsFirstWeatherDownloading(boolean bool) {
+        isFirstWeatherDownloading = bool;
     }
     private static SharedPreferences sharedPreferences;
 
@@ -56,8 +58,8 @@ public class UsefulFunctions {
         return isFirstLaunch;
     }
 
-    public static void setIsFirstLaunch(Activity activity){
-        getSharedPreferences(activity).edit().putBoolean(activity.getString(R.string.shared_preferences_is_first_launch_key),true).commit();
+    public static void setNextLaunch(Activity activity){
+        getSharedPreferences(activity).edit().putBoolean(activity.getString(R.string.shared_preferences_is_first_launch_key),false).commit();
     }
 
     public static int getLanguage(Activity activity){
@@ -106,11 +108,6 @@ public class UsefulFunctions {
     }
 
     public static void setFirstLocation(Activity activity, String locationName){
-        if(locationName==null){
-            String currentLocationHeaderString=UsefulFunctions.getCurrentLocationStrings()[0];
-            String currentLocationSubheaderString=UsefulFunctions.getCurrentLocationStrings()[1];
-            locationName=currentLocationHeaderString+", "+currentLocationSubheaderString;
-        }
         getSharedPreferences(activity).edit().putString(activity.getString(R.string.shared_preferences_first_location_key), locationName).commit();
     }
 
@@ -137,7 +134,7 @@ public class UsefulFunctions {
         stringBuilder.append(location).append("|");
         String favouritesNamesString=stringBuilder.toString();
         Log.d("string_names_save", ""+favouritesNamesString);
-        getSharedPreferences(activity).edit().putString(activity.getString(R.string.shared_preferences_favourite_locations_names_key), favouritesNamesString).commit();
+        getSharedPreferences(activity).edit().putString(activity.getString(R.string.shared_preferences_favourite_locations_names_key), null).commit();
     }
 
     public static String[] getFavouriteLocationsAddresses(Activity activity){
@@ -162,7 +159,7 @@ public class UsefulFunctions {
         stringBuilder.append(currentLocationNameString).append("|");
         String favouritesAddressesString=stringBuilder.toString();
         Log.d("string_Address_save", ""+favouritesAddressesString);
-        getSharedPreferences(activity).edit().putString(activity.getString(R.string.shared_preferences_favourite_locations_addresses_key), favouritesAddressesString).commit();
+        getSharedPreferences(activity).edit().putString(activity.getString(R.string.shared_preferences_favourite_locations_addresses_key), null).commit();
     }
 
     public static String[] getFavouriteLocationsCoordinates(Activity activity){
@@ -187,7 +184,7 @@ public class UsefulFunctions {
         stringBuilder.append(currentLocationCoordinatesString).append("|");
         String favouritesCoordinateString=stringBuilder.toString();
         Log.d("string_Coordinate_save", ""+favouritesCoordinateString);
-        getSharedPreferences(activity).edit().putString(activity.getString(R.string.shared_preferences_favourite_locations_coordinates_key), favouritesCoordinateString).commit();
+        getSharedPreferences(activity).edit().putString(activity.getString(R.string.shared_preferences_favourite_locations_coordinates_key), null).commit();
     }
 
     private static StringBuilder buildStringFromStringArray(String[] stringArray){
@@ -371,15 +368,44 @@ public class UsefulFunctions {
     public static void setAppBarStrings(Activity activity, String primaryText, String secondaryText){
         TextView primaryLocationTextView=(TextView)activity.findViewById(R.id.app_bar_primary_location_name_text);
         TextView secondaryLocationTextView=(TextView)activity.findViewById(R.id.app_bar_secondary_location_name_text);
-
         primaryLocationTextView.setText(primaryText);
+        //int visibility = primaryLocationTextView.getVisibility();
+        setViewGone(primaryLocationTextView);
+        setViewVisible(primaryLocationTextView);
         secondaryLocationTextView.setText(secondaryText);
+        setViewGone(secondaryLocationTextView);
+        if(!secondaryText.equals("")) setViewVisible(secondaryLocationTextView);
 
-        int visibility = primaryLocationTextView.getVisibility();
-        primaryLocationTextView.setVisibility(View.GONE);
-        primaryLocationTextView.setVisibility(visibility);
-        secondaryLocationTextView.setVisibility(View.GONE);
-        secondaryLocationTextView.setVisibility(visibility);
+    }
+
+    public static void uncheckNavigationDrawerMenuItems(Activity activity){
+        NavigationView navigationView = (NavigationView)activity. findViewById(R.id.nav_view);
+        MenuItem geolocalizationItem=navigationView.getMenu().findItem(R.id.nav_button_geolocalization);;
+        MenuItem favouritesItem=navigationView.getMenu().findItem(R.id.nav_button_favourites);
+        favouritesItem.setChecked(false);
+        geolocalizationItem.setChecked(false);
+        Log.d("unchecked", "unchecked ");
+
+    }
+
+    public static void checkNavigationDrawerMenuItem(Activity activity, int itemId){
+        NavigationView navigationView = (NavigationView)activity. findViewById(R.id.nav_view);
+        //navigationView.getMenu().getItem(itemId).setChecked(true);
+        MenuItem geolocalizationItem=navigationView.getMenu().findItem(R.id.nav_button_geolocalization);;
+        MenuItem favouritesItem=navigationView.getMenu().findItem(R.id.nav_button_favourites);
+        if(itemId==0) {
+            geolocalizationItem.setCheckable(true);
+            geolocalizationItem.setChecked(true);
+            favouritesItem.setChecked(false);
+        }
+
+        else {
+            favouritesItem.setCheckable(true);
+            favouritesItem.setChecked(true);
+            geolocalizationItem.setChecked(false);
+        }
+
+
     }
 
     public static void showKeyboard(Activity activity){

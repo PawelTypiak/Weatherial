@@ -23,7 +23,7 @@ import paweltypiak.matweather.localizationDataDownloading.GeocodingDownloader;
 import paweltypiak.matweather.localizationDataDownloading.LocalizationDownloader;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDataDownloader;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDownloadCallback;
-import paweltypiak.matweather.weatherDataProcessing.WeatherDataInitializer;
+import paweltypiak.matweather.weatherDataDownloading.WeatherDataInitializer;
 import paweltypiak.matweather.jsonHandling.Channel;
 
 public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownloadCallback,GeocodingCallback{
@@ -293,7 +293,7 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
                     UsefulFunctions.setFirstLocation(getActivity(),locationName);
                     //UsefulFunctions.setViewVisible(messageTextView);
                 }
-                UsefulFunctions.setIsFirstLaunch(getActivity());
+                UsefulFunctions.setNextLaunch(getActivity());
             }
             Intent intent = new Intent(getActivity(), MainActivity.class);
             intent.putExtra(getString(R.string.extras_data_initializer_key),dataInitializer);

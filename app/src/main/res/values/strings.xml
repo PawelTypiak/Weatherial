@@ -104,10 +104,11 @@
     <string name="first_launch_localization_failure_dialog_negative_button">Wyjdź</string>
     <string name="first_launch_localization_failure_dialog_message">Brak możliwości znalezienia aktualnej lokalizacji!</string>
     <string name="search_progress_dialog_message">Wyszukiwanie lokalizacji...</string>
-    <string name="empty_location_name_dialog_title">Błąd!</string>
-    <string name="empty_location_name_dialog_message">Wybierz lokalizację!</string>
+    <string name="empty_location_name_dialog_title">Błąd</string>
+    <string name="empty_location_name_dialog_message">Podaj lokację!</string>
     <string name="empty_location_name_dialog_positive_button">Ok</string>
     <string name="empty_location_name_dialog_negative_button">Anuluj</string>
+    <string name="empty_location_header_dialog_message">Podaj nazwę główną!</string>
     <string name="maps_dialog_title">Przekierowanie</string>
     <string name="maps_dialog_message">Czy chcesz otworzyć lokację?</string>
     <string name="maps_dialog_negative_button">Anuluj</string>

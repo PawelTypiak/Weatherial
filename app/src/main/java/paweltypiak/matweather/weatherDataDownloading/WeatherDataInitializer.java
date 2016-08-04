@@ -1,4 +1,4 @@
-package paweltypiak.matweather.weatherDataProcessing;
+package paweltypiak.matweather.weatherDataDownloading;
 
 import android.app.Activity;
 import android.os.Parcel;
