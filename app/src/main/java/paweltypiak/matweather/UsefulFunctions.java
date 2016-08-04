@@ -22,9 +22,12 @@ import android.view.Display;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -134,7 +137,7 @@ public class UsefulFunctions {
         stringBuilder.append(location).append("|");
         String favouritesNamesString=stringBuilder.toString();
         Log.d("string_names_save", ""+favouritesNamesString);
-        getSharedPreferences(activity).edit().putString(activity.getString(R.string.shared_preferences_favourite_locations_names_key), null).commit();
+        getSharedPreferences(activity).edit().putString(activity.getString(R.string.shared_preferences_favourite_locations_names_key), favouritesNamesString).commit();
     }
 
     public static String[] getFavouriteLocationsAddresses(Activity activity){
@@ -159,7 +162,7 @@ public class UsefulFunctions {
         stringBuilder.append(currentLocationNameString).append("|");
         String favouritesAddressesString=stringBuilder.toString();
         Log.d("string_Address_save", ""+favouritesAddressesString);
-        getSharedPreferences(activity).edit().putString(activity.getString(R.string.shared_preferences_favourite_locations_addresses_key), null).commit();
+        getSharedPreferences(activity).edit().putString(activity.getString(R.string.shared_preferences_favourite_locations_addresses_key), favouritesAddressesString).commit();
     }
 
     public static String[] getFavouriteLocationsCoordinates(Activity activity){
@@ -184,7 +187,7 @@ public class UsefulFunctions {
         stringBuilder.append(currentLocationCoordinatesString).append("|");
         String favouritesCoordinateString=stringBuilder.toString();
         Log.d("string_Coordinate_save", ""+favouritesCoordinateString);
-        getSharedPreferences(activity).edit().putString(activity.getString(R.string.shared_preferences_favourite_locations_coordinates_key), null).commit();
+        getSharedPreferences(activity).edit().putString(activity.getString(R.string.shared_preferences_favourite_locations_coordinates_key), favouritesCoordinateString).commit();
     }
 
     private static StringBuilder buildStringFromStringArray(String[] stringArray){
@@ -494,6 +497,24 @@ public class UsefulFunctions {
         return pixels;
     }
 
+    public static void setRadiogroupMargins(View view, Activity activity, int marginLeft, int marginTop, int marginRight, int marginBottom){
+        /*if (view.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
+            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
+
+            params.setRadiogroupMargins(marginLeftPixels, marginTopPixels, marginRightPixels, marginBottomPixels);
+            view.requestLayout();
+        }*/
+        int marginLeftPixels=dpToPixels(marginLeft,activity);
+        int marginTopPixels=dpToPixels(marginTop,activity);
+        int marginRightPixels=dpToPixels(marginRight,activity);
+        int marginBottomPixels=dpToPixels(marginBottom,activity);
+        LinearLayout.LayoutParams layoutParams = new RadioGroup.LayoutParams(
+                RadioGroup.LayoutParams.WRAP_CONTENT,
+                RadioGroup.LayoutParams.WRAP_CONTENT);
+        layoutParams.setMargins(marginLeftPixels, marginTopPixels, marginRightPixels, marginBottomPixels);
+        view.setLayoutParams(layoutParams);
+    }
+
     public static void setPadding(View view, Activity activity, int paddingLeft, int paddingTop, int paddingRight, int paddingBottom){
         int paddingLeftPixels=dpToPixels(paddingLeft,activity);
         int paddingTopPixels=dpToPixels(paddingTop,activity);
@@ -501,6 +522,11 @@ public class UsefulFunctions {
         int paddingBottomPixels=dpToPixels(paddingBottom,activity);
 
         view.setPadding(paddingLeftPixels,paddingTopPixels,paddingRightPixels,paddingBottomPixels);
+    }
+
+    public static void getFavouriteLocationsList(Activity activity){
+        String[] favourites=getFavouriteLocationsNames(activity);
+
     }
 
     public class setDrawableColor implements Transformation {

@@ -5,19 +5,24 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import paweltypiak.matweather.weatherDataDownloading.WeatherDataDownloader;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDownloadCallback;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDataInitializer;
@@ -49,6 +54,7 @@ public class DialogInitializer  {
     private static AlertDialog permissionDeniedDialog;
     private static AlertDialog providerUnavailableDialog;
     private static AlertDialog duplicateDialog;
+    private static AlertDialog favouritesDialog;
     private static EditText searchEditText;
     private static Activity activity;
 
@@ -980,6 +986,39 @@ public class DialogInitializer  {
                 activity.getString(R.string.about_dialog_negative_button),
                 null);
         return aboutDialog;
+    }
+
+    public static AlertDialog initializeFavouritesDialog(){
+        LayoutInflater inflater = activity.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.radiogroup_dialog,null);
+        String[] favourites=UsefulFunctions.getFavouriteLocationsNames(activity);
+        RadioGroup rg = (RadioGroup) dialogView.findViewById(R.id.radiogroup_dialog_radiogroup);
+
+        for(int i=0;i<favourites.length;i++){
+            RadioButton rb=new RadioButton(activity); // dynamically creating RadioButton and adding to RadioGroup.
+            rb.setText(favourites[i]);
+            rb.setTextSize(TypedValue.COMPLEX_UNIT_DIP,18);
+            rb.setTextColor(activity.getResources().getColor(R.color.textSecondaryLightBackground));
+            if(i!=favourites.length-1)UsefulFunctions.setRadiogroupMargins(rb,activity,0,0,0,5);
+            rg.addView(rb);
+        }
+
+        //initializing dialog
+        favouritesDialog = buildDialog(
+                activity,
+                dialogView,
+                R.style.CustomDialogStyle,
+                activity.getString(R.string.favourites_dialog_title),
+                R.drawable.favourites_full_icon,
+                null,
+                false,
+                activity.getString(R.string.favourites_dialog_positive_button),
+                null,
+                activity.getString(R.string.favourites_dialog_neutral_button),
+                null,
+                activity.getString(R.string.favourites_dialog_negative_button),
+                null);
+        return favouritesDialog;
     }
 
 }

@@ -133,6 +133,11 @@
     <string name="duplicate_dialog_title">Duplikat</string>
     <string name="duplicate_dialog_message">Lokacja o tych samych współrzędnych już znajduje się w ulubionych.</string>
     <string name="duplicate_dialog_positive_button">Ok</string>
+    <string name="favourites_dialog_title">Ulubione</string>
+    <string name="favourites_dialog_header">Wybierz lokację:</string>
+    <string name="favourites_dialog_positive_button">Wybierz</string>
+    <string name="favourites_dialog_neutral_button">Edytuj</string>
+    <string name="favourites_dialog_negative_button">Anuluj</string>
 
 
     <string name="refresh_message_pull_to_refresh">Pociągnij, żeby odświeżyć</string>

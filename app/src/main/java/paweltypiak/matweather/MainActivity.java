@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity
     private AlertDialog addToFavouritesDialog;
     private AlertDialog editFavouritesDialog;
     private AlertDialog duplicateDialog;
+    private AlertDialog favouritesDialog;
     private DialogInitializer dialogInitializer;
     private SwipeRefreshLayout swipeRefreshLayout;
     private String location;
@@ -125,6 +126,7 @@ public class MainActivity extends AppCompatActivity
         authorDialog=dialogInitializer.initializeAuthorDialog();
         searchDialog=dialogInitializer.initializeSearchDialog();
         duplicateDialog=dialogInitializer.initializeDuplicateDialog();
+
     }
 
     Runnable downloadDataRunnable = new Runnable() {
@@ -346,6 +348,8 @@ public class MainActivity extends AppCompatActivity
         }
         else if(id==R.id.nav_button_favourites){
             UsefulFunctions.checkNavigationDrawerMenuItem(MainActivity.this,1);
+            favouritesDialog=dialogInitializer.initializeFavouritesDialog();
+            favouritesDialog.show();
         }
         else if (id == R.id.nav_button_settings) {
             // Handle options
