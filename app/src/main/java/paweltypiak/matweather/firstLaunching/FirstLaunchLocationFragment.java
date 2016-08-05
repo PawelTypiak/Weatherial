@@ -11,9 +11,9 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import paweltypiak.matweather.DialogInitializer;
+import paweltypiak.matweather.usefulClasses.DialogInitializer;
 import paweltypiak.matweather.R;
-import paweltypiak.matweather.UsefulFunctions;
+import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
 public class FirstLaunchLocationFragment extends Fragment {
 

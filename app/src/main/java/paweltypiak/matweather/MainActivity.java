@@ -24,6 +24,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
+import paweltypiak.matweather.usefulClasses.DialogInitializer;
+import paweltypiak.matweather.usefulClasses.SharedPreferencesModifier;
+import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDataDownloader;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDownloadCallback;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDataInitializer;
@@ -89,7 +92,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void loadFirstLocation(){
-        setter = new WeatherDataSetter(this,getter); //data formatting and weather layout setting
+        setter = new WeatherDataSetter(this,getter,true); //data formatting and weather layout setting
         UsefulFunctions.setViewVisible(mainLayout);
         UsefulFunctions.setIsFirstWeatherDownloading(false);
     }
@@ -97,7 +100,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void ServiceSuccess(Channel channel) {
         getter = new WeatherDataInitializer(this,channel); //initializing weather data from JSON
-        setter = new WeatherDataSetter(this,getter); //data formatting and weather layout setting
+        setter = new WeatherDataSetter(this,getter,true); //data formatting and weather layout setting
         swipeRefreshLayout.setRefreshing(false);
         UsefulFunctions.setViewInvisible(refreshMessageTextView);
         UsefulFunctions.setViewVisible(mainLayout);
@@ -326,7 +329,7 @@ public class MainActivity extends AppCompatActivity
         refreshMessageTextView.setText(getString(R.string.refresh_message_refreshing));
         UsefulFunctions.setViewVisible(refreshMessageTextView);
         UsefulFunctions.setViewInvisible(weatherLayout);
-        String location[]=UsefulFunctions.getCurrentLocationStrings();
+        String location[]=UsefulFunctions.getCurrentLocationAddress();
         downloadData(location[0]+", "+location[1]);
     }
 
@@ -351,17 +354,15 @@ public class MainActivity extends AppCompatActivity
         }
         else if(id==R.id.nav_button_favourites){
             UsefulFunctions.checkNavigationDrawerMenuItem(MainActivity.this,1);
-            if(UsefulFunctions.getFavouriteLocationsAddresses(MainActivity.this).length==0) emptyLocationListDialog.show();
+            if(SharedPreferencesModifier.getFavouriteLocationsAddresses(MainActivity.this).length==0) emptyLocationListDialog.show();
             else{
                 favouritesDialog=dialogInitializer.initializeFavouritesDialog();
                 favouritesDialog.show();
             }
-
         }
         else if (id == R.id.nav_button_settings) {
             // Handle options
         } else if (id == R.id.nav_button_about) {
-            //Handle about
             aboutDialog.show();
         } else if (id == R.id.nav_button_feedback) {
             feedbackDialog.show();

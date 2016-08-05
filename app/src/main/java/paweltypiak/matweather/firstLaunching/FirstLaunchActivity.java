@@ -1,7 +1,6 @@
 package paweltypiak.matweather.firstLaunching;
 
 import android.app.AlertDialog;
-import android.content.SharedPreferences;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,9 +12,10 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import paweltypiak.matweather.DialogInitializer;
+import paweltypiak.matweather.usefulClasses.DialogInitializer;
 import paweltypiak.matweather.R;
-import paweltypiak.matweather.UsefulFunctions;
+import paweltypiak.matweather.usefulClasses.SharedPreferencesModifier;
+import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
 public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaunchLoadingFragment.ChooseLocationAgainListener{
 
@@ -30,7 +30,7 @@ public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaun
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_launch);
-        isFirstLaunch=UsefulFunctions.getIsFirstLaunch(this);
+        isFirstLaunch= SharedPreferencesModifier.getIsFirstLaunch(this);
         if(isFirstLaunch ==true) initializeFirstLaunch();
         else initializeNextLaunch();
     }

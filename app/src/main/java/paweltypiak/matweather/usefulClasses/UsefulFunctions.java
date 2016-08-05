@@ -1,4 +1,4 @@
-package paweltypiak.matweather;
+package paweltypiak.matweather.usefulClasses;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -6,7 +6,6 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -23,7 +22,6 @@ import android.view.Display;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -31,14 +29,13 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.squareup.picasso.Transformation;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import paweltypiak.matweather.MainActivity;
+import paweltypiak.matweather.R;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDataSetter;
 
 public class UsefulFunctions {
@@ -49,165 +46,70 @@ public class UsefulFunctions {
     public static void setIsFirstWeatherDownloading(boolean bool) {
         isFirstWeatherDownloading = bool;
     }
-    private static SharedPreferences sharedPreferences;
 
-    public static SharedPreferences getSharedPreferences(Activity activity){
-        if(sharedPreferences==null) {
-            sharedPreferences = activity.getSharedPreferences(
-                    activity.getString(R.string.shared_preferences_key_name), activity.MODE_PRIVATE);
+    public static class FavouritesMaker {
+        private static int choosenLocationId;
+        private static Activity activity;
+        private static String[] favouritesHeaderNames;
+        private static String[] favouritesSubheaderNames;
+
+        public FavouritesMaker(Activity activity){
+            this.activity=activity;
+            getFavouriteLocationsNamesList();
         }
-        return sharedPreferences;
-    }
 
-    public static boolean getIsFirstLaunch(Activity activity){
-        boolean isFirstLaunch=getSharedPreferences(activity).getBoolean(activity.getString(R.string.shared_preferences_is_first_launch_key),true);
-        Log.d("isFirst", ""+isFirstLaunch);
-        return isFirstLaunch;
-    }
-
-    public static void setNextLaunch(Activity activity){
-        getSharedPreferences(activity).edit().putBoolean(activity.getString(R.string.shared_preferences_is_first_launch_key),false).commit();
-    }
-
-    public static int getLanguage(Activity activity){
-        int language=getSharedPreferences(activity).getInt(activity.getString(R.string.shared_preferences_language_key), 0);
-        return language;
-    }
-
-    public static void setLanguage(Activity activity, int option){
-        getSharedPreferences(activity).edit().putInt(activity.getString(R.string.shared_preferences_language_key), option).commit();
-    }
-
-    public static int[] getUnits(Activity activity){
-        String unitsString = getSharedPreferences(activity).getString(activity.getString(R.string.shared_preferences_units_key), "0,0,0,0,0,");
-        Log.d("units_useful_func", unitsString);
-        int [] units=new int [5];
-        StringTokenizer stringTokenizer = new StringTokenizer(unitsString, ",");
-        for (int i = 0; i < units.length; i++) {
-            units[i] = Integer.parseInt(stringTokenizer.nextToken());
-            Log.d("units_static", ""+ units[i]);
+        public static void setChoosenLocationID(int id){
+            choosenLocationId=id;
         }
-        return units;
-    }
 
-    public static void setUnits(Activity activity, int []unitsArray){
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < unitsArray.length; i++) {
-            stringBuilder.append(unitsArray[i]).append(",");
+        public static String getChoosenFavouriteLocationAddress(){
+            String[] addresses=SharedPreferencesModifier.getFavouriteLocationsAddresses(activity);
+            Log.d("adres", addresses[choosenLocationId]);
+            return addresses[choosenLocationId];
         }
-        getSharedPreferences(activity).edit().putString(activity.getString(R.string.shared_preferences_units_key), stringBuilder.toString()).commit();
-    }
 
-    public static int getLocalizationOptionKey(Activity activity){
-        int localizationOptionKey=getSharedPreferences(activity).getInt(activity.getString(R.string.shared_preferences_localization_option_key),0);
-        Log.d("localizationOption", ""+localizationOptionKey);
-        return localizationOptionKey;
-    }
-
-    public static void setLocalizationOptionKey(Activity activity,int option){
-        getSharedPreferences(activity).edit().putInt(activity.getString(R.string.shared_preferences_localization_option_key),option);
-    }
-
-    public static String getFirstLocation(Activity activity){
-        String firstLocation=getSharedPreferences(activity).getString(activity.getString(R.string.shared_preferences_first_location_key),null);
-        Log.d("FirstLocation", ""+firstLocation);
-        return firstLocation;
-    }
-
-    public static void setFirstLocation(Activity activity, String locationName){
-        getSharedPreferences(activity).edit().putString(activity.getString(R.string.shared_preferences_first_location_key), locationName).commit();
-    }
-
-    public static void resetFirstLocation(Activity activity){
-        getSharedPreferences(activity).edit().putString(activity.getString(R.string.shared_preferences_first_location_key), null).commit();
-    }
-
-    public static String[] getFavouriteLocationsNames(Activity activity){
-        String favouritesString = getSharedPreferences(activity).getString(activity.getString(R.string.shared_preferences_favourite_locations_names_key), "");
-        Log.d("fav_names_string", favouritesString);
-        StringTokenizer stringTokenizer = new StringTokenizer(favouritesString, "|");
-        int numberOfLocations=stringTokenizer.countTokens();
-        String favourites[]=new String[numberOfLocations];
-        for (int i = 0; i < numberOfLocations; i++) {
-            favourites[i] = stringTokenizer.nextToken();
-            Log.d("favourite name", ""+ favourites[i]);
+        private static String makeLocationsDialogName(String header, String subheader){
+            String name="<b>"+header+"</b>";
+            if(!subheader.equals(""))name=name+", "+subheader;
+            return name;
         }
-        return favourites;
-    }
 
-    public static void saveNewFavouriteLocationName(String location, Activity activity){
-        String favourites[]= getFavouriteLocationsNames(activity);
-        StringBuilder stringBuilder=buildStringFromStringArray(favourites);
-        stringBuilder.append(location).append("|");
-        String favouritesNamesString=stringBuilder.toString();
-        Log.d("string_names_save", ""+favouritesNamesString);
-        getSharedPreferences(activity).edit().putString(activity.getString(R.string.shared_preferences_favourite_locations_names_key), favouritesNamesString).commit();
-    }
-
-    public static String[] getFavouriteLocationsAddresses(Activity activity){
-        String favouritesString = getSharedPreferences(activity).getString(activity.getString(R.string.shared_preferences_favourite_locations_addresses_key), "");
-        Log.d("fav_addresses_string", favouritesString);
-        StringTokenizer stringTokenizer = new StringTokenizer(favouritesString, "|");
-        int numberOfLocations=stringTokenizer.countTokens();
-        String favourites[]=new String[numberOfLocations];
-        for (int i = 0; i < numberOfLocations; i++) {
-            favourites[i] = stringTokenizer.nextToken();
-            Log.d("favourite address", ""+ favourites[i]);
+        public static void setAppBarForChoosenFavouriteLocation(){
+            setAppBarStrings(activity,favouritesHeaderNames[choosenLocationId],favouritesSubheaderNames[choosenLocationId]);
         }
-        return favourites;
-    }
 
-    public static void saveNewFavouriteLocationAddress(Activity activity){
-        String currentLocationHeaderString=UsefulFunctions.getCurrentLocationStrings()[0];
-        String currentLocationSubheaderString=UsefulFunctions.getCurrentLocationStrings()[1];
-        String currentLocationNameString=currentLocationHeaderString+", "+currentLocationSubheaderString;
-        String favourites[]= getFavouriteLocationsAddresses(activity);
-        StringBuilder stringBuilder=buildStringFromStringArray(favourites);
-        stringBuilder.append(currentLocationNameString).append("|");
-        String favouritesAddressesString=stringBuilder.toString();
-        Log.d("string_Address_save", ""+favouritesAddressesString);
-        getSharedPreferences(activity).edit().putString(activity.getString(R.string.shared_preferences_favourite_locations_addresses_key), favouritesAddressesString).commit();
-    }
-
-    public static String[] getFavouriteLocationsCoordinates(Activity activity){
-        String favouritesString = getSharedPreferences(activity).getString(activity.getString(R.string.shared_preferences_favourite_locations_coordinates_key), "");
-        Log.d("fav_coordinates_string", favouritesString);
-        StringTokenizer stringTokenizer = new StringTokenizer(favouritesString, "|");
-        int numberOfLocations=stringTokenizer.countTokens();
-        String favourites[]=new String[numberOfLocations];
-        for (int i = 0; i < numberOfLocations; i++) {
-            favourites[i] = stringTokenizer.nextToken();
-            Log.d("favourite coordinates", ""+ favourites[i]);
+        private static void getFavouriteLocationsNamesList(){
+            String[] favourites=SharedPreferencesModifier.getFavouriteLocationsNames(activity);
+            int favouritesSize=favourites.length;
+            favouritesHeaderNames=new String[favouritesSize];
+            favouritesSubheaderNames=new String[favouritesSize];
+            for(int i=0;i<favouritesSize;i++){
+                StringTokenizer stringTokenizer = new StringTokenizer(favourites[i], "%");
+                String locationPartName[]={"",""};
+                int tokenizerSize=stringTokenizer.countTokens();
+                Log.d("tokinizersize", ""+stringTokenizer.countTokens());
+                for (int j = 0; j < tokenizerSize; j++) {
+                    locationPartName[j] = stringTokenizer.nextToken();
+                    Log.d("partname", ""+locationPartName[j]);
+                }
+                favouritesHeaderNames[i]=locationPartName[0];
+                favouritesSubheaderNames[i]=locationPartName[1];
+            }
         }
-        return favourites;
-    }
 
-    public static void saveNewFavouriteLocationCoordinates(Activity activity){
-        String currentLocationLatitude=UsefulFunctions.getCurrentLocationCoordinates()[0];
-        String currentLocationLongitude=UsefulFunctions.getCurrentLocationCoordinates()[1];
-        String currentLocationCoordinatesString=currentLocationLatitude+"%"+currentLocationLongitude;
-        String favourites[]= getFavouriteLocationsCoordinates(activity);
-        StringBuilder stringBuilder=buildStringFromStringArray(favourites);
-        stringBuilder.append(currentLocationCoordinatesString).append("|");
-        String favouritesCoordinateString=stringBuilder.toString();
-        Log.d("string_Coordinate_save", ""+favouritesCoordinateString);
-        getSharedPreferences(activity).edit().putString(activity.getString(R.string.shared_preferences_favourite_locations_coordinates_key), favouritesCoordinateString).commit();
-    }
-
-    private static StringBuilder buildStringFromStringArray(String[] stringArray){
-        int numberOfLocations=stringArray.length;
-        Log.d("favourites_number", ""+numberOfLocations);
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < numberOfLocations; i++) {
-            stringBuilder.append(stringArray[i]).append("|");
+        public static List<String> getFavouriteLocationsNamesDialogList(){
+            int size=favouritesHeaderNames.length;
+            String locationNames[]=new String[size];
+            for(int i=0;i<size;i++){
+                locationNames[i]=makeLocationsDialogName(favouritesHeaderNames[i],favouritesSubheaderNames[i]);
+            }
+            List<String> favouriteLocationsNamesDialogList=Arrays.asList(locationNames);
+            return favouriteLocationsNamesDialogList;
         }
-        return stringBuilder;
     }
-
-
 
     public static boolean areCoordinatesEqual(Activity activity){
-        String favouritesCoordinates[]= getFavouriteLocationsCoordinates(activity);
+        String favouritesCoordinates[]= SharedPreferencesModifier.getFavouriteLocationsCoordinates(activity);
         boolean isEqual=false;
         String coordinates[]=new String [2];
         for(int i=0;i<favouritesCoordinates.length;i++){
@@ -228,42 +130,39 @@ public class UsefulFunctions {
         else floatingActionButton.setImageResource(R.drawable.edit_black_icon);
     }
 
-    public static List<String>[] getFavouriteLocationList(Activity activity){
-        String[] favourites=getFavouriteLocationsNames(activity);
-        String[] favouritesHeaderNames=new String[favourites.length];
-        String[] favouritesSubeaderNames=new String[favourites.length];
-        for(int i=0;i<favourites.length;i++){
-            StringTokenizer stringTokenizer = new StringTokenizer(favourites[i], "%");
-            String locationPartName[]={"",""};
-            int size=stringTokenizer.countTokens();
-            Log.d("tokinizersize", ""+stringTokenizer.countTokens());
-            for (int j = 0; j < size; j++) {
-                locationPartName[j] = stringTokenizer.nextToken();
-                Log.d("partname", ""+locationPartName[j]);
-            }
-            /*favourites[i]="<b>"+locationPartName[0]+"</b>";
-            Log.d("favourites1", ""+favourites[i]);
-            if(!locationPartName[1].equals(""))favourites[i]=favourites[i]+", "+locationPartName[1];
-            Log.d("favourites2", ""+favourites[i]);*/
-            favouritesHeaderNames[i]=locationPartName[0];
-            favouritesSubeaderNames[i]=locationPartName[1];
-        }
-        List<String> favouritesArrayList[]=new List[2];
-        favouritesArrayList[0]= Arrays.asList(favouritesHeaderNames);
-        favouritesArrayList[1]=Arrays.asList(favouritesSubeaderNames);
-        return favouritesArrayList;
+    public static String[] getCurrentLocationAddress(){
+        String[] location=new String[2];
+        location[0]= WeatherDataSetter.getCurrentDataFormatter().getCity();
+        location[1]=WeatherDataSetter.getCurrentDataFormatter().getRegion()+", "+WeatherDataSetter.getCurrentDataFormatter().getCountry();
+        return location;
     }
 
-    public static String makeLocationsDialogName(String header, String subheader){
-        String name="<b>"+header+"</b>";
-        if(!subheader.equals(""))name=name+", "+subheader;
-        return name;
+    public static String[] getCurrentLocationCoordinates(){
+        String[] coordinates=new String[2];
+        coordinates[0]= Double.toString(WeatherDataSetter.getCurrentDataFormatter().getLatitude());
+        coordinates[1]=Double.toString(WeatherDataSetter.getCurrentDataFormatter().getLongitude());
+        return coordinates;
     }
 
-    public static String getLocationAddress(int id,Activity activity){
-        String[] addresses=getFavouriteLocationsAddresses(activity);
-        Log.d("adres", addresses[id]);
-        return addresses[id];
+    public static String[] getAppBarStrings(Activity activity){
+        String[] location=new String[2];
+        TextView primaryLocationTextView=(TextView)activity.findViewById(R.id.app_bar_primary_location_name_text);
+        TextView secondaryLocationTextView=(TextView)activity.findViewById(R.id.app_bar_secondary_location_name_text);
+        location[0]=primaryLocationTextView.getText().toString();
+        location[1]=secondaryLocationTextView.getText().toString();
+        return location;
+    }
+
+    public static void setAppBarStrings(Activity activity, String primaryText, String secondaryText){
+        TextView primaryLocationTextView=(TextView)activity.findViewById(R.id.app_bar_primary_location_name_text);
+        TextView secondaryLocationTextView=(TextView)activity.findViewById(R.id.app_bar_secondary_location_name_text);
+        primaryLocationTextView.setText(primaryText);
+        setViewGone(primaryLocationTextView);
+        setViewVisible(primaryLocationTextView);
+        secondaryLocationTextView.setText(secondaryText);
+        setViewGone(secondaryLocationTextView);
+        if(!secondaryText.equals("")) setViewVisible(secondaryLocationTextView);
+
     }
 
     public static void initializeWebIntent(Activity activity, String url){
@@ -388,48 +287,6 @@ public class UsefulFunctions {
         });
     }
 
-
-
-    public static String[] getCurrentLocationStrings(){
-        String[] location=new String[2];
-        location[0]= WeatherDataSetter.getCurrentDataFormatter().getCity();
-        location[1]=WeatherDataSetter.getCurrentDataFormatter().getRegion()+", "+WeatherDataSetter.getCurrentDataFormatter().getCountry();
-
-        return location;
-    }
-
-    public static String[] getCurrentLocationCoordinates(){
-        String[] coordinates=new String[2];
-        coordinates[0]= Double.toString(WeatherDataSetter.getCurrentDataFormatter().getLatitude());
-        coordinates[1]=Double.toString(WeatherDataSetter.getCurrentDataFormatter().getLongitude());
-
-        return coordinates;
-    }
-
-    public static String[] getAppBarStrings(Activity activity){
-        String[] location=new String[2];
-        TextView primaryLocationTextView=(TextView)activity.findViewById(R.id.app_bar_primary_location_name_text);
-        TextView secondaryLocationTextView=(TextView)activity.findViewById(R.id.app_bar_secondary_location_name_text);
-
-        location[0]=primaryLocationTextView.getText().toString();
-        location[1]=secondaryLocationTextView.getText().toString();
-
-        return location;
-    }
-
-    public static void setAppBarStrings(Activity activity, String primaryText, String secondaryText){
-        TextView primaryLocationTextView=(TextView)activity.findViewById(R.id.app_bar_primary_location_name_text);
-        TextView secondaryLocationTextView=(TextView)activity.findViewById(R.id.app_bar_secondary_location_name_text);
-        primaryLocationTextView.setText(primaryText);
-        //int visibility = primaryLocationTextView.getVisibility();
-        setViewGone(primaryLocationTextView);
-        setViewVisible(primaryLocationTextView);
-        secondaryLocationTextView.setText(secondaryText);
-        setViewGone(secondaryLocationTextView);
-        if(!secondaryText.equals("")) setViewVisible(secondaryLocationTextView);
-
-    }
-
     public static void uncheckNavigationDrawerMenuItems(Activity activity){
         NavigationView navigationView = (NavigationView)activity. findViewById(R.id.nav_view);
         MenuItem geolocalizationItem=navigationView.getMenu().findItem(R.id.nav_button_geolocalization);;
@@ -442,7 +299,6 @@ public class UsefulFunctions {
 
     public static void checkNavigationDrawerMenuItem(Activity activity, int itemId){
         NavigationView navigationView = (NavigationView)activity. findViewById(R.id.nav_view);
-        //navigationView.getMenu().getItem(itemId).setChecked(true);
         MenuItem geolocalizationItem=navigationView.getMenu().findItem(R.id.nav_button_geolocalization);;
         MenuItem favouritesItem=navigationView.getMenu().findItem(R.id.nav_button_favourites);
         if(itemId==0) {
@@ -450,14 +306,11 @@ public class UsefulFunctions {
             geolocalizationItem.setChecked(true);
             favouritesItem.setChecked(false);
         }
-
         else {
             favouritesItem.setCheckable(true);
             favouritesItem.setChecked(true);
             geolocalizationItem.setChecked(false);
         }
-
-
     }
 
     public static void showKeyboard(Activity activity){
@@ -473,7 +326,6 @@ public class UsefulFunctions {
         }
     }
 
-
     public static void setViewVisible(View view){
         view.setVisibility(View.VISIBLE);
     }
@@ -487,7 +339,7 @@ public class UsefulFunctions {
     public static double getPullOpacity(double screenPercentage,float movedDistance, Context context, boolean isVertical){
         int screenWidth=getScreenResolution(context)[0];
         int screenHeight=getScreenResolution(context)[1];
-        double alpha=0;
+        double alpha;
         if(movedDistance<0) movedDistance=0;
         if(isVertical==true){alpha=(movedDistance*255)/(screenPercentage*screenHeight);}
         else {alpha=(movedDistance*255)/(screenPercentage*screenWidth);}
@@ -547,12 +399,6 @@ public class UsefulFunctions {
     }
 
     public static void setRadiogroupMargins(View view, Activity activity, int marginLeft, int marginTop, int marginRight, int marginBottom){
-        /*if (view.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
-            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
-
-            params.setRadiogroupMargins(marginLeftPixels, marginTopPixels, marginRightPixels, marginBottomPixels);
-            view.requestLayout();
-        }*/
         int marginLeftPixels=dpToPixels(marginLeft,activity);
         int marginTopPixels=dpToPixels(marginTop,activity);
         int marginRightPixels=dpToPixels(marginRight,activity);
@@ -571,6 +417,16 @@ public class UsefulFunctions {
         int paddingBottomPixels=dpToPixels(paddingBottom,activity);
 
         view.setPadding(paddingLeftPixels,paddingTopPixels,paddingRightPixels,paddingBottomPixels);
+    }
+
+    public static void setDialogButtonDisabled(AlertDialog alertDialog, Activity activity){
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(activity.getResources().getColor(R.color.textDisabledLightBackground));
+    }
+
+    public static void setDialogButtonEnabled(AlertDialog alertDialog, Activity activity){
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(activity.getResources().getColor(R.color.colorPrimary));
     }
 
     public class setDrawableColor implements Transformation {

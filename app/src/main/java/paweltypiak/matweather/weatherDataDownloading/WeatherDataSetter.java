@@ -14,13 +14,13 @@ import com.squareup.picasso.Picasso;
 import java.util.Calendar;
 import java.util.Date;
 
-import static paweltypiak.matweather.DialogInitializer.initializeMapsDialog;
-import static paweltypiak.matweather.DialogInitializer.initializeYahooWeatherRedirectDialog;
-import static paweltypiak.matweather.UsefulFunctions.initializeUiThread;
-import static paweltypiak.matweather.UsefulFunctions.setViewVisible;
+import static paweltypiak.matweather.usefulClasses.DialogInitializer.initializeMapsDialog;
+import static paweltypiak.matweather.usefulClasses.DialogInitializer.initializeYahooWeatherRedirectDialog;
+import static paweltypiak.matweather.usefulClasses.UsefulFunctions.initializeUiThread;
 
 import paweltypiak.matweather.R;
-import paweltypiak.matweather.UsefulFunctions;
+import paweltypiak.matweather.usefulClasses.SharedPreferencesModifier;
+import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
 public class WeatherDataSetter {
     private String chill;
@@ -125,17 +125,18 @@ public class WeatherDataSetter {
     private int layoutWidth;
     private static Thread uiThread;
     private int units[];
+    private boolean setAppBar;
 
 
-    public WeatherDataSetter(Activity activity, WeatherDataInitializer dataInitializer) {
+    public WeatherDataSetter(Activity activity, WeatherDataInitializer dataInitializer,boolean doSetAppBar) {
         this.activity=activity;
         currentDataFormatter=new WeatherDataFormatter(activity, dataInitializer);
         newRefresh=true;
-        units=UsefulFunctions.getUnits(activity);
+        units= SharedPreferencesModifier.getUnits(activity);
         getData();
         updateDialogs();
         setTheme();
-        setAppBarLayout();
+        if(doSetAppBar==true)setAppBarLayout();
         setWeatherLayout();
         startUiThread();
     }

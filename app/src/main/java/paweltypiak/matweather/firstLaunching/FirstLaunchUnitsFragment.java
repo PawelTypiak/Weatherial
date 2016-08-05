@@ -1,7 +1,6 @@
 package paweltypiak.matweather.firstLaunching;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -21,7 +20,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import paweltypiak.matweather.R;
-import paweltypiak.matweather.UsefulFunctions;
+import paweltypiak.matweather.usefulClasses.SharedPreferencesModifier;
+import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
 public class FirstLaunchUnitsFragment extends Fragment{
     private int units[]={0,0,0,0,0};
@@ -112,7 +112,7 @@ public class FirstLaunchUnitsFragment extends Fragment{
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 units[id]=i;
-                UsefulFunctions.setUnits(getActivity(),units);
+                SharedPreferencesModifier.setUnits(getActivity(),units);
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {

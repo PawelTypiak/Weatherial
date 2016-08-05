@@ -5,7 +5,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
-import paweltypiak.matweather.UsefulFunctions;
+import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 import paweltypiak.matweather.jsonHandling.Channel;
 
 public class WeatherDataInitializer implements Parcelable {

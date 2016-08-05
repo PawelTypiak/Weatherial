@@ -9,7 +9,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 import paweltypiak.matweather.R;
-import paweltypiak.matweather.UsefulFunctions;
+import paweltypiak.matweather.usefulClasses.SharedPreferencesModifier;
+import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
 public class WeatherDataFormatter {
     private int[] units;
@@ -49,7 +50,7 @@ public class WeatherDataFormatter {
     private int hourDifference;
 
     public WeatherDataFormatter(Activity activity, WeatherDataInitializer dataInitializer){
-        this.units= UsefulFunctions.getUnits(activity);
+        this.units= SharedPreferencesModifier.getUnits(activity);
         this.activity=activity;
         this.dataInitializer=dataInitializer;
         getData();

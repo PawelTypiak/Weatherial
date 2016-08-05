@@ -16,7 +16,6 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import paweltypiak.matweather.R;
-import paweltypiak.matweather.UsefulFunctions;
 import paweltypiak.matweather.jsonHandling.Geocoding;
 
 public class GeocodingDownloader {

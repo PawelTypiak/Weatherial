@@ -1,4 +1,4 @@
-package paweltypiak.matweather;
+package paweltypiak.matweather.usefulClasses;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -22,9 +22,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import paweltypiak.matweather.R;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDataDownloader;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDownloadCallback;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDataInitializer;
@@ -143,7 +143,7 @@ public class DialogInitializer  {
 
         public void run() {
             UsefulFunctions.uncheckNavigationDrawerMenuItems(activity);
-            dataSetter = new WeatherDataSetter(activity, dataInitializer);
+            dataSetter = new WeatherDataSetter(activity, dataInitializer,true);
         }
     }
 
@@ -745,16 +745,16 @@ public class DialogInitializer  {
             }
             else{
                 String customLocationString=customHeaderString+"%"+customSubheaderString;
-                UsefulFunctions.saveNewFavouriteLocationName(customLocationString,activity);
-                UsefulFunctions.saveNewFavouriteLocationAddress(activity);
-                UsefulFunctions.saveNewFavouriteLocationCoordinates(activity);
+                SharedPreferencesModifier.saveNewFavouriteLocationName(customLocationString,activity);
+                SharedPreferencesModifier.saveNewFavouriteLocationAddress(activity);
+                SharedPreferencesModifier.saveNewFavouriteLocationCoordinates(activity);
                 CheckBox checkBox=(CheckBox)dialogView.findViewById(R.id.edit_location_dialog_checkbox);
                 if(checkBox.isChecked()){
                     Log.d("checkbox", "checked");
-                    String currentLocationHeaderString=UsefulFunctions.getCurrentLocationStrings()[0];
-                    String currentLocationSubheaderString=UsefulFunctions.getCurrentLocationStrings()[1];
+                    String currentLocationHeaderString=UsefulFunctions.getCurrentLocationAddress()[0];
+                    String currentLocationSubheaderString=UsefulFunctions.getCurrentLocationAddress()[1];
                     String currentLocationName=currentLocationHeaderString+", "+currentLocationSubheaderString;
-                    UsefulFunctions.setFirstLocation(activity,currentLocationName);
+                    SharedPreferencesModifier.setFirstLocation(activity,currentLocationName);
                 }
                 UsefulFunctions.setAppBarStrings(activity,customHeaderString,customSubheaderString);
                 UsefulFunctions.checkNavigationDrawerMenuItem(activity,1);
@@ -770,7 +770,7 @@ public class DialogInitializer  {
         final View dialogView = inflater.inflate(R.layout.edit_location_dialog,null);
         dialogView.setFocusableInTouchMode(true);
         dialogView.setClickable(true);
-        String [] location=UsefulFunctions.getCurrentLocationStrings();
+        String [] location=UsefulFunctions.getCurrentLocationAddress();
         EditText headerEditText=(EditText)dialogView.findViewById(R.id.edit_location_dialog_header_edittext);
         headerEditText.setText(location[0]);
         UsefulFunctions.customizeEditText(headerEditText,activity);
@@ -1017,25 +1017,29 @@ public class DialogInitializer  {
     public static AlertDialog initializeFavouritesDialog(){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.radiogroup_dialog,null);
-        //String[] favourites=UsefulFunctions.getFavouriteLocationsNames(activity);
-        RadioGroup radioGroup = (RadioGroup) dialogView.findViewById(R.id.radiogroup_dialog_radiogroup);
-        List<String> favouritesList[] = UsefulFunctions.getFavouriteLocationList(activity);
-        int size=favouritesList[0].size();
+        final RadioGroup radioGroup = (RadioGroup) dialogView.findViewById(R.id.radiogroup_dialog_radiogroup);
+        final UsefulFunctions.FavouritesMaker favouritesMaker=new UsefulFunctions.FavouritesMaker(activity);
+        final List<String> favouritesList = favouritesMaker.getFavouriteLocationsNamesDialogList();
+        int size=favouritesList.size();
         for(int i=0;i<size;i++){
             RadioButton radioButton=new RadioButton(activity); // dynamically creating RadioButton and adding to RadioGroup.
-            String locationHeader=favouritesList[0].get(i);
-            String locationSubheader=favouritesList[1].get(i);
-            String locationName=UsefulFunctions.makeLocationsDialogName(locationHeader,locationSubheader);
+            String locationName=favouritesList.get(i);
             radioButton.setText(Html.fromHtml(locationName));
             radioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX,activity.getResources().getDimensionPixelSize(R.dimen.locations_list_text_size));
             radioButton.setSingleLine();
             radioButton.setEllipsize(TextUtils.TruncateAt.END);
             radioButton.setTextColor(activity.getResources().getColor(R.color.textSecondaryLightBackground));
+            radioButton.setId(i);
             if(i!=size-1)UsefulFunctions.setRadiogroupMargins(radioButton,activity,0,0,0,16);
             radioGroup.addView(radioButton);
-            UsefulFunctions.getLocationAddress(i,activity);
         }
-
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                UsefulFunctions.setDialogButtonEnabled(favouritesDialog,activity);
+                favouritesMaker.setChoosenLocationID(i);
+            }
+        });
         //initializing dialog
         favouritesDialog = buildDialog(
                 activity,
@@ -1046,12 +1050,51 @@ public class DialogInitializer  {
                 null,
                 false,
                 activity.getString(R.string.favourites_dialog_positive_button),
-                null,
+                new favouritesDialogRunnable(),
                 activity.getString(R.string.favourites_dialog_neutral_button),
                 null,
                 activity.getString(R.string.favourites_dialog_negative_button),
                 null);
+        favouritesDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                UsefulFunctions.setDialogButtonDisabled(favouritesDialog,activity);
+            }
+        });
+
         return favouritesDialog;
+    }
+
+    private static class favouritesDialogRunnable implements Runnable,WeatherDownloadCallback {
+        WeatherDataInitializer dataInitializer;
+        public favouritesDialogRunnable() {}
+
+        public void run() {
+            String address= UsefulFunctions.FavouritesMaker.getChoosenFavouriteLocationAddress();
+            new WeatherDataDownloader(address,this);
+            searchProgressDialog.show();
+        }
+
+        @Override
+        public void ServiceSuccess(Channel channel) {
+            dataInitializer=new WeatherDataInitializer(activity,channel);
+            new WeatherDataSetter(activity,dataInitializer,false);
+            UsefulFunctions.FavouritesMaker.setAppBarForChoosenFavouriteLocation();
+            searchProgressDialog.dismiss();
+        }
+
+        @Override
+        public void ServiceFailure(int errorCode) {
+            if(errorCode==1)   {
+                internetFailureDialog=initializeInternetFailureDialog(false, new favouritesDialogRunnable(),null);
+                internetFailureDialog.show();
+            }
+            else {
+                serviceFailureDialog=initializeServiceFailureDialog(new favouritesDialogRunnable(),null);
+                serviceFailureDialog.show();
+            }
+            searchProgressDialog.dismiss();
+        }
     }
 
 }

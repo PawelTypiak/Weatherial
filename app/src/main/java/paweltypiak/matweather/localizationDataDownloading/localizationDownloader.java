@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
@@ -16,10 +15,10 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import java.util.Timer;
-import paweltypiak.matweather.DialogInitializer;
+
+import paweltypiak.matweather.usefulClasses.DialogInitializer;
 import paweltypiak.matweather.R;
-import paweltypiak.matweather.UsefulFunctions;
+import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
 public class LocalizationDownloader implements  ActivityCompat.OnRequestPermissionsResultCallback{
     private LocationManager locationManager;

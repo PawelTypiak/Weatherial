@@ -11,7 +11,8 @@ import android.view.ViewGroup;
 import android.widget.RadioGroup;
 
 import paweltypiak.matweather.R;
-import paweltypiak.matweather.UsefulFunctions;
+import paweltypiak.matweather.usefulClasses.SharedPreferencesModifier;
+import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
 public class FirstLaunchLocalizationOptionsFragment extends Fragment{
 
@@ -28,8 +29,6 @@ public class FirstLaunchLocalizationOptionsFragment extends Fragment{
     }
 
     private void radioGroupListener(){
-        SharedPreferences sharedPreferences = UsefulFunctions.getSharedPreferences(getActivity());
-        final SharedPreferences.Editor editor = sharedPreferences.edit();
         RadioGroup radioGroup=(RadioGroup)getActivity().findViewById(R.id.first_launch_localization_options_fragment_radio_group);
         radioGroup.check(getActivity().findViewById(R.id.first_launch_localization_options_fragment_gps_radio_button).getId());
         choosenLocalizationOption=1;

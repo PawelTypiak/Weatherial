@@ -1,7 +1,6 @@
 package paweltypiak.matweather.firstLaunching;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,7 +15,7 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 
 import paweltypiak.matweather.R;
-import paweltypiak.matweather.UsefulFunctions;
+import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
 public class FirstLaunchConfigurationFragment extends Fragment{
 
