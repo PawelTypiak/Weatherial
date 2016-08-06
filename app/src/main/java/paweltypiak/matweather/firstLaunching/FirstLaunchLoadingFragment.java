@@ -133,7 +133,7 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
 
     private void initializeNextLaunch(){
         firstLocation=SharedPreferencesModifier.getFirstLocation(getActivity());
-        if(firstLocation==null){
+        if(firstLocation==""){
             Log.d("next", "geolokalizacja");
             choosenLocalizationOption=SharedPreferencesModifier.getLocalizationOptionKey(getActivity());
             Log.d("localizationoption", ""+choosenLocalizationOption);

@@ -77,7 +77,8 @@ public class SharedPreferencesModifier {
     }
 
     public static void setGeolocalization(Activity activity){
-        getSharedPreferences(activity).edit().putString(activity.getString(R.string.shared_preferences_first_location_key), null).commit();
+        Log.d("geo setted", "setted");
+        getSharedPreferences(activity).edit().putString(activity.getString(R.string.shared_preferences_first_location_key), "").commit();
     }
 
     public static String[] getFavouriteLocationsNames(Activity activity){

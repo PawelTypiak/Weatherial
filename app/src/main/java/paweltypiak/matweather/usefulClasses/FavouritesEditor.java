@@ -23,6 +23,10 @@ public class FavouritesEditor {
         choosenLocationId=id;
     }
 
+    public static int getChoosenLocationID(){
+        return choosenLocationId;
+    }
+
     public static String getChoosenFavouriteLocationAddress(){
         String[] addresses=SharedPreferencesModifier.getFavouriteLocationsAddresses(activity);
         Log.d("adres", addresses[choosenLocationId]);

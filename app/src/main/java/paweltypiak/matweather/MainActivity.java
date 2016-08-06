@@ -297,7 +297,6 @@ public class MainActivity extends AppCompatActivity
                     }
                     movedWidth = event.getRawX() - startWidth;
                     movedHeight = event.getRawY() - startHeight;
-
                     double alpha=UsefulFunctions.getPullOpacity(0.2,movedHeight,MainActivity.this,true);
                     refreshMessageTextView.setTextColor(Color.argb((int)alpha, 255, 255, 255));
                     refreshMessageTextView.setText(getString(R.string.refresh_message_pull_to_refresh));
@@ -356,7 +355,7 @@ public class MainActivity extends AppCompatActivity
         else if(id==R.id.nav_button_favourites){
             if(SharedPreferencesModifier.getFavouriteLocationsAddresses(MainActivity.this).length==0) emptyLocationListDialog.show();
             else{
-                favouritesDialog=dialogInitializer.initializeFavouritesDialog(2,null,null);
+                favouritesDialog=dialogInitializer.initializeFavouritesDialog(2,getString(R.string.favourites_dialog_title),null,null);
                 favouritesDialog.show();
             }
         }

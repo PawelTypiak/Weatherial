@@ -841,6 +841,9 @@ public class DialogInitializer  {
             String currentLocationHeaderString=UsefulFunctions.getCurrentLocationAddress()[0];
             String currentLocationSubheaderString=UsefulFunctions.getCurrentLocationAddress()[1];
             UsefulFunctions.setAppBarStrings(activity,currentLocationHeaderString,currentLocationSubheaderString);
+            if(FavouritesEditor.isFirstLocationEqual(activity)) {
+                SharedPreferencesModifier.setGeolocalization(activity);
+            }
         }
     };
 
@@ -852,20 +855,6 @@ public class DialogInitializer  {
         }
 
         public void run() {
-            String [] tmp=SharedPreferencesModifier.getFavouriteLocationsNames(activity);
-            int size=tmp.length;
-            for(int i=0;i<size;i++){
-                Log.d("przed zmiana nazwa", SharedPreferencesModifier.getFavouriteLocationsNames(activity)[i]);
-            }
-            for(int i=0;i<size;i++){
-                Log.d("przed zmiana adres", SharedPreferencesModifier.getFavouriteLocationsAddresses(activity)[i]);
-            }
-            for(int i=0;i<size;i++){
-                Log.d("przed zmiana wsp", SharedPreferencesModifier.getFavouriteLocationsCoordinates(activity)[i]);
-            }
-
-
-
             EditText headerEditText=(EditText)dialogView.findViewById(R.id.edit_location_dialog_header_edittext);
             EditText subheaderEditText=(EditText)dialogView.findViewById(R.id.edit_location_dialog_subheader_edittext);
             String customHeaderString=headerEditText.getText().toString();
@@ -879,7 +868,7 @@ public class DialogInitializer  {
             }
             else{
                 FavouritesEditor.editFavouriteLocationName(activity,customHeaderString,customSubheaderString);
-
+                UsefulFunctions.setAppBarStrings(activity,customHeaderString,customSubheaderString);
                 CheckBox checkBox=(CheckBox)dialogView.findViewById(R.id.edit_location_dialog_checkbox);
                 if(checkBox.isChecked()){
                     Log.d("checkbox", "checked");
@@ -889,25 +878,41 @@ public class DialogInitializer  {
                     SharedPreferencesModifier.setLocation(activity,currentLocationAddress);
                 }
                 else{
-                    String firstLocation=SharedPreferencesModifier.getFirstLocation(activity);
+                    //String firstLocation=SharedPreferencesModifier.getFirstLocation(activity);
                     if(FavouritesEditor.isFirstLocationEqual(activity)) {
-                        //dialog zeby wybrac nowy
-                        Log.d("inny", "wybierz inne first loc ");
+                        SharedPreferencesModifier.setGeolocalization(activity);
                     }
                 }
-                UsefulFunctions.setAppBarStrings(activity,customHeaderString,customSubheaderString);
-            }
-            for(int i=0;i<size;i++){
-                Log.d("po zmiana nazwa", SharedPreferencesModifier.getFavouriteLocationsNames(activity)[i]);
-            }
-            for(int i=0;i<size;i++){
-                Log.d("po zmiana adres", SharedPreferencesModifier.getFavouriteLocationsAddresses(activity)[i]);
-            }
-            for(int i=0;i<size;i++){
-                Log.d("po zmiana wsp", SharedPreferencesModifier.getFavouriteLocationsCoordinates(activity)[i]);
+
             }
         }
     }
+
+
+   /* private static class checkIfIsFirstLocation implements Runnable {
+        private View dialogView;
+        private Runnable effectRunnable;
+
+        public checkIfIsFirstLocation(View dialogView, Runnable effectRunnable) {
+            this.effectRunnable=effectRunnable;
+            this.dialogView = dialogView;
+        }
+
+        public void run() {
+            CheckBox checkBox=(CheckBox)dialogView.findViewById(R.id.edit_location_dialog_checkbox);
+            if(!checkBox.isChecked()&&FavouritesEditor.isFirstLocationEqual(activity)){
+                initializeFavouritesDialog(1,activity.getString(R.string.favourites_dialog_change_first_location_title), new changedFirstLocation(dialogView,effectRunnable),null).show();
+                Log.d("inny", "wybierz inne first loc ");
+            }
+            else{
+                //String firstLocation=SharedPreferencesModifier.getFirstLocation(activity);
+                effectRunnable.run();
+            }
+
+        }
+
+    }*/
+
     private static AlertDialog initializeSearchProgressDialog(){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.progress_dialog,null);
@@ -1098,7 +1103,30 @@ public class DialogInitializer  {
         return aboutDialog;
     }
 
-    public static AlertDialog initializeFavouritesDialog(int type, Runnable positiveButtonRunnable, Runnable negativeButtonRunnable){
+  /*  private static class changedFirstLocation implements Runnable {
+
+        private Runnable effectRunnable;
+        public changedFirstLocation(Runnable effectRunnable) {
+
+            this.effectRunnable=effectRunnable;
+        }
+
+        public void run() {
+            int id=FavouritesEditor.getChoosenLocationID();
+            if(id==-1){
+                Log.d("choosenstring", "geolokalizacja");
+            }
+            else  {
+                String choosenLocationString=FavouritesEditor.getChoosenFavouriteLocationAddress();
+                Log.d("choosenstring", choosenLocationString);
+            }
+            effectRunnable.run();
+        }
+
+    }
+*/
+
+    public static AlertDialog initializeFavouritesDialog(final int type, String title, Runnable positiveButtonRunnable, Runnable negativeButtonRunnable){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.radiogroup_dialog,null);
         final RadioGroup radioGroup = (RadioGroup) dialogView.findViewById(R.id.radiogroup_dialog_radiogroup);
@@ -1123,7 +1151,8 @@ public class DialogInitializer  {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 UsefulFunctions.setDialogButtonEnabled(favouritesDialog,activity);
-                favouritesMaker.setChoosenLocationID(i);
+                if(type==1)  favouritesMaker.setChoosenLocationID(i-1);
+                else favouritesMaker.setChoosenLocationID(i);
             }
         });
         if(positiveButtonRunnable==null) positiveButtonRunnable=new favouritesDialogRunnable();
@@ -1135,7 +1164,7 @@ public class DialogInitializer  {
                 activity,
                 dialogView,
                 R.style.CustomDialogStyle,
-                activity.getString(R.string.favourites_dialog_title),
+                title,
                 R.drawable.favourites_full_icon,
                 null,
                 false,
