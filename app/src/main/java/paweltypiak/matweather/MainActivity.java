@@ -25,6 +25,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import paweltypiak.matweather.usefulClasses.DialogInitializer;
+import paweltypiak.matweather.usefulClasses.FavouritesEditor;
 import paweltypiak.matweather.usefulClasses.SharedPreferencesModifier;
 import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDataDownloader;
@@ -246,21 +247,19 @@ public class MainActivity extends AppCompatActivity
 
     private void setFloatingActionButton(){
         floatingActionButton=(FloatingActionButton)findViewById(R.id.main_fab);
-
         UsefulFunctions.setfloatingActionButtonOnClickIndicator(this,1);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(floatingActionButtonOnClickIndicator ==1){
-                    if(UsefulFunctions.areCoordinatesEqual(MainActivity.this)) duplicateDialog.show();
+                    if(FavouritesEditor.areCoordinatesEqual(MainActivity.this)) duplicateDialog.show();
                     else {
-                        addToFavouritesDialog = dialogInitializer.initializeAddToFavourites(floatingActionButton);
+                        addToFavouritesDialog = dialogInitializer.initializeAddToFavouritesDialog(floatingActionButton);
                         addToFavouritesDialog.show();
                     }
                 }
                 else {
-                    floatingActionButton.setImageResource(R.drawable.add_black_icon);
-                    editFavouritesDialog=dialogInitializer.initializeEditFavourites();
+                    editFavouritesDialog=dialogInitializer.initializeEditFavouritesDialog();
                     editFavouritesDialog.show();
                 }
             }
@@ -310,7 +309,6 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -345,15 +343,14 @@ public class MainActivity extends AppCompatActivity
         return super.onKeyDown(keyCode, e);
     }
 
+    private int checkedMenu=0;
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
         if(id==R.id.nav_button_geolocalization){
-            UsefulFunctions.checkNavigationDrawerMenuItem(MainActivity.this,0);
         }
         else if(id==R.id.nav_button_favourites){
-            UsefulFunctions.checkNavigationDrawerMenuItem(MainActivity.this,1);
             if(SharedPreferencesModifier.getFavouriteLocationsAddresses(MainActivity.this).length==0) emptyLocationListDialog.show();
             else{
                 favouritesDialog=dialogInitializer.initializeFavouritesDialog();

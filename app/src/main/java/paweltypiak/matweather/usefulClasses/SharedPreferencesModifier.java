@@ -3,6 +3,11 @@ package paweltypiak.matweather.usefulClasses;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.util.Log;
+
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.StringTokenizer;
 import paweltypiak.matweather.R;
 
@@ -72,11 +77,11 @@ public class SharedPreferencesModifier {
         return firstLocation;
     }
 
-    public static void setFirstLocation(Activity activity, String locationName){
+    public static void setLocation(Activity activity, String locationName){
         getSharedPreferences(activity).edit().putString(activity.getString(R.string.shared_preferences_first_location_key), locationName).commit();
     }
 
-    public static void resetFirstLocation(Activity activity){
+    public static void setGeolocalization(Activity activity){
         getSharedPreferences(activity).edit().putString(activity.getString(R.string.shared_preferences_first_location_key), null).commit();
     }
 
@@ -93,13 +98,8 @@ public class SharedPreferencesModifier {
         return favourites;
     }
 
-    public static void saveNewFavouriteLocationName(String location, Activity activity){
-        String favourites[]= getFavouriteLocationsNames(activity);
-        StringBuilder stringBuilder=buildStringFromStringArray(favourites);
-        stringBuilder.append(location).append("|");
-        String favouritesNamesString=stringBuilder.toString();
-        Log.d("string_names_save", ""+favouritesNamesString);
-        getSharedPreferences(activity).edit().putString(activity.getString(R.string.shared_preferences_favourite_locations_names_key), favouritesNamesString).commit();
+    public static void setFavouriteLocationNames(Activity activity,String namesString){
+        getSharedPreferences(activity).edit().putString(activity.getString(R.string.shared_preferences_favourite_locations_names_key), namesString).commit();
     }
 
     public static String[] getFavouriteLocationsAddresses(Activity activity){
@@ -115,16 +115,8 @@ public class SharedPreferencesModifier {
         return favourites;
     }
 
-    public static void saveNewFavouriteLocationAddress(Activity activity){
-        String currentLocationHeaderString=UsefulFunctions.getCurrentLocationAddress()[0];
-        String currentLocationSubheaderString=UsefulFunctions.getCurrentLocationAddress()[1];
-        String currentLocationNameString=currentLocationHeaderString+", "+currentLocationSubheaderString;
-        String favourites[]= getFavouriteLocationsAddresses(activity);
-        StringBuilder stringBuilder=buildStringFromStringArray(favourites);
-        stringBuilder.append(currentLocationNameString).append("|");
-        String favouritesAddressesString=stringBuilder.toString();
-        Log.d("string_Address_save", ""+favouritesAddressesString);
-        getSharedPreferences(activity).edit().putString(activity.getString(R.string.shared_preferences_favourite_locations_addresses_key), favouritesAddressesString).commit();
+    public static void setFavouriteLocationAddresses(Activity activity,String adressesString){
+        getSharedPreferences(activity).edit().putString(activity.getString(R.string.shared_preferences_favourite_locations_addresses_key), adressesString).commit();
     }
 
     public static String[] getFavouriteLocationsCoordinates(Activity activity){
@@ -140,26 +132,10 @@ public class SharedPreferencesModifier {
         return favourites;
     }
 
-    public static void saveNewFavouriteLocationCoordinates(Activity activity){
-        String currentLocationLatitude=UsefulFunctions.getCurrentLocationCoordinates()[0];
-        String currentLocationLongitude=UsefulFunctions.getCurrentLocationCoordinates()[1];
-        String currentLocationCoordinatesString=currentLocationLatitude+"%"+currentLocationLongitude;
-        String favourites[]= getFavouriteLocationsCoordinates(activity);
-        StringBuilder stringBuilder=buildStringFromStringArray(favourites);
-        stringBuilder.append(currentLocationCoordinatesString).append("|");
-        String favouritesCoordinateString=stringBuilder.toString();
-        Log.d("string_Coordinate_save", ""+favouritesCoordinateString);
-        getSharedPreferences(activity).edit().putString(activity.getString(R.string.shared_preferences_favourite_locations_coordinates_key), favouritesCoordinateString).commit();
+    public static void setFavouriteLocationCoordinates(Activity activity,String coordinatesString){
+        getSharedPreferences(activity).edit().putString(activity.getString(R.string.shared_preferences_favourite_locations_coordinates_key), coordinatesString).commit();
     }
 
-    private static StringBuilder buildStringFromStringArray(String[] stringArray){
-        int numberOfLocations=stringArray.length;
-        Log.d("favourites_number", ""+numberOfLocations);
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < numberOfLocations; i++) {
-            stringBuilder.append(stringArray[i]).append("|");
-        }
-        return stringBuilder;
-    }
+
 
 }

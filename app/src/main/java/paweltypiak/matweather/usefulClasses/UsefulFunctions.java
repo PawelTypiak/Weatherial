@@ -31,6 +31,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.squareup.picasso.Transformation;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -45,82 +47,6 @@ public class UsefulFunctions {
     }
     public static void setIsFirstWeatherDownloading(boolean bool) {
         isFirstWeatherDownloading = bool;
-    }
-
-    public static class FavouritesMaker {
-        private static int choosenLocationId;
-        private static Activity activity;
-        private static String[] favouritesHeaderNames;
-        private static String[] favouritesSubheaderNames;
-
-        public FavouritesMaker(Activity activity){
-            this.activity=activity;
-            getFavouriteLocationsNamesList();
-        }
-
-        public static void setChoosenLocationID(int id){
-            choosenLocationId=id;
-        }
-
-        public static String getChoosenFavouriteLocationAddress(){
-            String[] addresses=SharedPreferencesModifier.getFavouriteLocationsAddresses(activity);
-            Log.d("adres", addresses[choosenLocationId]);
-            return addresses[choosenLocationId];
-        }
-
-        private static String makeLocationsDialogName(String header, String subheader){
-            String name="<b>"+header+"</b>";
-            if(!subheader.equals(""))name=name+", "+subheader;
-            return name;
-        }
-
-        public static void setAppBarForChoosenFavouriteLocation(){
-            setAppBarStrings(activity,favouritesHeaderNames[choosenLocationId],favouritesSubheaderNames[choosenLocationId]);
-        }
-
-        private static void getFavouriteLocationsNamesList(){
-            String[] favourites=SharedPreferencesModifier.getFavouriteLocationsNames(activity);
-            int favouritesSize=favourites.length;
-            favouritesHeaderNames=new String[favouritesSize];
-            favouritesSubheaderNames=new String[favouritesSize];
-            for(int i=0;i<favouritesSize;i++){
-                StringTokenizer stringTokenizer = new StringTokenizer(favourites[i], "%");
-                String locationPartName[]={"",""};
-                int tokenizerSize=stringTokenizer.countTokens();
-                Log.d("tokinizersize", ""+stringTokenizer.countTokens());
-                for (int j = 0; j < tokenizerSize; j++) {
-                    locationPartName[j] = stringTokenizer.nextToken();
-                    Log.d("partname", ""+locationPartName[j]);
-                }
-                favouritesHeaderNames[i]=locationPartName[0];
-                favouritesSubheaderNames[i]=locationPartName[1];
-            }
-        }
-
-        public static List<String> getFavouriteLocationsNamesDialogList(){
-            int size=favouritesHeaderNames.length;
-            String locationNames[]=new String[size];
-            for(int i=0;i<size;i++){
-                locationNames[i]=makeLocationsDialogName(favouritesHeaderNames[i],favouritesSubheaderNames[i]);
-            }
-            List<String> favouriteLocationsNamesDialogList=Arrays.asList(locationNames);
-            return favouriteLocationsNamesDialogList;
-        }
-    }
-
-    public static boolean areCoordinatesEqual(Activity activity){
-        String favouritesCoordinates[]= SharedPreferencesModifier.getFavouriteLocationsCoordinates(activity);
-        boolean isEqual=false;
-        String coordinates[]=new String [2];
-        for(int i=0;i<favouritesCoordinates.length;i++){
-            StringTokenizer stringTokenizer = new StringTokenizer(favouritesCoordinates[i], "%");
-            for (int j = 0; j < 2; j++) {
-                coordinates[j] = stringTokenizer.nextToken();
-            }
-            if(coordinates[0].equals(getCurrentLocationCoordinates()[0])
-                    && coordinates[1].equals(getCurrentLocationCoordinates()[1])) isEqual=true;
-        }
-        return isEqual;
     }
 
     public static void setfloatingActionButtonOnClickIndicator(Activity activity,int  fabIndicator) {
@@ -207,6 +133,16 @@ public class UsefulFunctions {
         Toast.makeText(activity.getApplicationContext(), activity.getString(R.string.clipboard_toast_message),Toast.LENGTH_SHORT).show();
     }
 
+    public static StringBuilder buildStringFromStringArray(String[] stringArray){
+        int numberOfLocations=stringArray.length;
+        Log.d("favourites_number", ""+numberOfLocations);
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < numberOfLocations; i++) {
+            stringBuilder.append(stringArray[i]).append("|");
+        }
+        return stringBuilder;
+    }
+
     public static String getFormattedString(String string){
         if(string.length()!=0){
             string=getStringWithUpperCase(string);
@@ -287,28 +223,45 @@ public class UsefulFunctions {
         });
     }
 
-    public static void uncheckNavigationDrawerMenuItems(Activity activity){
+    public static void uncheckAllNavigationDrawerMenuItems(Activity activity){
         NavigationView navigationView = (NavigationView)activity. findViewById(R.id.nav_view);
         MenuItem geolocalizationItem=navigationView.getMenu().findItem(R.id.nav_button_geolocalization);;
         MenuItem favouritesItem=navigationView.getMenu().findItem(R.id.nav_button_favourites);
         favouritesItem.setChecked(false);
         geolocalizationItem.setChecked(false);
+        favouritesItem.setCheckable(false);
+        geolocalizationItem.setCheckable(false);
         Log.d("unchecked", "unchecked ");
 
+    }
+
+    public static void uncheckNavigationDrawerMenuItem(Activity activity, int itemId){
+        NavigationView navigationView = (NavigationView)activity. findViewById(R.id.nav_view);
+        MenuItem geolocalizationItem=navigationView.getMenu().findItem(R.id.nav_button_geolocalization);;
+        MenuItem favouritesItem=navigationView.getMenu().findItem(R.id.nav_button_favourites);
+        if(itemId==1) {
+            geolocalizationItem.setChecked(false);
+        }
+        else if(itemId==2) {
+            favouritesItem.setChecked(false);
+        }
     }
 
     public static void checkNavigationDrawerMenuItem(Activity activity, int itemId){
         NavigationView navigationView = (NavigationView)activity. findViewById(R.id.nav_view);
         MenuItem geolocalizationItem=navigationView.getMenu().findItem(R.id.nav_button_geolocalization);;
         MenuItem favouritesItem=navigationView.getMenu().findItem(R.id.nav_button_favourites);
-        if(itemId==0) {
+        if(itemId==1) {
             geolocalizationItem.setCheckable(true);
             geolocalizationItem.setChecked(true);
+            favouritesItem.setCheckable(false);
             favouritesItem.setChecked(false);
+
         }
-        else {
+        else if(itemId==2) {
             favouritesItem.setCheckable(true);
             favouritesItem.setChecked(true);
+            geolocalizationItem.setCheckable(false);
             geolocalizationItem.setChecked(false);
         }
     }

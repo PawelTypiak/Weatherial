@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/dialog_margin_size"
     android:paddingRight="@dimen/dialog_margin_size"
-    android:paddingTop="@dimen/dialog_margin_size"
+    android:paddingTop="@dimen/dialog_margin_top_size"
     android:id="@+id/location_dialog_layout">
     <TextView
         android:layout_width="wrap_content"
@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_gravity="center"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:id="@+id/location_dialog_location_layout"
         >
         <TextView
@@ -36,6 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginTop="5dp"
             android:textSize="@dimen/dialog_text_size"
             android:textColor="@color/textSecondaryLightBackground"
             android:id="@+id/location_dialog_region_county_text"

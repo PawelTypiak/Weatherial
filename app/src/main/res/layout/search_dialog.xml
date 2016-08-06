@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/dialog_margin_size"
     android:paddingRight="@dimen/dialog_margin_size"
-    android:paddingTop="@dimen/dialog_margin_size"
+    android:paddingTop="@dimen/dialog_margin_top_size"
     android:id="@+id/search_dialog_layout">
     <EditText
         android:layout_width="wrap_content"

@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/dialog_margin_size"
     android:paddingRight="@dimen/dialog_margin_size"
-    android:paddingTop="@dimen/dialog_margin_size"
+    android:paddingTop="@dimen/dialog_margin_top_size"
     android:id="@+id/edit_location_dialog_layout">
     <LinearLayout
         android:layout_width="wrap_content"
@@ -32,6 +32,7 @@
             android:layout_gravity="center"
             android:singleLine="true"
             android:paddingTop="0dp"
+            android:layout_marginTop="-5dp"
             android:hint="@string/edit_location_dialog_subheader_edit_text_hint"
             android:theme="@style/MyEditTextTheme"
             android:textColorHint="@color/textDisabledLightBackground"

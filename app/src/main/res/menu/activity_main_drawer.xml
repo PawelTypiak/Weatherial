@@ -5,12 +5,12 @@
         <item
             android:id="@+id/nav_button_geolocalization"
             android:icon="@drawable/localization_icon"
-            android:checkable="true"
+            android:checkable="false"
             android:title="@string/nav_drawer_geolocalization" />
         <item
             android:id="@+id/nav_button_favourites"
             android:icon="@drawable/favourites_full_icon"
-            android:checkable="true"
+            android:checkable="false"
             android:title="@string/nav_drawer_favourites" />
 
     </menu>

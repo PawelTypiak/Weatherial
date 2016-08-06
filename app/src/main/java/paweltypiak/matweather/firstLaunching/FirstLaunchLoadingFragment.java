@@ -282,7 +282,7 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
                 if(choosenLocationOption==1){
                     Log.d("end", ""+choosenLocationOption);
                     SharedPreferencesModifier.setLocalizationOptionKey(getActivity(),choosenLocalizationOption);
-                    SharedPreferencesModifier.resetFirstLocation(getActivity());
+                    SharedPreferencesModifier.setGeolocalization(getActivity());
                 }
                 else{
                     Log.d("end", ""+choosenLocationOption);
@@ -291,7 +291,7 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
                     String region=dataInitializer.getRegion();
                     String country=dataInitializer.getCountry();
                     String locationName=city+", "+region+", "+country;
-                    SharedPreferencesModifier.setFirstLocation(getActivity(),locationName);
+                    SharedPreferencesModifier.setLocation(getActivity(),locationName);
                     //UsefulFunctions.setViewVisible(messageTextView);
                 }
                 SharedPreferencesModifier.setNextLaunch(getActivity());

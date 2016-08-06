@@ -142,7 +142,8 @@ public class DialogInitializer  {
         }
 
         public void run() {
-            UsefulFunctions.uncheckNavigationDrawerMenuItems(activity);
+            UsefulFunctions.uncheckAllNavigationDrawerMenuItems(activity);
+            UsefulFunctions.setfloatingActionButtonOnClickIndicator(activity,1);
             dataSetter = new WeatherDataSetter(activity, dataInitializer,true);
         }
     }
@@ -726,11 +727,9 @@ public class DialogInitializer  {
 
     private static class addToFavouritesRunnable implements Runnable {
         private View dialogView;
-        private FloatingActionButton floatingActionButton;
 
-        public addToFavouritesRunnable(View dialogView, FloatingActionButton floatingActionButton) {
+        public addToFavouritesRunnable(View dialogView) {
             this.dialogView = dialogView;
-            this.floatingActionButton=floatingActionButton;
         }
 
         public void run() {
@@ -745,27 +744,26 @@ public class DialogInitializer  {
             }
             else{
                 String customLocationString=customHeaderString+"%"+customSubheaderString;
-                SharedPreferencesModifier.saveNewFavouriteLocationName(customLocationString,activity);
-                SharedPreferencesModifier.saveNewFavouriteLocationAddress(activity);
-                SharedPreferencesModifier.saveNewFavouriteLocationCoordinates(activity);
+                FavouritesEditor.saveNewFavouriteLocationName(customLocationString,activity);
+                FavouritesEditor.saveNewFavouriteLocationAddress(activity);
+                FavouritesEditor.saveNewFavouriteLocationCoordinates(activity);
                 CheckBox checkBox=(CheckBox)dialogView.findViewById(R.id.edit_location_dialog_checkbox);
                 if(checkBox.isChecked()){
                     Log.d("checkbox", "checked");
                     String currentLocationHeaderString=UsefulFunctions.getCurrentLocationAddress()[0];
                     String currentLocationSubheaderString=UsefulFunctions.getCurrentLocationAddress()[1];
                     String currentLocationName=currentLocationHeaderString+", "+currentLocationSubheaderString;
-                    SharedPreferencesModifier.setFirstLocation(activity,currentLocationName);
+                    SharedPreferencesModifier.setLocation(activity,currentLocationName);
                 }
                 UsefulFunctions.setAppBarStrings(activity,customHeaderString,customSubheaderString);
-                UsefulFunctions.checkNavigationDrawerMenuItem(activity,1);
-                //  floatingActionButton.setImageResource(R.drawable.edit_black_icon);
-                // MainActivity.setfloatingActionButtonOnClickIndicator(2);
+                UsefulFunctions.checkNavigationDrawerMenuItem(activity,2);
+                UsefulFunctions.setfloatingActionButtonOnClickIndicator(activity,2);
             }
 
         }
     }
 
-    public static AlertDialog initializeAddToFavourites(FloatingActionButton floatingActionButton){
+    public static AlertDialog initializeAddToFavouritesDialog(FloatingActionButton floatingActionButton){
         LayoutInflater inflater = activity.getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.edit_location_dialog,null);
         dialogView.setFocusableInTouchMode(true);
@@ -786,7 +784,7 @@ public class DialogInitializer  {
                 null,
                 false,
                 activity.getString(R.string.add_location_dialog_positive_button),
-                new addToFavouritesRunnable(dialogView,floatingActionButton),
+                new addToFavouritesRunnable(dialogView),
                 null,
                 null,
                 activity.getString(R.string.add_location_dialog_negative_button),
@@ -801,12 +799,21 @@ public class DialogInitializer  {
         return addToFavouritesDialog;
     }
 
-    public static AlertDialog initializeEditFavourites(){
+    public static AlertDialog initializeEditFavouritesDialog(){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.edit_location_dialog,null);
+        dialogView.setFocusableInTouchMode(true);
+        dialogView.setClickable(true);
+        String [] location=UsefulFunctions.getAppBarStrings(activity);
+        EditText headerEditText=(EditText)dialogView.findViewById(R.id.edit_location_dialog_header_edittext);
+        headerEditText.setText(location[0]);
+        UsefulFunctions.customizeEditText(headerEditText,activity);
+        EditText subheaderEditText=(EditText)dialogView.findViewById(R.id.edit_location_dialog_subheader_edittext);
+        subheaderEditText.setText(location[1]);
+        UsefulFunctions.customizeEditText(subheaderEditText,activity);
         CheckBox checkBox=(CheckBox)dialogView.findViewById(R.id.edit_location_dialog_checkbox);
         checkBox.setText(activity.getString(R.string.edit_location_dialog_checkbox_message));
-        addToFavouritesDialog = buildDialog(
+        editFavouritesDialog = buildDialog(
                 activity,
                 dialogView,
                 R.style.CustomDialogStyle,
@@ -817,13 +824,19 @@ public class DialogInitializer  {
                 activity.getString(R.string.edit_location_dialog_positive_button),
                 null,
                 activity.getString(R.string.edit_location_dialog_neutral_button),
-                null,
+                deleteFromFavouritesRunnable,
                 activity.getString(R.string.edit_location_dialog_negative_button),
                 null
         );
-        return addToFavouritesDialog;
+        return editFavouritesDialog;
     }
 
+    private static Runnable deleteFromFavouritesRunnable = new Runnable() {
+        public void run() {
+            FavouritesEditor.deleteFavouritesItem(activity);
+            UsefulFunctions.setfloatingActionButtonOnClickIndicator(activity,1);
+        }
+    };
     private static AlertDialog initializeSearchProgressDialog(){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.progress_dialog,null);
@@ -1018,7 +1031,7 @@ public class DialogInitializer  {
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.radiogroup_dialog,null);
         final RadioGroup radioGroup = (RadioGroup) dialogView.findViewById(R.id.radiogroup_dialog_radiogroup);
-        final UsefulFunctions.FavouritesMaker favouritesMaker=new UsefulFunctions.FavouritesMaker(activity);
+        final FavouritesEditor favouritesMaker=new FavouritesEditor(activity);
         final List<String> favouritesList = favouritesMaker.getFavouriteLocationsNamesDialogList();
         int size=favouritesList.size();
         for(int i=0;i<size;i++){
@@ -1061,6 +1074,12 @@ public class DialogInitializer  {
                 UsefulFunctions.setDialogButtonDisabled(favouritesDialog,activity);
             }
         });
+        favouritesDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                UsefulFunctions.uncheckNavigationDrawerMenuItem(activity,2);
+            }
+        });
 
         return favouritesDialog;
     }
@@ -1070,7 +1089,7 @@ public class DialogInitializer  {
         public favouritesDialogRunnable() {}
 
         public void run() {
-            String address= UsefulFunctions.FavouritesMaker.getChoosenFavouriteLocationAddress();
+            String address= FavouritesEditor.getChoosenFavouriteLocationAddress();
             new WeatherDataDownloader(address,this);
             searchProgressDialog.show();
         }
@@ -1079,7 +1098,9 @@ public class DialogInitializer  {
         public void ServiceSuccess(Channel channel) {
             dataInitializer=new WeatherDataInitializer(activity,channel);
             new WeatherDataSetter(activity,dataInitializer,false);
-            UsefulFunctions.FavouritesMaker.setAppBarForChoosenFavouriteLocation();
+            FavouritesEditor.setAppBarForChoosenFavouriteLocation();
+            UsefulFunctions.checkNavigationDrawerMenuItem(activity,2);
+            UsefulFunctions.setfloatingActionButtonOnClickIndicator(activity,2);
             searchProgressDialog.dismiss();
         }
 
