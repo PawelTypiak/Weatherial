@@ -3,11 +3,6 @@ package paweltypiak.matweather.usefulClasses;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.util.Log;
-
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.StringTokenizer;
 import paweltypiak.matweather.R;
 
@@ -135,7 +130,4 @@ public class SharedPreferencesModifier {
     public static void setFavouriteLocationCoordinates(Activity activity,String coordinatesString){
         getSharedPreferences(activity).edit().putString(activity.getString(R.string.shared_preferences_favourite_locations_coordinates_key), coordinatesString).commit();
     }
-
-
-
 }

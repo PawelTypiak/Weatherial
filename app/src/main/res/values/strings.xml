@@ -87,8 +87,8 @@
     <string name="no_localization_results_dialog_message">Prawdopodobnie brak danych pogodowych dla danej lokacji.</string>
     <string name="no_localization_results_dialog_negative_button">Anuluj</string>
     <string name="no_localization_results_dialog_positive_button">Zmień lokację</string>
-    <string name="no_localization_results_first_launch_dialog_positive_button">Szukaj ponownie</string>
-    <string name="no_localization_results_first_launch_dialog_negative_button">Wyjdź</string>
+    <string name="no_localization_results_dialog_first_launch_positive_button">Szukaj ponownie</string>
+    <string name="no_localization_results_dialog_first_launch_negative_button">Wyjdź</string>
     <string name="localization_results_dialog_title">Wynik wyszukiwania</string>
     <string name="localization_results_dialog_message">Znaleziono następującą lokację:</string>
     <string name="localization_results_dialog_negative_button">Anuluj</string>
@@ -137,7 +137,9 @@
     <string name="favourites_dialog_header">Wybierz lokację:</string>
     <string name="favourites_dialog_positive_button">Wybierz</string>
     <string name="favourites_dialog_neutral_button">Edytuj</string>
+    <string name="favourites_dialog_first_launch_negative_button">Wyjdź</string>
     <string name="favourites_dialog_negative_button">Anuluj</string>
+    <string name="favourites_dialog_geolocalization_option">Aktualna lokalizacja</string>
     <string name="no_favourites_dialog_title">Brak ulubionych</string>
     <string name="no_favourites_dialog_positive_button">Ok</string>
     <string name="no_favourites_dialog_message">Nie masz żadnych zapisanych lokacji.</string>

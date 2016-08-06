@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.res.TypedArray;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.TextUtils;
@@ -500,7 +499,7 @@ public class DialogInitializer  {
         String negativeButtonString;
         if(type==1){
             isUncancelable=true;
-            negativeButtonString=activity.getString(R.string.no_localization_results_first_launch_dialog_negative_button);
+            negativeButtonString=activity.getString(R.string.no_localization_results_dialog_first_launch_negative_button);
         }
         else{
             isUncancelable=false;
@@ -743,10 +742,7 @@ public class DialogInitializer  {
                 emptyLocationNameDialog.show();
             }
             else{
-                String customLocationString=customHeaderString+"%"+customSubheaderString;
-                FavouritesEditor.saveNewFavouriteLocationName(customLocationString,activity);
-                FavouritesEditor.saveNewFavouriteLocationAddress(activity);
-                FavouritesEditor.saveNewFavouriteLocationCoordinates(activity);
+                FavouritesEditor.saveNewFavouritesItem(activity,customHeaderString,customSubheaderString);
                 CheckBox checkBox=(CheckBox)dialogView.findViewById(R.id.edit_location_dialog_checkbox);
                 if(checkBox.isChecked()){
                     Log.d("checkbox", "checked");
@@ -763,12 +759,12 @@ public class DialogInitializer  {
         }
     }
 
-    public static AlertDialog initializeAddToFavouritesDialog(FloatingActionButton floatingActionButton){
+    public static AlertDialog initializeAddToFavouritesDialog(){
         LayoutInflater inflater = activity.getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.edit_location_dialog,null);
         dialogView.setFocusableInTouchMode(true);
         dialogView.setClickable(true);
-        String [] location=UsefulFunctions.getCurrentLocationAddress();
+        String [] location=UsefulFunctions.getAppBarStrings(activity);
         EditText headerEditText=(EditText)dialogView.findViewById(R.id.edit_location_dialog_header_edittext);
         headerEditText.setText(location[0]);
         UsefulFunctions.customizeEditText(headerEditText,activity);
@@ -812,7 +808,7 @@ public class DialogInitializer  {
         subheaderEditText.setText(location[1]);
         UsefulFunctions.customizeEditText(subheaderEditText,activity);
         CheckBox checkBox=(CheckBox)dialogView.findViewById(R.id.edit_location_dialog_checkbox);
-        checkBox.setText(activity.getString(R.string.edit_location_dialog_checkbox_message));
+        checkBox.setChecked(FavouritesEditor.isFirstLocationEqual(activity));
         editFavouritesDialog = buildDialog(
                 activity,
                 dialogView,
@@ -822,12 +818,18 @@ public class DialogInitializer  {
                 null,
                 false,
                 activity.getString(R.string.edit_location_dialog_positive_button),
-                null,
+                new saveFavouritesChangesRunnable(dialogView),
                 activity.getString(R.string.edit_location_dialog_neutral_button),
                 deleteFromFavouritesRunnable,
                 activity.getString(R.string.edit_location_dialog_negative_button),
                 null
         );
+        editFavouritesDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                UsefulFunctions.hideKeyboard(activity,null);
+            }
+        });
         return editFavouritesDialog;
     }
 
@@ -835,8 +837,77 @@ public class DialogInitializer  {
         public void run() {
             FavouritesEditor.deleteFavouritesItem(activity);
             UsefulFunctions.setfloatingActionButtonOnClickIndicator(activity,1);
+            UsefulFunctions.uncheckNavigationDrawerMenuItem(activity,2);
+            String currentLocationHeaderString=UsefulFunctions.getCurrentLocationAddress()[0];
+            String currentLocationSubheaderString=UsefulFunctions.getCurrentLocationAddress()[1];
+            UsefulFunctions.setAppBarStrings(activity,currentLocationHeaderString,currentLocationSubheaderString);
         }
     };
+
+    private static class saveFavouritesChangesRunnable implements Runnable {
+        private View dialogView;
+
+        public saveFavouritesChangesRunnable(View dialogView) {
+            this.dialogView = dialogView;
+        }
+
+        public void run() {
+            String [] tmp=SharedPreferencesModifier.getFavouriteLocationsNames(activity);
+            int size=tmp.length;
+            for(int i=0;i<size;i++){
+                Log.d("przed zmiana nazwa", SharedPreferencesModifier.getFavouriteLocationsNames(activity)[i]);
+            }
+            for(int i=0;i<size;i++){
+                Log.d("przed zmiana adres", SharedPreferencesModifier.getFavouriteLocationsAddresses(activity)[i]);
+            }
+            for(int i=0;i<size;i++){
+                Log.d("przed zmiana wsp", SharedPreferencesModifier.getFavouriteLocationsCoordinates(activity)[i]);
+            }
+
+
+
+            EditText headerEditText=(EditText)dialogView.findViewById(R.id.edit_location_dialog_header_edittext);
+            EditText subheaderEditText=(EditText)dialogView.findViewById(R.id.edit_location_dialog_subheader_edittext);
+            String customHeaderString=headerEditText.getText().toString();
+            customHeaderString=UsefulFunctions.getFormattedString(customHeaderString);
+            String customSubheaderString=subheaderEditText.getText().toString();
+            customSubheaderString=UsefulFunctions.getFormattedString(customSubheaderString);
+            if(customHeaderString.equals("")) {
+                UsefulFunctions.hideKeyboard(activity,headerEditText);
+                emptyLocationNameDialog=initializeEmptyLocationNameDialog(3);
+                emptyLocationNameDialog.show();
+            }
+            else{
+                FavouritesEditor.editFavouriteLocationName(activity,customHeaderString,customSubheaderString);
+
+                CheckBox checkBox=(CheckBox)dialogView.findViewById(R.id.edit_location_dialog_checkbox);
+                if(checkBox.isChecked()){
+                    Log.d("checkbox", "checked");
+                    String currentLocationHeaderString=UsefulFunctions.getCurrentLocationAddress()[0];
+                    String currentLocationSubheaderString=UsefulFunctions.getCurrentLocationAddress()[1];
+                    String currentLocationAddress=currentLocationHeaderString+", "+currentLocationSubheaderString;
+                    SharedPreferencesModifier.setLocation(activity,currentLocationAddress);
+                }
+                else{
+                    String firstLocation=SharedPreferencesModifier.getFirstLocation(activity);
+                    if(FavouritesEditor.isFirstLocationEqual(activity)) {
+                        //dialog zeby wybrac nowy
+                        Log.d("inny", "wybierz inne first loc ");
+                    }
+                }
+                UsefulFunctions.setAppBarStrings(activity,customHeaderString,customSubheaderString);
+            }
+            for(int i=0;i<size;i++){
+                Log.d("po zmiana nazwa", SharedPreferencesModifier.getFavouriteLocationsNames(activity)[i]);
+            }
+            for(int i=0;i<size;i++){
+                Log.d("po zmiana adres", SharedPreferencesModifier.getFavouriteLocationsAddresses(activity)[i]);
+            }
+            for(int i=0;i<size;i++){
+                Log.d("po zmiana wsp", SharedPreferencesModifier.getFavouriteLocationsCoordinates(activity)[i]);
+            }
+        }
+    }
     private static AlertDialog initializeSearchProgressDialog(){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.progress_dialog,null);
@@ -1027,16 +1098,18 @@ public class DialogInitializer  {
         return aboutDialog;
     }
 
-    public static AlertDialog initializeFavouritesDialog(){
+    public static AlertDialog initializeFavouritesDialog(int type, Runnable positiveButtonRunnable, Runnable negativeButtonRunnable){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.radiogroup_dialog,null);
         final RadioGroup radioGroup = (RadioGroup) dialogView.findViewById(R.id.radiogroup_dialog_radiogroup);
         final FavouritesEditor favouritesMaker=new FavouritesEditor(activity);
         final List<String> favouritesList = favouritesMaker.getFavouriteLocationsNamesDialogList();
+        String locationName;
         int size=favouritesList.size();
         for(int i=0;i<size;i++){
             RadioButton radioButton=new RadioButton(activity); // dynamically creating RadioButton and adding to RadioGroup.
-            String locationName=favouritesList.get(i);
+            if(type==1 && i==0) locationName=activity.getString(R.string.favourites_dialog_geolocalization_option);
+            else locationName=favouritesList.get(i);
             radioButton.setText(Html.fromHtml(locationName));
             radioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX,activity.getResources().getDimensionPixelSize(R.dimen.locations_list_text_size));
             radioButton.setSingleLine();
@@ -1053,6 +1126,10 @@ public class DialogInitializer  {
                 favouritesMaker.setChoosenLocationID(i);
             }
         });
+        if(positiveButtonRunnable==null) positiveButtonRunnable=new favouritesDialogRunnable();
+        String negativeButtonString;
+        if(negativeButtonRunnable==null) negativeButtonString=activity.getString(R.string.favourites_dialog_negative_button);
+        else negativeButtonString=activity.getString(R.string.favourites_dialog_first_launch_negative_button);
         //initializing dialog
         favouritesDialog = buildDialog(
                 activity,
@@ -1063,11 +1140,11 @@ public class DialogInitializer  {
                 null,
                 false,
                 activity.getString(R.string.favourites_dialog_positive_button),
-                new favouritesDialogRunnable(),
-                activity.getString(R.string.favourites_dialog_neutral_button),
+                positiveButtonRunnable,
                 null,
-                activity.getString(R.string.favourites_dialog_negative_button),
-                null);
+                null,
+                negativeButtonString,
+                negativeButtonRunnable);
         favouritesDialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialogInterface) {
@@ -1090,6 +1167,7 @@ public class DialogInitializer  {
 
         public void run() {
             String address= FavouritesEditor.getChoosenFavouriteLocationAddress();
+            Log.d("choosen adress", address);
             new WeatherDataDownloader(address,this);
             searchProgressDialog.show();
         }

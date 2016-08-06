@@ -80,6 +80,13 @@ public class MainActivity extends AppCompatActivity
         UsefulFunctions.setIsFirstWeatherDownloading(true);
         initializeLayout(); //layout initialization
         loadFirstLocation();
+        //resetShared();
+    }
+
+    public void resetShared(){
+        SharedPreferencesModifier.setFavouriteLocationCoordinates(this,"");
+        SharedPreferencesModifier.setFavouriteLocationNames(this,"");
+        SharedPreferencesModifier.setFavouriteLocationAddresses(this,"");
     }
 
     public void downloadData(String location) {
@@ -119,8 +126,6 @@ public class MainActivity extends AppCompatActivity
         else serviceFailureDialog.show();
     }
 
-
-
     private void setDialogs(){
         dialogInitializer=new DialogInitializer(this);
         firstLoadingDialog=dialogInitializer.initializeFirstLoadingDialog();
@@ -133,7 +138,6 @@ public class MainActivity extends AppCompatActivity
         searchDialog=dialogInitializer.initializeSearchDialog();
         duplicateDialog=dialogInitializer.initializeDuplicateDialog();
         emptyLocationListDialog=dialogInitializer.initializeEmptyLocationListDialog();
-
     }
 
     Runnable downloadDataRunnable = new Runnable() {
@@ -254,7 +258,7 @@ public class MainActivity extends AppCompatActivity
                 if(floatingActionButtonOnClickIndicator ==1){
                     if(FavouritesEditor.areCoordinatesEqual(MainActivity.this)) duplicateDialog.show();
                     else {
-                        addToFavouritesDialog = dialogInitializer.initializeAddToFavouritesDialog(floatingActionButton);
+                        addToFavouritesDialog = dialogInitializer.initializeAddToFavouritesDialog();
                         addToFavouritesDialog.show();
                     }
                 }
@@ -343,7 +347,6 @@ public class MainActivity extends AppCompatActivity
         return super.onKeyDown(keyCode, e);
     }
 
-    private int checkedMenu=0;
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -353,7 +356,7 @@ public class MainActivity extends AppCompatActivity
         else if(id==R.id.nav_button_favourites){
             if(SharedPreferencesModifier.getFavouriteLocationsAddresses(MainActivity.this).length==0) emptyLocationListDialog.show();
             else{
-                favouritesDialog=dialogInitializer.initializeFavouritesDialog();
+                favouritesDialog=dialogInitializer.initializeFavouritesDialog(2,null,null);
                 favouritesDialog.show();
             }
         }

@@ -205,6 +205,7 @@ public class WeatherDataSetter {
     }
 
     private void updateDialogs(){
+        Log.d("city w mapach", city);
         mapsDialog= initializeMapsDialog(activity,city,region,country,longitude,latitude);
         yahooWeatherRedirectDialog=initializeYahooWeatherRedirectDialog(activity,link);
     }

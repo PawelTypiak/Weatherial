@@ -30,12 +30,6 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.squareup.picasso.Transformation;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.StringTokenizer;
-
 import paweltypiak.matweather.MainActivity;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDataSetter;
@@ -88,7 +82,6 @@ public class UsefulFunctions {
         secondaryLocationTextView.setText(secondaryText);
         setViewGone(secondaryLocationTextView);
         if(!secondaryText.equals("")) setViewVisible(secondaryLocationTextView);
-
     }
 
     public static void initializeWebIntent(Activity activity, String url){
@@ -135,7 +128,6 @@ public class UsefulFunctions {
 
     public static StringBuilder buildStringFromStringArray(String[] stringArray){
         int numberOfLocations=stringArray.length;
-        Log.d("favourites_number", ""+numberOfLocations);
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < numberOfLocations; i++) {
             stringBuilder.append(stringArray[i]).append("|");
@@ -176,7 +168,7 @@ public class UsefulFunctions {
 
     public static void customizeEditText(final EditText editText, final Activity activity){
         final String hint=editText.getHint().toString();
-        editText.setHint("");
+        if(editText.getText().length()!=0) editText.setHint("");
         editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             String previusEditTextString;
             @Override
