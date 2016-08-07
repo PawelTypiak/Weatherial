@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/dialog_margin_size"
+    android:paddingRight="@dimen/dialog_margin_size"
+    android:paddingTop="@dimen/dialog_margin_top_size"
+    android:id="@+id/localization_options_dialog_layout">
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/localization_options_dialog_radio_group">
+
+    </RadioGroup>
+</LinearLayout>

@@ -142,6 +142,9 @@
     <string name="no_favourites_dialog_title">Brak ulubionych</string>
     <string name="no_favourites_dialog_positive_button">Ok</string>
     <string name="no_favourites_dialog_message">Nie masz żadnych zapisanych lokacji.</string>
+    <string name="localization_options_dialog_title">Metoda geolokalizacji</string>
+    <string name="localization_options_dialog_message">Wybierz metodę geolokalizacji:</string>
+    <string name="localization_options_dialog_positive_button">Kontynuuj</string>
 
 
     <string name="refresh_message_pull_to_refresh">Pociągnij, żeby odświeżyć</string>
@@ -182,7 +185,7 @@
     <string name="first_launch_layout_location_header">Wybierz domyślną lokację:</string>
     <string name="first_launch_layout_location_current">aktualna lokalizacja</string>
     <string name="first_launch_layout_location_different">inna lokacja</string>
-    <string name="first_launch_layout_localization_options_header">Wybierz metodę lokalizacji:</string>
+    <string name="first_launch_layout_localization_options_header">Wybierz metodę geolokalizacji:</string>
     <string name="first_launch_layout_localization_options_gps">GPS (dokładna)</string>
     <string name="first_launch_layout_localization_options_network">Sieć (szybka)</string>
     <string name="first_launch_layout_loading_header_searching_location">Wyszukiwanie lokacji...</string>

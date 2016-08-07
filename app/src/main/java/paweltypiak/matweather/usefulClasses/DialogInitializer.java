@@ -57,6 +57,7 @@ public class DialogInitializer  {
     private static AlertDialog duplicateDialog;
     private static AlertDialog favouritesDialog;
     private static AlertDialog emptyLocationListDialog;
+    private static AlertDialog localizationOptionsDialog;
     private static EditText searchEditText;
     private static Activity activity;
 
@@ -711,7 +712,7 @@ public class DialogInitializer  {
                 String currentLocationHeaderString=UsefulFunctions.getCurrentLocationAddress()[0];
                 String currentLocationSubheaderString=UsefulFunctions.getCurrentLocationAddress()[1];
                 String currentLocationName=currentLocationHeaderString+", "+currentLocationSubheaderString;
-                SharedPreferencesModifier.setLocation(activity,currentLocationName);
+                SharedPreferencesModifier.setConstantLocation(activity,currentLocationName);
             }
             UsefulFunctions.setAppBarStrings(activity,customHeaderString,customSubheaderString);
             UsefulFunctions.checkNavigationDrawerMenuItem(activity,2);
@@ -841,7 +842,7 @@ public class DialogInitializer  {
                 String currentLocationHeaderString=UsefulFunctions.getCurrentLocationAddress()[0];
                 String currentLocationSubheaderString=UsefulFunctions.getCurrentLocationAddress()[1];
                 String currentLocationAddress=currentLocationHeaderString+", "+currentLocationSubheaderString;
-                SharedPreferencesModifier.setLocation(activity,currentLocationAddress);
+                SharedPreferencesModifier.setConstantLocation(activity,currentLocationAddress);
             }
             else{
                 //String firstLocation=SharedPreferencesModifier.getFirstLocation(activity);
@@ -851,31 +852,6 @@ public class DialogInitializer  {
             }
         }
     }
-
-
-   /* private static class checkIfIsFirstLocation implements Runnable {
-        private View dialogView;
-        private Runnable effectRunnable;
-
-        public checkIfIsFirstLocation(View dialogView, Runnable effectRunnable) {
-            this.effectRunnable=effectRunnable;
-            this.dialogView = dialogView;
-        }
-
-        public void run() {
-            CheckBox checkBox=(CheckBox)dialogView.findViewById(R.id.edit_location_dialog_checkbox);
-            if(!checkBox.isChecked()&&FavouritesEditor.isFirstLocationEqual(activity)){
-                initializeFavouritesDialog(1,activity.getString(R.string.favourites_dialog_change_first_location_title), new changedFirstLocation(dialogView,effectRunnable),null).show();
-                Log.d("inny", "wybierz inne first loc ");
-            }
-            else{
-                //String firstLocation=SharedPreferencesModifier.getFirstLocation(activity);
-                effectRunnable.run();
-            }
-
-        }
-
-    }*/
 
     private static AlertDialog initializeSearchProgressDialog(){
         LayoutInflater inflater = activity.getLayoutInflater();
@@ -990,6 +966,62 @@ public class DialogInitializer  {
         return firstLoadingDialog;
     }
 
+    public static AlertDialog initializeLocalizationOptionsDialog(Runnable positiveButtonRunnable){
+        LayoutInflater inflater = activity.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.localization_options_dialog,null);
+       /* TextView messageTextView=(TextView)dialogView.findViewById(R.id.localization_options_dialog_header_text);
+        messageTextView.setText(activity.getString(R.string.localization_options_dialog_message));*/
+        RadioGroup radioGroup=(RadioGroup)dialogView.findViewById(R.id.localization_options_dialog_radio_group);
+        RadioButton gpsRadioButton=new RadioButton(activity); // dynamically creating RadioButton and adding to RadioGroup.
+        gpsRadioButton.setText(activity.getString(R.string.first_launch_layout_localization_options_gps));
+        gpsRadioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX,activity.getResources().getDimensionPixelSize(R.dimen.dialog_text_size));
+        gpsRadioButton.setTextColor(activity.getResources().getColor(R.color.textSecondaryLightBackground));
+        gpsRadioButton.setId(R.id.localization_options_dialog_gps_radio_button);
+        UsefulFunctions.setRadiogroupMargins(gpsRadioButton,activity,0,0,0,16);
+        radioGroup.addView(gpsRadioButton);
+        RadioButton networkRadioButton=new RadioButton(activity); // dynamically creating RadioButton and adding to RadioGroup.
+        networkRadioButton.setText(activity.getString(R.string.first_launch_layout_localization_options_network));
+        networkRadioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX,activity.getResources().getDimensionPixelSize(R.dimen.dialog_text_size));
+        networkRadioButton.setTextColor(activity.getResources().getColor(R.color.textSecondaryLightBackground));
+        networkRadioButton.setId(R.id.localization_options_dialog_network_radio_button);
+        radioGroup.addView(networkRadioButton);
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                UsefulFunctions.setDialogButtonEnabled(localizationOptionsDialog,activity);
+                if (i == R.id.localization_options_dialog_gps_radio_button) {
+                    Log.d("localization_option", "gps");
+                    SharedPreferencesModifier.setLocalizationOption(activity,1);
+                } else if (i == R.id.localization_options_dialog_network_radio_button) {
+                    Log.d("localization_option", "network");
+                    SharedPreferencesModifier.setLocalizationOption(activity,2);
+                }
+            }
+        });
+        localizationOptionsDialog = buildDialog(
+                activity,
+                dialogView,
+                R.style.CustomLoadingDialogStyle,
+                activity.getString(R.string.localization_options_dialog_title),
+                R.drawable.localization_icon,
+                null,
+                true,
+                activity.getString(R.string.localization_options_dialog_positive_button),
+                positiveButtonRunnable,
+                null,
+                null,
+                null,
+                null
+        );
+        localizationOptionsDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                UsefulFunctions.setDialogButtonDisabled(localizationOptionsDialog,activity);
+            }
+        });
+        return localizationOptionsDialog;
+    }
+
     public static AlertDialog initializeAuthorDialog(){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.author_dialog,null);
@@ -1066,29 +1098,6 @@ public class DialogInitializer  {
                 null);
         return aboutDialog;
     }
-
-  /*  private static class changedFirstLocation implements Runnable {
-
-        private Runnable effectRunnable;
-        public changedFirstLocation(Runnable effectRunnable) {
-
-            this.effectRunnable=effectRunnable;
-        }
-
-        public void run() {
-            int id=FavouritesEditor.getChoosenLocationID();
-            if(id==-1){
-                Log.d("choosenstring", "geolokalizacja");
-            }
-            else  {
-                String choosenLocationString=FavouritesEditor.getChoosenFavouriteLocationAddress();
-                Log.d("choosenstring", choosenLocationString);
-            }
-            effectRunnable.run();
-        }
-
-    }
-*/
 
     public static AlertDialog initializeFavouritesDialog(final int type, String title, Runnable positiveButtonRunnable, Runnable negativeButtonRunnable){
         LayoutInflater inflater = activity.getLayoutInflater();

@@ -56,14 +56,14 @@ public class SharedPreferencesModifier {
         getSharedPreferences(activity).edit().putString(activity.getString(R.string.shared_preferences_units_key), stringBuilder.toString()).commit();
     }
 
-    public static int getLocalizationOptionKey(Activity activity){
+    public static int getLocalizationOption(Activity activity){
         int localizationOptionKey=getSharedPreferences(activity).getInt(activity.getString(R.string.shared_preferences_localization_option_key),0);
         Log.d("localizationOption", ""+localizationOptionKey);
         return localizationOptionKey;
     }
 
-    public static void setLocalizationOptionKey(Activity activity,int option){
-        getSharedPreferences(activity).edit().putInt(activity.getString(R.string.shared_preferences_localization_option_key),option);
+    public static void setLocalizationOption(Activity activity, int option){
+        getSharedPreferences(activity).edit().putInt(activity.getString(R.string.shared_preferences_localization_option_key),option).commit();
     }
 
     public static String getFirstLocation(Activity activity){
@@ -72,7 +72,7 @@ public class SharedPreferencesModifier {
         return firstLocation;
     }
 
-    public static void setLocation(Activity activity, String locationName){
+    public static void setConstantLocation(Activity activity, String locationName){
         getSharedPreferences(activity).edit().putString(activity.getString(R.string.shared_preferences_first_location_key), locationName).commit();
     }
 

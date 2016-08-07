@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity
     private AlertDialog duplicateDialog;
     private AlertDialog favouritesDialog;
     private AlertDialog emptyLocationListDialog;
+    private AlertDialog localizationOptionsDialog;
     private DialogInitializer dialogInitializer;
     private SwipeRefreshLayout swipeRefreshLayout;
     private String location;
@@ -138,6 +139,7 @@ public class MainActivity extends AppCompatActivity
         searchDialog=dialogInitializer.initializeSearchDialog(null);
         duplicateDialog=dialogInitializer.initializeDuplicateDialog();
         emptyLocationListDialog=dialogInitializer.initializeEmptyLocationListDialog();
+        localizationOptionsDialog=dialogInitializer.initializeLocalizationOptionsDialog(null);
     }
 
     Runnable downloadDataRunnable = new Runnable() {
@@ -351,6 +353,13 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
         if(id==R.id.nav_button_geolocalization){
+            int localizationOption=SharedPreferencesModifier.getLocalizationOption(this);
+            if(localizationOption==0){
+                localizationOptionsDialog.show();
+            }
+            else{
+
+            }
         }
         else if(id==R.id.nav_button_favourites){
             if(SharedPreferencesModifier.getFavouriteLocationsAddresses(MainActivity.this).length==0) emptyLocationListDialog.show();
