@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity
         aboutDialog=dialogInitializer.initializeAboutDialog();
         feedbackDialog=dialogInitializer.initializeFeedbackDialog();
         authorDialog=dialogInitializer.initializeAuthorDialog();
-        searchDialog=dialogInitializer.initializeSearchDialog();
+        searchDialog=dialogInitializer.initializeSearchDialog(null);
         duplicateDialog=dialogInitializer.initializeDuplicateDialog();
         emptyLocationListDialog=dialogInitializer.initializeEmptyLocationListDialog();
     }

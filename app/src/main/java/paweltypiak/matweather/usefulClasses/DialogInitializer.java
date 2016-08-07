@@ -45,7 +45,7 @@ public class DialogInitializer  {
     private static AlertDialog searchProgressDialog;
     private static AlertDialog noLocalizationResultsDialog;
     private static AlertDialog localizationResultsDialog;
-    private static AlertDialog emptyLocationNameDialog;
+    private static AlertDialog noDifferentLocationChoosenDialog;
     private static AlertDialog internetFailureDialog;
     private static AlertDialog mapsDialog;
     private static AlertDialog differentLocationDialog;
@@ -149,15 +149,8 @@ public class DialogInitializer  {
 
     private static Runnable showDifferentLocationDialogRunnable = new Runnable() {
         public void run() {
-            differentLocationDialog.show();
+            searchDialog.show();
             UsefulFunctions.showKeyboard(activity);
-        }
-    };
-
-    private static Runnable showAddToFavouritesDialogRunnable=new Runnable() {
-        @Override
-        public void run() {
-            addToFavouritesDialog.show();
         }
     };
 
@@ -176,27 +169,20 @@ public class DialogInitializer  {
             UsefulFunctions.hideKeyboard(activity,null);
             editText=(EditText)dialogView.findViewById(R.id.search_edit_text);
             editTextString=editText.getText().toString();
-            if(editTextString.length()==0) {
-                emptyLocationNameDialog=initializeEmptyLocationNameDialog(1);
-                emptyLocationNameDialog.show();
-            }
-            else{
-                editTextString =UsefulFunctions.getFormattedString(editTextString);
-                radioButton.setText(editTextString);
-            }
+            editTextString =UsefulFunctions.getFormattedString(editTextString);
+            radioButton.setText(editTextString);
         }
     }
 
 
     private static void initializeSearchRunnableDialogs(){
-        emptyLocationNameDialog=initializeEmptyLocationNameDialog(2);
         searchProgressDialog=initializeSearchProgressDialog();
         noLocalizationResultsDialog= initializeNoLocationResultsDialog(2,showSearchDialogRunnable,null);
     }
 
     private static Runnable showSearchDialogRunnable = new Runnable() {
         public void run() {
-            if(searchDialog==null) searchDialog=initializeSearchDialog();
+            if(searchDialog==null) searchDialog=initializeSearchDialog(null);
             noLocalizationResultsDialog= initializeNoLocationResultsDialog(2,showSearchDialogRunnable,null);
             searchDialog.show();
             UsefulFunctions.showKeyboard(activity);
@@ -226,11 +212,8 @@ public class DialogInitializer  {
                 location=UsefulFunctions.getFormattedString(location);
                 UsefulFunctions.hideKeyboard(activity,locationEditText);
             }
-            if(location.length()==0) emptyLocationNameDialog.show();
-            else {
-                searchProgressDialog.show();
-                downloader=new WeatherDataDownloader(location,this);
-            }
+            searchProgressDialog.show();
+            downloader=new WeatherDataDownloader(location,this);
         }
 
         @Override
@@ -287,25 +270,55 @@ public class DialogInitializer  {
         return dialog;
     }
 
-    public static AlertDialog initializeSearchDialog(){
+    public static AlertDialog initializeSearchDialog(RadioButton radioButton){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.search_dialog,null);
+        dialogView.setFocusableInTouchMode(true);
+        dialogView.setClickable(true);
         final EditText locationEditText=(EditText)dialogView.findViewById(R.id.search_edit_text);
+        locationEditText.requestFocus();
+        String title;
+        int icon;
+        String positiveButtonString;
+        Runnable positiveButtonRunnable;
+        if(radioButton==null){
+            title=activity.getString(R.string.search_dialog_title);
+            icon=R.drawable.search_blue_icon;
+            positiveButtonString=activity.getString(R.string.search_dialog_positive_button);
+            positiveButtonRunnable=new searchRunnable(dialogView);
+        }
+        else{
+            String radioButtonString=radioButton.getText().toString();
+            if(!radioButtonString.equals(activity.getString(R.string.first_launch_layout_location_different))){
+                locationEditText.setText(radioButtonString);
+                locationEditText.setSelection(radioButtonString.length());
+            }
+            title=activity.getString(R.string.search_dialog_first_launch_title);
+            icon=R.drawable.localization_icon;
+            positiveButtonString=activity.getString(R.string.search_dialog_first_launch_positive_button);
+            positiveButtonRunnable=new differentLocationDialogRunnable(radioButton,dialogView);
+        }
         searchDialog=buildDialog(
                 activity,
                 dialogView,
                 R.style.CustomDialogStyle,
-                activity.getString(R.string.search_dialog_title),
-                R.drawable.search_blue_icon,
+                title,
+                icon,
                 null,
                 false,
-                activity.getString(R.string.search_dialog_positive_button),
-                new searchRunnable(dialogView),
+                positiveButtonString,
+                positiveButtonRunnable ,
                 null,
                 null,
                 activity.getString(R.string.search_dialog_negative_button),
                 null
         );
+        searchDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                UsefulFunctions.customizeEditText(activity,searchDialog,locationEditText);
+            }
+        });
         searchDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
@@ -315,40 +328,6 @@ public class DialogInitializer  {
             }
         });
         return searchDialog;
-    }
-
-    public static AlertDialog initializeDifferentLocationDialog(RadioButton radioButton){
-        LayoutInflater inflater = activity.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.search_dialog,null);
-        final EditText locationEditText=(EditText)dialogView.findViewById(R.id.search_edit_text);
-        String radioButtonString=radioButton.getText().toString();
-        if(!radioButtonString.equals(activity.getString(R.string.first_launch_layout_location_different))){
-            locationEditText.setText(radioButtonString);
-            locationEditText.setSelection(radioButtonString.length());
-        }
-        differentLocationDialog=buildDialog(
-                activity,
-                dialogView,
-                R.style.CustomDialogStyle,
-                activity.getString(R.string.different_location_dialog_title),
-                R.drawable.localization_icon,
-                null,
-                false,
-                activity.getString(R.string.different_location_dialog_positive_button),
-                new differentLocationDialogRunnable(radioButton,dialogView),
-                null,
-                null,
-                activity.getString(R.string.different_location_dialog_negative_button),
-                null
-        );
-        differentLocationDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialogInterface) {
-                UsefulFunctions.hideKeyboard(activity,null);
-                locationEditText.getText().clear();
-            }
-        });
-        return differentLocationDialog;
     }
 
     public static AlertDialog initializeLocalizationFailureDialog(Runnable positiveButtonRunnable, Runnable negativeButtonRunnable){
@@ -456,38 +435,27 @@ public class DialogInitializer  {
         return duplicateDialog;
     }
 
-    public static AlertDialog initializeEmptyLocationNameDialog(int type){
+    public static AlertDialog initializeNoDifferentLocationChoosenDialog(){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.one_line_text_dialog,null);
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
-        Runnable positiveButtonRunnable=null;
-        String message=null;
-        if(type==1||type==2){
-            if(type==1) positiveButtonRunnable=showDifferentLocationDialogRunnable;
-            else if(type==2) positiveButtonRunnable=showSearchDialogRunnable;
-            message=activity.getString(R.string.empty_location_name_dialog_message);
-        }
-        else if(type==3){
-            positiveButtonRunnable=showAddToFavouritesDialogRunnable;
-            message=activity.getString(R.string.empty_location_header_dialog_message);
-        }
-        messageTextView.setText(message);
-        emptyLocationNameDialog=buildDialog(
+        messageTextView.setText(activity.getString(R.string.no_different_location_choosen_dialog_message));
+        noDifferentLocationChoosenDialog =buildDialog(
                 activity,
                 dialogView,
                 R.style.CustomDialogStyle,
-                activity.getString(R.string.empty_location_name_dialog_title),
-                R.drawable.error_icon,
+                activity.getString(R.string.no_different_location_choosen_dialog_title),
+                R.drawable.warning_icon,
                 null,
                 false,
-                activity.getString(R.string.empty_location_name_dialog_positive_button),
-                positiveButtonRunnable,
+                activity.getString(R.string.no_different_location_choosen_dialog_positive_button),
+                showDifferentLocationDialogRunnable,
                 null,
                 null,
-                activity.getString(R.string.empty_location_name_dialog_negative_button),
+                activity.getString(R.string.no_different_location_choosen_dialog_negative_button),
                 null
         );
-        return emptyLocationNameDialog;
+        return noDifferentLocationChoosenDialog;
     }
 
     public static AlertDialog initializeNoLocationResultsDialog(int type, Runnable positiveButtonRunnable, Runnable negativeButtonRunnable){
@@ -736,25 +704,18 @@ public class DialogInitializer  {
             EditText subheaderEditText=(EditText)dialogView.findViewById(R.id.edit_location_dialog_subheader_edittext);
             String customHeaderString=headerEditText.getText().toString();
             String customSubheaderString=subheaderEditText.getText().toString();
-            if(customHeaderString.equals("")) {
-                UsefulFunctions.hideKeyboard(activity,headerEditText);
-                emptyLocationNameDialog=initializeEmptyLocationNameDialog(3);
-                emptyLocationNameDialog.show();
+            FavouritesEditor.saveNewFavouritesItem(activity,customHeaderString,customSubheaderString);
+            CheckBox checkBox=(CheckBox)dialogView.findViewById(R.id.edit_location_dialog_checkbox);
+            if(checkBox.isChecked()){
+                Log.d("checkbox", "checked");
+                String currentLocationHeaderString=UsefulFunctions.getCurrentLocationAddress()[0];
+                String currentLocationSubheaderString=UsefulFunctions.getCurrentLocationAddress()[1];
+                String currentLocationName=currentLocationHeaderString+", "+currentLocationSubheaderString;
+                SharedPreferencesModifier.setLocation(activity,currentLocationName);
             }
-            else{
-                FavouritesEditor.saveNewFavouritesItem(activity,customHeaderString,customSubheaderString);
-                CheckBox checkBox=(CheckBox)dialogView.findViewById(R.id.edit_location_dialog_checkbox);
-                if(checkBox.isChecked()){
-                    Log.d("checkbox", "checked");
-                    String currentLocationHeaderString=UsefulFunctions.getCurrentLocationAddress()[0];
-                    String currentLocationSubheaderString=UsefulFunctions.getCurrentLocationAddress()[1];
-                    String currentLocationName=currentLocationHeaderString+", "+currentLocationSubheaderString;
-                    SharedPreferencesModifier.setLocation(activity,currentLocationName);
-                }
-                UsefulFunctions.setAppBarStrings(activity,customHeaderString,customSubheaderString);
-                UsefulFunctions.checkNavigationDrawerMenuItem(activity,2);
-                UsefulFunctions.setfloatingActionButtonOnClickIndicator(activity,2);
-            }
+            UsefulFunctions.setAppBarStrings(activity,customHeaderString,customSubheaderString);
+            UsefulFunctions.checkNavigationDrawerMenuItem(activity,2);
+            UsefulFunctions.setfloatingActionButtonOnClickIndicator(activity,2);
 
         }
     }
@@ -765,12 +726,10 @@ public class DialogInitializer  {
         dialogView.setFocusableInTouchMode(true);
         dialogView.setClickable(true);
         String [] location=UsefulFunctions.getAppBarStrings(activity);
-        EditText headerEditText=(EditText)dialogView.findViewById(R.id.edit_location_dialog_header_edittext);
+        final EditText headerEditText=(EditText)dialogView.findViewById(R.id.edit_location_dialog_header_edittext);
         headerEditText.setText(location[0]);
-        UsefulFunctions.customizeEditText(headerEditText,activity);
-        EditText subheaderEditText=(EditText)dialogView.findViewById(R.id.edit_location_dialog_subheader_edittext);
+        final EditText subheaderEditText=(EditText)dialogView.findViewById(R.id.edit_location_dialog_subheader_edittext);
         subheaderEditText.setText(location[1]);
-        UsefulFunctions.customizeEditText(subheaderEditText,activity);
         addToFavouritesDialog = buildDialog(
                 activity,
                 dialogView,
@@ -786,6 +745,13 @@ public class DialogInitializer  {
                 activity.getString(R.string.add_location_dialog_negative_button),
                 null
         );
+        addToFavouritesDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                UsefulFunctions.customizeEditText(activity,addToFavouritesDialog,headerEditText);
+                UsefulFunctions.customizeEditText(activity,addToFavouritesDialog,subheaderEditText);
+            }
+        });
         addToFavouritesDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
@@ -801,12 +767,10 @@ public class DialogInitializer  {
         dialogView.setFocusableInTouchMode(true);
         dialogView.setClickable(true);
         String [] location=UsefulFunctions.getAppBarStrings(activity);
-        EditText headerEditText=(EditText)dialogView.findViewById(R.id.edit_location_dialog_header_edittext);
+        final EditText headerEditText=(EditText)dialogView.findViewById(R.id.edit_location_dialog_header_edittext);
         headerEditText.setText(location[0]);
-        UsefulFunctions.customizeEditText(headerEditText,activity);
-        EditText subheaderEditText=(EditText)dialogView.findViewById(R.id.edit_location_dialog_subheader_edittext);
+        final EditText subheaderEditText=(EditText)dialogView.findViewById(R.id.edit_location_dialog_subheader_edittext);
         subheaderEditText.setText(location[1]);
-        UsefulFunctions.customizeEditText(subheaderEditText,activity);
         CheckBox checkBox=(CheckBox)dialogView.findViewById(R.id.edit_location_dialog_checkbox);
         checkBox.setChecked(FavouritesEditor.isFirstLocationEqual(activity));
         editFavouritesDialog = buildDialog(
@@ -824,9 +788,17 @@ public class DialogInitializer  {
                 activity.getString(R.string.edit_location_dialog_negative_button),
                 null
         );
+        editFavouritesDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                UsefulFunctions.customizeEditText(activity,editFavouritesDialog,headerEditText);
+                UsefulFunctions.customizeEditText(activity,editFavouritesDialog,subheaderEditText);
+            }
+        });
         editFavouritesDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
+                Log.d("dismiss", "onDismiss: ");
                 UsefulFunctions.hideKeyboard(activity,null);
             }
         });
@@ -861,29 +833,21 @@ public class DialogInitializer  {
             customHeaderString=UsefulFunctions.getFormattedString(customHeaderString);
             String customSubheaderString=subheaderEditText.getText().toString();
             customSubheaderString=UsefulFunctions.getFormattedString(customSubheaderString);
-            if(customHeaderString.equals("")) {
-                UsefulFunctions.hideKeyboard(activity,headerEditText);
-                emptyLocationNameDialog=initializeEmptyLocationNameDialog(3);
-                emptyLocationNameDialog.show();
+            FavouritesEditor.editFavouriteLocationName(activity,customHeaderString,customSubheaderString);
+            UsefulFunctions.setAppBarStrings(activity,customHeaderString,customSubheaderString);
+            CheckBox checkBox=(CheckBox)dialogView.findViewById(R.id.edit_location_dialog_checkbox);
+            if(checkBox.isChecked()){
+                Log.d("checkbox", "checked");
+                String currentLocationHeaderString=UsefulFunctions.getCurrentLocationAddress()[0];
+                String currentLocationSubheaderString=UsefulFunctions.getCurrentLocationAddress()[1];
+                String currentLocationAddress=currentLocationHeaderString+", "+currentLocationSubheaderString;
+                SharedPreferencesModifier.setLocation(activity,currentLocationAddress);
             }
             else{
-                FavouritesEditor.editFavouriteLocationName(activity,customHeaderString,customSubheaderString);
-                UsefulFunctions.setAppBarStrings(activity,customHeaderString,customSubheaderString);
-                CheckBox checkBox=(CheckBox)dialogView.findViewById(R.id.edit_location_dialog_checkbox);
-                if(checkBox.isChecked()){
-                    Log.d("checkbox", "checked");
-                    String currentLocationHeaderString=UsefulFunctions.getCurrentLocationAddress()[0];
-                    String currentLocationSubheaderString=UsefulFunctions.getCurrentLocationAddress()[1];
-                    String currentLocationAddress=currentLocationHeaderString+", "+currentLocationSubheaderString;
-                    SharedPreferencesModifier.setLocation(activity,currentLocationAddress);
+                //String firstLocation=SharedPreferencesModifier.getFirstLocation(activity);
+                if(FavouritesEditor.isFirstLocationEqual(activity)) {
+                    SharedPreferencesModifier.setGeolocalization(activity);
                 }
-                else{
-                    //String firstLocation=SharedPreferencesModifier.getFirstLocation(activity);
-                    if(FavouritesEditor.isFirstLocationEqual(activity)) {
-                        SharedPreferencesModifier.setGeolocalization(activity);
-                    }
-                }
-
             }
         }
     }

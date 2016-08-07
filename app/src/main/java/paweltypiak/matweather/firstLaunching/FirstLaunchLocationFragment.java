@@ -67,7 +67,7 @@ public class FirstLaunchLocationFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Log.d("location", "different on click");
-                differentLocationDialog=dialogInitializer.initializeDifferentLocationDialog(radioButton);
+                differentLocationDialog=dialogInitializer.initializeSearchDialog(radioButton);
                 differentLocationDialog.show();
                 UsefulFunctions.showKeyboard(getActivity());
             }
@@ -85,7 +85,7 @@ public class FirstLaunchLocationFragment extends Fragment {
     }
 
     public void showEmptyLocationNameDialog(){
-        if(emptyLocationNameDialog==null) emptyLocationNameDialog=dialogInitializer.initializeEmptyLocationNameDialog(1);
+        if(emptyLocationNameDialog==null) emptyLocationNameDialog=dialogInitializer.initializeNoDifferentLocationChoosenDialog();
         emptyLocationNameDialog.show();
     }
 }

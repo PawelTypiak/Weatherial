@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -166,23 +167,34 @@ public class UsefulFunctions {
         return string;
     }
 
-    public static void customizeEditText(final EditText editText, final Activity activity){
+    public static void customizeEditText(final Activity activity,final AlertDialog dialog, final EditText editText){
         final String hint=editText.getHint().toString();
-        if(editText.getText().length()!=0) editText.setHint("");
+        if(editText.getText().length()!=0) {
+            editText.getBackground().setColorFilter(activity.getResources().getColor(R.color.transparent), PorterDuff.Mode.SRC_ATOP);
+            editText.setHint("");
+        }
+        else setDialogButtonDisabled(dialog,activity);
         editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             String previusEditTextString;
             @Override
             public void onFocusChange(View view, boolean b) {
                 Log.d("onfocus", "onFocusChange: ");
                 if(editText.isFocused()) {
+                    editText.getBackground().setColorFilter(activity.getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
                     previusEditTextString=editText.getText().toString();
                     showKeyboard(activity);
                 }
                 else {
                     String editTextString=editText.getText().toString();
                     editTextString=getFormattedString(editTextString);
-                    if(editTextString.length()==0) editText.setText(previusEditTextString);
-                    else editText.setText(editTextString);
+                    if(editTextString.length()==0) {
+                        editText.getBackground().setColorFilter(activity.getResources().getColor(R.color.hintLightBackgroud), PorterDuff.Mode.SRC_ATOP);
+                        //editText.setText(previusEditTextString);
+                    }
+                    else{
+                        editText.getBackground().setColorFilter(activity.getResources().getColor(R.color.transparent), PorterDuff.Mode.SRC_ATOP);
+                        editText.setText(editTextString);
+                    }
                     hideKeyboard(activity,editText);
                 }
             }
@@ -190,16 +202,24 @@ public class UsefulFunctions {
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                Log.d("textchange", "beforeTextChanged: ");
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(editText.getText().length()==0) editText.setHint(hint);
-                else editText.setHint("");
+                if(editText.getText().length()==0) {
+                    editText.setHint(hint);
+                    setDialogButtonDisabled(dialog,activity);
+                }
+                else {
+                    editText.setHint("");
+                    setDialogButtonEnabled(dialog,activity);
+                }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
+                Log.d("textchange", "aftertextchange: ");
             }
         });
         editText.setOnKeyListener(new View.OnKeyListener() {
@@ -366,7 +386,7 @@ public class UsefulFunctions {
 
     public static void setDialogButtonDisabled(AlertDialog alertDialog, Activity activity){
         alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
-        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(activity.getResources().getColor(R.color.textDisabledLightBackground));
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(activity.getResources().getColor(R.color.colorPrimary));
     }
 
     public static void setDialogButtonEnabled(AlertDialog alertDialog, Activity activity){

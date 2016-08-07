@@ -11,6 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/search_edit_text"
+        android:textColorHint="@color/textDisabledLightBackground"
         android:layout_gravity="center"
         android:inputType="text"
         android:hint="@string/search_dialog_edit_text_hint"/>

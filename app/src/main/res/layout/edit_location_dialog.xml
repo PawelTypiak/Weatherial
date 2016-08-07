@@ -18,8 +18,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:singleLine="true"
-            android:textSize="@dimen/dialog_text_size"
-            android:theme="@style/MyEditTextTheme"
             android:textStyle="bold"
             android:hint="@string/edit_location_dialog_header_edit_text_hint"
             android:textColorHint="@color/textDisabledLightBackground"
@@ -34,9 +32,8 @@
             android:paddingTop="0dp"
             android:layout_marginTop="-5dp"
             android:hint="@string/edit_location_dialog_subheader_edit_text_hint"
-            android:theme="@style/MyEditTextTheme"
             android:textColorHint="@color/textDisabledLightBackground"
-            android:textSize="@dimen/dialog_text_size"
+
             android:textColor="@color/textSecondaryLightBackground"
             android:id="@+id/edit_location_dialog_subheader_edittext"
             />
