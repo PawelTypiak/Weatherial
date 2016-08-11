@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void loadFirstLocation(){
-        setter = new WeatherDataSetter(this,getter,true); //data formatting and weather layout setting
+        setter = new WeatherDataSetter(this,getter,true);
         UsefulFunctions.setViewVisible(mainLayout);
         UsefulFunctions.setIsFirstWeatherDownloading(false);
     }

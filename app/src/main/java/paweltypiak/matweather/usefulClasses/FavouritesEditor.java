@@ -10,14 +10,9 @@ import java.util.StringTokenizer;
 
 public class FavouritesEditor {
     private static int choosenLocationId;
-    private static Activity activity;
     private static String[] favouritesHeaderNames;
     private static String[] favouritesSubheaderNames;
 
-    public FavouritesEditor(Activity activity){
-        this.activity=activity;
-        getFavouriteLocationsNamesList();
-    }
 
     public static void setChoosenLocationID(int id){
         choosenLocationId=id;
@@ -27,7 +22,7 @@ public class FavouritesEditor {
         return choosenLocationId;
     }
 
-    public static String getChoosenFavouriteLocationAddress(){
+    public static String getChoosenFavouriteLocationAddress(Activity activity){
         String[] addresses=SharedPreferencesModifier.getFavouriteLocationsAddresses(activity);
         Log.d("adres", addresses[choosenLocationId]);
         return addresses[choosenLocationId];
@@ -39,11 +34,13 @@ public class FavouritesEditor {
         return name;
     }
 
-    public static void setAppBarForChoosenFavouriteLocation(){
-        UsefulFunctions.setAppBarStrings(activity,favouritesHeaderNames[choosenLocationId],favouritesSubheaderNames[choosenLocationId]);
+    public static void setAppBarForFavouriteLocation(Activity activity, int currentId){
+        Log.d("id", "setAppBarForFavouriteLocation: "+currentId);
+
+        UsefulFunctions.setAppBarStrings(activity,favouritesHeaderNames[currentId],favouritesSubheaderNames[currentId]);
     }
 
-    private static void getFavouriteLocationsNamesList(){
+    private static void getFavouriteLocationsNamesList(Activity activity){
         String[] favourites=SharedPreferencesModifier.getFavouriteLocationsNames(activity);
         int favouritesSize=favourites.length;
         favouritesHeaderNames=new String[favouritesSize];
@@ -62,7 +59,8 @@ public class FavouritesEditor {
         }
     }
 
-    public static List<String> getFavouriteLocationsNamesDialogList(){
+    public static List<String> getFavouriteLocationsNamesDialogList(Activity activity){
+        getFavouriteLocationsNamesList(activity);
         int size=favouritesHeaderNames.length;
         String locationNames[]=new String[size];
         for(int i=0;i<size;i++){
@@ -82,23 +80,29 @@ public class FavouritesEditor {
         SharedPreferencesModifier.setFavouriteLocationNames(activity,favouritesNamesString);
     }
 
-    public static void saveNewFavouriteLocationAddress(Activity activity){
-        String currentLocationHeaderString=UsefulFunctions.getCurrentLocationAddress()[0];
-        String currentLocationSubheaderString=UsefulFunctions.getCurrentLocationAddress()[1];
-        String currentLocationNameString=currentLocationHeaderString+", "+currentLocationSubheaderString;
+    public static void saveNewFavouriteLocationAddress(Activity activity,String currentLocationAddressString){
+        if(currentLocationAddressString==null){
+            String currentLocationHeaderString=UsefulFunctions.getCurrentLocationAddress()[0];
+            String currentLocationSubheaderString=UsefulFunctions.getCurrentLocationAddress()[1];
+            currentLocationAddressString=currentLocationHeaderString+", "+currentLocationSubheaderString;
+        }
+
         String favourites[]= SharedPreferencesModifier.getFavouriteLocationsAddresses(activity);
         StringBuilder stringBuilder=UsefulFunctions.buildStringFromStringArray(favourites);
-        stringBuilder.append(currentLocationNameString).append("|");
+        stringBuilder.append(currentLocationAddressString).append("|");
         String favouritesAddressesString=stringBuilder.toString();
         Log.d("string_Address_save", ""+favouritesAddressesString);
         SharedPreferencesModifier.setFavouriteLocationAddresses(activity,favouritesAddressesString);
 
     }
 
-    public static void saveNewFavouriteLocationCoordinates(Activity activity){
-        String currentLocationLatitude=UsefulFunctions.getCurrentLocationCoordinates()[0];
-        String currentLocationLongitude=UsefulFunctions.getCurrentLocationCoordinates()[1];
-        String currentLocationCoordinatesString=currentLocationLatitude+"%"+currentLocationLongitude;
+    public static void saveNewFavouriteLocationCoordinates(Activity activity,String currentLocationCoordinatesString){
+        if(currentLocationCoordinatesString==null){
+            String currentLocationLatitude=UsefulFunctions.getCurrentLocationCoordinates()[0];
+            String currentLocationLongitude=UsefulFunctions.getCurrentLocationCoordinates()[1];
+            currentLocationCoordinatesString=currentLocationLatitude+"%"+currentLocationLongitude;
+        }
+
         String favourites[]= SharedPreferencesModifier.getFavouriteLocationsCoordinates(activity);
         StringBuilder stringBuilder=UsefulFunctions.buildStringFromStringArray(favourites);
         stringBuilder.append(currentLocationCoordinatesString).append("|");
@@ -109,8 +113,14 @@ public class FavouritesEditor {
 
     public static void saveNewFavouritesItem(Activity activity,String headerString, String subheaderString){
         FavouritesEditor.saveNewFavouriteLocationName(activity,headerString,subheaderString);
-        FavouritesEditor.saveNewFavouriteLocationAddress(activity);
-        FavouritesEditor.saveNewFavouriteLocationCoordinates(activity);
+        FavouritesEditor.saveNewFavouriteLocationAddress(activity,null);
+        FavouritesEditor.saveNewFavouriteLocationCoordinates(activity,null);
+    }
+
+    public static void saveFirstLaunchNewFavouritesItem(Activity activity,String headerString, String subheaderString, String currentLocationNameString,String currentLocationCoordinatesString){
+        FavouritesEditor.saveNewFavouriteLocationName(activity,headerString,subheaderString);
+        FavouritesEditor.saveNewFavouriteLocationAddress(activity,currentLocationNameString);
+        FavouritesEditor.saveNewFavouriteLocationCoordinates(activity,currentLocationCoordinatesString);
     }
 
     public static void editFavouriteLocationName(Activity activity,String headerString, String subheaderString){
@@ -164,6 +174,14 @@ public class FavouritesEditor {
         StringBuilder stringBuilder=UsefulFunctions.buildStringFromStringArray(favourites);
         String newFavouritesString=stringBuilder.toString();
         return  newFavouritesString;
+    }
+
+    public static void setLayoutForFavourites(Activity activity){
+        int id=getCurrentFavouriteLocationId(activity);
+        getFavouriteLocationsNamesList(activity);
+        setAppBarForFavouriteLocation(activity,id);
+        UsefulFunctions.setfloatingActionButtonOnClickIndicator(activity,2);
+        UsefulFunctions.checkNavigationDrawerMenuItem(activity,2);
     }
 
     private static int getCurrentFavouriteLocationId(Activity activity){

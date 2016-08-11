@@ -142,8 +142,6 @@ public class DialogInitializer  {
         }
 
         public void run() {
-            UsefulFunctions.uncheckAllNavigationDrawerMenuItems(activity);
-            UsefulFunctions.setfloatingActionButtonOnClickIndicator(activity,1);
             dataSetter = new WeatherDataSetter(activity, dataInitializer,true);
         }
     }
@@ -712,12 +710,9 @@ public class DialogInitializer  {
                 String currentLocationHeaderString=UsefulFunctions.getCurrentLocationAddress()[0];
                 String currentLocationSubheaderString=UsefulFunctions.getCurrentLocationAddress()[1];
                 String currentLocationName=currentLocationHeaderString+", "+currentLocationSubheaderString;
-                SharedPreferencesModifier.setConstantLocation(activity,currentLocationName);
+                SharedPreferencesModifier.setFirstLocationConstant(activity,currentLocationName);
             }
-            UsefulFunctions.setAppBarStrings(activity,customHeaderString,customSubheaderString);
-            UsefulFunctions.checkNavigationDrawerMenuItem(activity,2);
-            UsefulFunctions.setfloatingActionButtonOnClickIndicator(activity,2);
-
+            FavouritesEditor.setLayoutForFavourites(activity);
         }
     }
 
@@ -815,7 +810,7 @@ public class DialogInitializer  {
             String currentLocationSubheaderString=UsefulFunctions.getCurrentLocationAddress()[1];
             UsefulFunctions.setAppBarStrings(activity,currentLocationHeaderString,currentLocationSubheaderString);
             if(FavouritesEditor.isFirstLocationEqual(activity)) {
-                SharedPreferencesModifier.setGeolocalization(activity);
+                SharedPreferencesModifier.setFirstLocationGeolocalization(activity);
             }
         }
     };
@@ -842,12 +837,12 @@ public class DialogInitializer  {
                 String currentLocationHeaderString=UsefulFunctions.getCurrentLocationAddress()[0];
                 String currentLocationSubheaderString=UsefulFunctions.getCurrentLocationAddress()[1];
                 String currentLocationAddress=currentLocationHeaderString+", "+currentLocationSubheaderString;
-                SharedPreferencesModifier.setConstantLocation(activity,currentLocationAddress);
+                SharedPreferencesModifier.setFirstLocationConstant(activity,currentLocationAddress);
             }
             else{
                 //String firstLocation=SharedPreferencesModifier.getFirstLocation(activity);
                 if(FavouritesEditor.isFirstLocationEqual(activity)) {
-                    SharedPreferencesModifier.setGeolocalization(activity);
+                    SharedPreferencesModifier.setFirstLocationGeolocalization(activity);
                 }
             }
         }
@@ -1103,8 +1098,7 @@ public class DialogInitializer  {
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.radiogroup_dialog,null);
         final RadioGroup radioGroup = (RadioGroup) dialogView.findViewById(R.id.radiogroup_dialog_radiogroup);
-        final FavouritesEditor favouritesMaker=new FavouritesEditor(activity);
-        final List<String> favouritesList = favouritesMaker.getFavouriteLocationsNamesDialogList();
+        final List<String> favouritesList = FavouritesEditor.getFavouriteLocationsNamesDialogList(activity);
         String locationName;
         int size=favouritesList.size();
         for(int i=0;i<size;i++){
@@ -1124,8 +1118,8 @@ public class DialogInitializer  {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 UsefulFunctions.setDialogButtonEnabled(favouritesDialog,activity);
-                if(type==1)  favouritesMaker.setChoosenLocationID(i-1);
-                else favouritesMaker.setChoosenLocationID(i);
+                if(type==1)  FavouritesEditor.setChoosenLocationID(i-1);
+                else FavouritesEditor.setChoosenLocationID(i);
             }
         });
         if(positiveButtonRunnable==null) positiveButtonRunnable=new favouritesDialogRunnable();
@@ -1153,12 +1147,7 @@ public class DialogInitializer  {
                 UsefulFunctions.setDialogButtonDisabled(favouritesDialog,activity);
             }
         });
-        favouritesDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialogInterface) {
-                UsefulFunctions.uncheckNavigationDrawerMenuItem(activity,2);
-            }
-        });
+
 
         return favouritesDialog;
     }
@@ -1168,7 +1157,7 @@ public class DialogInitializer  {
         public favouritesDialogRunnable() {}
 
         public void run() {
-            String address= FavouritesEditor.getChoosenFavouriteLocationAddress();
+            String address= FavouritesEditor.getChoosenFavouriteLocationAddress(activity);
             Log.d("choosen adress", address);
             new WeatherDataDownloader(address,this);
             searchProgressDialog.show();
@@ -1177,10 +1166,7 @@ public class DialogInitializer  {
         @Override
         public void ServiceSuccess(Channel channel) {
             dataInitializer=new WeatherDataInitializer(activity,channel);
-            new WeatherDataSetter(activity,dataInitializer,false);
-            FavouritesEditor.setAppBarForChoosenFavouriteLocation();
-            UsefulFunctions.checkNavigationDrawerMenuItem(activity,2);
-            UsefulFunctions.setfloatingActionButtonOnClickIndicator(activity,2);
+            new WeatherDataSetter(activity,dataInitializer,true);
             searchProgressDialog.dismiss();
         }
 

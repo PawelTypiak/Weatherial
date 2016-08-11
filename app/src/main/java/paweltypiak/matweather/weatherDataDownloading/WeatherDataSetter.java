@@ -17,8 +17,10 @@ import java.util.Date;
 import static paweltypiak.matweather.usefulClasses.DialogInitializer.initializeMapsDialog;
 import static paweltypiak.matweather.usefulClasses.DialogInitializer.initializeYahooWeatherRedirectDialog;
 import static paweltypiak.matweather.usefulClasses.UsefulFunctions.initializeUiThread;
+import static paweltypiak.matweather.usefulClasses.UsefulFunctions.setfloatingActionButtonOnClickIndicator;
 
 import paweltypiak.matweather.R;
+import paweltypiak.matweather.usefulClasses.FavouritesEditor;
 import paweltypiak.matweather.usefulClasses.SharedPreferencesModifier;
 import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
@@ -233,15 +235,16 @@ public class WeatherDataSetter {
 
     private void setAppBarLayout(){
         getAppBarResources();
-        /*primaryLocationTextView.setText(city);
-        secondaryLocationTextView.setText(region+", "+country);
-        timezoneTextView.setText(timezone);
-        int visibility = primaryLocationTextView.getVisibility();
-        primaryLocationTextView.setVisibility(View.GONE);
-        primaryLocationTextView.setVisibility(visibility);
-        secondaryLocationTextView.setVisibility(View.GONE);
-        secondaryLocationTextView.setVisibility(visibility);*/
-        UsefulFunctions.setAppBarStrings(activity,city,region+", "+country);
+        if(FavouritesEditor.areCoordinatesEqual(activity)){
+            FavouritesEditor.setLayoutForFavourites(activity);
+        }
+        else{
+            UsefulFunctions.setAppBarStrings(activity,city,region+", "+country);
+            setfloatingActionButtonOnClickIndicator(activity,1);
+            if(!SharedPreferencesModifier.isFirstLocationConstant(activity)) UsefulFunctions.checkNavigationDrawerMenuItem(activity,1);
+            else UsefulFunctions.uncheckAllNavigationDrawerMenuItems(activity);
+        }
+
         UsefulFunctions.setViewGone(timezoneTextView);
         timezoneTextView.setText(timezone);
         UsefulFunctions.setViewVisible(timezoneTextView);

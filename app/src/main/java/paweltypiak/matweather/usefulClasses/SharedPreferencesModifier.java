@@ -72,11 +72,17 @@ public class SharedPreferencesModifier {
         return firstLocation;
     }
 
-    public static void setConstantLocation(Activity activity, String locationName){
+    public static boolean isFirstLocationConstant(Activity activity){
+        String firstLocation=getFirstLocation(activity);
+        if(firstLocation.equals("")) return false;
+        else return true;
+    }
+
+    public static void setFirstLocationConstant(Activity activity, String locationName){
         getSharedPreferences(activity).edit().putString(activity.getString(R.string.shared_preferences_first_location_key), locationName).commit();
     }
 
-    public static void setGeolocalization(Activity activity){
+    public static void setFirstLocationGeolocalization(Activity activity){
         Log.d("geo setted", "setted");
         getSharedPreferences(activity).edit().putString(activity.getString(R.string.shared_preferences_first_location_key), "").commit();
     }

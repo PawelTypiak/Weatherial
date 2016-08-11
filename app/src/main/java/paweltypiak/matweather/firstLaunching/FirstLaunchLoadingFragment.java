@@ -17,6 +17,7 @@ import android.widget.TextView;
 import paweltypiak.matweather.usefulClasses.DialogInitializer;
 import paweltypiak.matweather.MainActivity;
 import paweltypiak.matweather.R;
+import paweltypiak.matweather.usefulClasses.FavouritesEditor;
 import paweltypiak.matweather.usefulClasses.SharedPreferencesModifier;
 import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 import paweltypiak.matweather.localizationDataDownloading.GeocodingCallback;
@@ -292,7 +293,7 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
                 if(choosenLocationOption==1){
                     Log.d("end", ""+choosenLocationOption);
                     SharedPreferencesModifier.setLocalizationOption(getActivity(),choosenLocalizationOption);
-                    SharedPreferencesModifier.setGeolocalization(getActivity());
+                    SharedPreferencesModifier.setFirstLocationGeolocalization(getActivity());
                 }
                 else{
                     Log.d("end", ""+choosenLocationOption);
@@ -301,8 +302,9 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
                     String region=dataInitializer.getRegion();
                     String country=dataInitializer.getCountry();
                     String locationName=city+", "+region+", "+country;
-                    SharedPreferencesModifier.setConstantLocation(getActivity(),locationName);
-                    //UsefulFunctions.setViewVisible(messageTextView);
+                    SharedPreferencesModifier.setFirstLocationConstant(getActivity(),locationName);
+                    saveNewFavouritesItem();
+
                 }
                 SharedPreferencesModifier.setNextLaunch(getActivity());
             }
@@ -313,5 +315,19 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
             return;
         }
     };
+
+    private void saveNewFavouritesItem(){
+        String currentLocationCity=dataInitializer.getCity();
+        String currentLocationRegion=dataInitializer.getRegion();
+        String currentLocationCountry=dataInitializer.getCountry();
+        String currentLocationAddress=currentLocationCity+", "+currentLocationRegion+", "+currentLocationCountry;
+        String header=currentLocationCity;
+        String subheader=currentLocationRegion+", "+currentLocationCountry;
+        String currentLocationLatitude= Double.toString(dataInitializer.getLatitude());
+        String currentLocationLongitude=Double.toString(dataInitializer.getLongitude());
+        String currentLocationCoordinates=currentLocationLatitude+"%"+currentLocationLongitude;
+        FavouritesEditor.saveFirstLaunchNewFavouritesItem(getActivity(),header,subheader,currentLocationAddress,currentLocationCoordinates);
+    }
+
     public interface ChooseLocationAgainListener {void showLocationFragment();}
 }

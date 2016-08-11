@@ -176,7 +176,7 @@ public class LocalizationDownloader implements  ActivityCompat.OnRequestPermissi
 
     private void showDialog(AlertDialog alertDialog){
         alertDialog.show();
-        UsefulFunctions.setViewInvisible(messageTextView);
-        UsefulFunctions.setViewInvisible(loadingBar);
+        if(messageTextView!=null) UsefulFunctions.setViewInvisible(messageTextView);
+        if(loadingBar!=null) UsefulFunctions.setViewInvisible(loadingBar);
     }
 }
