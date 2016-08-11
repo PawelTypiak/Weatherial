@@ -80,8 +80,11 @@ public class GeocodingDownloader {
                     } else {
                         Log.d("location", "sukcess ");
                         geocodingCallback.geocodeSuccess(location);
+
                     }
-                }catch (Exception exception){}
+                }catch (Exception exception){
+                    exception.printStackTrace();
+                }
             }
         }.execute(location);
     }

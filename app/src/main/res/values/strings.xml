@@ -131,11 +131,9 @@
     <string name="duplicate_dialog_message">Lokacja o tych samych współrzędnych już znajduje się w ulubionych.</string>
     <string name="duplicate_dialog_positive_button">Ok</string>
     <string name="favourites_dialog_title">Ulubione</string>
-    <string name="favourites_dialog_change_first_location_title">Lokacja domyślna</string>
-    <string name="favourites_dialog_change_location_title">Wybierz lokację</string>
-    <string name="favourites_dialog_header">Wybierz lokację:</string>
+    <string name="favourites_dialog_first_launch_title">Wybierz lokację</string>
     <string name="favourites_dialog_positive_button">Wybierz</string>
-    <string name="favourites_dialog_neutral_button">Edytuj</string>
+    <string name="favourites_dialog_neutral_button">Inna lokacja</string>
     <string name="favourites_dialog_first_launch_negative_button">Wyjdź</string>
     <string name="favourites_dialog_negative_button">Anuluj</string>
     <string name="favourites_dialog_geolocalization_option">Aktualna lokalizacja</string>

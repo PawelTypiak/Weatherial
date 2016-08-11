@@ -364,7 +364,7 @@ public class MainActivity extends AppCompatActivity
         else if(id==R.id.nav_button_favourites){
             if(SharedPreferencesModifier.getFavouriteLocationsAddresses(MainActivity.this).length==0) emptyLocationListDialog.show();
             else{
-                favouritesDialog=dialogInitializer.initializeFavouritesDialog(2,getString(R.string.favourites_dialog_title),null,null);
+                favouritesDialog=dialogInitializer.initializeFavouritesDialog(2,null,null);
                 favouritesDialog.show();
             }
         }

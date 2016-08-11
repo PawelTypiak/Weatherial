@@ -703,7 +703,7 @@ public class DialogInitializer  {
             EditText subheaderEditText=(EditText)dialogView.findViewById(R.id.edit_location_dialog_subheader_edittext);
             String customHeaderString=headerEditText.getText().toString();
             String customSubheaderString=subheaderEditText.getText().toString();
-            FavouritesEditor.saveNewFavouritesItem(activity,customHeaderString,customSubheaderString);
+            FavouritesEditor.saveNewFavouritesItem(activity,customHeaderString,customSubheaderString,null,null);
             CheckBox checkBox=(CheckBox)dialogView.findViewById(R.id.edit_location_dialog_checkbox);
             if(checkBox.isChecked()){
                 Log.d("checkbox", "checked");
@@ -1094,38 +1094,56 @@ public class DialogInitializer  {
         return aboutDialog;
     }
 
-    public static AlertDialog initializeFavouritesDialog(final int type, String title, Runnable positiveButtonRunnable, Runnable negativeButtonRunnable){
+    public static AlertDialog initializeFavouritesDialog(final int type, Runnable positiveButtonRunnable, Runnable negativeButtonRunnable){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.radiogroup_dialog,null);
         final RadioGroup radioGroup = (RadioGroup) dialogView.findViewById(R.id.radiogroup_dialog_radiogroup);
         final List<String> favouritesList = FavouritesEditor.getFavouriteLocationsNamesDialogList(activity);
-        String locationName;
+        String locationName=null;
         int size=favouritesList.size();
+        if(type==1) {
+            size=++size;
+        }
         for(int i=0;i<size;i++){
             RadioButton radioButton=new RadioButton(activity); // dynamically creating RadioButton and adding to RadioGroup.
-            if(type==1 && i==0) locationName=activity.getString(R.string.favourites_dialog_geolocalization_option);
-            else locationName=favouritesList.get(i);
+            if(i!=size-1){
+                UsefulFunctions.setRadiogroupMargins(radioButton,activity,0,0,0,16);
+                if(type==1) locationName=favouritesList.get(i);
+            }
+            else{
+                if(type==1) locationName=activity.getString(R.string.favourites_dialog_geolocalization_option);
+            }
+            if(type==2) locationName=favouritesList.get(i);
+            radioButton.setId(i);
             radioButton.setText(Html.fromHtml(locationName));
             radioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX,activity.getResources().getDimensionPixelSize(R.dimen.locations_list_text_size));
             radioButton.setSingleLine();
             radioButton.setEllipsize(TextUtils.TruncateAt.END);
             radioButton.setTextColor(activity.getResources().getColor(R.color.textSecondaryLightBackground));
-            radioButton.setId(i);
-            if(i!=size-1)UsefulFunctions.setRadiogroupMargins(radioButton,activity,0,0,0,16);
             radioGroup.addView(radioButton);
         }
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 UsefulFunctions.setDialogButtonEnabled(favouritesDialog,activity);
-                if(type==1)  FavouritesEditor.setChoosenLocationID(i-1);
-                else FavouritesEditor.setChoosenLocationID(i);
+                FavouritesEditor.setChoosenLocationID(i);
+                Log.d("wybrane id", ""+i);
             }
         });
-        if(positiveButtonRunnable==null) positiveButtonRunnable=new favouritesDialogRunnable();
+        String title;
         String negativeButtonString;
-        if(negativeButtonRunnable==null) negativeButtonString=activity.getString(R.string.favourites_dialog_negative_button);
-        else negativeButtonString=activity.getString(R.string.favourites_dialog_first_launch_negative_button);
+        boolean isUncancelable;
+        if(type==1) {
+            title=activity.getString(R.string.favourites_dialog_first_launch_title);
+            negativeButtonString=activity.getString(R.string.favourites_dialog_first_launch_negative_button);
+            isUncancelable=true;
+        }
+        else{
+            positiveButtonRunnable=new favouritesDialogRunnable();
+            negativeButtonString=activity.getString(R.string.favourites_dialog_negative_button);
+            title=activity.getString(R.string.favourites_dialog_title);
+            isUncancelable=false;
+        }
         //initializing dialog
         favouritesDialog = buildDialog(
                 activity,
@@ -1134,7 +1152,7 @@ public class DialogInitializer  {
                 title,
                 R.drawable.favourites_full_icon,
                 null,
-                false,
+                isUncancelable,
                 activity.getString(R.string.favourites_dialog_positive_button),
                 positiveButtonRunnable,
                 null,

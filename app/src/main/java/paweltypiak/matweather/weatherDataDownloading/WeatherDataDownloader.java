@@ -51,7 +51,7 @@ public class WeatherDataDownloader {
             @Override
             protected  void onPostExecute(String s){
                 if(s==null && error!=null){
-                    Log.d("blad null", "net ");
+                    Log.d("blad", "net ");
                     callback.ServiceFailure(1);
                     return;
                 }
@@ -61,7 +61,7 @@ public class WeatherDataDownloader {
                     int count =queryResluts.optInt("count");
                     if (count == 0) {
                         callback.ServiceFailure(2);
-                        Log.d("service", "service ");
+                        Log.d("blad", "service ");
                         return;
                     }
                     Channel channel = new Channel();
