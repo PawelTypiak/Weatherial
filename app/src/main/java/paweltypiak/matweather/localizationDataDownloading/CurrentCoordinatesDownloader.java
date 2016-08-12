@@ -20,7 +20,7 @@ import paweltypiak.matweather.usefulClasses.DialogInitializer;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
-public class LocalizationDownloader implements  ActivityCompat.OnRequestPermissionsResultCallback{
+public class CurrentCoordinatesDownloader implements  ActivityCompat.OnRequestPermissionsResultCallback{
     private LocationManager locationManager;
     private Activity activity;
     private ProgressBar loadingBar;
@@ -32,22 +32,25 @@ public class LocalizationDownloader implements  ActivityCompat.OnRequestPermissi
     private AlertDialog localizationFailureDialog;
     private AlertDialog permissionDeniedDialog;
     private AlertDialog providerUnavailableDialog;
+    private AlertDialog progressDialog;
     private GeocodingCallback geocodingCallack;
     private boolean gpsEnabled=false;
     private boolean networkEnabled=false;
     int choosenLocalizationOption;
 
-    public LocalizationDownloader(Activity activity,
-                                  GeocodingCallback geocodingCallback,
-                                  AlertDialog localizationFailureDialog,
-                                  AlertDialog permissionDeniedDialog,
-                                  TextView messageTextView,
-                                  ProgressBar loadingBar,
-                                  int choosenLocalizationOption){
+    public CurrentCoordinatesDownloader(Activity activity,
+                                        GeocodingCallback geocodingCallback,
+                                        AlertDialog localizationFailureDialog,
+                                        AlertDialog permissionDeniedDialog,
+                                        AlertDialog progressDialog,
+                                        TextView messageTextView,
+                                        ProgressBar loadingBar,
+                                        int choosenLocalizationOption){
         this.activity=activity;
         this.geocodingCallack=geocodingCallback;
         this.localizationFailureDialog=localizationFailureDialog;
         this.permissionDeniedDialog=permissionDeniedDialog;
+        this.progressDialog=progressDialog;
         this.messageTextView=messageTextView;
         this.loadingBar=loadingBar;
         this.choosenLocalizationOption=choosenLocalizationOption;
@@ -72,7 +75,7 @@ public class LocalizationDownloader implements  ActivityCompat.OnRequestPermissi
                     getCurrentLocation();
                     Log.d("permissions", "granted");
                 } else {
-                    showDialog(permissionDeniedDialog);
+                    showErrorDialog(permissionDeniedDialog);
                     Log.d("permissions", "denied");
                 }
                 return;
@@ -81,17 +84,21 @@ public class LocalizationDownloader implements  ActivityCompat.OnRequestPermissi
     }
 
     private void getCurrentLocation(){
-        messageTextView.setText(activity.getString(R.string.first_launch_layout_loading_header_waiting_for_localization));
+        messageTextView.setText(activity.getString(R.string.waiting_for_localization_progress_message));
         if(locationManager==null) locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
         Criteria locationCriteria = new Criteria();
         locationCriteria.setAccuracy(Criteria.ACCURACY_MEDIUM);
+
         try{
             gpsEnabled=locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
             networkEnabled=locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
         }catch(Exception ex){
-            showDialog(localizationFailureDialog);
+            showErrorDialog(localizationFailureDialog);
         }
-        if(!gpsEnabled && !networkEnabled) showDialog(localizationFailureDialog);
+        if(!gpsEnabled && !networkEnabled) {
+            Log.d("brak dostarczyciela", "brak dostarczyciela");
+            showErrorDialog(localizationFailureDialog);
+        }
         else{
             if (choosenLocalizationOption==1) {
                 if(gpsEnabled){
@@ -99,7 +106,7 @@ public class LocalizationDownloader implements  ActivityCompat.OnRequestPermissi
                     try {
                         locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, locationListener, null);
                     }catch (SecurityException exception){
-                        showDialog(permissionDeniedDialog);
+                        showErrorDialog(permissionDeniedDialog);
                         Log.d("permissions", ""+exception);
                     }
                 }
@@ -116,7 +123,7 @@ public class LocalizationDownloader implements  ActivityCompat.OnRequestPermissi
                     try {
                         locationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, locationListener, null);
                     }catch (SecurityException exception){
-                        showDialog(permissionDeniedDialog);
+                        showErrorDialog(permissionDeniedDialog);
                         Log.d("permissions", ""+exception);
                     }
                 } else{
@@ -131,7 +138,7 @@ public class LocalizationDownloader implements  ActivityCompat.OnRequestPermissi
 
     private LocationListener locationListener = new LocationListener() {
         public void onLocationChanged(Location location) {
-            LocalizationDownloader.this.location=location;
+            CurrentCoordinatesDownloader.this.location=location;
             Log.d("longitude", ""+location.getLatitude());
             Log.d("latitude", ""+location.getLatitude());
             geocodingDownloader=new GeocodingDownloader(location,geocodingCallack,messageTextView,activity);
@@ -158,7 +165,7 @@ public class LocalizationDownloader implements  ActivityCompat.OnRequestPermissi
             locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER,locationListener,null);
 
             }catch (SecurityException exception){
-                showDialog(permissionDeniedDialog);
+                showErrorDialog(permissionDeniedDialog);
             }
         }
     };
@@ -169,14 +176,19 @@ public class LocalizationDownloader implements  ActivityCompat.OnRequestPermissi
                 locationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER,locationListener,null);
 
             }catch (SecurityException exception){
-                showDialog(permissionDeniedDialog);
+                showErrorDialog(permissionDeniedDialog);
             }
         }
     };
 
-    private void showDialog(AlertDialog alertDialog){
+    private void showErrorDialog(AlertDialog alertDialog){
         alertDialog.show();
-        if(messageTextView!=null) UsefulFunctions.setViewInvisible(messageTextView);
-        if(loadingBar!=null) UsefulFunctions.setViewInvisible(loadingBar);
+        if(progressDialog!=null) progressDialog.dismiss();
+        else{
+            if(loadingBar!=null) {
+                UsefulFunctions.setViewInvisible(loadingBar);
+                UsefulFunctions.setViewInvisible(messageTextView);
+            }
+        }
     }
 }

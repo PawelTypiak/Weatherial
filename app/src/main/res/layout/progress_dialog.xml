@@ -27,7 +27,7 @@
             android:layout_gravity="center"
             android:textColor="@color/textSecondaryLightBackground"
             android:textSize="@dimen/dialog_text_size"
-            android:id="@+id/progress_dialog_message"
+            android:id="@+id/progress_dialog_message_text"
             />
     </LinearLayout>
 </LinearLayout>

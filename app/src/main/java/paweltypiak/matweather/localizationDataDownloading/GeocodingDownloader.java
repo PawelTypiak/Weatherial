@@ -26,7 +26,7 @@ public class GeocodingDownloader {
     private TextView textView;
     public GeocodingDownloader(Location location, GeocodingCallback geocodingCallback, TextView textView, Activity activity) {
         this.geocodingCallback = geocodingCallback;
-        textView.setText(activity.getString(R.string.first_launch_layout_loading_header_geocoding));
+        textView.setText(activity.getString(R.string.looking_for_address_progress_message));
 
         refreshLocation(location);
     }
@@ -76,10 +76,10 @@ public class GeocodingDownloader {
                 try{
                     if (location == null && error != null) {
                         Log.d("location", "nie wyszlo ");
-                        geocodingCallback.geocodeFailure(getErrorCode(error));
+                        geocodingCallback.geocodingServiceFailure(getErrorCode(error));
                     } else {
                         Log.d("location", "sukcess ");
-                        geocodingCallback.geocodeSuccess(location);
+                        geocodingCallback.geocodingServiceSuccess(location);
 
                     }
                 }catch (Exception exception){

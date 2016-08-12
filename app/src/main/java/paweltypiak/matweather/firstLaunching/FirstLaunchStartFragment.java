@@ -13,9 +13,6 @@ import com.squareup.picasso.Picasso;
 
 import paweltypiak.matweather.R;
 
-/**
- * Created by Pawcioch on 22.07.2016.
- */
 public class FirstLaunchStartFragment extends Fragment{
 
     @Override

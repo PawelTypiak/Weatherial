@@ -42,7 +42,7 @@ public class DialogInitializer  {
     private static AlertDialog authorDialog;
     private static AlertDialog noEmailApplicationDialog;
     private static AlertDialog searchDialog;
-    private static AlertDialog searchProgressDialog;
+    private static AlertDialog progressDialog;
     private static AlertDialog noLocalizationResultsDialog;
     private static AlertDialog localizationResultsDialog;
     private static AlertDialog noDifferentLocationChoosenDialog;
@@ -142,7 +142,7 @@ public class DialogInitializer  {
         }
 
         public void run() {
-            dataSetter = new WeatherDataSetter(activity, dataInitializer,true);
+            dataSetter = new WeatherDataSetter(activity, dataInitializer,true,false);
         }
     }
 
@@ -175,15 +175,15 @@ public class DialogInitializer  {
 
 
     private static void initializeSearchRunnableDialogs(){
-        searchProgressDialog=initializeSearchProgressDialog();
+        progressDialog = initializeProgressDialog(activity.getString(R.string.searching_location_progress_message));
         noLocalizationResultsDialog= initializeNoLocationResultsDialog(2,showSearchDialogRunnable,null);
     }
 
     private static Runnable showSearchDialogRunnable = new Runnable() {
         public void run() {
             if(searchDialog==null) searchDialog=initializeSearchDialog(null);
-            noLocalizationResultsDialog= initializeNoLocationResultsDialog(2,showSearchDialogRunnable,null);
             searchDialog.show();
+            noLocalizationResultsDialog= initializeNoLocationResultsDialog(2,showSearchDialogRunnable,null);
             UsefulFunctions.showKeyboard(activity);
         }
     };
@@ -211,20 +211,20 @@ public class DialogInitializer  {
                 location=UsefulFunctions.getFormattedString(location);
                 UsefulFunctions.hideKeyboard(activity,locationEditText);
             }
-            searchProgressDialog.show();
+            progressDialog.show();
             downloader=new WeatherDataDownloader(location,this);
         }
 
         @Override
-        public void ServiceSuccess(Channel channel) {
+        public void weatherServiceSuccess(Channel channel) {
             dataInitializer=new WeatherDataInitializer(activity,channel);
             localizationResultsDialog = initializeLocationResultsDialog(2,dataInitializer,new setMainLayoutRunnable(dataInitializer),showSearchDialogRunnable,null);
             localizationResultsDialog.show();
-            searchProgressDialog.dismiss();
+            progressDialog.dismiss();
         }
 
         @Override
-        public void ServiceFailure(int errorCode) {
+        public void weatherServiceFailure(int errorCode) {
             if(errorCode==1)   {
                 internetFailureDialog=initializeInternetFailureDialog(false, new searchRunnable(),null);
                 internetFailureDialog.show();
@@ -232,7 +232,7 @@ public class DialogInitializer  {
             else {
                 noLocalizationResultsDialog.show();
             }
-            searchProgressDialog.dismiss();
+            progressDialog.dismiss();
         }
     }
 
@@ -329,24 +329,37 @@ public class DialogInitializer  {
         return searchDialog;
     }
 
-    public static AlertDialog initializeLocalizationFailureDialog(Runnable positiveButtonRunnable, Runnable negativeButtonRunnable){
+    public static AlertDialog initializeLocalizationFailureDialog(int type, Runnable positiveButtonRunnable, Runnable negativeButtonRunnable){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.one_line_text_dialog,null);
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
-        messageTextView.setText(activity.getString(R.string.first_launch_localization_failure_dialog_message));
+        messageTextView.setText(activity.getString(R.string.localization_failure_dialog_message));
+        boolean isUncancelable;
+        String positiveButtonString;
+        String negativeButtonString;
+        if(type==1){
+            isUncancelable=true;
+            positiveButtonString=activity.getString(R.string.localization_failure_dialog_first_launch_positive_button);
+            negativeButtonString=activity.getString(R.string.localization_failure_dialog_first_launch_negative_button);
+        }
+        else{
+            isUncancelable=false;
+            positiveButtonString=activity.getString(R.string.localization_failure_dialog_positive_button);
+            negativeButtonString=activity.getString(R.string.localization_failure_dialog_negative_button);
+        }
         localizationFailureDialog=buildDialog(
                 activity,
                 dialogView,
                 R.style.CustomDialogStyle,
-                activity.getString(R.string.first_launch_localization_failure_dialog_title),
+                activity.getString(R.string.localization_failure_dialog_title),
                 R.drawable.error_icon,
                 null,
-                true,
-                activity.getString(R.string.first_launch_localization_failure_dialog_positive_button),
+                isUncancelable,
+                positiveButtonString,
                 positiveButtonRunnable,
                 null,
                 null,
-                activity.getString(R.string.first_launch_localization_failure_dialog_negative_button),
+                negativeButtonString,
                 negativeButtonRunnable
         );
         return localizationFailureDialog;
@@ -388,11 +401,24 @@ public class DialogInitializer  {
         return providerUnavailableDialog;
     }
 
-    public static AlertDialog initializePermissionDeniedDialog(Runnable positiveButtonRunnable, Runnable negativeButtonRunnable){
+    public static AlertDialog initializePermissionDeniedDialog(int type,Runnable positiveButtonRunnable, Runnable negativeButtonRunnable){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.one_line_text_dialog,null);
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
         messageTextView.setText(activity.getString(R.string.first_launch_permission_denied_dialog_message));
+        boolean isUncancelable;
+        String positiveButtonString;
+        String negativeButtonString;
+        if(type==1){
+            isUncancelable=true;
+            positiveButtonString=activity.getString(R.string.permission_denied_dialog_first_launch_positive_button);
+            negativeButtonString=activity.getString(R.string.permission_denied_dialog_first_launch_negative_button);
+        }
+        else{
+            isUncancelable=false;
+            positiveButtonString=activity.getString(R.string.permission_denied_dialog_positive_button);
+            negativeButtonString=activity.getString(R.string.permission_denied_dialog_negative_button);
+        }
         permissionDeniedDialog=buildDialog(
                 activity,
                 dialogView,
@@ -400,12 +426,12 @@ public class DialogInitializer  {
                 activity.getString(R.string.first_launch_permission_denied_dialog_title),
                 R.drawable.error_icon,
                 null,
-                true,
-                activity.getString(R.string.first_launch_permission_denied_dialog_positive_button),
+                isUncancelable,
+                positiveButtonString,
                 positiveButtonRunnable,
                 null,
                 null,
-                activity.getString(R.string.first_launch_permission_denied_dialog_negative_button),
+                negativeButtonString,
                 negativeButtonRunnable
         );
         return permissionDeniedDialog;
@@ -462,15 +488,23 @@ public class DialogInitializer  {
         View dialogView = inflater.inflate(R.layout.one_line_text_dialog,null);
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
         messageTextView.setText(activity.getString(R.string.no_localization_results_dialog_message));
-        boolean isUncancelable;
-        String negativeButtonString;
+        boolean isUncancelable=false;
+        String negativeButtonString=null;
+        String positiveButtonString=null;
         if(type==1){
             isUncancelable=true;
             negativeButtonString=activity.getString(R.string.no_localization_results_dialog_first_launch_negative_button);
+            positiveButtonString=activity.getString(R.string.no_localization_results_dialog_positive_button);
         }
-        else{
+        else if(type==2){
             isUncancelable=false;
             negativeButtonString=activity.getString(R.string.no_localization_results_dialog_negative_button);
+            positiveButtonString=activity.getString(R.string.no_localization_results_dialog_positive_button);
+        }
+        else if(type==3){
+            isUncancelable=false;
+            negativeButtonString=activity.getString(R.string.no_localization_results_dialog_negative_button);
+            positiveButtonString=activity.getString(R.string.no_localization_results_dialog_type3_positive_button);
         }
         noLocalizationResultsDialog=buildDialog(
                 activity,
@@ -480,7 +514,7 @@ public class DialogInitializer  {
                 R.drawable.error_icon,
                 null,
                 isUncancelable,
-                activity.getString(R.string.no_localization_results_dialog_positive_button),
+                positiveButtonString,
                 positiveButtonRunnable,
                 null,
                 null,
@@ -511,12 +545,16 @@ public class DialogInitializer  {
         return noEmailApplicationDialog;
     }
 
-    public static AlertDialog initializeServiceFailureDialog(Runnable positiveButtonRunnable,Runnable negativeButtonRunnable){
+    public static AlertDialog initializeServiceFailureDialog(boolean ifUncancelable,Runnable positiveButtonRunnable,Runnable negativeButtonRunnable){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.one_line_text_dialog,null);
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
         messageTextView.setText(activity.getString(R.string.service_failure_dialog_message));
-        if(negativeButtonRunnable==null) negativeButtonRunnable=showExitRunnable;
+        String negativeButtonString;
+        if(negativeButtonRunnable!=null){
+            negativeButtonString=activity.getString(R.string.service_failure_dialog_negative_button);
+        }
+        else negativeButtonString=activity.getString(R.string.service_failure_dialog_type2_negative_button);
         serviceFailureDialog = buildDialog(
                 activity,
                 dialogView,
@@ -524,12 +562,12 @@ public class DialogInitializer  {
                 activity.getString(R.string.service_failure_dialog_title),
                 R.drawable.error_icon,
                 null,
-                true,
+                ifUncancelable,
                 activity.getString(R.string.service_failure_dialog_positive_button),
                 positiveButtonRunnable,
                 null,
                 null,
-                activity.getString(R.string.service_failure_dialog_negative_button),
+                negativeButtonString,
                 negativeButtonRunnable
         );
         return serviceFailureDialog;
@@ -563,6 +601,9 @@ public class DialogInitializer  {
         View dialogView = inflater.inflate(R.layout.one_line_text_dialog,null);
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
         messageTextView.setText(activity.getString(R.string.internet_failure_dialog_message));
+        String negativeButtonString;
+        if(isUncancelable==true) negativeButtonString=activity.getString(R.string.internet_failure_dialog_negative_button);
+        else negativeButtonString=activity.getString(R.string.internet_failure_dialog_type2_negative_button);
         internetFailureDialog = buildDialog(
                 activity,
                 dialogView,
@@ -575,7 +616,7 @@ public class DialogInitializer  {
                 positiveButtonRunnable,
                 null,
                 null,
-                activity.getString(R.string.internet_failure_dialog_negative_button),
+                negativeButtonString,
                 negativeButtonRunnable
         );
         return internetFailureDialog;
@@ -848,12 +889,12 @@ public class DialogInitializer  {
         }
     }
 
-    private static AlertDialog initializeSearchProgressDialog(){
+    public static AlertDialog initializeProgressDialog(String message){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.progress_dialog,null);
-        TextView messageTextView=(TextView)dialogView.findViewById(R.id.progress_dialog_message);
-        messageTextView.setText(activity.getString(R.string.search_progress_dialog_message));
-        searchProgressDialog=buildDialog(
+        TextView messageTextView=(TextView)dialogView.findViewById(R.id.progress_dialog_message_text);
+        messageTextView.setText(message);
+        progressDialog =buildDialog(
                 activity,
                 dialogView,
                 R.style.CustomDialogStyle,
@@ -869,7 +910,7 @@ public class DialogInitializer  {
                 null
         );
 
-        return searchProgressDialog;
+        return progressDialog;
     }
 
     public static AlertDialog initializeLocationResultsDialog(int type, WeatherDataInitializer dataInitializer, Runnable positiveButtonRunnable, Runnable neutralButtonRunnable, Runnable negativeButtonRunnable) {
@@ -936,29 +977,6 @@ public class DialogInitializer  {
                 activity.getString(R.string.maps_dialog_negative_button),
                 null);
         return mapsDialog;
-    }
-
-    public static AlertDialog initializeFirstLoadingDialog(){
-        LayoutInflater inflater = activity.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.first_loading_dialog,null);
-        ImageView iconImageView=(ImageView)dialogView.findViewById(R.id.first_loading_dialog_app_icon_image);
-        Picasso.with(activity.getApplicationContext()).load(R.drawable.app_icon_small).fit().centerInside().into(iconImageView);
-        firstLoadingDialog = buildDialog(
-                activity,
-                dialogView,
-                R.style.CustomLoadingDialogStyle,
-                null,
-                0,
-                null,
-                true,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-        );
-        return firstLoadingDialog;
     }
 
     public static AlertDialog initializeLocalizationOptionsDialog(Runnable positiveButtonRunnable){
@@ -1178,27 +1196,28 @@ public class DialogInitializer  {
             String address= FavouritesEditor.getChoosenFavouriteLocationAddress(activity);
             Log.d("choosen adress", address);
             new WeatherDataDownloader(address,this);
-            searchProgressDialog.show();
+            initializeProgressDialog(activity.getString(R.string.downloading_weather_data_progress_message));
+            progressDialog.show();
         }
 
         @Override
-        public void ServiceSuccess(Channel channel) {
+        public void weatherServiceSuccess(Channel channel) {
             dataInitializer=new WeatherDataInitializer(activity,channel);
-            new WeatherDataSetter(activity,dataInitializer,true);
-            searchProgressDialog.dismiss();
+            new WeatherDataSetter(activity,dataInitializer,true,false);
+            progressDialog.dismiss();
         }
 
         @Override
-        public void ServiceFailure(int errorCode) {
+        public void weatherServiceFailure(int errorCode) {
             if(errorCode==1)   {
                 internetFailureDialog=initializeInternetFailureDialog(false, new favouritesDialogRunnable(),null);
                 internetFailureDialog.show();
             }
             else {
-                serviceFailureDialog=initializeServiceFailureDialog(new favouritesDialogRunnable(),null);
+                serviceFailureDialog=initializeServiceFailureDialog(false,new favouritesDialogRunnable(),null);
                 serviceFailureDialog.show();
             }
-            searchProgressDialog.dismiss();
+            progressDialog.dismiss();
         }
     }
 

@@ -24,8 +24,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
+import paweltypiak.matweather.localizationDataDownloading.GeocodingCallback;
+import paweltypiak.matweather.localizationDataDownloading.GeocodingDownloader;
+import paweltypiak.matweather.localizationDataDownloading.CurrentCoordinatesDownloader;
 import paweltypiak.matweather.usefulClasses.DialogInitializer;
-import paweltypiak.matweather.usefulClasses.FavouritesEditor;
 import paweltypiak.matweather.usefulClasses.SharedPreferencesModifier;
 import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDataDownloader;
@@ -38,33 +40,39 @@ import static paweltypiak.matweather.weatherDataDownloading.WeatherDataSetter.se
 import paweltypiak.matweather.jsonHandling.Channel;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, WeatherDownloadCallback, SwipeRefreshLayout.OnRefreshListener{
+        implements NavigationView.OnNavigationItemSelectedListener, WeatherDownloadCallback, SwipeRefreshLayout.OnRefreshListener,
+        GeocodingCallback
+{
 
     private WeatherDataInitializer getter;
     private WeatherDataSetter setter;
     private WeatherDataDownloader downloader;
-    private AlertDialog refreshDialog;
-    private AlertDialog serviceFailureDialog;
-    private AlertDialog internetFailureDialog;
+    private AlertDialog weatherServiceFailureDialog;
+    private AlertDialog geocodingInternetFailureDialog;
+    private AlertDialog weatherGeolocalizationInternetFailureDialog;
+    private AlertDialog weatherRefreshInternetFailureDialog;
     private AlertDialog yahooRedirectDialog;
     private AlertDialog yahooWeatherRedirectDialog;
     private AlertDialog exitDialog;
     private AlertDialog aboutDialog;
-    private AlertDialog firstLoadingDialog;
     private AlertDialog feedbackDialog;
     private AlertDialog authorDialog;
-    private AlertDialog noEmailApplicationDialog;
     private AlertDialog searchDialog;
     private AlertDialog mapsDialog;
     private AlertDialog addToFavouritesDialog;
     private AlertDialog editFavouritesDialog;
-    private AlertDialog duplicateDialog;
     private AlertDialog favouritesDialog;
     private AlertDialog emptyLocationListDialog;
     private AlertDialog localizationOptionsDialog;
+    private AlertDialog geolocalizationProgressDialog;
+    private AlertDialog coordinatesDownloadFailureDialog;
+    private AlertDialog geocodingFailureDialog;
+    private AlertDialog permissionDeniedDialog;
+    private AlertDialog weatherNoLocalizationResults;
+    private AlertDialog geocodingServiceFailureDialog;
     private DialogInitializer dialogInitializer;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private String location;
+    private String geocodingLocation;
     private CoordinatorLayout mainLayout;
     private LinearLayout weatherLayout;
     private TextView refreshMessageTextView;
@@ -72,6 +80,9 @@ public class MainActivity extends AppCompatActivity
     private static int floatingActionButtonOnClickIndicator;
     private NavigationView navigationView;
     private static FloatingActionButton floatingActionButton;
+    private CurrentCoordinatesDownloader currentCoordinatesDownloader;
+    private TextView geolocalizationProgressMessageTextView;
+    private int downloadMode;
 
 
     @Override
@@ -81,18 +92,9 @@ public class MainActivity extends AppCompatActivity
         UsefulFunctions.setIsFirstWeatherDownloading(true);
         initializeLayout(); //layout initialization
         loadFirstLocation();
-        //resetShared();
     }
 
-    public void resetShared(){
-        SharedPreferencesModifier.setFavouriteLocationCoordinates(this,"");
-        SharedPreferencesModifier.setFavouriteLocationNames(this,"");
-        SharedPreferencesModifier.setFavouriteLocationAddresses(this,"");
-    }
 
-    public void downloadData(String location) {
-        downloader=new WeatherDataDownloader(location,this);
-    }
     private void loadExtras(){
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -101,57 +103,141 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void loadFirstLocation(){
-        setter = new WeatherDataSetter(this,getter,true);
+        boolean isFirstLocationConstant=SharedPreferencesModifier.isFirstLocationConstant(this);
+        if(isFirstLocationConstant) setter = new WeatherDataSetter(this,getter,true,false);
+        else setter = new WeatherDataSetter(this,getter,true,true);
         UsefulFunctions.setViewVisible(mainLayout);
         UsefulFunctions.setIsFirstWeatherDownloading(false);
     }
 
     @Override
-    public void ServiceSuccess(Channel channel) {
+    public void weatherServiceSuccess(Channel channel) {
         getter = new WeatherDataInitializer(this,channel); //initializing weather data from JSON
-        setter = new WeatherDataSetter(this,getter,true); //data formatting and weather layout setting
-        swipeRefreshLayout.setRefreshing(false);
-        UsefulFunctions.setViewInvisible(refreshMessageTextView);
-        UsefulFunctions.setViewVisible(mainLayout);
-        UsefulFunctions.setViewVisible(weatherLayout);
+         //data formatting and weather layout setting
+        if(downloadMode==1){
+            setter = new WeatherDataSetter(this,getter,true,true);
+            geolocalizationProgressDialog.dismiss();
+        }
+        else{
+            setter = new WeatherDataSetter(this,getter,false,false);
+            swipeRefreshLayout.setRefreshing(false);
+            UsefulFunctions.setViewInvisible(refreshMessageTextView);
+            UsefulFunctions.setViewVisible(mainLayout);
+            UsefulFunctions.setViewVisible(weatherLayout);
+        }
     }
     @Override
-    public void ServiceFailure(int errorCode) {
+    public void weatherServiceFailure(int errorCode) {
         //failure handling
-        swipeRefreshLayout.setRefreshing(false);
-        UsefulFunctions.setViewInvisible(refreshMessageTextView);
-        if(errorCode==1) {
-            internetFailureDialog=dialogInitializer.initializeInternetFailureDialog(false,refreshRunnable,null);
-            internetFailureDialog.show();
+        if(downloadMode==1){
+            geolocalizationProgressDialog.dismiss();
+            if(errorCode==1) {
+                weatherGeolocalizationInternetFailureDialog.show();
+            }
+            else{
+                weatherNoLocalizationResults.show();
+            }
         }
-        else serviceFailureDialog.show();
+        else{
+            swipeRefreshLayout.setRefreshing(false);
+            UsefulFunctions.setViewVisible(mainLayout);
+            UsefulFunctions.setViewVisible(weatherLayout);
+            UsefulFunctions.setViewInvisible(refreshMessageTextView);
+            if(errorCode==1) {
+                weatherRefreshInternetFailureDialog.show();
+            }
+            else{
+
+                weatherServiceFailureDialog.show();
+            }
+        }
     }
+
+    @Override
+    public void geocodingServiceSuccess(String location) {
+        Log.d("location", "geocodingServiceSuccess: ");
+        geolocalizationProgressMessageTextView.setText(getString(R.string.downloading_weather_data_progress_message));
+        geocodingLocation=location;
+        downloadWeatherData(geocodingLocation);
+    }
+
+    @Override
+    public void geocodingServiceFailure(int errorCode) {
+        Log.d("geocode failure", "geocodingServiceFailure: "+errorCode);
+        geolocalizationProgressDialog.dismiss();
+        if(errorCode==1){
+            geocodingInternetFailureDialog.show();
+        }
+        else{
+            geocodingServiceFailureDialog.show();
+        }
+    }
+
+    public void downloadWeatherData(String location) {
+        downloader=new WeatherDataDownloader(location,this);
+    }
+
+    private void startGeolocalization(){
+        downloadMode=1;
+        geolocalizationProgressDialog.show();
+        if(geolocalizationProgressMessageTextView==null)geolocalizationProgressMessageTextView=(TextView)geolocalizationProgressDialog.findViewById(R.id.progress_dialog_message_text);
+        permissionDeniedDialog=dialogInitializer.initializePermissionDeniedDialog(2,startGeolocalizationRunnable,null);
+        coordinatesDownloadFailureDialog =dialogInitializer.initializeLocalizationFailureDialog(2,startGeolocalizationRunnable,null);
+        int choosenLocalizationOption=SharedPreferencesModifier.getLocalizationOption(this);
+        currentCoordinatesDownloader =new CurrentCoordinatesDownloader(
+                this,
+                this,
+                coordinatesDownloadFailureDialog,
+                permissionDeniedDialog,
+                geolocalizationProgressDialog,
+                geolocalizationProgressMessageTextView,
+                null,
+                choosenLocalizationOption
+        );
+    }
+
+    private Runnable geocodingRunnable = new Runnable() {
+        public void run() {
+            geolocalizationProgressDialog.show();
+            geolocalizationProgressMessageTextView.setText(getString(R.string.looking_for_address_progress_message));
+            new GeocodingDownloader(currentCoordinatesDownloader.getLocation(),MainActivity.this,geolocalizationProgressMessageTextView,MainActivity.this);
+        }
+    };
+    Runnable startGeolocalizationRunnable = new Runnable() {
+        public void run() {
+            startGeolocalization();
+        }
+    };
+    Runnable refreshWeatherRunnable = new Runnable() {
+        public void run() {
+            onRefresh();
+        }
+    };
+    Runnable downloadWeatherDataAfterGeocodingFailureRunnable = new Runnable() {
+        public void run() {
+            downloadWeatherData(geocodingLocation);
+        }
+    };
 
     private void setDialogs(){
         dialogInitializer=new DialogInitializer(this);
-        firstLoadingDialog=dialogInitializer.initializeFirstLoadingDialog();
-        serviceFailureDialog =dialogInitializer.initializeServiceFailureDialog(downloadDataRunnable,null);
         yahooRedirectDialog=dialogInitializer.initializeYahooRedirectDialog();
         exitDialog=dialogInitializer.initializeExitDialog(false,null);
         aboutDialog=dialogInitializer.initializeAboutDialog();
         feedbackDialog=dialogInitializer.initializeFeedbackDialog();
         authorDialog=dialogInitializer.initializeAuthorDialog();
         searchDialog=dialogInitializer.initializeSearchDialog(null);
-        duplicateDialog=dialogInitializer.initializeDuplicateDialog();
         emptyLocationListDialog=dialogInitializer.initializeEmptyLocationListDialog();
         localizationOptionsDialog=dialogInitializer.initializeLocalizationOptionsDialog(null);
+        geolocalizationProgressDialog=dialogInitializer.initializeProgressDialog(getString(R.string.waiting_for_localization_progress_message));
+        //geocodingFailureDialog =dialogInitializer.initializeLocalizationFailureDialog(2,startGeolocalizationRunnable,null);
+        geocodingServiceFailureDialog=dialogInitializer.initializeServiceFailureDialog(false,startGeolocalizationRunnable,null);
+        weatherNoLocalizationResults =dialogInitializer.initializeNoLocationResultsDialog(3,startGeolocalizationRunnable,null);
+        geocodingInternetFailureDialog=dialogInitializer.initializeInternetFailureDialog(false,geocodingRunnable,null);
+        weatherGeolocalizationInternetFailureDialog=dialogInitializer.initializeInternetFailureDialog(false, downloadWeatherDataAfterGeocodingFailureRunnable,null);
+        weatherRefreshInternetFailureDialog=dialogInitializer.initializeInternetFailureDialog(false,refreshWeatherRunnable,null);
+        weatherServiceFailureDialog =dialogInitializer.initializeServiceFailureDialog(false,refreshWeatherRunnable,null);
     }
-
-    Runnable downloadDataRunnable = new Runnable() {
-        public void run() {
-            downloadData(location);
-        }
-    };
-    Runnable refreshRunnable = new Runnable() {
-        public void run() {
-            onRefresh();
-        }
-    };
 
     private void initializeLayout(){
         setContentView(R.layout.activity_main);
@@ -205,7 +291,8 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 yahooWeatherRedirectDialog= WeatherDataSetter.getYahooWeatherRedirectDialog();
-                yahooWeatherRedirectDialog.show();           }
+                yahooWeatherRedirectDialog.show();
+            }
         });
         detailsLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -228,7 +315,6 @@ public class MainActivity extends AppCompatActivity
         ImageView searchImageView =(ImageView)findViewById(R.id.search_image);
         LinearLayout searchLayout=(LinearLayout) findViewById(R.id.search_layout);
         Picasso.with(getApplicationContext()).load(R.drawable.search_black_icon).transform(new UsefulFunctions().new setDrawableColor(getResources().getColor(R.color.white))).into(searchImageView);
-
         searchLayout.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -258,11 +344,8 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 if(floatingActionButtonOnClickIndicator ==1){
-                    if(FavouritesEditor.areCoordinatesEqual(MainActivity.this)) duplicateDialog.show();
-                    else {
-                        addToFavouritesDialog = dialogInitializer.initializeAddToFavouritesDialog();
-                        addToFavouritesDialog.show();
-                    }
+                    addToFavouritesDialog = dialogInitializer.initializeAddToFavouritesDialog();
+                    addToFavouritesDialog.show();
                 }
                 else {
                     editFavouritesDialog=dialogInitializer.initializeEditFavouritesDialog();
@@ -327,13 +410,14 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onRefresh() {
         Log.d("refresh", "refresh ");
+        downloadMode=2;
         swipeRefreshLayout.setRefreshing(true);    //dialog when refresh
         refreshMessageTextView.setTextColor(Color.argb(255, 255, 255, 255));
-        refreshMessageTextView.setText(getString(R.string.refresh_message_refreshing));
+        refreshMessageTextView.setText(getString(R.string.refreshing_progress_message));
         UsefulFunctions.setViewVisible(refreshMessageTextView);
         UsefulFunctions.setViewInvisible(weatherLayout);
-        String location[]=UsefulFunctions.getCurrentLocationAddress();
-        downloadData(location[0]+", "+location[1]);
+        String currentLocation[]=UsefulFunctions.getCurrentLocationAddress();
+        downloadWeatherData(currentLocation[0]+", "+currentLocation[1]);
     }
 
     @Override
@@ -358,7 +442,7 @@ public class MainActivity extends AppCompatActivity
                 localizationOptionsDialog.show();
             }
             else{
-
+                startGeolocalization();
             }
         }
         else if(id==R.id.nav_button_favourites){

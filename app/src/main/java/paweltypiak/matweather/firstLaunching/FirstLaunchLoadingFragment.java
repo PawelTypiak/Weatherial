@@ -22,7 +22,7 @@ import paweltypiak.matweather.usefulClasses.SharedPreferencesModifier;
 import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 import paweltypiak.matweather.localizationDataDownloading.GeocodingCallback;
 import paweltypiak.matweather.localizationDataDownloading.GeocodingDownloader;
-import paweltypiak.matweather.localizationDataDownloading.LocalizationDownloader;
+import paweltypiak.matweather.localizationDataDownloading.CurrentCoordinatesDownloader;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDataDownloader;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDownloadCallback;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDataInitializer;
@@ -49,7 +49,7 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
     private ChooseLocationAgainListener locationListener;
     private boolean isFirstLaunch;
     private int choosenLocalizationOption;
-    private LocalizationDownloader localizationDownloader;
+    private CurrentCoordinatesDownloader currentCoordinatesDownloader;
     private SharedPreferences sharedPreferences;
     private boolean isFirstLocationGeolocalization;
     private String firstLocation;
@@ -116,11 +116,12 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
     private void downloadLocalization(){
         UsefulFunctions.setViewVisible(loadingBar);
         UsefulFunctions.setViewVisible(messageTextView);
-        localizationDownloader=new LocalizationDownloader(
+        currentCoordinatesDownloader =new CurrentCoordinatesDownloader(
                 getActivity(),
                 this,
                 localizationFailureDialog,
                 permissionDeniedDialog,
+                null,
                 messageTextView,
                 loadingBar,
                 choosenLocalizationOption
@@ -156,7 +157,8 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
         }
         else {
             Log.d("next", "different");
-            downloadWeatherData(SharedPreferencesModifier.getFirstLocation(getActivity()));
+            location=SharedPreferencesModifier.getFirstLocation(getActivity());
+            downloadWeatherData(location);
         }
     }
     private void initializeNextLaunchAfterFailure(){
@@ -179,13 +181,13 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
 
     private void downloadWeatherData(String location){
         UsefulFunctions.setViewVisible(loadingBar);
-        messageTextView.setText(getString(R.string.first_launch_layout_loading_header_downloading_data));
+        messageTextView.setText(getString(R.string.downloading_weather_data_progress_message));
         UsefulFunctions.setViewVisible(messageTextView);
-        WeatherDataDownloader downloader=new WeatherDataDownloader(location,this);   //downloading weather data for Poznan
+        new WeatherDataDownloader(location,this);
     }
 
     @Override
-    public void ServiceSuccess(Channel channel) {
+    public void weatherServiceSuccess(Channel channel) {
         dataInitializer = new WeatherDataInitializer(getActivity(),channel); //initializing weather data from JSON
         if(isFirstLaunch && choosenLocationOption ==2){
             locationResultsDialog =dialogInitializer.initializeLocationResultsDialog(1,dataInitializer,loadMainActivityRunnable,showLocationFragmentRunnable,new showExitDialogRunnable(showLocalizationResultDialogRunnable));
@@ -195,7 +197,7 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
     }
 
     @Override
-    public void ServiceFailure(int errorCode) {
+    public void weatherServiceFailure(int errorCode) {
         //failure handling
         if(errorCode==1) {showDialog(internetFailureWeatherDialog);}
         else{
@@ -214,15 +216,15 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
     }
 
     @Override
-    public void geocodeSuccess(String location) {
-        Log.d("location", "geocodeSuccess: ");
+    public void geocodingServiceSuccess(String location) {
+        Log.d("location", "geocodingServiceSuccess: ");
         this.location=location;
         downloadWeatherData(this.location);
     }
 
     @Override
-    public void geocodeFailure(int errorCode) {
-        Log.d("geocode failure", "geocodeFailure: "+errorCode);
+    public void geocodingServiceFailure(int errorCode) {
+        Log.d("geocode failure", "geocodingServiceFailure: "+errorCode);
         if(errorCode==1){
             showDialog(internetFailureLocalizationDialog);
         }
@@ -235,17 +237,17 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
         dialogInitializer=new DialogInitializer(getActivity());
         internetFailureWeatherDialog=dialogInitializer.initializeInternetFailureDialog(true, downloadWeatherRunnable, new showExitDialogRunnable(showInternetFailureWeatherDialogRunnable));
         internetFailureLocalizationDialog =dialogInitializer.initializeInternetFailureDialog(true, downloadLocationRunnable, new showExitDialogRunnable(showInternetFailureLocationDialogRunnable));
-        serviceFailureDialog=dialogInitializer.initializeServiceFailureDialog(downloadWeatherRunnable,new showExitDialogRunnable(showServiceFailureDialogRunnable));
+        serviceFailureDialog=dialogInitializer.initializeServiceFailureDialog(true,downloadWeatherRunnable,new showExitDialogRunnable(showServiceFailureDialogRunnable));
         if(isFirstLaunch){
             noLocationResultsDialog =dialogInitializer.initializeNoLocationResultsDialog(1,showLocationFragmentRunnable,new showExitDialogRunnable(showNoLocalizationResultDialogRunnable));
-            localizationFailureDialog=dialogInitializer.initializeLocalizationFailureDialog(showLocationFragmentRunnable,new showExitDialogRunnable(showLocalizationFailureDialogRunnable));
-            permissionDeniedDialog=dialogInitializer.initializePermissionDeniedDialog(showLocationFragmentRunnable,new showExitDialogRunnable(showPermissionDeniedDialogRunnable));
+            localizationFailureDialog=dialogInitializer.initializeLocalizationFailureDialog(1,showLocationFragmentRunnable,new showExitDialogRunnable(showLocalizationFailureDialogRunnable));
+            permissionDeniedDialog=dialogInitializer.initializePermissionDeniedDialog(1,showLocationFragmentRunnable,new showExitDialogRunnable(showPermissionDeniedDialogRunnable));
         }
         else{
             localizationOptionsDialog=dialogInitializer.initializeLocalizationOptionsDialog(localizationOptionsDialogRunnable);
             noLocationResultsDialog =dialogInitializer.initializeNoLocationResultsDialog(1, showChangeLocationAfterFailureDialogRunnable,new showExitDialogRunnable(showNoLocalizationResultDialogRunnable));
-            localizationFailureDialog =dialogInitializer.initializeLocalizationFailureDialog(showChangeLocationAfterFailureDialogRunnable, new showExitDialogRunnable(showLocalizationFailureDialogRunnable));
-            permissionDeniedDialog =dialogInitializer.initializePermissionDeniedDialog(showChangeLocationAfterFailureDialogRunnable, new showExitDialogRunnable(showPermissionDeniedDialogRunnable));
+            localizationFailureDialog =dialogInitializer.initializeLocalizationFailureDialog(1,showChangeLocationAfterFailureDialogRunnable, new showExitDialogRunnable(showLocalizationFailureDialogRunnable));
+            permissionDeniedDialog =dialogInitializer.initializePermissionDeniedDialog(1,showChangeLocationAfterFailureDialogRunnable, new showExitDialogRunnable(showPermissionDeniedDialogRunnable));
         }
     }
 
@@ -310,14 +312,14 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
     };
     private Runnable downloadLocationRunnable = new Runnable() {
         public void run() {
-            GeocodingDownloader geocodingDownloader=new GeocodingDownloader(localizationDownloader.getLocation(),FirstLaunchLoadingFragment.this,messageTextView,getActivity());
+            GeocodingDownloader geocodingDownloader=new GeocodingDownloader(currentCoordinatesDownloader.getLocation(),FirstLaunchLoadingFragment.this,messageTextView,getActivity());
             UsefulFunctions.setViewVisible(messageTextView);
             UsefulFunctions.setViewVisible(loadingBar);
         }
     };
     private Runnable loadMainActivityRunnable = new Runnable() {
         public void run() {
-            messageTextView.setText(getString(R.string.first_launch_layout_loading_header_loading_content));
+            messageTextView.setText(getString(R.string.loading_content_progress_message));
             UsefulFunctions.setViewGone(loadingBar);
             UsefulFunctions.setViewVisible(marginView);
             UsefulFunctions.setViewVisible(messageTextView);

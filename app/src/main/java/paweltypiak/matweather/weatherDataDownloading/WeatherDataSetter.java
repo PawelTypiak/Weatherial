@@ -128,10 +128,12 @@ public class WeatherDataSetter {
     private static Thread uiThread;
     private int units[];
     private boolean setAppBar;
+    private boolean isGeolocalizationMode;
 
 
-    public WeatherDataSetter(Activity activity, WeatherDataInitializer dataInitializer,boolean doSetAppBar) {
+    public WeatherDataSetter(Activity activity, WeatherDataInitializer dataInitializer,boolean doSetAppBar, boolean isGeolocalizationMode) {
         this.activity=activity;
+        this.isGeolocalizationMode=isGeolocalizationMode;
         currentDataFormatter=new WeatherDataFormatter(activity, dataInitializer);
         newRefresh=true;
         units= SharedPreferencesModifier.getUnits(activity);
@@ -207,7 +209,6 @@ public class WeatherDataSetter {
     }
 
     private void updateDialogs(){
-        Log.d("city w mapach", city);
         mapsDialog= initializeMapsDialog(activity,city,region,country,longitude,latitude);
         yahooWeatherRedirectDialog=initializeYahooWeatherRedirectDialog(activity,link);
     }
@@ -237,11 +238,13 @@ public class WeatherDataSetter {
         getAppBarResources();
         if(FavouritesEditor.areCoordinatesEqual(activity)){
             FavouritesEditor.setLayoutForFavourites(activity);
+            Log.d("new_location", "favourites");
         }
         else{
+            Log.d("new_location", "not favourites");
             UsefulFunctions.setAppBarStrings(activity,city,region+", "+country);
             setfloatingActionButtonOnClickIndicator(activity,1);
-            if(!SharedPreferencesModifier.isFirstLocationConstant(activity)) UsefulFunctions.checkNavigationDrawerMenuItem(activity,1);
+            if(isGeolocalizationMode==true) UsefulFunctions.checkNavigationDrawerMenuItem(activity,1);
             else UsefulFunctions.uncheckAllNavigationDrawerMenuItems(activity);
         }
 

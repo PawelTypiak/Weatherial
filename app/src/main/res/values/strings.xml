@@ -28,17 +28,16 @@
     <string name="first_opening_dialog_description"><b>MatWeather</b> to prosta aplikacja pogodowa zaprojektowana zgodnie z filozofią <i>Material Design</i>. Do pobierania informacji o pogodzie wykorzystywane jest Yahoo Weather API, a dane o lokalizacji pobierane są przy pomocy Google Maps API</string>
     <string name="first_opening_dialog_positive_button">Kontynuuj</string>
     <string name="first_opening_dialog_negative_button">Wyjdź</string>
-    <string name="first_loading_dialog_message">Ładowanie zawartości...</string>
-    <string name="refresh_dialog_title">Łączenie z serwisem</string>
-    <string name="refresh_dialog_message">Pobieranie zawartości...</string>
     <string name="service_failure_dialog_title">Niepowodzenie!</string>
-    <string name="service_failure_dialog_message">Nie udało się połączyć z serwisem!</string>
+    <string name="service_failure_dialog_message">Brak odpowiedzi z serwisu!</string>
     <string name="service_failure_dialog_positive_button">Odśwież</string>
     <string name="service_failure_dialog_negative_button">Wyjdź</string>
+    <string name="service_failure_dialog_type2_negative_button">Anuluj</string>
     <string name="internet_failure_dialog_title">Niepowodzenie!</string>
     <string name="internet_failure_dialog_message">Brak połączenia z internetem!</string>
     <string name="internet_failure_dialog_positive_button">Odśwież</string>
     <string name="internet_failure_dialog_negative_button">Wyjdź</string>
+    <string name="internet_failure_dialog_type2_negative_button">Anuluj</string>
     <string name="yahoo_redirect_dialog_title">Przekierowanie</string>
     <string name="yahoo_redirect_dialog_message">Nastąpi przekierowanie na witrynę:</string>
     <string name="yahoo_redirect_dialog_message_service_name">Yahoo.com</string>
@@ -85,6 +84,7 @@
     <string name="no_localization_results_dialog_message">Prawdopodobnie brak danych pogodowych dla danej lokacji.</string>
     <string name="no_localization_results_dialog_negative_button">Anuluj</string>
     <string name="no_localization_results_dialog_positive_button">Zmień lokację</string>
+    <string name="no_localization_results_dialog_type3_positive_button">Odśwież</string>
     <string name="no_localization_results_dialog_first_launch_positive_button">Szukaj ponownie</string>
     <string name="no_localization_results_dialog_first_launch_negative_button">Wyjdź</string>
     <string name="localization_results_dialog_title">Wynik wyszukiwania</string>
@@ -94,14 +94,18 @@
     <string name="localization_results_dialog_positive_button">Kontynuuj</string>
     <string name="first_launch_localization_results_dialog_negative_button">Wyjdź</string>
     <string name="first_launch_permission_denied_dialog_title">Odmowa dostępu</string>
-    <string name="first_launch_permission_denied_dialog_positive_button">Zmień lokację</string>
-    <string name="first_launch_permission_denied_dialog_negative_button">Wyjdź</string>
-    <string name="first_launch_permission_denied_dialog_message">Brak pozwolenia na dostęp do aktualnej lokalizacji!</string>
-    <string name="first_launch_localization_failure_dialog_title">Niepowodzenie!</string>
-    <string name="first_launch_localization_failure_dialog_positive_button">Zmień lokację</string>
-    <string name="first_launch_localization_failure_dialog_negative_button">Wyjdź</string>
-    <string name="first_launch_localization_failure_dialog_message">Brak możliwości znalezienia aktualnej lokalizacji!</string>
-    <string name="search_progress_dialog_message">Wyszukiwanie lokalizacji...</string>
+    <string name="permission_denied_dialog_first_launch_positive_button">Zmień lokację</string>
+    <string name="permission_denied_dialog_first_launch_negative_button">Wyjdź</string>
+    <string name="permission_denied_dialog_negative_button">Anuluj</string>
+    <string name="permission_denied_dialog_positive_button">Ponów</string>
+    <string name="first_launch_permission_denied_dialog_message">Brak pozwolenia na dostęp do geolokalizacji!</string>
+    <string name="localization_failure_dialog_first_launch_positive_button">Zmień lokację</string>
+    <string name="localization_failure_dialog_first_launch_negative_button">Wyjdź</string>
+    <string name="localization_failure_dialog_title">Niepowodzenie!</string>
+    <string name="localization_failure_dialog_positive_button">Odśwież</string>
+    <string name="localization_failure_dialog_negative_button">Anuluj</string>
+    <string name="localization_failure_dialog_message">Brak możliwości znalezienia aktualnej lokalizacji!</string>
+    <string name="search_progress_dialog_message">TEST TEST TEST...</string>
     <string name="no_different_location_choosen_dialog_title">Niepowodzenie</string>
     <string name="no_different_location_choosen_dialog_message">Podaj lokację!</string>
     <string name="no_different_location_choosen_dialog_positive_button">Ok</string>
@@ -146,7 +150,7 @@
 
 
     <string name="refresh_message_pull_to_refresh">Pociągnij, żeby odświeżyć</string>
-    <string name="refresh_message_refreshing">Odświeżanie...</string>
+
 
     <!-- First launch layout strings-->
     <string name="first_launch_layout_start_button">GET STARTED</string>
@@ -186,12 +190,15 @@
     <string name="first_launch_layout_localization_options_header">Wybierz metodę geolokalizacji:</string>
     <string name="first_launch_layout_localization_options_gps">GPS (dokładna)</string>
     <string name="first_launch_layout_localization_options_network">Sieć (szybka)</string>
-    <string name="first_launch_layout_loading_header_searching_location">Wyszukiwanie lokacji...</string>
-    <string name="first_launch_layout_loading_header_waiting_for_localization">Oczekiwanie na lokalizację...</string>
-    <string name="first_launch_layout_loading_header_geocoding">Wyszukiwanie adresu...</string>
-    <string name="first_launch_layout_loading_header_downloading_data">Pobieranie informacji pogodowych...</string>
-    <string name="first_launch_layout_loading_header_loading_content">Ładowanie zawartości...</string>
 
+
+    <!-- progress info messages-->
+    <string name="searching_location_progress_message">Wyszukiwanie lokacji...</string>
+    <string name="waiting_for_localization_progress_message">Oczekiwanie na lokalizację...</string>
+    <string name="looking_for_address_progress_message">Wyszukiwanie adresu...</string>
+    <string name="downloading_weather_data_progress_message">Pobieranie informacji pogodowych...</string>
+    <string name="loading_content_progress_message">Ładowanie zawartości...</string>
+    <string name="refreshing_progress_message">Odświeżanie...</string>
     <!-- Clipboard texts-->
     <string name="clipboard_mail_feedback_title">MatWeather - feedback</string>
 

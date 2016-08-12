@@ -3,7 +3,7 @@ package paweltypiak.matweather.localizationDataDownloading;
 import paweltypiak.matweather.jsonHandling.Geocoding;
 
 public interface GeocodingCallback {
-    void geocodeSuccess(String location);
+    void geocodingServiceSuccess(String location);
 
-    void geocodeFailure(int errorCode);
+    void geocodingServiceFailure(int errorCode);
 }

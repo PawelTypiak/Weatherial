@@ -52,7 +52,7 @@ public class WeatherDataDownloader {
             protected  void onPostExecute(String s){
                 if(s==null && error!=null){
                     Log.d("blad", "net ");
-                    callback.ServiceFailure(1);
+                    callback.weatherServiceFailure(1);
                     return;
                 }
                 try{
@@ -60,13 +60,13 @@ public class WeatherDataDownloader {
                     JSONObject queryResluts=data.getJSONObject("query");
                     int count =queryResluts.optInt("count");
                     if (count == 0) {
-                        callback.ServiceFailure(2);
+                        callback.weatherServiceFailure(2);
                         Log.d("blad", "service ");
                         return;
                     }
                     Channel channel = new Channel();
                     channel.populate(queryResluts.optJSONObject("results").optJSONObject("channel"));
-                    callback.ServiceSuccess(channel);
+                    callback.weatherServiceSuccess(channel);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
