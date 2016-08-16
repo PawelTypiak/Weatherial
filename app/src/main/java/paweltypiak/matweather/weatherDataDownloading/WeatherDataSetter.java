@@ -220,9 +220,10 @@ public class WeatherDataSetter {
 
     private void setAppBarLayout(){
         getAppBarResources();
-        if(FavouritesEditor.areCoordinatesEqual(activity)){
+        if(FavouritesEditor.isAddressEqual(activity)){
             FavouritesEditor.setLayoutForFavourites(activity);
             Log.d("data setter", "location in favourites");
+
         }
         else{
             UsefulFunctions.setAppBarStrings(activity,city,region+", "+country);

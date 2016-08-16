@@ -188,17 +188,14 @@ public class FavouritesEditor {
         return id;
     }
 
-    public static boolean areCoordinatesEqual(Activity activity){
-        String favouritesCoordinates[]= SharedPreferencesModifier.getFavouriteLocationsCoordinates(activity);
+    public static boolean isAddressEqual(Activity activity){
+        String favouritesAddresses[]= SharedPreferencesModifier.getFavouriteLocationsAddresses(activity);
+        String currentLocationHeaderString=UsefulFunctions.getCurrentLocationAddress()[0];
+        String currentLocationSubheaderString=UsefulFunctions.getCurrentLocationAddress()[1];
+        String currentLocationAddress=currentLocationHeaderString+", "+currentLocationSubheaderString;
         boolean isEqual=false;
-        String coordinates[]=new String [2];
-        for(int i=0;i<favouritesCoordinates.length;i++){
-            StringTokenizer stringTokenizer = new StringTokenizer(favouritesCoordinates[i], "%");
-            for (int j = 0; j < 2; j++) {
-                coordinates[j] = stringTokenizer.nextToken();
-            }
-            if(coordinates[0].equals(UsefulFunctions.getCurrentLocationCoordinates()[0])
-                    && coordinates[1].equals(UsefulFunctions.getCurrentLocationCoordinates()[1])) isEqual=true;
+        for(int i=0;i<favouritesAddresses.length;i++){
+            if(favouritesAddresses[i].equals(currentLocationAddress)) isEqual=true;
         }
         return isEqual;
     }

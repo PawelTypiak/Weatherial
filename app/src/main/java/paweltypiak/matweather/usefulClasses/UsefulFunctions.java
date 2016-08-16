@@ -57,7 +57,6 @@ public class UsefulFunctions {
         String[] location=new String[2];
         location[0]= WeatherDataSetter.getCurrentDataFormatter().getCity();
         location[1]=WeatherDataSetter.getCurrentDataFormatter().getRegion()+", "+WeatherDataSetter.getCurrentDataFormatter().getCountry();
-        Log.d("current address", location[0]+", "+location[1]);
         return location;
     }
 
@@ -65,7 +64,6 @@ public class UsefulFunctions {
         String[] coordinates=new String[2];
         coordinates[0]= Double.toString(WeatherDataSetter.getCurrentDataFormatter().getLatitude());
         coordinates[1]=Double.toString(WeatherDataSetter.getCurrentDataFormatter().getLongitude());
-        Log.d("current address", coordinates[0]+", "+coordinates[1]);
         return coordinates;
     }
 
