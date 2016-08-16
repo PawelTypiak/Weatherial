@@ -288,7 +288,7 @@ public class MainActivity extends AppCompatActivity
     private void setSearchClickable(){
         ImageView searchImageView =(ImageView)findViewById(R.id.search_image);
         LinearLayout searchLayout=(LinearLayout) findViewById(R.id.search_layout);
-        Picasso.with(getApplicationContext()).load(R.drawable.search_black_icon).transform(new UsefulFunctions().new setDrawableColor(getResources().getColor(R.color.white))).into(searchImageView);
+        Picasso.with(getApplicationContext()).load(R.drawable.search_icon).transform(new UsefulFunctions().new setDrawableColor(getResources().getColor(R.color.white))).into(searchImageView);
         searchLayout.setOnClickListener(
                 new View.OnClickListener() {
                     @Override

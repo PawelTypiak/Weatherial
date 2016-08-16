@@ -378,7 +378,7 @@ public class DialogInitializer  {
         }
         else if(type==2){
             title=activity.getString(R.string.search_dialog_type2_title);
-            icon=R.drawable.search_blue_icon;
+            icon=R.drawable.search_icon;
             positiveButtonString=activity.getString(R.string.search_dialog_type2_positive_button);
             positiveButtonRunnable=new searchRunnable(dialogView);
         }
@@ -1150,23 +1150,26 @@ public class DialogInitializer  {
         String title=null;
         String negativeButtonString=null;
         boolean isUncancelable=false;
+        int icon=0;
         if(type==1) {
             title=activity.getString(R.string.favourites_dialog_first_launch_title);
             negativeButtonString=activity.getString(R.string.favourites_dialog_type1_negative_button);
             isUncancelable=true;
+            icon=R.drawable.localization_icon;
         }
         else if(type==2){
             positiveButtonRunnable=new favouritesDialogRunnable();
             negativeButtonString=activity.getString(R.string.favourites_dialog_type2_negative_button);
             title=activity.getString(R.string.favourites_dialog_title);
             isUncancelable=false;
+            icon=R.drawable.favourites_icon;
         }
         favouritesDialog = buildDialog(
                 activity,
                 dialogView,
                 R.style.CustomDialogStyle,
                 title,
-                R.drawable.favourites_full_icon,
+                icon,
                 null,
                 isUncancelable,
                 activity.getString(R.string.favourites_dialog_positive_button),

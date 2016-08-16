@@ -172,7 +172,7 @@ public class WeatherDataSetter {
         else{
             if(!currentDiffMinutesString.equals(sunPositionStrings[1])){
                 if(!isDayString.equals(sunPositionStrings[2])){
-                    Log.d("data setter", "czange time of day");
+                    Log.d("data setter", "change time of day");
                     changeTimeOfDay();
                 }
                 assignSunPositionStrings(sunPositionStrings);
