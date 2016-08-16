@@ -5,7 +5,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Forecast {
-
     JSONArray jsonArray;
     private int[] code = new int[5];
     private String high[] = new String[5];

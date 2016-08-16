@@ -20,9 +20,7 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
-
 import java.util.List;
-
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDataDownloader;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDownloadCallback;
@@ -31,56 +29,43 @@ import paweltypiak.matweather.weatherDataDownloading.WeatherDataSetter;
 import paweltypiak.matweather.jsonHandling.Channel;
 
 public class DialogInitializer  {
-
-    private static AlertDialog serviceFailureDialog;
-    private static AlertDialog yahooRedirectDialog;
-    private static AlertDialog yahooWeatherRedirectDialog;
-    private static AlertDialog exitDialog;
-    private static AlertDialog aboutDialog;
-    private static AlertDialog firstLoadingDialog;
-    private static AlertDialog feedbackDialog;
-    private static AlertDialog authorDialog;
-    private static AlertDialog noEmailApplicationDialog;
-    private static AlertDialog searchDialog;
-    private static AlertDialog progressDialog;
-    private static AlertDialog noLocalizationResultsDialog;
-    private static AlertDialog localizationResultsDialog;
-    private static AlertDialog noDifferentLocationChoosenDialog;
-    private static AlertDialog internetFailureDialog;
-    private static AlertDialog mapsDialog;
-    private static AlertDialog differentLocationDialog;
-    private static AlertDialog addToFavouritesDialog;
-    private static AlertDialog editFavouritesDialog;
-    private static AlertDialog localizationFailureDialog;
-    private static AlertDialog permissionDeniedDialog;
-    private static AlertDialog providerUnavailableDialog;
-    private static AlertDialog duplicateDialog;
-    private static AlertDialog favouritesDialog;
-    private static AlertDialog emptyLocationListDialog;
-    private static AlertDialog localizationOptionsDialog;
-    private static EditText searchEditText;
-    private static Activity activity;
-
+    private AlertDialog serviceFailureDialog;
+    private AlertDialog yahooRedirectDialog;
+    private AlertDialog yahooWeatherRedirectDialog;
+    private AlertDialog exitDialog;
+    private AlertDialog aboutDialog;
+    private AlertDialog feedbackDialog;
+    private AlertDialog authorDialog;
+    private AlertDialog noEmailApplicationDialog;
+    private AlertDialog searchDialog;
+    private AlertDialog progressDialog;
+    private AlertDialog noWeatherResultsForLocation;
+    private AlertDialog localizationResultsDialog;
+    private AlertDialog noDifferentLocationChoosenDialog;
+    private AlertDialog internetFailureDialog;
+    private AlertDialog mapsDialog;
+    private AlertDialog addToFavouritesDialog;
+    private AlertDialog editFavouritesDialog;
+    private AlertDialog localizationFailureDialog;
+    private AlertDialog permissionDeniedDialog;
+    private AlertDialog providerUnavailableDialog;
+    private AlertDialog favouritesDialog;
+    private AlertDialog emptyLocationListDialog;
+    private AlertDialog localizationOptionsDialog;
+    private Activity activity;
 
     public DialogInitializer(Activity activity) {
         this.activity = activity;
     }
 
-    //runnables to make passing methods as parameters possible
-    private static Runnable showExitRunnable = new Runnable() {
-        public void run() {
-            if(exitDialog==null) exitDialog=initializeExitDialog(false,null);
-        }
-    };
-
-    private static Runnable finishRunnable = new Runnable() {
+    private Runnable finishRunnable = new Runnable() {
         public void run() {
             activity.finish();
             return;
         }
     };
 
-    private static class copyToClipboardRunnable implements Runnable {
+    private class copyToClipboardRunnable implements Runnable {
         private String text;
         public copyToClipboardRunnable(String text) {
             this.text=text;
@@ -90,7 +75,7 @@ public class DialogInitializer  {
         }
     }
 
-    private static class initializeWebIntentRunnable implements Runnable {
+    private class initializeWebIntentRunnable implements Runnable {
         private String url;
         public initializeWebIntentRunnable(String url) {
             this.url=url;
@@ -100,7 +85,7 @@ public class DialogInitializer  {
         }
     }
 
-    private static class initializeMapsIntentRunnable implements Runnable{
+    private class initializeMapsIntentRunnable implements Runnable{
         private String label;
         private double longitude;
         private double latitude;
@@ -117,23 +102,25 @@ public class DialogInitializer  {
         }
     }
 
-    private static class initializeEmailIntentRunnable implements Runnable {
+    private class initializeEmailIntentRunnable implements Runnable {
         String address;
         String subject;
         String body;
         AlertDialog dialog;
+
         public initializeEmailIntentRunnable(String address, String subject, String body, AlertDialog dialog) {
             this.dialog=dialog;
             this.address=address;
             this.subject=subject;
             this.body=body;
         }
+
         public void run() {
             UsefulFunctions.initializeEmailIntent(activity,address,subject,body,dialog);
         }
     }
 
-    private static class setMainLayoutRunnable implements Runnable {
+    private class setMainLayoutRunnable implements Runnable {
         WeatherDataInitializer dataInitializer;
         WeatherDataSetter dataSetter;
 
@@ -146,14 +133,14 @@ public class DialogInitializer  {
         }
     }
 
-    private static Runnable showDifferentLocationDialogRunnable = new Runnable() {
+    private Runnable showDifferentLocationDialogRunnable = new Runnable() {
         public void run() {
             searchDialog.show();
             UsefulFunctions.showKeyboard(activity);
         }
     };
 
-    private static class differentLocationDialogRunnable implements  Runnable{
+    private class differentLocationDialogRunnable implements  Runnable{
         private RadioButton radioButton;
         private View dialogView;
         private EditText editText;
@@ -163,6 +150,7 @@ public class DialogInitializer  {
             this.radioButton = radioButton;
             this.dialogView=dialogView;
         }
+
         @Override
         public void run() {
             UsefulFunctions.hideKeyboard(activity,null);
@@ -173,52 +161,46 @@ public class DialogInitializer  {
         }
     }
 
-
-    private static void initializeSearchRunnableDialogs(){
-        progressDialog = initializeProgressDialog(activity.getString(R.string.searching_location_progress_message));
-        noLocalizationResultsDialog= initializeNoLocationResultsDialog(2,showSearchDialogRunnable,null);
-    }
-
-    private static Runnable showSearchDialogRunnable = new Runnable() {
+    private Runnable showSearchDialogRunnable = new Runnable() {
         public void run() {
-            if(searchDialog==null) searchDialog=initializeSearchDialog(null);
+            searchDialog=initializeSearchDialog(2,null);
             searchDialog.show();
-            noLocalizationResultsDialog= initializeNoLocationResultsDialog(2,showSearchDialogRunnable,null);
             UsefulFunctions.showKeyboard(activity);
         }
     };
 
-    private static class searchRunnable implements Runnable, WeatherDownloadCallback {
-        private static String location;
+    private class searchRunnable implements Runnable, WeatherDownloadCallback {
+        private String location;
         private WeatherDataDownloader downloader;
         private WeatherDataInitializer dataInitializer;
-        private View dialogView;
         private EditText locationEditText;
         private boolean isReconnect;
 
-        public searchRunnable(){
+        public searchRunnable(String location){
+            this.location=location;
             isReconnect=true;
         }
         public searchRunnable(View dialogView){
-            initializeSearchRunnableDialogs();
             locationEditText=(EditText)dialogView.findViewById(R.id.search_edit_text);
             isReconnect=false;
         }
 
         public void run(){
+            progressDialog = initializeProgressDialog(activity.getString(R.string.searching_location_progress_message));
+            noWeatherResultsForLocation = initializeNoWeatherResultsForLocationDialog(2,showSearchDialogRunnable,null);
+            progressDialog.show();
             if(isReconnect==false){
                 location=locationEditText.getText().toString();
                 location=UsefulFunctions.getFormattedString(location);
                 UsefulFunctions.hideKeyboard(activity,locationEditText);
             }
-            progressDialog.show();
             downloader=new WeatherDataDownloader(location,this);
         }
 
         @Override
         public void weatherServiceSuccess(Channel channel) {
-            dataInitializer=new WeatherDataInitializer(activity,channel);
-            localizationResultsDialog = initializeLocationResultsDialog(2,dataInitializer,new setMainLayoutRunnable(dataInitializer),showSearchDialogRunnable,null);
+            dataInitializer=new WeatherDataInitializer(channel);
+            localizationResultsDialog = initializeWeatherResultsForLocationDialog(2,dataInitializer,new setMainLayoutRunnable(dataInitializer),showSearchDialogRunnable,null);
             localizationResultsDialog.show();
             progressDialog.dismiss();
         }
@@ -226,18 +208,121 @@ public class DialogInitializer  {
         @Override
         public void weatherServiceFailure(int errorCode) {
             if(errorCode==1)   {
-                internetFailureDialog=initializeInternetFailureDialog(false, new searchRunnable(),null);
+                internetFailureDialog=initializeInternetFailureDialog(2, new searchRunnable(location),null);
                 internetFailureDialog.show();
             }
             else {
-                noLocalizationResultsDialog.show();
+                noWeatherResultsForLocation.show();
             }
             progressDialog.dismiss();
         }
     }
 
-    private static AlertDialog buildDialog(Activity activity, View dialogView, int theme, String title, int iconResource, String message, boolean ifUncancelable, String positiveButtonText, final Runnable positiveButtonFunction, String neutralButtonText, final Runnable neutralButtonFunction, String negativeButtonText, final Runnable negativeButtonFunction){
-        //custom dialog builder
+    private class addToFavouritesRunnable implements Runnable {
+        private View dialogView;
+
+        public addToFavouritesRunnable(View dialogView) {
+            this.dialogView = dialogView;
+        }
+
+        public void run() {
+            EditText headerEditText=(EditText)dialogView.findViewById(R.id.edit_location_dialog_header_edittext);
+            EditText subheaderEditText=(EditText)dialogView.findViewById(R.id.edit_location_dialog_subheader_edittext);
+            String customHeaderString=headerEditText.getText().toString();
+            String customSubheaderString=subheaderEditText.getText().toString();
+            FavouritesEditor.saveNewFavouritesItem(activity,customHeaderString,customSubheaderString,null,null);
+            CheckBox checkBox=(CheckBox)dialogView.findViewById(R.id.edit_location_dialog_checkbox);
+            if(checkBox.isChecked()){
+                Log.d("checkbox", "checked");
+                String currentLocationHeaderString=UsefulFunctions.getCurrentLocationAddress()[0];
+                String currentLocationSubheaderString=UsefulFunctions.getCurrentLocationAddress()[1];
+                String currentLocationName=currentLocationHeaderString+", "+currentLocationSubheaderString;
+                SharedPreferencesModifier.setDefeaultLocationConstant(activity,currentLocationName);
+            }
+            FavouritesEditor.setLayoutForFavourites(activity);
+        }
+    }
+
+    private Runnable deleteFromFavouritesRunnable = new Runnable() {
+        public void run() {
+            FavouritesEditor.deleteFavouritesItem(activity);
+            UsefulFunctions.setfloatingActionButtonOnClickIndicator(activity,1);
+            UsefulFunctions.uncheckNavigationDrawerMenuItem(activity,2);
+            String currentLocationHeaderString=UsefulFunctions.getCurrentLocationAddress()[0];
+            String currentLocationSubheaderString=UsefulFunctions.getCurrentLocationAddress()[1];
+            UsefulFunctions.setAppBarStrings(activity,currentLocationHeaderString,currentLocationSubheaderString);
+            if(FavouritesEditor.isFirstLocationEqual(activity)) {
+                SharedPreferencesModifier.setDefeaultLocationGeolocalization(activity);
+            }
+        }
+    };
+
+    private class saveFavouritesChangesRunnable implements Runnable {
+        private View dialogView;
+
+        public saveFavouritesChangesRunnable(View dialogView) {
+            this.dialogView = dialogView;
+        }
+
+        public void run() {
+            EditText headerEditText=(EditText)dialogView.findViewById(R.id.edit_location_dialog_header_edittext);
+            EditText subheaderEditText=(EditText)dialogView.findViewById(R.id.edit_location_dialog_subheader_edittext);
+            String customHeaderString=headerEditText.getText().toString();
+            customHeaderString=UsefulFunctions.getFormattedString(customHeaderString);
+            String customSubheaderString=subheaderEditText.getText().toString();
+            customSubheaderString=UsefulFunctions.getFormattedString(customSubheaderString);
+            FavouritesEditor.editFavouriteLocationName(activity,customHeaderString,customSubheaderString);
+            UsefulFunctions.setAppBarStrings(activity,customHeaderString,customSubheaderString);
+            CheckBox checkBox=(CheckBox)dialogView.findViewById(R.id.edit_location_dialog_checkbox);
+            if(checkBox.isChecked()){
+                Log.d("checkbox", "checked");
+                String currentLocationHeaderString=UsefulFunctions.getCurrentLocationAddress()[0];
+                String currentLocationSubheaderString=UsefulFunctions.getCurrentLocationAddress()[1];
+                String currentLocationAddress=currentLocationHeaderString+", "+currentLocationSubheaderString;
+                SharedPreferencesModifier.setDefeaultLocationConstant(activity,currentLocationAddress);
+            }
+            else{
+                if(FavouritesEditor.isFirstLocationEqual(activity)) {
+                    SharedPreferencesModifier.setDefeaultLocationGeolocalization(activity);
+                }
+            }
+        }
+    }
+
+    private class favouritesDialogRunnable implements Runnable,WeatherDownloadCallback {
+        WeatherDataInitializer dataInitializer;
+        public favouritesDialogRunnable() {}
+
+        public void run() {
+            String address= FavouritesEditor.getChoosenFavouriteLocationAddress(activity);
+            Log.d("choosen adress", address);
+            new WeatherDataDownloader(address,this);
+            initializeProgressDialog(activity.getString(R.string.downloading_weather_data_progress_message));
+            progressDialog.show();
+        }
+
+        @Override
+        public void weatherServiceSuccess(Channel channel) {
+            dataInitializer=new WeatherDataInitializer(channel);
+            new WeatherDataSetter(activity,dataInitializer,true,false);
+            progressDialog.dismiss();
+        }
+
+        @Override
+        public void weatherServiceFailure(int errorCode) {
+            if(errorCode==1)   {
+                internetFailureDialog=initializeInternetFailureDialog(2, new favouritesDialogRunnable(),null);
+                internetFailureDialog.show();
+            }
+            else {
+                serviceFailureDialog=initializeServiceFailureDialog(2,new favouritesDialogRunnable(),null);
+                serviceFailureDialog.show();
+            }
+            progressDialog.dismiss();
+        }
+    }
+
+    private AlertDialog buildDialog(Activity activity, View dialogView, int theme, String title, int iconResource, String message, boolean ifUncancelable, String positiveButtonText, final Runnable positiveButtonFunction, String neutralButtonText, final Runnable neutralButtonFunction, String negativeButtonText, final Runnable negativeButtonFunction){
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(activity, theme);
         if(dialogView!=null)alertBuilder.setView(dialogView);
         if(title!=null) alertBuilder.setTitle(title);
@@ -269,33 +354,33 @@ public class DialogInitializer  {
         return dialog;
     }
 
-    public static AlertDialog initializeSearchDialog(RadioButton radioButton){
+    public AlertDialog initializeSearchDialog(int type,RadioButton radioButton){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.search_dialog,null);
         dialogView.setFocusableInTouchMode(true);
         dialogView.setClickable(true);
         final EditText locationEditText=(EditText)dialogView.findViewById(R.id.search_edit_text);
         locationEditText.requestFocus();
-        String title;
-        int icon;
-        String positiveButtonString;
-        Runnable positiveButtonRunnable;
-        if(radioButton==null){
-            title=activity.getString(R.string.search_dialog_title);
-            icon=R.drawable.search_blue_icon;
-            positiveButtonString=activity.getString(R.string.search_dialog_positive_button);
-            positiveButtonRunnable=new searchRunnable(dialogView);
-        }
-        else{
+        String title=null;
+        int icon=0;
+        String positiveButtonString=null;
+        Runnable positiveButtonRunnable=null;
+        if(type==1){
             String radioButtonString=radioButton.getText().toString();
             if(!radioButtonString.equals(activity.getString(R.string.first_launch_layout_location_different))){
                 locationEditText.setText(radioButtonString);
                 locationEditText.setSelection(radioButtonString.length());
             }
-            title=activity.getString(R.string.search_dialog_first_launch_title);
+            title=activity.getString(R.string.search_dialog_type1_title);
             icon=R.drawable.localization_icon;
-            positiveButtonString=activity.getString(R.string.search_dialog_first_launch_positive_button);
+            positiveButtonString=activity.getString(R.string.search_dialog_type1_positive_button);
             positiveButtonRunnable=new differentLocationDialogRunnable(radioButton,dialogView);
+        }
+        else if(type==2){
+            title=activity.getString(R.string.search_dialog_type2_title);
+            icon=R.drawable.search_blue_icon;
+            positiveButtonString=activity.getString(R.string.search_dialog_type2_positive_button);
+            positiveButtonRunnable=new searchRunnable(dialogView);
         }
         searchDialog=buildDialog(
                 activity,
@@ -322,36 +407,35 @@ public class DialogInitializer  {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
                 UsefulFunctions.hideKeyboard(activity,null);
-                Log.d("ond", "onDismiss: ");
                 locationEditText.getText().clear();
             }
         });
         return searchDialog;
     }
 
-    public static AlertDialog initializeLocalizationFailureDialog(int type, Runnable positiveButtonRunnable, Runnable negativeButtonRunnable){
+    public AlertDialog initializeGeolocalizationFailureDialog(int type, Runnable positiveButtonRunnable, Runnable negativeButtonRunnable){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.one_line_text_dialog,null);
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
-        messageTextView.setText(activity.getString(R.string.localization_failure_dialog_message));
-        boolean isUncancelable;
-        String positiveButtonString;
-        String negativeButtonString;
+        messageTextView.setText(activity.getString(R.string.geolocalization_failure_dialog_message));
+        boolean isUncancelable=false;
+        String positiveButtonString=null;
+        String negativeButtonString=null;
         if(type==1){
             isUncancelable=true;
-            positiveButtonString=activity.getString(R.string.localization_failure_dialog_first_launch_positive_button);
-            negativeButtonString=activity.getString(R.string.localization_failure_dialog_first_launch_negative_button);
+            positiveButtonString=activity.getString(R.string.geolocalization_failure_dialog_type1_positive_button);
+            negativeButtonString=activity.getString(R.string.geolocalization_failure_dialog_type1_negative_button);
         }
-        else{
+        else if(type==2){
             isUncancelable=false;
-            positiveButtonString=activity.getString(R.string.localization_failure_dialog_positive_button);
-            negativeButtonString=activity.getString(R.string.localization_failure_dialog_negative_button);
+            positiveButtonString=activity.getString(R.string.geolocalization_failure_dialog_type2_positive_button);
+            negativeButtonString=activity.getString(R.string.geolocalization_failure_dialog_type2_negative_button);
         }
         localizationFailureDialog=buildDialog(
                 activity,
                 dialogView,
                 R.style.CustomDialogStyle,
-                activity.getString(R.string.localization_failure_dialog_title),
+                activity.getString(R.string.failure_dialog_title),
                 R.drawable.error_icon,
                 null,
                 isUncancelable,
@@ -365,19 +449,19 @@ public class DialogInitializer  {
         return localizationFailureDialog;
     }
 
-    public static AlertDialog initializeProviderUnavailableDialog(int type,Runnable positiveButtonRunnable){
+    public AlertDialog initializeProviderUnavailableDialog(int type,Runnable positiveButtonRunnable){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.one_line_text_dialog,null);
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
-        String message;
-        String title;
-        String positiveButtonString;
+        String message=null;
+        String title=null;
+        String positiveButtonString=null;
         if(type==1){
             message=activity.getString(R.string.gps_unavailable_dialog_message);
             title=activity.getString(R.string.gps_unavailable_dialog_title);
             positiveButtonString=activity.getString(R.string.gps_unavailable_dialog_positive_button);
         }
-        else{
+        else if(type==2){
             message=activity.getString(R.string.network_unavailable_dialog_message);
             title=activity.getString(R.string.network_unavailable_dialog_title);
             positiveButtonString=activity.getString(R.string.network_unavailable_dialog_positive_button);
@@ -401,29 +485,29 @@ public class DialogInitializer  {
         return providerUnavailableDialog;
     }
 
-    public static AlertDialog initializePermissionDeniedDialog(int type,Runnable positiveButtonRunnable, Runnable negativeButtonRunnable){
+    public AlertDialog initializePermissionDeniedDialog(int type,Runnable positiveButtonRunnable, Runnable negativeButtonRunnable){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.one_line_text_dialog,null);
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
-        messageTextView.setText(activity.getString(R.string.first_launch_permission_denied_dialog_message));
-        boolean isUncancelable;
-        String positiveButtonString;
-        String negativeButtonString;
+        messageTextView.setText(activity.getString(R.string.permission_denied_dialog_message));
+        boolean isUncancelable=false;
+        String positiveButtonString=null;
+        String negativeButtonString=null;
         if(type==1){
             isUncancelable=true;
-            positiveButtonString=activity.getString(R.string.permission_denied_dialog_first_launch_positive_button);
-            negativeButtonString=activity.getString(R.string.permission_denied_dialog_first_launch_negative_button);
+            positiveButtonString=activity.getString(R.string.permission_denied_dialog_type1_positive_button);
+            negativeButtonString=activity.getString(R.string.permission_denied_dialog_type1_negative_button);
         }
-        else{
+        else if(type==2){
             isUncancelable=false;
-            positiveButtonString=activity.getString(R.string.permission_denied_dialog_positive_button);
-            negativeButtonString=activity.getString(R.string.permission_denied_dialog_negative_button);
+            positiveButtonString=activity.getString(R.string.permission_denied_dialog_type2_positive_button);
+            negativeButtonString=activity.getString(R.string.permission_denied_dialog_type2_negative_button);
         }
         permissionDeniedDialog=buildDialog(
                 activity,
                 dialogView,
                 R.style.CustomDialogStyle,
-                activity.getString(R.string.first_launch_permission_denied_dialog_title),
+                activity.getString(R.string.permission_denied_dialog_title),
                 R.drawable.error_icon,
                 null,
                 isUncancelable,
@@ -437,30 +521,7 @@ public class DialogInitializer  {
         return permissionDeniedDialog;
     }
 
-    public static AlertDialog initializeDuplicateDialog(){
-        LayoutInflater inflater = activity.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.one_line_text_dialog,null);
-        TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
-        messageTextView.setText(activity.getString(R.string.duplicate_dialog_message));
-        duplicateDialog=buildDialog(
-                activity,
-                dialogView,
-                R.style.CustomDialogStyle,
-                activity.getString(R.string.duplicate_dialog_title),
-                R.drawable.info_icon,
-                null,
-                false,
-                activity.getString(R.string.duplicate_dialog_positive_button),
-                null,
-                null,
-                null,
-                null,
-                null
-        );
-        return duplicateDialog;
-    }
-
-    public static AlertDialog initializeNoDifferentLocationChoosenDialog(){
+    public AlertDialog initializeNoDifferentLocationChoosenDialog(){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.one_line_text_dialog,null);
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
@@ -469,7 +530,7 @@ public class DialogInitializer  {
                 activity,
                 dialogView,
                 R.style.CustomDialogStyle,
-                activity.getString(R.string.no_different_location_choosen_dialog_title),
+                activity.getString(R.string.failure_dialog_title),
                 R.drawable.warning_icon,
                 null,
                 false,
@@ -483,34 +544,34 @@ public class DialogInitializer  {
         return noDifferentLocationChoosenDialog;
     }
 
-    public static AlertDialog initializeNoLocationResultsDialog(int type, Runnable positiveButtonRunnable, Runnable negativeButtonRunnable){
+    public AlertDialog initializeNoWeatherResultsForLocationDialog(int type, Runnable positiveButtonRunnable, Runnable negativeButtonRunnable){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.one_line_text_dialog,null);
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
-        messageTextView.setText(activity.getString(R.string.no_localization_results_dialog_message));
+        messageTextView.setText(activity.getString(R.string.no_weather_results_for_location_dialog_message));
         boolean isUncancelable=false;
         String negativeButtonString=null;
         String positiveButtonString=null;
         if(type==1){
             isUncancelable=true;
-            negativeButtonString=activity.getString(R.string.no_localization_results_dialog_first_launch_negative_button);
-            positiveButtonString=activity.getString(R.string.no_localization_results_dialog_positive_button);
+            negativeButtonString=activity.getString(R.string.no_weather_results_for_location_dialog_type1_negative_button);
+            positiveButtonString=activity.getString(R.string.no_weather_results_for_location_dialog_type1_type2_positive_button);
         }
         else if(type==2){
             isUncancelable=false;
-            negativeButtonString=activity.getString(R.string.no_localization_results_dialog_negative_button);
-            positiveButtonString=activity.getString(R.string.no_localization_results_dialog_positive_button);
+            negativeButtonString=activity.getString(R.string.no_weather_results_for_location_dialog_type2_type3_negative_button);
+            positiveButtonString=activity.getString(R.string.no_weather_results_for_location_dialog_type1_type2_positive_button);
         }
         else if(type==3){
             isUncancelable=false;
-            negativeButtonString=activity.getString(R.string.no_localization_results_dialog_negative_button);
-            positiveButtonString=activity.getString(R.string.no_localization_results_dialog_type3_positive_button);
+            negativeButtonString=activity.getString(R.string.no_weather_results_for_location_dialog_type2_type3_negative_button);
+            positiveButtonString=activity.getString(R.string.no_weather_results_for_location_dialog_type3_positive_button);
         }
-        noLocalizationResultsDialog=buildDialog(
+        noWeatherResultsForLocation =buildDialog(
                 activity,
                 dialogView,
                 R.style.CustomDialogStyle,
-                activity.getString(R.string.no_localization_results_dialog_title),
+                activity.getString(R.string.failure_dialog_title),
                 R.drawable.error_icon,
                 null,
                 isUncancelable,
@@ -521,10 +582,10 @@ public class DialogInitializer  {
                 negativeButtonString,
                 negativeButtonRunnable
         );
-        return noLocalizationResultsDialog;
+        return noWeatherResultsForLocation;
     };
 
-    private static AlertDialog initializeNoEmailApplicationDialog(){
+    private AlertDialog initializeNoEmailApplicationDialog(){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.one_line_text_dialog,null);
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
@@ -545,24 +606,29 @@ public class DialogInitializer  {
         return noEmailApplicationDialog;
     }
 
-    public static AlertDialog initializeServiceFailureDialog(boolean ifUncancelable,Runnable positiveButtonRunnable,Runnable negativeButtonRunnable){
+    public AlertDialog initializeServiceFailureDialog(int type,Runnable positiveButtonRunnable,Runnable negativeButtonRunnable){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.one_line_text_dialog,null);
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
         messageTextView.setText(activity.getString(R.string.service_failure_dialog_message));
-        String negativeButtonString;
-        if(negativeButtonRunnable!=null){
-            negativeButtonString=activity.getString(R.string.service_failure_dialog_negative_button);
+        String negativeButtonString=null;
+        boolean isUncancelable=false;
+        if(type==1){
+            negativeButtonString=activity.getString(R.string.service_failure_dialog_type1_negative_button);
+            isUncancelable=true;
         }
-        else negativeButtonString=activity.getString(R.string.service_failure_dialog_type2_negative_button);
+        else if(type==2){
+            negativeButtonString=activity.getString(R.string.service_failure_dialog_type2_negative_button);
+            isUncancelable=false;
+        }
         serviceFailureDialog = buildDialog(
                 activity,
                 dialogView,
                 R.style.CustomDialogStyle,
-                activity.getString(R.string.service_failure_dialog_title),
+                activity.getString(R.string.failure_dialog_title),
                 R.drawable.error_icon,
                 null,
-                ifUncancelable,
+                isUncancelable,
                 activity.getString(R.string.service_failure_dialog_positive_button),
                 positiveButtonRunnable,
                 null,
@@ -573,7 +639,7 @@ public class DialogInitializer  {
         return serviceFailureDialog;
     }
 
-    public static AlertDialog initializeEmptyLocationListDialog(){
+    public AlertDialog initializeNoFavouritesDialog(){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.one_line_text_dialog,null);
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
@@ -596,19 +662,26 @@ public class DialogInitializer  {
         return emptyLocationListDialog;
     }
 
-    public static AlertDialog initializeInternetFailureDialog(boolean isUncancelable,Runnable positiveButtonRunnable,Runnable negativeButtonRunnable){
+    public AlertDialog initializeInternetFailureDialog(int type,Runnable positiveButtonRunnable,Runnable negativeButtonRunnable){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.one_line_text_dialog,null);
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
         messageTextView.setText(activity.getString(R.string.internet_failure_dialog_message));
-        String negativeButtonString;
-        if(isUncancelable==true) negativeButtonString=activity.getString(R.string.internet_failure_dialog_negative_button);
-        else negativeButtonString=activity.getString(R.string.internet_failure_dialog_type2_negative_button);
+        boolean isUncancelable=false;
+        String negativeButtonString=null;
+        if(type==1){
+            isUncancelable=true;
+            negativeButtonString=activity.getString(R.string.internet_failure_dialog_type1_negative_button);
+        }
+        else if(type==2){
+            isUncancelable=false;
+            negativeButtonString=activity.getString(R.string.internet_failure_dialog_type2_negative_button);
+        }
         internetFailureDialog = buildDialog(
                 activity,
                 dialogView,
                 R.style.CustomDialogStyle,
-                activity.getString(R.string.internet_failure_dialog_title),
+                activity.getString(R.string.failure_dialog_title),
                 R.drawable.error_icon,
                 null,
                 isUncancelable,
@@ -622,11 +695,14 @@ public class DialogInitializer  {
         return internetFailureDialog;
     }
 
-    public static AlertDialog initializeExitDialog(boolean ifUncancelable, Runnable negativeButtonRunnable){
+    public AlertDialog initializeExitDialog(int type, Runnable negativeButtonRunnable){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.one_line_text_dialog,null);
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
         messageTextView.setText(activity.getText(R.string.exit_dialog_message));
+        boolean isUncancelable=false;
+        if(type==1) isUncancelable=true;
+        else if(type==2) isUncancelable=false;
         exitDialog = buildDialog(
                 activity,
                 dialogView,
@@ -634,7 +710,7 @@ public class DialogInitializer  {
                 activity.getString(R.string.exit_dialog_title),
                 R.drawable.warning_icon,
                 null,
-                ifUncancelable,
+                isUncancelable,
                 activity.getString(R.string.exit_dialog_positive_button),
                 finishRunnable,
                 null,
@@ -645,7 +721,7 @@ public class DialogInitializer  {
         return exitDialog;
     }
 
-    public static AlertDialog initializeYahooRedirectDialog(){
+    public AlertDialog initializeYahooRedirectDialog(){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.two_line_text_dialog,null);
         TextView message1TextView=(TextView)dialogView.findViewById(R.id.two_line_text_dialog_message1_text);
@@ -670,7 +746,7 @@ public class DialogInitializer  {
         return  yahooRedirectDialog;
     }
 
-    public static AlertDialog initializeYahooWeatherRedirectDialog(Activity activity, String link){
+    public AlertDialog initializeYahooWeatherRedirectDialog(Activity activity, String link){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.two_line_text_dialog,null);
         TextView message1TextView=(TextView)dialogView.findViewById(R.id.two_line_text_dialog_message1_text);
@@ -695,7 +771,7 @@ public class DialogInitializer  {
         return yahooWeatherRedirectDialog;
     }
 
-    public static AlertDialog initializeFeedbackDialog(){
+    public AlertDialog initializeFeedbackDialog(){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.two_line_text_dialog,null);
         TextView message1TextView=(TextView)dialogView.findViewById(R.id.two_line_text_dialog_message1_text);
@@ -732,32 +808,7 @@ public class DialogInitializer  {
         return feedbackDialog;
     }
 
-    private static class addToFavouritesRunnable implements Runnable {
-        private View dialogView;
-
-        public addToFavouritesRunnable(View dialogView) {
-            this.dialogView = dialogView;
-        }
-
-        public void run() {
-            EditText headerEditText=(EditText)dialogView.findViewById(R.id.edit_location_dialog_header_edittext);
-            EditText subheaderEditText=(EditText)dialogView.findViewById(R.id.edit_location_dialog_subheader_edittext);
-            String customHeaderString=headerEditText.getText().toString();
-            String customSubheaderString=subheaderEditText.getText().toString();
-            FavouritesEditor.saveNewFavouritesItem(activity,customHeaderString,customSubheaderString,null,null);
-            CheckBox checkBox=(CheckBox)dialogView.findViewById(R.id.edit_location_dialog_checkbox);
-            if(checkBox.isChecked()){
-                Log.d("checkbox", "checked");
-                String currentLocationHeaderString=UsefulFunctions.getCurrentLocationAddress()[0];
-                String currentLocationSubheaderString=UsefulFunctions.getCurrentLocationAddress()[1];
-                String currentLocationName=currentLocationHeaderString+", "+currentLocationSubheaderString;
-                SharedPreferencesModifier.setFirstLocationConstant(activity,currentLocationName);
-            }
-            FavouritesEditor.setLayoutForFavourites(activity);
-        }
-    }
-
-    public static AlertDialog initializeAddToFavouritesDialog(){
+    public AlertDialog initializeAddToFavouritesDialog(){
         LayoutInflater inflater = activity.getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.edit_location_dialog,null);
         dialogView.setFocusableInTouchMode(true);
@@ -798,7 +849,7 @@ public class DialogInitializer  {
         return addToFavouritesDialog;
     }
 
-    public static AlertDialog initializeEditFavouritesDialog(){
+    public AlertDialog initializeEditFavouritesDialog(){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.edit_location_dialog,null);
         dialogView.setFocusableInTouchMode(true);
@@ -842,54 +893,7 @@ public class DialogInitializer  {
         return editFavouritesDialog;
     }
 
-    private static Runnable deleteFromFavouritesRunnable = new Runnable() {
-        public void run() {
-            FavouritesEditor.deleteFavouritesItem(activity);
-            UsefulFunctions.setfloatingActionButtonOnClickIndicator(activity,1);
-            UsefulFunctions.uncheckNavigationDrawerMenuItem(activity,2);
-            String currentLocationHeaderString=UsefulFunctions.getCurrentLocationAddress()[0];
-            String currentLocationSubheaderString=UsefulFunctions.getCurrentLocationAddress()[1];
-            UsefulFunctions.setAppBarStrings(activity,currentLocationHeaderString,currentLocationSubheaderString);
-            if(FavouritesEditor.isFirstLocationEqual(activity)) {
-                SharedPreferencesModifier.setFirstLocationGeolocalization(activity);
-            }
-        }
-    };
-
-    private static class saveFavouritesChangesRunnable implements Runnable {
-        private View dialogView;
-
-        public saveFavouritesChangesRunnable(View dialogView) {
-            this.dialogView = dialogView;
-        }
-
-        public void run() {
-            EditText headerEditText=(EditText)dialogView.findViewById(R.id.edit_location_dialog_header_edittext);
-            EditText subheaderEditText=(EditText)dialogView.findViewById(R.id.edit_location_dialog_subheader_edittext);
-            String customHeaderString=headerEditText.getText().toString();
-            customHeaderString=UsefulFunctions.getFormattedString(customHeaderString);
-            String customSubheaderString=subheaderEditText.getText().toString();
-            customSubheaderString=UsefulFunctions.getFormattedString(customSubheaderString);
-            FavouritesEditor.editFavouriteLocationName(activity,customHeaderString,customSubheaderString);
-            UsefulFunctions.setAppBarStrings(activity,customHeaderString,customSubheaderString);
-            CheckBox checkBox=(CheckBox)dialogView.findViewById(R.id.edit_location_dialog_checkbox);
-            if(checkBox.isChecked()){
-                Log.d("checkbox", "checked");
-                String currentLocationHeaderString=UsefulFunctions.getCurrentLocationAddress()[0];
-                String currentLocationSubheaderString=UsefulFunctions.getCurrentLocationAddress()[1];
-                String currentLocationAddress=currentLocationHeaderString+", "+currentLocationSubheaderString;
-                SharedPreferencesModifier.setFirstLocationConstant(activity,currentLocationAddress);
-            }
-            else{
-                //String firstLocation=SharedPreferencesModifier.getFirstLocation(activity);
-                if(FavouritesEditor.isFirstLocationEqual(activity)) {
-                    SharedPreferencesModifier.setFirstLocationGeolocalization(activity);
-                }
-            }
-        }
-    }
-
-    public static AlertDialog initializeProgressDialog(String message){
+    public AlertDialog initializeProgressDialog(String message){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.progress_dialog,null);
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.progress_dialog_message_text);
@@ -913,47 +917,46 @@ public class DialogInitializer  {
         return progressDialog;
     }
 
-    public static AlertDialog initializeLocationResultsDialog(int type, WeatherDataInitializer dataInitializer, Runnable positiveButtonRunnable, Runnable neutralButtonRunnable, Runnable negativeButtonRunnable) {
+    public AlertDialog initializeWeatherResultsForLocationDialog(int type, WeatherDataInitializer dataInitializer, Runnable positiveButtonRunnable, Runnable neutralButtonRunnable, Runnable negativeButtonRunnable) {
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.location_dialog, null);
         String city=dataInitializer.getCity();
         String region=dataInitializer.getRegion();
         String country=dataInitializer.getCountry();
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.location_dialog_message_text);
-        messageTextView.setText(activity.getString(R.string.localization_results_dialog_message));
+        messageTextView.setText(activity.getString(R.string.weather_results_for_location_dialog_message));
         TextView cityTextView=(TextView)dialogView.findViewById(R.id.location_dialog_city_text);
         cityTextView.setText(city);
         TextView regionCountryTextView=(TextView)dialogView.findViewById(R.id.location_dialog_region_county_text);
         regionCountryTextView.setText(region+", "+country);
-        boolean ifUncancellable;
-        String negativeButtonString;
+        boolean ifUncancellable=false;
+        String negativeButtonString=null;
         if(type==1){
             ifUncancellable=true;
-            negativeButtonString=activity.getString(R.string.first_launch_localization_results_dialog_negative_button);
+            negativeButtonString=activity.getString(R.string.first_launch_localization_results_dialog_type1_negative_button);
         }
-        else
-        {
+        else if(type==2){
             ifUncancellable=false;
-            negativeButtonString=activity.getString(R.string.localization_results_dialog_negative_button);
+            negativeButtonString=activity.getString(R.string.weather_results_for_location_dialog_type2_negative_button);
         }
         localizationResultsDialog = buildDialog(
                 activity,
                 dialogView,
                 R.style.CustomDialogStyle,
-                activity.getString(R.string.localization_results_dialog_title),
+                activity.getString(R.string.weather_results_for_location_dialog_title),
                 R.drawable.localization_icon,
                 null,
                 ifUncancellable,
-                activity.getString(R.string.localization_results_dialog_positive_button),
+                activity.getString(R.string.weather_results_for_location_dialog_positive_button),
                 positiveButtonRunnable,
-                activity.getString(R.string.localization_results_dialog_neutral_button),
+                activity.getString(R.string.weather_results_for_location_dialog_neutral_button),
                 neutralButtonRunnable,
                 negativeButtonString,
                 negativeButtonRunnable);
         return localizationResultsDialog;
     }
 
-    public static AlertDialog initializeMapsDialog(Activity activity, String city, String region,String country,double longitude,double latitude) {
+    public AlertDialog initializeMapsDialog(Activity activity, String city, String region,String country,double longitude,double latitude) {
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.location_dialog, null);
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.location_dialog_message_text);
@@ -979,20 +982,18 @@ public class DialogInitializer  {
         return mapsDialog;
     }
 
-    public static AlertDialog initializeLocalizationOptionsDialog(Runnable positiveButtonRunnable){
+    public AlertDialog initializeGeolocalizationMethodsDialog(Runnable positiveButtonRunnable){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.localization_options_dialog,null);
-       /* TextView messageTextView=(TextView)dialogView.findViewById(R.id.localization_options_dialog_header_text);
-        messageTextView.setText(activity.getString(R.string.localization_options_dialog_message));*/
         RadioGroup radioGroup=(RadioGroup)dialogView.findViewById(R.id.localization_options_dialog_radio_group);
-        RadioButton gpsRadioButton=new RadioButton(activity); // dynamically creating RadioButton and adding to RadioGroup.
+        RadioButton gpsRadioButton=new RadioButton(activity);
         gpsRadioButton.setText(activity.getString(R.string.first_launch_layout_localization_options_gps));
         gpsRadioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX,activity.getResources().getDimensionPixelSize(R.dimen.dialog_text_size));
         gpsRadioButton.setTextColor(activity.getResources().getColor(R.color.textSecondaryLightBackground));
         gpsRadioButton.setId(R.id.localization_options_dialog_gps_radio_button);
         UsefulFunctions.setRadiogroupMargins(gpsRadioButton,activity,0,0,0,16);
         radioGroup.addView(gpsRadioButton);
-        RadioButton networkRadioButton=new RadioButton(activity); // dynamically creating RadioButton and adding to RadioGroup.
+        RadioButton networkRadioButton=new RadioButton(activity);
         networkRadioButton.setText(activity.getString(R.string.first_launch_layout_localization_options_network));
         networkRadioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX,activity.getResources().getDimensionPixelSize(R.dimen.dialog_text_size));
         networkRadioButton.setTextColor(activity.getResources().getColor(R.color.textSecondaryLightBackground));
@@ -1004,10 +1005,10 @@ public class DialogInitializer  {
                 UsefulFunctions.setDialogButtonEnabled(localizationOptionsDialog,activity);
                 if (i == R.id.localization_options_dialog_gps_radio_button) {
                     Log.d("localization_option", "gps");
-                    SharedPreferencesModifier.setLocalizationOption(activity,1);
+                    SharedPreferencesModifier.setGeolocalizationMethod(activity,1);
                 } else if (i == R.id.localization_options_dialog_network_radio_button) {
                     Log.d("localization_option", "network");
-                    SharedPreferencesModifier.setLocalizationOption(activity,2);
+                    SharedPreferencesModifier.setGeolocalizationMethod(activity,2);
                 }
             }
         });
@@ -1035,15 +1036,13 @@ public class DialogInitializer  {
         return localizationOptionsDialog;
     }
 
-    public static AlertDialog initializeAuthorDialog(){
+    public AlertDialog initializeAuthorDialog(){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.author_dialog,null);
-        //setting images
         ImageView emailImageView=(ImageView)dialogView.findViewById(R.id.author_dialog_mail_image);
         ImageView githubImageView=(ImageView)dialogView.findViewById(R.id.author_dialog_github_image);
         Picasso.with(activity.getApplicationContext()).load(R.drawable.email_icon).transform(new UsefulFunctions().new setDrawableColor(activity.getResources().getColor(R.color.white))).fit().centerInside().into(emailImageView);
         Picasso.with(activity.getApplicationContext()).load(R.drawable.github_icon).transform(new UsefulFunctions().new setDrawableColor(activity.getResources().getColor(R.color.white))).fit().centerInside().into(githubImageView);
-        //making links clickable and focusable
         RelativeLayout mailLayout=(RelativeLayout)dialogView.findViewById(R.id.author_dialog_mail_button_layout);
         RelativeLayout githubLayout=(RelativeLayout)dialogView.findViewById(R.id.author_dialog_github_button_layout);
         mailLayout.setOnClickListener(new View.OnClickListener() {
@@ -1075,10 +1074,9 @@ public class DialogInitializer  {
         return authorDialog;
     }
 
-    public static AlertDialog initializeAboutDialog(){
+    public AlertDialog initializeAboutDialog(){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.about_dialog,null);
-        //initializing clickable hyperlinks
         TextView aboutDesctiptionPart1=(TextView)dialogView.findViewById(R.id.about_dialog_text_part1);
         TextView aboutDesctiptionPart2=(TextView)dialogView.findViewById(R.id.about_dialog_text_part2);
         TextView aboutDesctiptionPart3=(TextView)dialogView.findViewById(R.id.about_dialog_text_part3);
@@ -1091,10 +1089,8 @@ public class DialogInitializer  {
         aboutDesctiptionPart2.setLinkTextColor( ContextCompat.getColor(activity,R.color.textSecondaryLightBackground));
         aboutDesctiptionPart3.setLinkTextColor( ContextCompat.getColor(activity,R.color.textSecondaryLightBackground));
         aboutDesctiptionPart4.setLinkTextColor( ContextCompat.getColor(activity,R.color.textSecondaryLightBackground));
-        //setting app icon
         ImageView iconImageView=(ImageView)dialogView.findViewById(R.id.about_dialog_app_icon_image);
         Picasso.with(activity.getApplicationContext()).load(R.drawable.app_icon_small).fit().centerInside().into(iconImageView);
-        //initializing dialog
         aboutDialog = buildDialog(
                 activity,
                 dialogView,
@@ -1112,7 +1108,7 @@ public class DialogInitializer  {
         return aboutDialog;
     }
 
-    public static AlertDialog initializeFavouritesDialog(final int type, Runnable positiveButtonRunnable, Runnable negativeButtonRunnable){
+    public AlertDialog initializeFavouritesDialog(final int type, Runnable positiveButtonRunnable, Runnable negativeButtonRunnable){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.radiogroup_dialog,null);
         final RadioGroup radioGroup = (RadioGroup) dialogView.findViewById(R.id.radiogroup_dialog_radiogroup);
@@ -1123,7 +1119,7 @@ public class DialogInitializer  {
             size=++size;
         }
         for(int i=0;i<size;i++){
-            RadioButton radioButton=new RadioButton(activity); // dynamically creating RadioButton and adding to RadioGroup.
+            RadioButton radioButton=new RadioButton(activity);
             if(i!=size-1){
                 UsefulFunctions.setRadiogroupMargins(radioButton,activity,0,0,0,16);
                 if(type==1) locationName=favouritesList.get(i);
@@ -1144,25 +1140,24 @@ public class DialogInitializer  {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 UsefulFunctions.setDialogButtonEnabled(favouritesDialog,activity);
-                FavouritesEditor.setChoosenLocationID(i);
+                FavouritesEditor.setChoosenFavouriteLocationID(i);
                 Log.d("wybrane id", ""+i);
             }
         });
-        String title;
-        String negativeButtonString;
-        boolean isUncancelable;
+        String title=null;
+        String negativeButtonString=null;
+        boolean isUncancelable=false;
         if(type==1) {
             title=activity.getString(R.string.favourites_dialog_first_launch_title);
-            negativeButtonString=activity.getString(R.string.favourites_dialog_first_launch_negative_button);
+            negativeButtonString=activity.getString(R.string.favourites_dialog_type1_negative_button);
             isUncancelable=true;
         }
-        else{
+        else if(type==2){
             positiveButtonRunnable=new favouritesDialogRunnable();
-            negativeButtonString=activity.getString(R.string.favourites_dialog_negative_button);
+            negativeButtonString=activity.getString(R.string.favourites_dialog_type2_negative_button);
             title=activity.getString(R.string.favourites_dialog_title);
             isUncancelable=false;
         }
-        //initializing dialog
         favouritesDialog = buildDialog(
                 activity,
                 dialogView,
@@ -1183,42 +1178,6 @@ public class DialogInitializer  {
                 UsefulFunctions.setDialogButtonDisabled(favouritesDialog,activity);
             }
         });
-
-
         return favouritesDialog;
     }
-
-    private static class favouritesDialogRunnable implements Runnable,WeatherDownloadCallback {
-        WeatherDataInitializer dataInitializer;
-        public favouritesDialogRunnable() {}
-
-        public void run() {
-            String address= FavouritesEditor.getChoosenFavouriteLocationAddress(activity);
-            Log.d("choosen adress", address);
-            new WeatherDataDownloader(address,this);
-            initializeProgressDialog(activity.getString(R.string.downloading_weather_data_progress_message));
-            progressDialog.show();
-        }
-
-        @Override
-        public void weatherServiceSuccess(Channel channel) {
-            dataInitializer=new WeatherDataInitializer(activity,channel);
-            new WeatherDataSetter(activity,dataInitializer,true,false);
-            progressDialog.dismiss();
-        }
-
-        @Override
-        public void weatherServiceFailure(int errorCode) {
-            if(errorCode==1)   {
-                internetFailureDialog=initializeInternetFailureDialog(false, new favouritesDialogRunnable(),null);
-                internetFailureDialog.show();
-            }
-            else {
-                serviceFailureDialog=initializeServiceFailureDialog(false,new favouritesDialogRunnable(),null);
-                serviceFailureDialog.show();
-            }
-            progressDialog.dismiss();
-        }
-    }
-
 }

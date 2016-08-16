@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -111,6 +112,7 @@ public class FirstLaunchUnitsFragment extends Fragment{
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.d("units", "choosen unit: "+spinner.getSelectedItem().toString());
                 units[id]=i;
                 SharedPreferencesModifier.setUnits(getActivity(),units);
             }
@@ -128,7 +130,6 @@ public class FirstLaunchUnitsFragment extends Fragment{
         public FirstLaunchSpinner(Context context) {
             super(context);
         }
-
         @Override
         public void setSelection(int position) {
             super.setSelection(position);

@@ -6,27 +6,23 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
 import com.squareup.picasso.Picasso;
-
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
 public class FirstLaunchConfigurationFragment extends Fragment{
-
     private FragmentTransaction fragmentTransaction;
     private FirstLaunchLocationFragment locationFragment;
     private FirstLaunchLoadingFragment loadingFragment;
-    private FirstLaunchLocalizationOptionsFragment localizationOptionsFragment;
+    private FirstLaunchGeolocalizationMethodFragment geolocalizationMethodsFragment;
     private boolean isFirstLaunch;
-    private boolean afterLocalizationOptionsFragment=false;
-    private int choosenLocationOption=0;
-    private int choosenLocalizationOption=0;
+    private boolean isAfterChoosingGeolocalizationMethod =false;
+    private int choosenDefeaultLocationOption =0;
+    private int choosenGeolocalizationMethod =0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -72,23 +68,23 @@ public class FirstLaunchConfigurationFragment extends Fragment{
 
     public void insertLoadingFragment(int choosenLocalizationOption,int choosenLocationOption, String differentLocationName, CardView startCardViewButton) {
         fragmentTransaction = getChildFragmentManager().beginTransaction();
-        loadingFragment = FirstLaunchLoadingFragment.newInstance(isFirstLaunch,choosenLocalizationOption,choosenLocationOption,differentLocationName,getActivity());
+        loadingFragment = FirstLaunchLoadingFragment.newInstance(getActivity(),isFirstLaunch,choosenLocalizationOption,choosenLocationOption,differentLocationName);
         fragmentTransaction.replace(R.id.first_launch_configuration_fragment_placeholder, loadingFragment, "LoadingFragment");
         fragmentTransaction.commit();
         if(startCardViewButton!=null)UsefulFunctions.setViewInvisible(startCardViewButton);
     }
 
-    public void insertLocalizationOptionsFragment() {
+    public void insertGeolocalizationMethodsFragment() {
         fragmentTransaction = getChildFragmentManager().beginTransaction();
-        localizationOptionsFragment = new FirstLaunchLocalizationOptionsFragment();
-        fragmentTransaction.replace(R.id.first_launch_configuration_fragment_placeholder, localizationOptionsFragment, "LocalizationOptionsFragment");
+        geolocalizationMethodsFragment = new FirstLaunchGeolocalizationMethodFragment();
+        fragmentTransaction.replace(R.id.first_launch_configuration_fragment_placeholder, geolocalizationMethodsFragment, "LocalizationOptionsFragment");
         fragmentTransaction.commit();
     }
 
-    public int getChoosenOptionFromLocationFragment(){
+    public int getDefeaultLocationOptionFromLocationFragment(){
         try{
             locationFragment=(FirstLaunchLocationFragment)getChildFragment("LocationFragment");
-            return locationFragment.getChoosenLocationOption();
+            return locationFragment.getChoosenDefeaultLocationOption();
         }catch (Exception exception){
             return 0;
         }
@@ -100,45 +96,42 @@ public class FirstLaunchConfigurationFragment extends Fragment{
         return differentLocationNameString;
     }
 
-    public void showEmptyLocationNameDialogInLocationFragment(){
-        locationFragment.showEmptyLocationNameDialog();
+    public void showNoDifferentLocationChoosenDialogInLocationFragment(){
+        locationFragment.showNoDifferentLocationChoosenDialog();
     }
 
-    public void initializeLoadingLocation(CardView startCardViewButton){
+    public void initializeLoadingLocation(CardView nextCardViewButton){
         if(isFirstLaunch){
-            if(afterLocalizationOptionsFragment==true){
-                choosenLocalizationOption=localizationOptionsFragment.getChoosenLocalizationOption();
-                insertLoadingFragment(choosenLocalizationOption,1, "",startCardViewButton);
-                UsefulFunctions.setViewInvisible(startCardViewButton);
-                afterLocalizationOptionsFragment=false;
+            if(isAfterChoosingGeolocalizationMethod ==true){
+                choosenGeolocalizationMethod = geolocalizationMethodsFragment.getChoosenGeolocalizationMethod();
+                insertLoadingFragment(choosenGeolocalizationMethod,1, "",nextCardViewButton);
+                UsefulFunctions.setViewInvisible(nextCardViewButton);
+                isAfterChoosingGeolocalizationMethod =false;
             }
             else{
-                choosenLocationOption=getChoosenOptionFromLocationFragment();
-                if(choosenLocationOption==1){
-                    Log.d("afterlocopt", ""+afterLocalizationOptionsFragment);
-                    if(afterLocalizationOptionsFragment==false){
-                        insertLocalizationOptionsFragment();
-                        afterLocalizationOptionsFragment=true;
+                choosenDefeaultLocationOption = getDefeaultLocationOptionFromLocationFragment();
+                if(choosenDefeaultLocationOption ==1){
+                    if(isAfterChoosingGeolocalizationMethod ==false){
+                        insertGeolocalizationMethodsFragment();
+                        isAfterChoosingGeolocalizationMethod =true;
                     }
                 }
                 else{
                     String differentLocationName=getDifferentLocationNameFromLocationFragment();
                     if(differentLocationName.equals(getString(R.string.first_launch_layout_location_different))){
-                        showEmptyLocationNameDialogInLocationFragment();
+                        showNoDifferentLocationChoosenDialogInLocationFragment();
                     }
                     else{
-                        insertLoadingFragment(0,choosenLocationOption,differentLocationName,startCardViewButton);
+                        insertLoadingFragment(0, choosenDefeaultLocationOption,differentLocationName,nextCardViewButton);
                     }
                 }
             }
         }
         else {
-            Log.d("nextlaunch", "nextlaunch");
             insertLoadingFragment(0,0,"",null);
         }
     }
-
-    public int getChoosenLocationOption() {
-        return choosenLocationOption;
+    public int getChoosenDefeaultLocationOption() {
+        return choosenDefeaultLocationOption;
     }
 }

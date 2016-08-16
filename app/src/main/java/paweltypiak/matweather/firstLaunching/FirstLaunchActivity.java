@@ -9,17 +9,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.squareup.picasso.Picasso;
-
 import paweltypiak.matweather.usefulClasses.DialogInitializer;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.usefulClasses.SharedPreferencesModifier;
 import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
 public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaunchLoadingFragment.ChooseLocationAgainListener{
-
-    private CardView startButtonCardView;
+    private CardView nextCardViewButton;
     private AlertDialog exitDialog;
     private FragmentTransaction fragmentTransaction;
     private FirstLaunchConfigurationFragment configurationFragment;
@@ -64,40 +61,37 @@ public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaun
     }
 
     public void showLocationFragment(){
-        UsefulFunctions.setViewVisible(startButtonCardView);
+        UsefulFunctions.setViewVisible(nextCardViewButton);
         setNestedConfigurationFragment(new FirstLaunchLocationFragment(),"LocationFragment");
         step=3;
     }
 
-   /* private void getConfigurationFragment(){
-        configurationFragment = (FirstLaunchConfigurationFragment)
-                getSupportFragmentManager().findFragmentByTag("ConfigurationFragment");
-    }*/
-
-    private void initializeDialog(){
+    private void initializeDialogs(){
         DialogInitializer dialogInitializer=new DialogInitializer(this);
-        exitDialog=dialogInitializer.initializeExitDialog(false,null);
+        exitDialog=dialogInitializer.initializeExitDialog(2,null);
     }
 
     private void initializeFirstLaunch(){
+        Log.d("launch", "first launch");
         initializeStartFragment();
-        initializeDialog();
+        initializeDialogs();
         setStartButton();
     }
 
     private void initializeNextLaunch(){
+        Log.d("launch", "next launch");
         initializeConfigurationFragment(isFirstLaunch);
         setStartButton();
     }
 
     private void setStartButton(){
-        startButtonCardView = (CardView) findViewById(R.id.first_launch_button_cardView);
+        nextCardViewButton = (CardView) findViewById(R.id.first_launch_button_cardView);
         if(isFirstLaunch ==true){
             setButtonIcon();
-            setStartButtonOnClickListener(startButtonCardView);
+            setStartButtonOnClickListener(nextCardViewButton);
         }
         else{
-            UsefulFunctions.setViewInvisible(startButtonCardView);
+            UsefulFunctions.setViewInvisible(nextCardViewButton);
         }
     }
 
@@ -140,11 +134,10 @@ public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaun
     public void onBackPressed() {
         if(isFirstLaunch ==true){
             if(step>3){
-                int locationOption=configurationFragment.getChoosenLocationOption();
+                int locationOption=configurationFragment.getChoosenDefeaultLocationOption();
                 if(locationOption==1&&step==4) exitDialog.show();
             }
             else exitDialog.show();
         }
-        Log.d("step end", ""+step);
     }
 }

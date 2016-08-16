@@ -12,14 +12,13 @@ public class SharedPreferencesModifier {
     public static SharedPreferences getSharedPreferences(Activity activity){
         if(sharedPreferences==null) {
             sharedPreferences = activity.getSharedPreferences(
-                    activity.getString(R.string.shared_preferences_key_name), activity.MODE_PRIVATE);
+                    activity.getString(R.string.shared_preferences_name_key), activity.MODE_PRIVATE);
         }
         return sharedPreferences;
     }
 
     public static boolean getIsFirstLaunch(Activity activity){
         boolean isFirstLaunch=getSharedPreferences(activity).getBoolean(activity.getString(R.string.shared_preferences_is_first_launch_key),true);
-        Log.d("isFirst", ""+isFirstLaunch);
         return isFirstLaunch;
     }
 
@@ -38,12 +37,10 @@ public class SharedPreferencesModifier {
 
     public static int[] getUnits(Activity activity){
         String unitsString = getSharedPreferences(activity).getString(activity.getString(R.string.shared_preferences_units_key), "0,0,0,0,0,");
-        Log.d("units_useful_func", unitsString);
         int [] units=new int [5];
         StringTokenizer stringTokenizer = new StringTokenizer(unitsString, ",");
         for (int i = 0; i < units.length; i++) {
             units[i] = Integer.parseInt(stringTokenizer.nextToken());
-            Log.d("units_static", ""+ units[i]);
         }
         return units;
     }
@@ -56,46 +53,43 @@ public class SharedPreferencesModifier {
         getSharedPreferences(activity).edit().putString(activity.getString(R.string.shared_preferences_units_key), stringBuilder.toString()).commit();
     }
 
-    public static int getLocalizationOption(Activity activity){
-        int localizationOptionKey=getSharedPreferences(activity).getInt(activity.getString(R.string.shared_preferences_localization_option_key),0);
-        Log.d("localizationOption", ""+localizationOptionKey);
-        return localizationOptionKey;
+    public static int getGeolocalizationMethod(Activity activity){
+        int geolocalizationMethod=getSharedPreferences(activity).getInt(activity.getString(R.string.shared_preferences_geolocalization_method_key),0);
+        return geolocalizationMethod;
     }
 
-    public static void setLocalizationOption(Activity activity, int option){
-        getSharedPreferences(activity).edit().putInt(activity.getString(R.string.shared_preferences_localization_option_key),option).commit();
+    public static void setGeolocalizationMethod(Activity activity, int option){
+        getSharedPreferences(activity).edit().putInt(activity.getString(R.string.shared_preferences_geolocalization_method_key),option).commit();
     }
 
-    public static String getFirstLocation(Activity activity){
-        String firstLocation=getSharedPreferences(activity).getString(activity.getString(R.string.shared_preferences_first_location_key),null);
-        Log.d("FirstLocation", ""+firstLocation);
-        return firstLocation;
+    public static String getDefeaultLocation(Activity activity){
+        String defeaultLocation=getSharedPreferences(activity).getString(activity.getString(R.string.shared_preferences_defeault_location_key),null);
+        Log.d("SharedPreferences", "defeaultLocation: "+defeaultLocation);
+        return defeaultLocation;
     }
 
-    public static boolean isFirstLocationConstant(Activity activity){
-        String firstLocation=getFirstLocation(activity);
-        if(firstLocation.equals("")) return false;
+    public static boolean isDefeaultLocationConstant(Activity activity){
+        String defeaultLocation= getDefeaultLocation(activity);
+        if(defeaultLocation.equals("")) return false;
         else return true;
     }
 
-    public static void setFirstLocationConstant(Activity activity, String locationName){
-        getSharedPreferences(activity).edit().putString(activity.getString(R.string.shared_preferences_first_location_key), locationName).commit();
+    public static void setDefeaultLocationConstant(Activity activity, String locationName){
+        getSharedPreferences(activity).edit().putString(activity.getString(R.string.shared_preferences_defeault_location_key), locationName).commit();
     }
 
-    public static void setFirstLocationGeolocalization(Activity activity){
-        Log.d("geo setted", "setted");
-        getSharedPreferences(activity).edit().putString(activity.getString(R.string.shared_preferences_first_location_key), "").commit();
+    public static void setDefeaultLocationGeolocalization(Activity activity){
+        getSharedPreferences(activity).edit().putString(activity.getString(R.string.shared_preferences_defeault_location_key), "").commit();
     }
 
     public static String[] getFavouriteLocationsNames(Activity activity){
         String favouritesString = getSharedPreferences(activity).getString(activity.getString(R.string.shared_preferences_favourite_locations_names_key), "");
-        Log.d("fav_names_string", favouritesString);
         StringTokenizer stringTokenizer = new StringTokenizer(favouritesString, "|");
-        int numberOfLocations=stringTokenizer.countTokens();
-        String favourites[]=new String[numberOfLocations];
-        for (int i = 0; i < numberOfLocations; i++) {
+        int numberOfFavourites=stringTokenizer.countTokens();
+        String favourites[]=new String[numberOfFavourites];
+        for (int i = 0; i < numberOfFavourites; i++) {
             favourites[i] = stringTokenizer.nextToken();
-            Log.d("favourite name", ""+ favourites[i]);
+            Log.d("SharedPreferences", "favourites names: "+ favourites[i]);
         }
         return favourites;
     }
@@ -106,13 +100,12 @@ public class SharedPreferencesModifier {
 
     public static String[] getFavouriteLocationsAddresses(Activity activity){
         String favouritesString = getSharedPreferences(activity).getString(activity.getString(R.string.shared_preferences_favourite_locations_addresses_key), "");
-        Log.d("fav_addresses_string", favouritesString);
         StringTokenizer stringTokenizer = new StringTokenizer(favouritesString, "|");
-        int numberOfLocations=stringTokenizer.countTokens();
-        String favourites[]=new String[numberOfLocations];
-        for (int i = 0; i < numberOfLocations; i++) {
+        int numberOfFavourites=stringTokenizer.countTokens();
+        String favourites[]=new String[numberOfFavourites];
+        for (int i = 0; i < numberOfFavourites; i++) {
             favourites[i] = stringTokenizer.nextToken();
-            Log.d("favourite address", ""+ favourites[i]);
+            Log.d("SharedPreferences", "favourites addresses: "+ favourites[i]);
         }
         return favourites;
     }
@@ -123,13 +116,12 @@ public class SharedPreferencesModifier {
 
     public static String[] getFavouriteLocationsCoordinates(Activity activity){
         String favouritesString = getSharedPreferences(activity).getString(activity.getString(R.string.shared_preferences_favourite_locations_coordinates_key), "");
-        Log.d("fav_coordinates_string", favouritesString);
         StringTokenizer stringTokenizer = new StringTokenizer(favouritesString, "|");
-        int numberOfLocations=stringTokenizer.countTokens();
-        String favourites[]=new String[numberOfLocations];
-        for (int i = 0; i < numberOfLocations; i++) {
+        int numberOfFavourites=stringTokenizer.countTokens();
+        String favourites[]=new String[numberOfFavourites];
+        for (int i = 0; i < numberOfFavourites; i++) {
             favourites[i] = stringTokenizer.nextToken();
-            Log.d("favourite coordinates", ""+ favourites[i]);
+            Log.d("SharedPreferences", "favourites coordinates: "+ favourites[i]);
         }
         return favourites;
     }

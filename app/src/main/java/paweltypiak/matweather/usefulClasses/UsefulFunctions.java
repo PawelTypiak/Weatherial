@@ -37,9 +37,11 @@ import paweltypiak.matweather.weatherDataDownloading.WeatherDataSetter;
 
 public class UsefulFunctions {
     private static boolean isFirstWeatherDownloading;
+
     public static boolean getIsFirstWeatherDownloading() {
         return isFirstWeatherDownloading;
     }
+
     public static void setIsFirstWeatherDownloading(boolean bool) {
         isFirstWeatherDownloading = bool;
     }
@@ -55,6 +57,7 @@ public class UsefulFunctions {
         String[] location=new String[2];
         location[0]= WeatherDataSetter.getCurrentDataFormatter().getCity();
         location[1]=WeatherDataSetter.getCurrentDataFormatter().getRegion()+", "+WeatherDataSetter.getCurrentDataFormatter().getCountry();
+        Log.d("current address", location[0]+", "+location[1]);
         return location;
     }
 
@@ -62,6 +65,7 @@ public class UsefulFunctions {
         String[] coordinates=new String[2];
         coordinates[0]= Double.toString(WeatherDataSetter.getCurrentDataFormatter().getLatitude());
         coordinates[1]=Double.toString(WeatherDataSetter.getCurrentDataFormatter().getLongitude());
+        Log.d("current address", coordinates[0]+", "+coordinates[1]);
         return coordinates;
     }
 
@@ -86,7 +90,6 @@ public class UsefulFunctions {
     }
 
     public static void initializeWebIntent(Activity activity, String url){
-        //initialize web intent
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(url));
         activity.startActivity(intent);
@@ -103,7 +106,6 @@ public class UsefulFunctions {
     }
 
     public static void initializeEmailIntent(Activity activity, String address, String subject, String body, AlertDialog dialog){
-        //initialize email intent
         Intent intent = new Intent(Intent.ACTION_SENDTO);
         intent.setType("text/plain");
         if(subject!=null) intent.putExtra(Intent.EXTRA_SUBJECT, subject);
@@ -118,7 +120,6 @@ public class UsefulFunctions {
     }
 
     public static void copyToClipboard(Activity activity, String text){
-        //initialize copy to clipboard
         ClipboardManager myClipboard;
         ClipData myClip;
         myClipboard = (ClipboardManager)activity.getSystemService(Context.CLIPBOARD_SERVICE);
@@ -173,12 +174,13 @@ public class UsefulFunctions {
             editText.getBackground().setColorFilter(activity.getResources().getColor(R.color.transparent), PorterDuff.Mode.SRC_ATOP);
             editText.setHint("");
         }
-        else setDialogButtonDisabled(dialog,activity);
+        else {
+            setDialogButtonDisabled(dialog,activity);
+        }
         editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             String previusEditTextString;
             @Override
             public void onFocusChange(View view, boolean b) {
-                Log.d("onfocus", "onFocusChange: ");
                 if(editText.isFocused()) {
                     editText.getBackground().setColorFilter(activity.getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
                     previusEditTextString=editText.getText().toString();
@@ -189,7 +191,6 @@ public class UsefulFunctions {
                     editTextString=getFormattedString(editTextString);
                     if(editTextString.length()==0) {
                         editText.getBackground().setColorFilter(activity.getResources().getColor(R.color.hintLightBackgroud), PorterDuff.Mode.SRC_ATOP);
-                        //editText.setText(previusEditTextString);
                     }
                     else{
                         editText.getBackground().setColorFilter(activity.getResources().getColor(R.color.transparent), PorterDuff.Mode.SRC_ATOP);
@@ -202,9 +203,7 @@ public class UsefulFunctions {
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                Log.d("textchange", "beforeTextChanged: ");
             }
-
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if(editText.getText().length()==0) {
@@ -216,10 +215,8 @@ public class UsefulFunctions {
                     setDialogButtonEnabled(dialog,activity);
                 }
             }
-
             @Override
             public void afterTextChanged(Editable editable) {
-                Log.d("textchange", "aftertextchange: ");
             }
         });
         editText.setOnKeyListener(new View.OnKeyListener() {
@@ -243,8 +240,6 @@ public class UsefulFunctions {
         geolocalizationItem.setChecked(false);
         favouritesItem.setCheckable(false);
         geolocalizationItem.setCheckable(false);
-        Log.d("unchecked", "unchecked ");
-
     }
 
     public static void uncheckNavigationDrawerMenuItem(Activity activity, int itemId){
@@ -301,6 +296,32 @@ public class UsefulFunctions {
         view.setVisibility(View.GONE);
     }
 
+    public static void hideWeatherSublayouts(Activity activity){
+        LinearLayout currentLayout=(LinearLayout)activity.findViewById(R.id.current_layout);
+        LinearLayout detailsLayout=(LinearLayout)activity.findViewById(R.id.details_layout);
+        LinearLayout forecastLayout=(LinearLayout)activity.findViewById(R.id.forecast_layout);
+        View currentDetailsDivider=activity.findViewById(R.id.current_details_divider);
+        View detailsForecastDivider=activity.findViewById(R.id.details_forecast_divider);
+        setViewInvisible(currentLayout);
+        setViewInvisible(detailsLayout);
+        setViewInvisible(forecastLayout);
+        setViewInvisible(currentDetailsDivider);
+        setViewInvisible(detailsForecastDivider);
+    }
+
+    public static void showWeatherSublayouts(Activity activity){
+        LinearLayout currentLayout=(LinearLayout)activity.findViewById(R.id.current_layout);
+        LinearLayout detailsLayout=(LinearLayout)activity.findViewById(R.id.details_layout);
+        LinearLayout forecastLayout=(LinearLayout)activity.findViewById(R.id.forecast_layout);
+        View currentDetailsDivider=activity.findViewById(R.id.current_details_divider);
+        View detailsForecastDivider=activity.findViewById(R.id.details_forecast_divider);
+        setViewVisible(currentLayout);
+        setViewVisible(detailsLayout);
+        setViewVisible(forecastLayout);
+        setViewVisible(currentDetailsDivider);
+        setViewVisible(detailsForecastDivider);
+    }
+
     public static double getPullOpacity(double screenPercentage,float movedDistance, Context context, boolean isVertical){
         int screenWidth=getScreenResolution(context)[0];
         int screenHeight=getScreenResolution(context)[1];
@@ -331,7 +352,7 @@ public class UsefulFunctions {
                 }
             }
         };
-        Log.d("uithread", "start ");
+        Log.d("uithread", "start");
         return uiThread;
     }
 

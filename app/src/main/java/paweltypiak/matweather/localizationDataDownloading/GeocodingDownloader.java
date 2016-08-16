@@ -21,13 +21,10 @@ import paweltypiak.matweather.jsonHandling.Geocoding;
 public class GeocodingDownloader {
     private GeocodingCallback geocodingCallback;
     private Exception error;
-    private Location location;
     private Geocoding geocoding = new Geocoding();
-    private TextView textView;
     public GeocodingDownloader(Location location, GeocodingCallback geocodingCallback, TextView textView, Activity activity) {
         this.geocodingCallback = geocodingCallback;
         textView.setText(activity.getString(R.string.looking_for_address_progress_message));
-
         refreshLocation(location);
     }
 
@@ -37,7 +34,7 @@ public class GeocodingDownloader {
             protected String doInBackground(Location... locations) {
                 Location location = locations[0];
                 String endpoint = String.format("https://maps.googleapis.com/maps/api/geocode/json?latlng=%s,%s&key=%s", location.getLatitude(), location.getLongitude(), "");
-                Log.d("geoendpoint", endpoint);
+                Log.d("geocoding", "endpoint: "+endpoint);
                 try {
                     InputStream inputStream;
                     try{
@@ -46,7 +43,7 @@ public class GeocodingDownloader {
                         connection.setUseCaches(false);
                         inputStream = connection.getInputStream();
                     }catch(Exception e) {
-                        Log.d("error neta", "error ");
+                        Log.d("geocoding", "internet error");
                         error = new GeocoderException("1");
                         return null;
                     }
@@ -59,6 +56,7 @@ public class GeocodingDownloader {
                     JSONObject data = new JSONObject(result.toString());
                     JSONArray results = data.optJSONArray("results");
                     if (results.length() == 0) {
+                        Log.d("geocoding", "geocoding error");
                         error = new GeocoderException("2");
                         return null;
                     }
@@ -69,16 +67,14 @@ public class GeocodingDownloader {
                 }
                 return null;
             }
-
             @Override
             protected void onPostExecute(String location) {
-                //Log.d("location", "locaton: "+location.getAddress());
                 try{
                     if (location == null && error != null) {
-                        Log.d("location", "nie wyszlo ");
+                        Log.d("geocoding", "service failure");
                         geocodingCallback.geocodingServiceFailure(getErrorCode(error));
                     } else {
-                        Log.d("location", "sukcess ");
+                        Log.d("geocoding", "service success");
                         geocodingCallback.geocodingServiceSuccess(location);
 
                     }
@@ -92,10 +88,10 @@ public class GeocodingDownloader {
     private int getErrorCode(Exception error){
         String errorString=error.toString();
         errorString=errorString.substring(errorString.length()-1);
-        Log.d("location", errorString);
         if(errorString.equals("1")) return Integer.parseInt(errorString);
         else return 2;
     }
+
     private class GeocoderException extends Exception {
         public GeocoderException(String errorCode) {
             super(errorCode);

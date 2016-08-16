@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    android:id="@+id/first_launch_localization_options_fragment_layout">
+    android:id="@+id/first_launch_geolocalization_methods_fragment_layout">
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:orientation="vertical"
-        android:id="@+id/first_launch_localization_options_fragment_inner_layout">
+        android:id="@+id/first_launch_geolocalization_methods_fragment_inner_layout">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -22,13 +22,13 @@
             android:gravity="center"
             android:layout_gravity="center_horizontal"
             android:textColor="@color/white"
-            android:id="@+id/first_launch_localization_options_fragment_header_text"
+            android:id="@+id/first_launch_geolocalization_methods_fragment_header_text"
             />
         <RadioGroup
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:id="@+id/first_launch_localization_options_fragment_radio_group">
+            android:id="@+id/first_launch_geolocalization_methods_fragment_radio_group">
             <android.support.v7.widget.AppCompatRadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
                 android:text="@string/first_launch_layout_localization_options_gps"
                 android:textSize="@dimen/first_launch_configuration_text_size"
                 android:textColor="@color/white"
-                android:id="@+id/first_launch_localization_options_fragment_gps_radio_button"/>
+                android:id="@+id/first_launch_geolocalization_methods_fragment_gps_radio_button"/>
             <android.support.v7.widget.AppCompatRadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
                 android:textSize="@dimen/first_launch_configuration_text_size"
                 android:textColor="@color/white"
                 app:buttonTint="@color/white"
-                android:id="@+id/first_launch_localization_options_fragment_network_radio_button"/>
+                android:id="@+id/first_launch_geolocalization_methods_fragment_network_radio_button"/>
         </RadioGroup>
     </LinearLayout>
 </RelativeLayout>

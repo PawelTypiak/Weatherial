@@ -29,31 +29,31 @@ public class CurrentCoordinatesDownloader implements  ActivityCompat.OnRequestPe
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION=1;
     private boolean isPermissionGranted;
     private GeocodingDownloader geocodingDownloader;
-    private AlertDialog localizationFailureDialog;
+    private AlertDialog geolocalizationFailureDialog;
     private AlertDialog permissionDeniedDialog;
     private AlertDialog providerUnavailableDialog;
     private AlertDialog progressDialog;
     private GeocodingCallback geocodingCallack;
     private boolean gpsEnabled=false;
     private boolean networkEnabled=false;
-    int choosenLocalizationOption;
+    int geolocalizationMethod;
 
     public CurrentCoordinatesDownloader(Activity activity,
                                         GeocodingCallback geocodingCallback,
-                                        AlertDialog localizationFailureDialog,
+                                        AlertDialog geolocalizationFailureDialog,
                                         AlertDialog permissionDeniedDialog,
                                         AlertDialog progressDialog,
                                         TextView messageTextView,
                                         ProgressBar loadingBar,
-                                        int choosenLocalizationOption){
+                                        int geolocalizationMethod){
         this.activity=activity;
         this.geocodingCallack=geocodingCallback;
-        this.localizationFailureDialog=localizationFailureDialog;
+        this.geolocalizationFailureDialog =geolocalizationFailureDialog;
         this.permissionDeniedDialog=permissionDeniedDialog;
         this.progressDialog=progressDialog;
         this.messageTextView=messageTextView;
         this.loadingBar=loadingBar;
-        this.choosenLocalizationOption=choosenLocalizationOption;
+        this.geolocalizationMethod =geolocalizationMethod;
         isPermissionGranted=checkPermissions();
         if(isPermissionGranted==true) getCurrentLocation();
         else ActivityCompat.requestPermissions( activity, new String[] {  android.Manifest.permission.ACCESS_FINE_LOCATION  },
@@ -93,16 +93,16 @@ public class CurrentCoordinatesDownloader implements  ActivityCompat.OnRequestPe
             gpsEnabled=locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
             networkEnabled=locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
         }catch(Exception ex){
-            showErrorDialog(localizationFailureDialog);
+            showErrorDialog(geolocalizationFailureDialog);
         }
         if(!gpsEnabled && !networkEnabled) {
-            Log.d("brak dostarczyciela", "brak dostarczyciela");
-            showErrorDialog(localizationFailureDialog);
+            Log.d("provider", "provider unavailable");
+            showErrorDialog(geolocalizationFailureDialog);
         }
         else{
-            if (choosenLocalizationOption==1) {
+            if (geolocalizationMethod ==1) {
                 if(gpsEnabled){
-                    Log.d("dostepnosc:", "gps");
+                    Log.d("provider", "gps");
                     try {
                         locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, locationListener, null);
                     }catch (SecurityException exception){
@@ -111,15 +111,15 @@ public class CurrentCoordinatesDownloader implements  ActivityCompat.OnRequestPe
                     }
                 }
                 else{
-                    Log.d("niedostepnosc:", "gps");
+                    Log.d("provider", "gps unavailable");
                     DialogInitializer dialogInitializer=new DialogInitializer(activity);
                     providerUnavailableDialog=dialogInitializer.initializeProviderUnavailableDialog(1,gpsUnavailableRunnable);
                     providerUnavailableDialog.show();
                 }
             }
-            else if (choosenLocalizationOption==2) {
+            else if (geolocalizationMethod ==2) {
                 if(networkEnabled){
-                    Log.d("dostepnosc:", "net");
+                    Log.d("provider:", "network");
                     try {
                         locationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, locationListener, null);
                     }catch (SecurityException exception){
@@ -127,7 +127,7 @@ public class CurrentCoordinatesDownloader implements  ActivityCompat.OnRequestPe
                         Log.d("permissions", ""+exception);
                     }
                 } else{
-                    Log.d("niedostepnosc:", "net");
+                    Log.d("provider:", "network unavailable");
                     DialogInitializer dialogInitializer=new DialogInitializer(activity);
                     providerUnavailableDialog=dialogInitializer.initializeProviderUnavailableDialog(2,networkUnavailableRunnable);
                     providerUnavailableDialog.show();
@@ -139,20 +139,14 @@ public class CurrentCoordinatesDownloader implements  ActivityCompat.OnRequestPe
     private LocationListener locationListener = new LocationListener() {
         public void onLocationChanged(Location location) {
             CurrentCoordinatesDownloader.this.location=location;
-            Log.d("longitude", ""+location.getLatitude());
-            Log.d("latitude", ""+location.getLatitude());
+            Log.d("coordinates", "longitude: "+location.getLongitude());
+            Log.d("coordinates", "latitude: "+location.getLatitude());
             geocodingDownloader=new GeocodingDownloader(location,geocodingCallack,messageTextView,activity);
         }
         public void onProviderDisabled(String provider) {}
         public void onProviderEnabled(String provider) {}
         public void onStatusChanged(String provider, int status, Bundle extras) {}
     };
-
-    /*private int getLocalizationOption(){
-        SharedPreferences sharedPreferences=UsefulFunctions.getSharedPreferences(activity);
-        int localizationOption=sharedPreferences.getInt(activity.getString(R.string.shared_preferences_localization_option_key),0);
-        return localizationOption;
-    }*/
 
     public Location getLocation() {
         return location;
@@ -163,7 +157,6 @@ public class CurrentCoordinatesDownloader implements  ActivityCompat.OnRequestPe
         public void run() {
             try{
             locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER,locationListener,null);
-
             }catch (SecurityException exception){
                 showErrorDialog(permissionDeniedDialog);
             }

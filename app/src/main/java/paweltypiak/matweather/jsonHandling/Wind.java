@@ -3,7 +3,6 @@ package paweltypiak.matweather.jsonHandling;
 import org.json.JSONObject;
 
 public class Wind implements JSONPopulator{
-
     private String chill;
     private String direction;
     private String speed;

@@ -21,7 +21,7 @@ public class FirstLaunchLocationFragment extends Fragment {
     private AlertDialog emptyLocationNameDialog;
     private DialogInitializer dialogInitializer;
     private RadioButton differentLocationRadioButton;
-    private int choosenLocationOption;
+    private int choosenDefeaultLocationOption;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -41,24 +41,21 @@ public class FirstLaunchLocationFragment extends Fragment {
         final RadioButton currentLocationRadioButton=(RadioButton)getActivity().findViewById(R.id.first_launch_location_fragment_current_location_radio_button);
         differentLocationRadioButton=(RadioButton)getActivity().findViewById(R.id.first_launch_location_fragment_different_location_radio_button);
         radioGroup.check(currentLocationRadioButton.getId());
-        choosenLocationOption=1;
+        choosenDefeaultLocationOption =1;
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 if (i == R.id.first_launch_location_fragment_current_location_radio_button) {
-                    choosenLocationOption=1;
-                    Log.d("location_option", ""+choosenLocationOption);
+                    choosenDefeaultLocationOption =1;
+                    Log.d("defeault location", "current location");
 
                 } else if (i == R.id.first_launch_location_fragment_different_location_radio_button) {
-                    choosenLocationOption=2;
-                    Log.d("location_option", ""+choosenLocationOption);
-
+                    choosenDefeaultLocationOption =2;
+                    Log.d("defeault location", "different location");
                 }
             }
         });
-
         setDifferentLocationRadioButtonOnClickListener(differentLocationRadioButton);
-
     }
 
     private void setDifferentLocationRadioButtonOnClickListener(final RadioButton radioButton){
@@ -66,8 +63,7 @@ public class FirstLaunchLocationFragment extends Fragment {
 
             @Override
             public void onClick(View view) {
-                Log.d("location", "different on click");
-                differentLocationDialog=dialogInitializer.initializeSearchDialog(radioButton);
+                differentLocationDialog=dialogInitializer.initializeSearchDialog(1,radioButton);
                 differentLocationDialog.show();
                 UsefulFunctions.showKeyboard(getActivity());
             }
@@ -76,15 +72,13 @@ public class FirstLaunchLocationFragment extends Fragment {
 
     public String getDifferentLocationName(){
         String differentLocationString=differentLocationRadioButton.getText().toString();
-        Log.d("diffradio", differentLocationString);
+        Log.d("different location name", differentLocationString);
         return differentLocationString;
     }
 
-    public int getChoosenLocationOption() {
-        return choosenLocationOption;
-    }
+    public int getChoosenDefeaultLocationOption() {return choosenDefeaultLocationOption;}
 
-    public void showEmptyLocationNameDialog(){
+    public void showNoDifferentLocationChoosenDialog(){
         if(emptyLocationNameDialog==null) emptyLocationNameDialog=dialogInitializer.initializeNoDifferentLocationChoosenDialog();
         emptyLocationNameDialog.show();
     }

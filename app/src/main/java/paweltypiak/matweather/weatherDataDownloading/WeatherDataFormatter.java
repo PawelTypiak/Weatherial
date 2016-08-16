@@ -2,15 +2,12 @@ package paweltypiak.matweather.weatherDataDownloading;
 
 import android.app.Activity;
 import android.text.format.DateFormat;
-import android.util.Log;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.usefulClasses.SharedPreferencesModifier;
-import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
 public class WeatherDataFormatter {
     private int[] units;
@@ -46,7 +43,6 @@ public class WeatherDataFormatter {
     private long currentDiffMinutes;
     private long sunsetSunriseDiffMinutes;
     private WeatherDataInitializer dataInitializer;
-    private Calendar timeDifferenceCalendar;
     private int hourDifference;
 
     public WeatherDataFormatter(Activity activity, WeatherDataInitializer dataInitializer){
@@ -74,14 +70,12 @@ public class WeatherDataFormatter {
         time =formatTimeUnit(unformattedTime);
         time24=get24Time(unformattedTime);
         timezone=lastBuildDate.substring(9);
-        Log.d("weather_formatted","lastBuildDate: "+ time +" "+timezone);
     }
 
     private void formatAtmosphere(){
         humidity=humidity+" "+"%";
         pressure=formatPressureUnit(pressure);
         visibility=formatDistanceUnit(visibility);
-        Log.d("weather_formatted", "atmosphere: " + humidity+", "+pressure+", "+visibility);
     }
 
     private void formatAstronomy(){
@@ -89,19 +83,16 @@ public class WeatherDataFormatter {
         sunset24=get24Time(sunset);
         sunrise=formatTimeUnit(sunrise);
         sunset=formatTimeUnit(sunset);
-        Log.d("weather_formatted","astronomy: "+sunrise+", "+sunset);
     }
 
     private void formatCondition(){
         temperature=formatTemperatureUnit(temperature)+"\u00B0";
-        Log.d("weather_formatted", "temperature: " + temperature);
     }
 
     private void formatForecast(){
         for(int i=0;i<5;i++){
             forecastLowTemperature[i]=formatTemperatureUnit(forecastLowTemperature[i])+"\u00B0";
             forecastHighTemperature[i]=formatTemperatureUnit(forecastHighTemperature[i])+"\u00B0";
-            Log.d("weather_formatted", "forecast_low, forecast high: "+forecastLowTemperature[i]+", "+forecastHighTemperature[i]);
         }
     }
 
@@ -124,7 +115,6 @@ public class WeatherDataFormatter {
             directionName="NW";
         chill=formatTemperatureUnit(chill)+"\u00B0";
         speed= formatSpeedUnit(speed);
-        Log.d("weather_formatted", "wind: " + chill+", "+direction+", "+speed+", "+directionName);
     }
 
     private void countHourDifference() {
@@ -142,7 +132,6 @@ public class WeatherDataFormatter {
             pe.printStackTrace();
         }
         hourDifference=Integer.parseInt(timeHour)-Integer.parseInt(actualTimeHour);
-        Log.d("hourdifference", "countHourDifference: "+hourDifference);
     }
 
     public String[] countSunPosition(String currentTime){
@@ -303,9 +292,7 @@ public class WeatherDataFormatter {
     public String getCity() {return city;}
     public String getCountry() {return country;}
     public String getRegion() {return region;}
-    public String getTime() {return time;}
     public String getTimezone() {return timezone;}
-    public String getLastBuildDate() {return lastBuildDate;}
     public double getLatitude() {return latitude;}
     public double getLongitude() {return longitude;}
     public boolean getDay() {return isDay;}

@@ -1,11 +1,9 @@
 package paweltypiak.matweather.jsonHandling;
 
 import android.util.Log;
-
 import org.json.JSONObject;
 
 public class Channel implements JSONPopulator {
-
     private Item item;
     private Astronomy astronomy;
     private Wind wind;
@@ -36,7 +34,6 @@ public class Channel implements JSONPopulator {
         location=new Location();
         location.populate(data.optJSONObject("location"));
         lastBuildDate=data.optString("lastBuildDate");
-        Log.d("last", lastBuildDate);
         item=new Item();
         item.populate(data.optJSONObject("item"));
         astronomy=new Astronomy();

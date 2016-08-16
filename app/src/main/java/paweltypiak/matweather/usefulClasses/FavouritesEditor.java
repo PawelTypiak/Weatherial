@@ -9,17 +9,16 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 public class FavouritesEditor {
-    private static int choosenLocationId;
+    private static int choosenFavouriteLocationId;
     private static String[] favouritesHeaderNames;
     private static String[] favouritesSubheaderNames;
 
-
-    public static void setChoosenLocationID(int id){
-        choosenLocationId=id;
+    public static void setChoosenFavouriteLocationID(int id){
+        choosenFavouriteLocationId =id;
     }
 
-    public static int getChoosenLocationID(){
-        return choosenLocationId;
+    public static int getChoosenFavouriteLocationID(){
+        return choosenFavouriteLocationId;
     }
 
     public static int getNumberOfFavourites(Activity activity){
@@ -28,8 +27,8 @@ public class FavouritesEditor {
 
     public static String getChoosenFavouriteLocationAddress(Activity activity){
         String[] addresses=SharedPreferencesModifier.getFavouriteLocationsAddresses(activity);
-        Log.d("adres", addresses[choosenLocationId]);
-        return addresses[choosenLocationId];
+        Log.d("favourites", "choosem favourite location address: "+addresses[choosenFavouriteLocationId]);
+        return addresses[choosenFavouriteLocationId];
     }
 
     private static String makeLocationsDialogName(String header, String subheader){
@@ -39,8 +38,6 @@ public class FavouritesEditor {
     }
 
     public static void setAppBarForFavouriteLocation(Activity activity, int currentId){
-        Log.d("id", "setAppBarForFavouriteLocation: "+currentId);
-
         UsefulFunctions.setAppBarStrings(activity,favouritesHeaderNames[currentId],favouritesSubheaderNames[currentId]);
     }
 
@@ -53,10 +50,8 @@ public class FavouritesEditor {
             StringTokenizer stringTokenizer = new StringTokenizer(favourites[i], "%");
             String locationPartName[]={"",""};
             int tokenizerSize=stringTokenizer.countTokens();
-            Log.d("tokinizersize", ""+stringTokenizer.countTokens());
             for (int j = 0; j < tokenizerSize; j++) {
                 locationPartName[j] = stringTokenizer.nextToken();
-                Log.d("partname", ""+locationPartName[j]);
             }
             favouritesHeaderNames[i]=locationPartName[0];
             favouritesSubheaderNames[i]=locationPartName[1];
@@ -80,7 +75,7 @@ public class FavouritesEditor {
         String locationName=headerString+"%"+subheaderString;
         stringBuilder.append(locationName).append("|");
         String favouritesNamesString=stringBuilder.toString();
-        Log.d("string_names_save", ""+favouritesNamesString);
+        Log.d("favourites", "location name saved to favourites: "+favouritesNamesString);
         SharedPreferencesModifier.setFavouriteLocationNames(activity,favouritesNamesString);
     }
 
@@ -90,14 +85,12 @@ public class FavouritesEditor {
             String currentLocationSubheaderString=UsefulFunctions.getCurrentLocationAddress()[1];
             currentLocationAddressString=currentLocationHeaderString+", "+currentLocationSubheaderString;
         }
-
         String favourites[]= SharedPreferencesModifier.getFavouriteLocationsAddresses(activity);
         StringBuilder stringBuilder=UsefulFunctions.buildStringFromStringArray(favourites);
         stringBuilder.append(currentLocationAddressString).append("|");
         String favouritesAddressesString=stringBuilder.toString();
-        Log.d("string_Address_save", ""+favouritesAddressesString);
+        Log.d("favourites", "location address saved to favourites: "+favouritesAddressesString);
         SharedPreferencesModifier.setFavouriteLocationAddresses(activity,favouritesAddressesString);
-
     }
 
     public static void saveNewFavouriteLocationCoordinates(Activity activity,String currentLocationCoordinatesString){
@@ -106,12 +99,11 @@ public class FavouritesEditor {
             String currentLocationLongitude=UsefulFunctions.getCurrentLocationCoordinates()[1];
             currentLocationCoordinatesString=currentLocationLatitude+"%"+currentLocationLongitude;
         }
-
         String favourites[]= SharedPreferencesModifier.getFavouriteLocationsCoordinates(activity);
         StringBuilder stringBuilder=UsefulFunctions.buildStringFromStringArray(favourites);
         stringBuilder.append(currentLocationCoordinatesString).append("|");
         String favouritesCoordinateString=stringBuilder.toString();
-        Log.d("string_Coordinate_save", ""+favouritesCoordinateString);
+        Log.d("favourites", "location coordiates saved to favourites: "+favouritesCoordinateString);
         SharedPreferencesModifier.setFavouriteLocationCoordinates(activity,favouritesCoordinateString);
     }
 
@@ -121,15 +113,9 @@ public class FavouritesEditor {
         FavouritesEditor.saveNewFavouriteLocationCoordinates(activity,currentLocationCoordinatesString);
     }
 
-    /*public static void saveFirstLaunchNewFavouritesItem(Activity activity,String headerString, String subheaderString, String currentLocationNameString,String currentLocationCoordinatesString){
-        FavouritesEditor.saveNewFavouriteLocationName(activity,headerString,subheaderString);
-        FavouritesEditor.saveNewFavouriteLocationAddress(activity,currentLocationNameString);
-        FavouritesEditor.saveNewFavouriteLocationCoordinates(activity,currentLocationCoordinatesString);
-    }*/
-
     public static void editFavouriteLocationName(Activity activity,String headerString, String subheaderString){
+        Log.d("favourites", "name edited: "+headerString+", "+subheaderString);
         String namesString=getFavouritesStringAfterEdit(activity,headerString,subheaderString);
-        Log.d("nowy string", namesString);
         SharedPreferencesModifier.setFavouriteLocationNames(activity,namesString);
     }
 
@@ -137,7 +123,6 @@ public class FavouritesEditor {
         String favouritesNames[]=SharedPreferencesModifier.getFavouriteLocationsNames(activity);
         int id= getCurrentFavouriteLocationId(activity);
         String locationName=headerString+"%"+subheaderString;
-        Log.d("nowa nazwa", locationName);
         favouritesNames[id]=locationName;
         StringBuilder stringBuilder=UsefulFunctions.buildStringFromStringArray(favouritesNames);
         String newFavouritesString=stringBuilder.toString();
@@ -164,7 +149,7 @@ public class FavouritesEditor {
         for (Iterator<String> iter = favouritesList.listIterator(); iter.hasNext(); ) {
             String locationItem = iter.next();
             if (i==id) {
-                Log.d("item removed", locationItem);
+                Log.d("favourites", "location removed from favourites: "+locationItem);
                 iter.remove();
             }
             i++;
@@ -222,7 +207,7 @@ public class FavouritesEditor {
         String currentLocationHeaderString=UsefulFunctions.getCurrentLocationAddress()[0];
         String currentLocationSubheaderString=UsefulFunctions.getCurrentLocationAddress()[1];
         String currentLocationAddress=currentLocationHeaderString+", "+currentLocationSubheaderString;
-        String firstLocation=SharedPreferencesModifier.getFirstLocation(activity);
+        String firstLocation=SharedPreferencesModifier.getDefeaultLocation(activity);
         if(firstLocation.equals(currentLocationAddress)) {
             return true;
         }

@@ -4,13 +4,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Item implements JSONPopulator{
-
     private Condition condition;
     private JSONArray jsonArray;
     private Forecast forecast;
     private double latitude;
     private double longitude;
-
 
     public Condition getCondition() {
         return condition;
@@ -25,7 +23,6 @@ public class Item implements JSONPopulator{
     public void populate(JSONObject data) {
         latitude=data.optDouble("lat");
         longitude=data.optDouble("long");
-
         condition=new Condition();
         forecast=new Forecast();
         condition.populate(data.optJSONObject(("condition")));

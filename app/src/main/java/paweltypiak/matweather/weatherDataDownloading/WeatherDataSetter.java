@@ -12,14 +12,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import java.util.Calendar;
-import java.util.Date;
-
-import static paweltypiak.matweather.usefulClasses.DialogInitializer.initializeMapsDialog;
-import static paweltypiak.matweather.usefulClasses.DialogInitializer.initializeYahooWeatherRedirectDialog;
 import static paweltypiak.matweather.usefulClasses.UsefulFunctions.initializeUiThread;
 import static paweltypiak.matweather.usefulClasses.UsefulFunctions.setfloatingActionButtonOnClickIndicator;
-
 import paweltypiak.matweather.R;
+import paweltypiak.matweather.usefulClasses.DialogInitializer;
 import paweltypiak.matweather.usefulClasses.FavouritesEditor;
 import paweltypiak.matweather.usefulClasses.SharedPreferencesModifier;
 import paweltypiak.matweather.usefulClasses.UsefulFunctions;
@@ -43,20 +39,14 @@ public class WeatherDataSetter {
     private String city;
     private String country;
     private String region;
-    private String time;
     private String timezone;
-    private int hourDifference;
-    private String lastBuildDate;
     private double latitude;
     private double longitude;
     private String[] dayName;
-    private Date now;
     private LinearLayout weatherLayout;
     private View currentDetailsDividerView;
     private View detailsForecastDividerView;
     private ImageView yahooImageView;
-    private TextView primaryLocationTextView;
-    private TextView secondaryLocationTextView;
     private TextView timeTextView;
     private TextView timezoneTextView;
     private int conditionStringId;
@@ -77,7 +67,6 @@ public class WeatherDataSetter {
     private RelativeLayout sunPathLayout;
     private ImageView sunPathBackgroudImageView;
     private ImageView sunPathObjectImageView;
-    private ImageView sunPathObjectBackgoundImageView;
     private ImageView sunPathLeftCircleImageView;
     private ImageView sunPathRightCircleImageView;
     private long currentDiffMinutes;
@@ -94,7 +83,6 @@ public class WeatherDataSetter {
     private TextView pressureTextView;
     private TextView visibilityTextView;
     private ImageView refreshIconImageView;
-    private TextView refreshMessageTextView;
     private int[] forecastDrawable;
     private TextView[] forecastDayNameTextView;
     private ImageView[] forecastDayConditionsImageView;
@@ -112,11 +100,9 @@ public class WeatherDataSetter {
     private int dividerColor;
     private int iconColor;
     private int objectIconColor;
-    private int dialogColor;
     private static WeatherDataFormatter currentDataFormatter;
     private static AlertDialog mapsDialog;
     private static AlertDialog yahooWeatherRedirectDialog;
-    private WeatherDataFormatter dataFormatter;
     private static boolean startTimeThread;
     private static boolean timeThreadStartedFlag;
     public static boolean newRefresh;
@@ -127,9 +113,7 @@ public class WeatherDataSetter {
     private int layoutWidth;
     private static Thread uiThread;
     private int units[];
-    private boolean setAppBar;
     private boolean isGeolocalizationMode;
-
 
     public WeatherDataSetter(Activity activity, WeatherDataInitializer dataInitializer,boolean doSetAppBar, boolean isGeolocalizationMode) {
         this.activity=activity;
@@ -191,6 +175,7 @@ public class WeatherDataSetter {
         else{
             if(!currentDiffMinutesString.equals(sunPositionStrings[1])){
                 if(!isDayString.equals(sunPositionStrings[2])){
+                    Log.d("data setter", "czange time of day");
                     changeTimeOfDay();
                 }
                 assignSunPositionStrings(sunPositionStrings);
@@ -209,8 +194,9 @@ public class WeatherDataSetter {
     }
 
     private void updateDialogs(){
-        mapsDialog= initializeMapsDialog(activity,city,region,country,longitude,latitude);
-        yahooWeatherRedirectDialog=initializeYahooWeatherRedirectDialog(activity,link);
+        DialogInitializer dialogInitializer=new DialogInitializer(activity);
+        mapsDialog= dialogInitializer.initializeMapsDialog(activity,city,region,country,longitude,latitude);
+        yahooWeatherRedirectDialog=dialogInitializer.initializeYahooWeatherRedirectDialog(activity,link);
     }
 
     private void setTheme(){
@@ -221,7 +207,6 @@ public class WeatherDataSetter {
             dividerColor=activity.getResources().getColor(R.color.dividerLightBackground);
             iconColor=activity.getResources().getColor(R.color.iconLightBackground);
             objectIconColor=activity.getResources().getColor(R.color.black);
-            dialogColor=activity.getResources().getColor(R.color.dividerLightBackground);
         }
         else {
             backgroundColor=activity.getResources().getColor(R.color.backgroundDark);
@@ -230,7 +215,6 @@ public class WeatherDataSetter {
             dividerColor=activity.getResources().getColor(R.color.dividerDarkBackground);
             iconColor=activity.getResources().getColor(R.color.iconDarkBackground);
             objectIconColor=activity.getResources().getColor(R.color.white);
-            dialogColor=activity.getResources().getColor(R.color.dividerDarkBackground);
         }
     }
 
@@ -238,16 +222,19 @@ public class WeatherDataSetter {
         getAppBarResources();
         if(FavouritesEditor.areCoordinatesEqual(activity)){
             FavouritesEditor.setLayoutForFavourites(activity);
-            Log.d("new_location", "favourites");
+            Log.d("data setter", "location in favourites");
         }
         else{
-            Log.d("new_location", "not favourites");
             UsefulFunctions.setAppBarStrings(activity,city,region+", "+country);
             setfloatingActionButtonOnClickIndicator(activity,1);
-            if(isGeolocalizationMode==true) UsefulFunctions.checkNavigationDrawerMenuItem(activity,1);
-            else UsefulFunctions.uncheckAllNavigationDrawerMenuItems(activity);
+            if(isGeolocalizationMode==true){
+                UsefulFunctions.checkNavigationDrawerMenuItem(activity,1);
+            }
+            else {
+                UsefulFunctions.uncheckAllNavigationDrawerMenuItems(activity);
+                Log.d("data setter", "location found by searching, not in favourites");
+            }
         }
-
         UsefulFunctions.setViewGone(timezoneTextView);
         timezoneTextView.setText(timezone);
         UsefulFunctions.setViewVisible(timezoneTextView);
@@ -314,7 +301,6 @@ public class WeatherDataSetter {
         sunPathObjectImageView.setTranslationX(imageTranslation);
     }
 
-
     private void setDetailsLayout(){
         getDetailsResources();
         if(isDay ==true){
@@ -379,11 +365,10 @@ public class WeatherDataSetter {
     private void getData(){
         link=currentDataFormatter.getLink();
         city=currentDataFormatter.getCity();
-        country=currentDataFormatter.getCountry();
         region=currentDataFormatter.getRegion();
+        country=currentDataFormatter.getCountry();
         latitude=currentDataFormatter.getLatitude();
         longitude=currentDataFormatter.getLongitude();
-        lastBuildDate=currentDataFormatter.getLastBuildDate();
         chill = currentDataFormatter.getChill();
         direction= currentDataFormatter.getDirection();
         speed= currentDataFormatter.getSpeed();
@@ -398,21 +383,42 @@ public class WeatherDataSetter {
         forecastHighTemperature = currentDataFormatter.getForecastHighTemperature();
         forecastLowTemperature = currentDataFormatter.getForecastLowTemperature();
         directionName=currentDataFormatter.getDirectionName();
-        time=currentDataFormatter.getTime();
         timezone=currentDataFormatter.getTimezone();
-        hourDifference=currentDataFormatter.getHourDifference();
-        lastBuildDate=currentDataFormatter.getLastBuildDate();
         isDay=currentDataFormatter.getDay();
         currentDiffMinutes=currentDataFormatter.getCurrentDiffMinutes();
         sunsetSunriseDiffMinutes=currentDataFormatter.getSunsetSunriseDiffMinutes();
+        Log.d("formatted data", "link: "+link);
+        Log.d("formatted data", "city: "+city);
+        Log.d("formatted data", "region: "+region);
+        Log.d("formatted data", "country: "+country);
+        Log.d("formatted data", "latitude: "+latitude);
+        Log.d("formatted data", "longitude: "+longitude);
+        Log.d("formatted data", "chill: "+chill);
+        Log.d("formatted data", "direction: "+direction);
+        Log.d("formatted data", "speed: "+speed);
+        Log.d("formatted data", "humidity: "+humidity);
+        Log.d("formatted data", "pressure: "+pressure);
+        Log.d("formatted data", "visibility: "+visibility);
+        Log.d("formatted data", "sunrise: "+sunrise);
+        Log.d("formatted data", "sunset: "+sunset);
+        Log.d("formatted data", "code: "+code);
+        Log.d("formatted data", "temperature: "+temperature);
+        for(int i=0;i<5;i++){
+            Log.d("formatted data", "day "+i+":");
+            Log.d("formatted data", "forecastCode: "+forecastCode[0]);
+            Log.d("formatted data", "forecastCode: "+forecastHighTemperature[0]);
+            Log.d("formatted data", "forecastCode: "+forecastLowTemperature[0]);
+        }
+        Log.d("formatted data", "directionName: "+directionName);
+        Log.d("formatted data", "timezone: "+timezone);
+        Log.d("formatted data", "isDay: "+isDay);
+        Log.d("formatted data", "currentDiffMinutes: "+currentDiffMinutes);
+        Log.d("formatted data", "sunsetSunriseDiffMinutes: "+sunsetSunriseDiffMinutes);
     }
 
     private void getAppBarResources(){
-        primaryLocationTextView =(TextView)activity.findViewById(R.id.app_bar_primary_location_name_text);
-        secondaryLocationTextView =(TextView)activity.findViewById(R.id.app_bar_secondary_location_name_text);
         timeTextView=(TextView)activity.findViewById(R.id.app_bar_time_text);
         timezoneTextView =(TextView)activity.findViewById(R.id.app_bar_timezone_text);
-        refreshMessageTextView =(TextView)activity.findViewById(R.id.app_bar_refresh_text);
         refreshIconImageView=(ImageView)activity.findViewById(R.id.app_bar_refresh_image);
         yahooImageView=(ImageView)activity.findViewById(R.id.yahoo_image);
     }
@@ -421,7 +427,6 @@ public class WeatherDataSetter {
         weatherLayout=(LinearLayout)activity.findViewById(R.id.weather_layout);
         conditionStringId=activity.getResources().getIdentifier("condition_" + code, "string", activity.getPackageName());
         conditionDrawableId=activity.getResources().getIdentifier("drawable/conditions_icon_" + code, null, activity.getPackageName());
-        Log.d("resources", "drawable, code ,name "+conditionDrawableId+", "+code+", "+"drawable/conditions_icon_" + code);
         conditionTextView =(TextView)activity.findViewById(R.id.current_conditions_text);
         conditionImageView =(ImageView)activity.findViewById(R.id.current_conditions_image);
         temperatureTextView =(TextView)activity.findViewById(R.id.current_temperature_text);
@@ -442,7 +447,6 @@ public class WeatherDataSetter {
         sunPathLayout =(RelativeLayout)activity.findViewById(R.id.sun_path_layout);
         sunPathBackgroudImageView =(ImageView)activity.findViewById(R.id.sun_path_backgroud_image);
         sunPathObjectImageView =(ImageView)activity.findViewById(R.id.sun_path_object_image);
-        sunPathObjectBackgoundImageView =(ImageView)activity.findViewById(R.id.sun_path_object_background_image);
         sunPathLeftCircleImageView =(ImageView)activity.findViewById(R.id.sun_path_left_image);
         sunPathRightCircleImageView =(ImageView)activity.findViewById(R.id.sun_path_right_image);
         directionImageView =(ImageView)activity.findViewById(R.id.direction_image);
@@ -477,7 +481,6 @@ public class WeatherDataSetter {
             forecastLowTemperatureImageView[i]=(ImageView)activity.findViewById(activity.getResources().getIdentifier("forecast_day"+(i+1)+"_low_temperature_image","id", activity.getPackageName()));
         }
     }
-
     public static WeatherDataFormatter getCurrentDataFormatter() {return currentDataFormatter;}
     public static AlertDialog getYahooWeatherRedirectDialog() {return yahooWeatherRedirectDialog;}
     public static AlertDialog getMapsDialog() {return mapsDialog;}

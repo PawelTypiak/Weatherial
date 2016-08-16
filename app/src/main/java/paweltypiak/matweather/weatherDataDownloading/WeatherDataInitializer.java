@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
-
 import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 import paweltypiak.matweather.jsonHandling.Channel;
 
@@ -15,11 +14,8 @@ public class WeatherDataInitializer implements Parcelable {
     private String country;
     private String region;
     private String lastBuildDate;
-    private String refreshTime;
-    private String timezone;
     private String chill;
     private String direction;
-    private String direction_name;
     private String speed;
     private String humidity;
     private String pressure;
@@ -33,13 +29,8 @@ public class WeatherDataInitializer implements Parcelable {
     private String[] forecastLowTemperature;
     private double latitude;
     private double longitude;
-    private Activity activity;
-    private int[] units;
 
-
-    public WeatherDataInitializer(Activity activity, Channel channel){
-        Log.d("tag", "weather");
-        this.activity=activity;
+    public WeatherDataInitializer(Channel channel){
         this.channel=channel;
         initializeLink();
         initializeLastBuildDate();
@@ -53,41 +44,34 @@ public class WeatherDataInitializer implements Parcelable {
 
     private void initializeLink(){
         link=channel.getLink();
-        Log.d("weather","link: "+link);
     }
 
     private void initializeLastBuildDate(){
         lastBuildDate=channel.getLastBuildDate();
-        Log.d("weather","lastBuildDate: "+ lastBuildDate);
     }
 
     private void initializeLocation(){
         city=channel.getLocation().getCity();
         country=channel.getLocation().getCountry();
         region= UsefulFunctions.getFormattedString(channel.getLocation().getRegion());
-        Log.d("region pre", "p"+region);
         latitude=channel.getItem().getLatitude();
         longitude=channel.getItem().getLongitude();
-        Log.d("weather","location: "+city+", "+region+", "+country+", "+latitude+", "+longitude);
     }
 
     private void initializeAstronomy(){
         sunrise=channel.getAstronomy().getSunrise().toString();
         sunset=channel.getAstronomy().getSunset().toString();
-        Log.d("weather","astronomy: "+sunrise+", "+sunset);
     }
 
     private void initializeAtmosphere(){
         humidity=channel.getAtmosphere().getHumidity();
         pressure=channel.getAtmosphere().getPressure();
         visibility=channel.getAtmosphere().getVisibility();
-        Log.d("weather", "atmosphere: " + humidity+", "+pressure+", "+visibility);
     }
 
     private void initializeCondition(){
         code=channel.getItem().getCondition().getCode();
         temperature=channel.getItem().getCondition().getTemperature();
-        Log.d("weather", "temperature, code: " + temperature+" "+code);
     }
 
     private void initializeForecast(){
@@ -97,17 +81,14 @@ public class WeatherDataInitializer implements Parcelable {
         forecastCode =channel.getItem().getForecast().getCode();
         forecastHighTemperature =channel.getItem().getForecast().getHigh();
         forecastLowTemperature =channel.getItem().getForecast().getLow();
-        for(int i=0;i<5;i++){
-            Log.d("weather", "forecast code, forecastLowTemperature, forecast high: "+forecastCode [i] + ", " +forecastLowTemperature[i]+", "+forecastHighTemperature[i]);
-        }
     }
 
     private void initizlizeWind(){
         chill=channel.getWind().getChill();
         direction=channel.getWind().getDirection();
         speed=channel.getWind().getSpeed();
-        Log.d("weather", "wind: " + chill+", "+direction+", "+speed+", "+direction_name);
     }
+
     public String getLink() {return link;}
     public String getCity() {return city;}
     public String getRegion() {return region;}
@@ -154,8 +135,6 @@ public class WeatherDataInitializer implements Parcelable {
     public String[] getForecastLowTemperature() {
         return forecastLowTemperature;
     }
-
-
     public WeatherDataInitializer(Parcel in){
         String[] stringData = new String[17];
         in.readStringArray(stringData);
