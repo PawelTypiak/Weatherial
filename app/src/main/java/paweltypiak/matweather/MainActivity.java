@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity
     private CurrentCoordinatesDownloader currentCoordinatesDownloader;
     private TextView geolocalizationProgressMessageTextView;
     private int downloadMode;
+    private String link;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -261,21 +262,24 @@ public class MainActivity extends AppCompatActivity
         currentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                yahooWeatherRedirectDialog= WeatherDataSetter.getYahooWeatherRedirectDialog();
+                link=WeatherDataSetter.getCurrentDataFormatter().getLink();
+                yahooWeatherRedirectDialog= dialogInitializer.initializeYahooWeatherRedirectDialog(MainActivity.this,link);
                 yahooWeatherRedirectDialog.show();
             }
         });
         detailsLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                yahooWeatherRedirectDialog= WeatherDataSetter.getYahooWeatherRedirectDialog();
+                link=WeatherDataSetter.getCurrentDataFormatter().getLink();
+                yahooWeatherRedirectDialog= dialogInitializer.initializeYahooWeatherRedirectDialog(MainActivity.this,link);
                 yahooWeatherRedirectDialog.show();
             }
         });
         forecastLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                yahooWeatherRedirectDialog= WeatherDataSetter.getYahooWeatherRedirectDialog();
+                link=WeatherDataSetter.getCurrentDataFormatter().getLink();
+                yahooWeatherRedirectDialog= dialogInitializer.initializeYahooWeatherRedirectDialog(MainActivity.this,link);
                 yahooWeatherRedirectDialog.show();
             }
         });
@@ -301,7 +305,7 @@ public class MainActivity extends AppCompatActivity
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mapsDialog= WeatherDataSetter.getMapsDialog();
+                        mapsDialog= dialogInitializer.initializeMapsDialog(MainActivity.this);
                         mapsDialog.show();
                     }
                 });

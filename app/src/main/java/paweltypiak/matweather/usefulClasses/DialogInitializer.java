@@ -90,7 +90,7 @@ public class DialogInitializer  {
         private double longitude;
         private double latitude;
 
-        public initializeMapsIntentRunnable(String label, double longitude, double latitude){
+        public initializeMapsIntentRunnable(String label, double latitude, double longitude){
             this.label=label;
             this.longitude=longitude;
             this.latitude=latitude;
@@ -98,7 +98,7 @@ public class DialogInitializer  {
 
         @Override
         public void run() {
-            UsefulFunctions.initializeMapsIntent(activity, longitude, latitude,label);
+            UsefulFunctions.initializeMapsIntent(activity, latitude, longitude,label);
         }
     }
 
@@ -956,15 +956,18 @@ public class DialogInitializer  {
         return localizationResultsDialog;
     }
 
-    public AlertDialog initializeMapsDialog(Activity activity, String city, String region,String country,double longitude,double latitude) {
+    public AlertDialog initializeMapsDialog(Activity activity) {
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.location_dialog, null);
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.location_dialog_message_text);
         messageTextView.setText(activity.getString(R.string.maps_dialog_message));
         TextView cityTextView=(TextView)dialogView.findViewById(R.id.location_dialog_city_text);
-        cityTextView.setText(city);
+        String [] locationName=UsefulFunctions.getAppBarStrings(activity);
+        cityTextView.setText(locationName[0]);
         TextView regionCountryTextView=(TextView)dialogView.findViewById(R.id.location_dialog_region_county_text);
-        regionCountryTextView.setText(region+", "+country);
+        regionCountryTextView.setText(locationName[1]);
+        double [] locationCoordinates={Double.valueOf(UsefulFunctions.getCurrentLocationCoordinates()[0]),
+                Double.valueOf(UsefulFunctions.getCurrentLocationCoordinates()[1])};
         mapsDialog = buildDialog(
                 activity,
                 dialogView,
@@ -974,7 +977,7 @@ public class DialogInitializer  {
                 null,
                 false,
                 activity.getString(R.string.maps_dialog_positive_button),
-                new initializeMapsIntentRunnable(city, longitude, latitude),
+                new initializeMapsIntentRunnable(locationName[0],locationCoordinates[0], locationCoordinates[1]),
                 null,
                 null,
                 activity.getString(R.string.maps_dialog_negative_button),

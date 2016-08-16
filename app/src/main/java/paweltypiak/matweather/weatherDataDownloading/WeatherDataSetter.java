@@ -101,8 +101,6 @@ public class WeatherDataSetter {
     private int iconColor;
     private int objectIconColor;
     private static WeatherDataFormatter currentDataFormatter;
-    private static AlertDialog mapsDialog;
-    private static AlertDialog yahooWeatherRedirectDialog;
     private static boolean startTimeThread;
     private static boolean timeThreadStartedFlag;
     public static boolean newRefresh;
@@ -122,7 +120,6 @@ public class WeatherDataSetter {
         newRefresh=true;
         units= SharedPreferencesModifier.getUnits(activity);
         getData();
-        updateDialogs();
         setTheme();
         if(doSetAppBar==true)setAppBarLayout();
         setWeatherLayout();
@@ -191,12 +188,6 @@ public class WeatherDataSetter {
         sunsetSunriseDiffMinutes=Long.parseLong(sunPositionStrings[0]);
         currentDiffMinutes=Long.parseLong(sunPositionStrings[1]);
         isDay=(Integer.parseInt(sunPositionStrings[1])) != 0;
-    }
-
-    private void updateDialogs(){
-        DialogInitializer dialogInitializer=new DialogInitializer(activity);
-        mapsDialog= dialogInitializer.initializeMapsDialog(activity,city,region,country,longitude,latitude);
-        yahooWeatherRedirectDialog=dialogInitializer.initializeYahooWeatherRedirectDialog(activity,link);
     }
 
     private void setTheme(){
@@ -483,8 +474,6 @@ public class WeatherDataSetter {
         }
     }
     public static WeatherDataFormatter getCurrentDataFormatter() {return currentDataFormatter;}
-    public static AlertDialog getYahooWeatherRedirectDialog() {return yahooWeatherRedirectDialog;}
-    public static AlertDialog getMapsDialog() {return mapsDialog;}
     public static void setStartTimeThread(boolean startTimeThread) {
         WeatherDataSetter.startTimeThread = startTimeThread;}
     public static boolean getTimeThreadStartedFlag() {

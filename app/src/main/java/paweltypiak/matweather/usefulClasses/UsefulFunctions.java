@@ -93,7 +93,7 @@ public class UsefulFunctions {
         activity.startActivity(intent);
     }
 
-    public static void initializeMapsIntent(Activity activity,double longitude, double latitude, String label){
+    public static void initializeMapsIntent(Activity activity,double latitude,double longitude , String label){
         String uriBegin = "geo:" + latitude + "," + longitude;
         String query = latitude + "," + longitude + "(" + label + ")";
         String encodedQuery = Uri.encode(query);
