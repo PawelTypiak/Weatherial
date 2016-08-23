@@ -30,6 +30,7 @@ public class WeatherDataInitializer implements Parcelable {
     private double latitude;
     private double longitude;
 
+
     public WeatherDataInitializer(Channel channel){
         this.channel=channel;
         initializeLink();
@@ -80,6 +81,7 @@ public class WeatherDataInitializer implements Parcelable {
         forecastLowTemperature = new String[5];
         forecastCode =channel.getItem().getForecast().getCode();
         forecastHighTemperature =channel.getItem().getForecast().getHigh();
+        Log.d("pobieranie_z_channel", "getForecastHighTemperature: "+channel.getItem().getForecast().getHigh()[0]);
         forecastLowTemperature =channel.getItem().getForecast().getLow();
     }
 
@@ -130,6 +132,7 @@ public class WeatherDataInitializer implements Parcelable {
         return forecastCode;
     }
     public String[] getForecastHighTemperature() {
+        Log.d("prevprev", "getForecastHighTemperature: "+forecastHighTemperature[1]);
         return forecastHighTemperature;
     }
     public String[] getForecastLowTemperature() {

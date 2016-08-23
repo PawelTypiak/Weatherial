@@ -1,6 +1,6 @@
 package paweltypiak.matweather.usefulClasses;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 import java.util.StringTokenizer;
@@ -9,34 +9,34 @@ import paweltypiak.matweather.R;
 public class SharedPreferencesModifier {
     private static SharedPreferences sharedPreferences;
 
-    public static SharedPreferences getSharedPreferences(Activity activity){
+    public static SharedPreferences getSharedPreferences(Context context){
         if(sharedPreferences==null) {
-            sharedPreferences = activity.getSharedPreferences(
-                    activity.getString(R.string.shared_preferences_name_key), activity.MODE_PRIVATE);
+            sharedPreferences = context.getSharedPreferences(
+                    context.getString(R.string.shared_preferences_name_key), context.MODE_PRIVATE);
         }
         return sharedPreferences;
     }
 
-    public static boolean getIsFirstLaunch(Activity activity){
-        boolean isFirstLaunch=getSharedPreferences(activity).getBoolean(activity.getString(R.string.shared_preferences_is_first_launch_key),true);
+    public static boolean getIsFirstLaunch(Context context){
+        boolean isFirstLaunch=getSharedPreferences(context).getBoolean(context.getString(R.string.shared_preferences_is_first_launch_key),true);
         return isFirstLaunch;
     }
 
-    public static void setNextLaunch(Activity activity){
-        getSharedPreferences(activity).edit().putBoolean(activity.getString(R.string.shared_preferences_is_first_launch_key),false).commit();
+    public static void setNextLaunch(Context context){
+        getSharedPreferences(context).edit().putBoolean(context.getString(R.string.shared_preferences_is_first_launch_key),false).commit();
     }
 
-    public static int getLanguage(Activity activity){
-        int language=getSharedPreferences(activity).getInt(activity.getString(R.string.shared_preferences_language_key), 0);
-        return language;
+    public static int getLanguageVersion(Context context){
+        int languageVersion=getSharedPreferences(context).getInt(context.getString(R.string.shared_preferences_language_version_key), -1);
+        return languageVersion;
     }
 
-    public static void setLanguage(Activity activity, int option){
-        getSharedPreferences(activity).edit().putInt(activity.getString(R.string.shared_preferences_language_key), option).commit();
+    public static void setLanguage(Context context, int option){
+        getSharedPreferences(context).edit().putInt(context.getString(R.string.shared_preferences_language_version_key), option).commit();
     }
 
-    public static int[] getUnits(Activity activity){
-        String unitsString = getSharedPreferences(activity).getString(activity.getString(R.string.shared_preferences_units_key), "0,0,0,0,0,");
+    public static int[] getUnits(Context context){
+        String unitsString = getSharedPreferences(context).getString(context.getString(R.string.shared_preferences_units_key), "-1,-1,-1,-1,-1");
         int [] units=new int [5];
         StringTokenizer stringTokenizer = new StringTokenizer(unitsString, ",");
         for (int i = 0; i < units.length; i++) {
@@ -45,45 +45,46 @@ public class SharedPreferencesModifier {
         return units;
     }
 
-    public static void setUnits(Activity activity, int []unitsArray){
+    public static void setUnits(Context context, int []unitsArray){
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < unitsArray.length; i++) {
             stringBuilder.append(unitsArray[i]).append(",");
         }
-        getSharedPreferences(activity).edit().putString(activity.getString(R.string.shared_preferences_units_key), stringBuilder.toString()).commit();
+        getSharedPreferences(context).edit().putString(context.getString(R.string.shared_preferences_units_key), stringBuilder.toString()).commit();
     }
 
-    public static int getGeolocalizationMethod(Activity activity){
-        int geolocalizationMethod=getSharedPreferences(activity).getInt(activity.getString(R.string.shared_preferences_geolocalization_method_key),0);
+    public static int getGeolocalizationMethod(Context context){
+        int geolocalizationMethod=getSharedPreferences(context).getInt(context.getString(R.string.shared_preferences_geolocalization_method_key),-1);
         return geolocalizationMethod;
     }
 
-    public static void setGeolocalizationMethod(Activity activity, int option){
-        getSharedPreferences(activity).edit().putInt(activity.getString(R.string.shared_preferences_geolocalization_method_key),option).commit();
+    public static void setGeolocalizationMethod(Context context, int option){
+        getSharedPreferences(context).edit().putInt(context.getString(R.string.shared_preferences_geolocalization_method_key),option).commit();
     }
 
-    public static String getDefeaultLocation(Activity activity){
-        String defeaultLocation=getSharedPreferences(activity).getString(activity.getString(R.string.shared_preferences_defeault_location_key),null);
+    public static String getDefeaultLocation(Context context){
+        String defeaultLocation=getSharedPreferences(context).getString(context.getString(R.string.shared_preferences_defeault_location_key),null);
         Log.d("SharedPreferences", "defeaultLocation: "+defeaultLocation);
         return defeaultLocation;
     }
 
-    public static boolean isDefeaultLocationConstant(Activity activity){
-        String defeaultLocation= getDefeaultLocation(activity);
-        if(defeaultLocation.equals("")) return false;
+    public static boolean isDefeaultLocationConstant(Context context){
+        String defeaultLocation= getDefeaultLocation(context);
+        Log.d("defeault wartosc", "isDefeaultLocationConstant: "+defeaultLocation);
+        if(defeaultLocation==null) return false;
         else return true;
     }
 
-    public static void setDefeaultLocationConstant(Activity activity, String locationName){
-        getSharedPreferences(activity).edit().putString(activity.getString(R.string.shared_preferences_defeault_location_key), locationName).commit();
+    public static void setDefeaultLocationConstant(Context context, String locationAddress){
+        getSharedPreferences(context).edit().putString(context.getString(R.string.shared_preferences_defeault_location_key), locationAddress).commit();
     }
 
-    public static void setDefeaultLocationGeolocalization(Activity activity){
-        getSharedPreferences(activity).edit().putString(activity.getString(R.string.shared_preferences_defeault_location_key), "").commit();
+    public static void setDefeaultLocationGeolocalization(Context context){
+        getSharedPreferences(context).edit().putString(context.getString(R.string.shared_preferences_defeault_location_key), null).commit();
     }
 
-    public static String[] getFavouriteLocationsNames(Activity activity){
-        String favouritesString = getSharedPreferences(activity).getString(activity.getString(R.string.shared_preferences_favourite_locations_names_key), "");
+    public static String[] getFavouriteLocationsNames(Context context){
+        String favouritesString = getSharedPreferences(context).getString(context.getString(R.string.shared_preferences_favourite_locations_names_key), "");
         StringTokenizer stringTokenizer = new StringTokenizer(favouritesString, "|");
         int numberOfFavourites=stringTokenizer.countTokens();
         String favourites[]=new String[numberOfFavourites];
@@ -94,12 +95,12 @@ public class SharedPreferencesModifier {
         return favourites;
     }
 
-    public static void setFavouriteLocationNames(Activity activity,String namesString){
-        getSharedPreferences(activity).edit().putString(activity.getString(R.string.shared_preferences_favourite_locations_names_key), namesString).commit();
+    public static void setFavouriteLocationNames(Context context,String namesString){
+        getSharedPreferences(context).edit().putString(context.getString(R.string.shared_preferences_favourite_locations_names_key), namesString).commit();
     }
 
-    public static String[] getFavouriteLocationsAddresses(Activity activity){
-        String favouritesString = getSharedPreferences(activity).getString(activity.getString(R.string.shared_preferences_favourite_locations_addresses_key), "");
+    public static String[] getFavouriteLocationsAddresses(Context context){
+        String favouritesString = getSharedPreferences(context).getString(context.getString(R.string.shared_preferences_favourite_locations_addresses_key), "");
         StringTokenizer stringTokenizer = new StringTokenizer(favouritesString, "|");
         int numberOfFavourites=stringTokenizer.countTokens();
         String favourites[]=new String[numberOfFavourites];
@@ -110,12 +111,12 @@ public class SharedPreferencesModifier {
         return favourites;
     }
 
-    public static void setFavouriteLocationAddresses(Activity activity,String adressesString){
-        getSharedPreferences(activity).edit().putString(activity.getString(R.string.shared_preferences_favourite_locations_addresses_key), adressesString).commit();
+    public static void setFavouriteLocationAddresses(Context context,String adressesString){
+        getSharedPreferences(context).edit().putString(context.getString(R.string.shared_preferences_favourite_locations_addresses_key), adressesString).commit();
     }
 
-    public static String[] getFavouriteLocationsCoordinates(Activity activity){
-        String favouritesString = getSharedPreferences(activity).getString(activity.getString(R.string.shared_preferences_favourite_locations_coordinates_key), "");
+    public static String[] getFavouriteLocationsCoordinates(Context context){
+        String favouritesString = getSharedPreferences(context).getString(context.getString(R.string.shared_preferences_favourite_locations_coordinates_key), "");
         StringTokenizer stringTokenizer = new StringTokenizer(favouritesString, "|");
         int numberOfFavourites=stringTokenizer.countTokens();
         String favourites[]=new String[numberOfFavourites];
@@ -126,7 +127,7 @@ public class SharedPreferencesModifier {
         return favourites;
     }
 
-    public static void setFavouriteLocationCoordinates(Activity activity,String coordinatesString){
-        getSharedPreferences(activity).edit().putString(activity.getString(R.string.shared_preferences_favourite_locations_coordinates_key), coordinatesString).commit();
+    public static void setFavouriteLocationCoordinates(Context context,String coordinatesString){
+        getSharedPreferences(context).edit().putString(context.getString(R.string.shared_preferences_favourite_locations_coordinates_key), coordinatesString).commit();
     }
 }

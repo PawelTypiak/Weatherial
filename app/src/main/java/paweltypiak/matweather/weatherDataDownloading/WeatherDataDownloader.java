@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import paweltypiak.matweather.jsonHandling.Channel;
+import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
 public class WeatherDataDownloader {
     private WeatherDownloadCallback callback;

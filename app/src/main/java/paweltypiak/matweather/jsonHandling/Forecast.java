@@ -5,7 +5,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Forecast {
-    JSONArray jsonArray;
     private int[] code = new int[5];
     private String high[] = new String[5];
     private String low[] = new String[5];
@@ -20,8 +19,7 @@ public class Forecast {
         return low;
     }
 
-    public void forecast(JSONArray f){
-        jsonArray = f;
+    public void forecast(JSONArray jsonArray){
         try {
             for (int i = 0; i < 5; i++) {
                 JSONObject temp=jsonArray.getJSONObject(i);

@@ -1,6 +1,7 @@
 package paweltypiak.matweather;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -25,6 +26,7 @@ import com.squareup.picasso.Picasso;
 import paweltypiak.matweather.localizationDataDownloading.GeocodingCallback;
 import paweltypiak.matweather.localizationDataDownloading.GeocodingDownloader;
 import paweltypiak.matweather.localizationDataDownloading.CurrentCoordinatesDownloader;
+import paweltypiak.matweather.settings.Settings;
 import paweltypiak.matweather.usefulClasses.DialogInitializer;
 import paweltypiak.matweather.usefulClasses.SharedPreferencesModifier;
 import paweltypiak.matweather.usefulClasses.UsefulFunctions;
@@ -39,7 +41,7 @@ import paweltypiak.matweather.jsonHandling.Channel;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, WeatherDownloadCallback, SwipeRefreshLayout.OnRefreshListener,
         GeocodingCallback {
-    private WeatherDataInitializer getter;
+    private WeatherDataInitializer weatherDataInitializer;
     private AlertDialog weatherServiceFailureDialog;
     private AlertDialog geocodingInternetFailureDialog;
     private AlertDialog weatherGeolocalizationInternetFailureDialog;
@@ -89,26 +91,27 @@ public class MainActivity extends AppCompatActivity
     private void loadExtras(){
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            getter=extras.getParcelable(getString(R.string.extras_data_initializer_key));
+            weatherDataInitializer =extras.getParcelable(getString(R.string.extras_data_initializer_key));
         }
     }
 
     private void loadDefeaultLocation(){
         boolean isDefeaultLocationConstant=SharedPreferencesModifier.isDefeaultLocationConstant(this);
-        if(isDefeaultLocationConstant) new WeatherDataSetter(this,getter,true,false);
-        else new WeatherDataSetter(this,getter,true,true);
+        if(isDefeaultLocationConstant) new WeatherDataSetter(this, weatherDataInitializer,true,false);
+        else new WeatherDataSetter(this, weatherDataInitializer,true,true);
         UsefulFunctions.setIsFirstWeatherDownloading(false);
     }
 
     @Override
     public void weatherServiceSuccess(Channel channel) {
-        getter = new WeatherDataInitializer(channel);
+
+        weatherDataInitializer = new WeatherDataInitializer(channel);
         if(downloadMode==1){
-            new WeatherDataSetter(this,getter,true,true);
+            new WeatherDataSetter(this, weatherDataInitializer,true,true);
             geolocalizationProgressDialog.dismiss();
         }
         else{
-            new WeatherDataSetter(this,getter,false,false);
+            new WeatherDataSetter(this, weatherDataInitializer,false,false);
             swipeRefreshLayout.setRefreshing(false);
             UsefulFunctions.setViewInvisible(refreshMessageTextView);
             UsefulFunctions.showWeatherSublayouts(this);
@@ -394,6 +397,10 @@ public class MainActivity extends AppCompatActivity
         downloadWeatherData(currentLocation[0]+", "+currentLocation[1]);
     }
 
+    private void refreshLayoutAfterPreferencesChange(){
+        new WeatherDataSetter(this,weatherDataInitializer,true,false);
+    }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent e) {
         if (keyCode == KeyEvent.KEYCODE_MENU) {
@@ -411,7 +418,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
         if(id==R.id.nav_button_geolocalization){
             int localizationOption=SharedPreferencesModifier.getGeolocalizationMethod(this);
-            if(localizationOption==0){
+            if(localizationOption==-1){
                 geolocalizationMethodsDialog.show();
             }
             else{
@@ -426,11 +433,16 @@ public class MainActivity extends AppCompatActivity
             }
         }
         else if (id == R.id.nav_button_settings) {
-        } else if (id == R.id.nav_button_about) {
+            Intent intent = new Intent(this, Settings.class);
+            startActivity(intent);
+        }
+        else if (id == R.id.nav_button_about) {
             aboutDialog.show();
-        } else if (id == R.id.nav_button_feedback) {
+        }
+        else if (id == R.id.nav_button_feedback) {
             feedbackDialog.show();
-        } else if(id == R.id.nav_button_author){
+        }
+        else if(id == R.id.nav_button_author){
             authorDialog.show();
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -452,6 +464,18 @@ public class MainActivity extends AppCompatActivity
         }
         super.onResume();
     }
+
+    @Override
+    public void onRestart() {
+        super.onRestart();
+        Log.d("options change", "onpreferenceschanged: "+Settings.isPreferencesChanged());
+        if(Settings.isPreferencesChanged())
+        {
+            refreshLayoutAfterPreferencesChange();
+            Settings.setPreferencesChanged(false);
+        }
+    }
+
     @Override
     protected void onDestroy() {
         WeatherDataSetter.interruptUiThread();

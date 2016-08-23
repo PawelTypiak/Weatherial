@@ -100,7 +100,7 @@ public class CurrentCoordinatesDownloader implements  ActivityCompat.OnRequestPe
             showErrorDialog(geolocalizationFailureDialog);
         }
         else{
-            if (geolocalizationMethod ==1) {
+            if (geolocalizationMethod ==0) {
                 if(gpsEnabled){
                     Log.d("provider", "gps");
                     try {
@@ -117,7 +117,7 @@ public class CurrentCoordinatesDownloader implements  ActivityCompat.OnRequestPe
                     providerUnavailableDialog.show();
                 }
             }
-            else if (geolocalizationMethod ==2) {
+            else if (geolocalizationMethod ==1) {
                 if(networkEnabled){
                     Log.d("provider:", "network");
                     try {

@@ -53,7 +53,7 @@ public class FirstLaunchUnitsFragment extends Fragment{
         FirstLaunchSpinner spinner = (FirstLaunchSpinner) getActivity().findViewById(getActivity().getResources().getIdentifier("first_launch_units_fragment_spinner_"+(id+1), "id", getActivity().getPackageName()));
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity().getApplicationContext(),
                 R.layout.first_launch_spinner_item,
-                getActivity().getResources().getStringArray(getActivity().getResources().getIdentifier("first_launch_layout_units_array_"+(id+1), "array", getActivity().getPackageName())));
+                getActivity().getResources().getStringArray(getActivity().getResources().getIdentifier("units_array_"+id, "array", getActivity().getPackageName())));
         arrayAdapter.setDropDownViewResource(R.layout.first_launch_spinner_dropdown_item);
         spinner.setAdapter(arrayAdapter);
         return spinner;
@@ -94,7 +94,7 @@ public class FirstLaunchUnitsFragment extends Fragment{
 
     private void setLayoutVisible(final Spinner spinner, final int id) {
         ImageView unitsImageView = (ImageView) getActivity().findViewById(getResources().getIdentifier("first_launch_units_fragment_spinner_" + (id + 1) + "_image", "id", getActivity().getPackageName()));
-        Picasso.with(getActivity().getApplicationContext()).load(getActivity().getResources().getIdentifier("drawable/units_icon_" + (id + 1), null, getActivity().getPackageName())).transform(new UsefulFunctions().new setDrawableColor(getActivity().getResources().getColor(R.color.white))).into(unitsImageView, new com.squareup.picasso.Callback() {
+        Picasso.with(getActivity().getApplicationContext()).load(getActivity().getResources().getIdentifier("drawable/units_icon_" + id, null, getActivity().getPackageName())).transform(new UsefulFunctions().new setDrawableColor(getActivity().getResources().getColor(R.color.white))).into(unitsImageView, new com.squareup.picasso.Callback() {
             @Override
             public void onSuccess() {
                 UsefulFunctions.setViewVisible(spinner);

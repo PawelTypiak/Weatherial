@@ -21,8 +21,8 @@ public class FirstLaunchConfigurationFragment extends Fragment{
     private FirstLaunchGeolocalizationMethodFragment geolocalizationMethodsFragment;
     private boolean isFirstLaunch;
     private boolean isAfterChoosingGeolocalizationMethod =false;
-    private int choosenDefeaultLocationOption =0;
-    private int choosenGeolocalizationMethod =0;
+    private int choosenDefeaultLocationOption =-1;
+    private int choosenGeolocalizationMethod =-1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -66,9 +66,9 @@ public class FirstLaunchConfigurationFragment extends Fragment{
         return childFragment;
     }
 
-    public void insertLoadingFragment(int choosenLocalizationOption,int choosenLocationOption, String differentLocationName, CardView startCardViewButton) {
+    public void insertLoadingFragment(int choosenGeolocalizationMethod,int choosenDefeaultLocationOption, String differentLocationName, CardView startCardViewButton) {
         fragmentTransaction = getChildFragmentManager().beginTransaction();
-        loadingFragment = FirstLaunchLoadingFragment.newInstance(getActivity(),isFirstLaunch,choosenLocalizationOption,choosenLocationOption,differentLocationName);
+        loadingFragment = FirstLaunchLoadingFragment.newInstance(getActivity(),isFirstLaunch,choosenGeolocalizationMethod,choosenDefeaultLocationOption,differentLocationName);
         fragmentTransaction.replace(R.id.first_launch_configuration_fragment_placeholder, loadingFragment, "LoadingFragment");
         fragmentTransaction.commit();
         if(startCardViewButton!=null)UsefulFunctions.setViewInvisible(startCardViewButton);
@@ -104,13 +104,13 @@ public class FirstLaunchConfigurationFragment extends Fragment{
         if(isFirstLaunch){
             if(isAfterChoosingGeolocalizationMethod ==true){
                 choosenGeolocalizationMethod = geolocalizationMethodsFragment.getChoosenGeolocalizationMethod();
-                insertLoadingFragment(choosenGeolocalizationMethod,1, "",nextCardViewButton);
+                insertLoadingFragment(choosenGeolocalizationMethod,0, "",nextCardViewButton);
                 UsefulFunctions.setViewInvisible(nextCardViewButton);
                 isAfterChoosingGeolocalizationMethod =false;
             }
             else{
                 choosenDefeaultLocationOption = getDefeaultLocationOptionFromLocationFragment();
-                if(choosenDefeaultLocationOption ==1){
+                if(choosenDefeaultLocationOption ==0){
                     if(isAfterChoosingGeolocalizationMethod ==false){
                         insertGeolocalizationMethodsFragment();
                         isAfterChoosingGeolocalizationMethod =true;
@@ -122,13 +122,13 @@ public class FirstLaunchConfigurationFragment extends Fragment{
                         showNoDifferentLocationChoosenDialogInLocationFragment();
                     }
                     else{
-                        insertLoadingFragment(0, choosenDefeaultLocationOption,differentLocationName,nextCardViewButton);
+                        insertLoadingFragment(-1, choosenDefeaultLocationOption,differentLocationName,nextCardViewButton);
                     }
                 }
             }
         }
         else {
-            insertLoadingFragment(0,0,"",null);
+            insertLoadingFragment(-1,-1,"",null);
         }
     }
     public int getChoosenDefeaultLocationOption() {

@@ -251,7 +251,7 @@ public class DialogInitializer  {
             String currentLocationHeaderString=UsefulFunctions.getCurrentLocationAddress()[0];
             String currentLocationSubheaderString=UsefulFunctions.getCurrentLocationAddress()[1];
             UsefulFunctions.setAppBarStrings(activity,currentLocationHeaderString,currentLocationSubheaderString);
-            if(FavouritesEditor.isFirstLocationEqual(activity)) {
+            if(FavouritesEditor.isDefeaultLocationEqual(activity,null)) {
                 SharedPreferencesModifier.setDefeaultLocationGeolocalization(activity);
             }
         }
@@ -282,7 +282,7 @@ public class DialogInitializer  {
                 SharedPreferencesModifier.setDefeaultLocationConstant(activity,currentLocationAddress);
             }
             else{
-                if(FavouritesEditor.isFirstLocationEqual(activity)) {
+                if(FavouritesEditor.isDefeaultLocationEqual(activity,null)) {
                     SharedPreferencesModifier.setDefeaultLocationGeolocalization(activity);
                 }
             }
@@ -860,7 +860,7 @@ public class DialogInitializer  {
         final EditText subheaderEditText=(EditText)dialogView.findViewById(R.id.edit_location_dialog_subheader_edittext);
         subheaderEditText.setText(location[1]);
         CheckBox checkBox=(CheckBox)dialogView.findViewById(R.id.edit_location_dialog_checkbox);
-        checkBox.setChecked(FavouritesEditor.isFirstLocationEqual(activity));
+        checkBox.setChecked(FavouritesEditor.isDefeaultLocationEqual(activity,null));
         editFavouritesDialog = buildDialog(
                 activity,
                 dialogView,
@@ -990,28 +990,28 @@ public class DialogInitializer  {
         View dialogView = inflater.inflate(R.layout.localization_options_dialog,null);
         RadioGroup radioGroup=(RadioGroup)dialogView.findViewById(R.id.localization_options_dialog_radio_group);
         RadioButton gpsRadioButton=new RadioButton(activity);
-        gpsRadioButton.setText(activity.getString(R.string.first_launch_layout_localization_options_gps));
+        gpsRadioButton.setText(activity.getString(R.string.geolocalization_method_gps));
         gpsRadioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX,activity.getResources().getDimensionPixelSize(R.dimen.dialog_text_size));
         gpsRadioButton.setTextColor(activity.getResources().getColor(R.color.textSecondaryLightBackground));
-        gpsRadioButton.setId(R.id.localization_options_dialog_gps_radio_button);
-        UsefulFunctions.setRadiogroupMargins(gpsRadioButton,activity,0,0,0,16);
+        gpsRadioButton.setId(R.id.geolocalization_method_dialog_gps_radio_button_id);
+        UsefulFunctions.setRadioButtonMargins(gpsRadioButton,activity,0,0,0,16);
         radioGroup.addView(gpsRadioButton);
         RadioButton networkRadioButton=new RadioButton(activity);
-        networkRadioButton.setText(activity.getString(R.string.first_launch_layout_localization_options_network));
+        networkRadioButton.setText(activity.getString(R.string.geolocalization_method_network));
         networkRadioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX,activity.getResources().getDimensionPixelSize(R.dimen.dialog_text_size));
         networkRadioButton.setTextColor(activity.getResources().getColor(R.color.textSecondaryLightBackground));
-        networkRadioButton.setId(R.id.localization_options_dialog_network_radio_button);
+        networkRadioButton.setId(R.id.geolocalization_method_dialog_network_radio_button_id);
         radioGroup.addView(networkRadioButton);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 UsefulFunctions.setDialogButtonEnabled(localizationOptionsDialog,activity);
-                if (i == R.id.localization_options_dialog_gps_radio_button) {
+                if (i == R.id.geolocalization_method_dialog_gps_radio_button_id) {
                     Log.d("localization_option", "gps");
-                    SharedPreferencesModifier.setGeolocalizationMethod(activity,1);
-                } else if (i == R.id.localization_options_dialog_network_radio_button) {
+                    SharedPreferencesModifier.setGeolocalizationMethod(activity,0);
+                } else if (i == R.id.geolocalization_method_dialog_network_radio_button_id) {
                     Log.d("localization_option", "network");
-                    SharedPreferencesModifier.setGeolocalizationMethod(activity,2);
+                    SharedPreferencesModifier.setGeolocalizationMethod(activity,1);
                 }
             }
         });
@@ -1019,11 +1019,11 @@ public class DialogInitializer  {
                 activity,
                 dialogView,
                 R.style.CustomLoadingDialogStyle,
-                activity.getString(R.string.localization_options_dialog_title),
+                activity.getString(R.string.geolocalization_methods_dialog_title),
                 R.drawable.localization_icon,
                 null,
                 true,
-                activity.getString(R.string.localization_options_dialog_positive_button),
+                activity.getString(R.string.geolocalization_methods_dialog_positive_button),
                 positiveButtonRunnable,
                 null,
                 null,
@@ -1124,7 +1124,7 @@ public class DialogInitializer  {
         for(int i=0;i<size;i++){
             RadioButton radioButton=new RadioButton(activity);
             if(i!=size-1){
-                UsefulFunctions.setRadiogroupMargins(radioButton,activity,0,0,0,16);
+                UsefulFunctions.setRadioButtonMargins(radioButton,activity,0,0,0,16);
                 if(type==1) locationName=favouritesList.get(i);
             }
             else{

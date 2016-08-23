@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+    <paweltypiak.matweather.settings.DefeaultLocationDialogPreference
+        android:title="@string/preferences_defeault_location_title"
+        />
+    <paweltypiak.matweather.settings.GeolocalizationMethodDialogPreference
+        android:title="@string/preferences_geolocalization_method_title" />
+    <Preference
+        android:key="preferences_units"
+        android:title="@string/preferences_units_title"
+        android:summary="@string/preferences_units_summary"/>
+    <paweltypiak.matweather.settings.LanguageVersionDialogPreference
+        android:title="@string/preferences_language_version_title" />
+</PreferenceScreen>

@@ -41,16 +41,16 @@ public class FirstLaunchLocationFragment extends Fragment {
         final RadioButton currentLocationRadioButton=(RadioButton)getActivity().findViewById(R.id.first_launch_location_fragment_current_location_radio_button);
         differentLocationRadioButton=(RadioButton)getActivity().findViewById(R.id.first_launch_location_fragment_different_location_radio_button);
         radioGroup.check(currentLocationRadioButton.getId());
-        choosenDefeaultLocationOption =1;
+        choosenDefeaultLocationOption =0;
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 if (i == R.id.first_launch_location_fragment_current_location_radio_button) {
-                    choosenDefeaultLocationOption =1;
+                    choosenDefeaultLocationOption =0;
                     Log.d("defeault location", "current location");
 
                 } else if (i == R.id.first_launch_location_fragment_different_location_radio_button) {
-                    choosenDefeaultLocationOption =2;
+                    choosenDefeaultLocationOption =1;
                     Log.d("defeault location", "different location");
                 }
             }

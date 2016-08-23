@@ -8,7 +8,7 @@
     <string name="bullet">&#8226; </string>
 
     <string name="shared_preferences_name_key">paweltypiak.matweather.preference_file_key</string>
-    <string name="shared_preferences_language_key">language_preferences_key</string>
+    <string name="shared_preferences_language_version_key">language_version_preferences_key</string>
     <string name="shared_preferences_units_key">units_preferences_key</string>
     <string name="shared_preferences_defeault_location_key">defeault_location_key</string>
     <string name="shared_preferences_is_first_location_geolocalization_key">is_first_location_geolocalization_key</string>
@@ -127,13 +127,17 @@
     <string name="favourites_dialog_neutral_button">Inna lokacja</string>
     <string name="favourites_dialog_type1_negative_button">Wyjdź</string>
     <string name="favourites_dialog_type2_negative_button">Anuluj</string>
-    <string name="favourites_dialog_geolocalization_option">Aktualna lokalizacja</string>
+    <string name="favourites_dialog_geolocalization_option">Bieżąca lokacja</string>
     <string name="no_favourites_dialog_title">Brak ulubionych</string>
     <string name="no_favourites_dialog_positive_button">Ok</string>
     <string name="no_favourites_dialog_message">Nie masz żadnych zapisanych lokacji.</string>
-    <string name="localization_options_dialog_title">Metoda geolokalizacji</string>
-    <string name="localization_options_dialog_message">Wybierz metodę geolokalizacji:</string>
-    <string name="localization_options_dialog_positive_button">Kontynuuj</string>
+    <string name="geolocalization_methods_dialog_title">Metoda geolokalizacji</string>
+    <string name="geolocalization_methods_dialog_message">Wybierz metodę geolokalizacji:</string>
+    <string name="geolocalization_methods_dialog_positive_button">Kontynuuj</string>
+
+    <string name="preferences_dialog_positive_button">Wybierz</string>
+    <string name="preferences_dialog_negative_button">Anuluj</string>
+
 
 
     <string name="refresh_message_pull_to_refresh">Pociągnij, żeby odświeżyć</string>
@@ -143,40 +147,35 @@
     <string name="first_launch_layout_start_button">GET STARTED</string>
     <string name="first_launch_layout_continue_button">KONTYNUUJ</string>
     <string name="first_launch_layout_language_header">Wybierz wersję językową:</string>
-    <string name="first_launch_layout_language_english">angielski</string>
-    <string name="first_launch_layout_language_polish">polski</string>
-    <string name="first_launch_layout_units_header">Wybierz jednostki:</string>
-    <string name="first_launch_layout_units_temperature_header">temperatura:</string>
-    <string name="first_launch_layout_units_speed_header">prędkość:</string>
-    <string name="first_launch_layout_units_pressure_header">ciśnienie:</string>
-    <string name="first_launch_layout_units_distance_header">odległość:</string>
-    <string name="first_launch_layout_units_hours_header">format czasu:</string>
-    <string-array name="first_launch_layout_units_array_1">
+    <string name="language_version_english">Język angielski</string>
+    <string name="language_version_polish">Język polski</string>
+    <string name="first_launch_layout_units_header">Wybierz system jednostek:</string>
+    <string-array name="units_array_0">
         <item>\u2103</item>
         <item>\u2109</item>
     </string-array>
-    <string-array name="first_launch_layout_units_array_2">
+    <string-array name="units_array_1">
         <item>km/h</item>
         <item>mi/h</item>
     </string-array>
-    <string-array name="first_launch_layout_units_array_3">
+    <string-array name="units_array_2">
         <item>km</item>
         <item>mi</item>
     </string-array>
-    <string-array name="first_launch_layout_units_array_4">
+    <string-array name="units_array_3">
         <item>hPa</item>
         <item>mmHg</item>
     </string-array>
-    <string-array name="first_launch_layout_units_array_5">
+    <string-array name="units_array_4">
         <item>24h</item>
         <item>12h</item>
     </string-array>
     <string name="first_launch_layout_location_header">Wybierz domyślną lokację:</string>
-    <string name="first_launch_layout_location_current">aktualna lokalizacja</string>
-    <string name="first_launch_layout_location_different">inna lokacja</string>
+    <string name="first_launch_layout_location_current">Bieżąca lokacja</string>
+    <string name="first_launch_layout_location_different">Inna lokacja</string>
     <string name="first_launch_layout_localization_options_header">Wybierz metodę geolokalizacji:</string>
-    <string name="first_launch_layout_localization_options_gps">GPS (dokładna)</string>
-    <string name="first_launch_layout_localization_options_network">Sieć (szybka)</string>
+    <string name="geolocalization_method_gps">GPS (dokładna)</string>
+    <string name="geolocalization_method_network">Sieć (szybka)</string>
 
 
     <!-- progress info messages-->
@@ -211,8 +210,26 @@
     <string name="nav_drawer_about">O aplikacji</string>
     <string name="nav_drawer_author">Autor</string>
 
+    <string name="preferences_defeault_location_title">Lokacja domyślna</string>
+    <string name="preferences_geolocalization_method_title">Metoda geolokalizacji</string>
+    <string name="preferences_geolocalization_method_defeault_summary">Wybierz metodę geolokalizacji</string>
+    <string name="preferences_units_title">Jednostki</string>
+    <string name="preferences_units_summary">Wybierz system jednostek</string>
+    <string name="preferences_units_temperature_title">Temperatura powietrza</string>
+    <string name="preferences_units_speed_title">Prędkość wiatru</string>
+    <string name="preferences_units_distance_title">Odległość widzenia</string>
+    <string name="preferences_units_pressure_title">Ciśnienie atmosferyczne</string>
+    <string name="preferences_units_time_title">Format czasu</string>
+    <string-array name="preferences_units_names_array">
+        <item>Temperatura powietrza</item>
+        <item>Prędkość wiatru</item>
+        <item>Odległość widzenia</item>
+        <item>Ciśnienie atmosferyczne</item>
+        <item>Format czasu</item>
+    </string-array>
+    <string name="preferences_language_version_title">Wersja językowa</string>
     <!-- Units-->
-    <string name="speed_kmh">km/h</string>
+    <string name="speed_kph">km/h</string>
     <string name="speed_mph">mi/h</string>
     <string name="pressure_hpa">hPa</string>
     <string name="pressure_mmHg">mmHg</string>
@@ -274,61 +291,4 @@
     <string name="condition_47">Burze z piorunami</string>
     <string name="condition_3200">Nieznane warunki</string>
     <string name="title_activity_settings">Settings</string>
-
-    <!-- Example General settings -->
-    <string name="pref_header_general">General</string>
-
-    <string name="pref_title_social_recommendations">Enable social recommendations</string>
-    <string name="pref_description_social_recommendations">Recommendations for people to contact
-        based on your message history
-    </string>
-
-    <string name="pref_title_display_name">Display name</string>
-    <string name="pref_default_display_name">John Smith</string>
-
-    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
-    <string-array name="pref_example_list_titles">
-        <item>Always</item>
-        <item>When possible</item>
-        <item>Never</item>
-    </string-array>
-    <string-array name="pref_example_list_values">
-        <item>1</item>
-        <item>0</item>
-        <item>-1</item>
-    </string-array>
-
-    <!-- Example settings for Data & Sync -->
-    <string name="pref_header_data_sync">Data &amp; sync</string>
-
-    <string name="pref_title_sync_frequency">Sync frequency</string>
-    <string-array name="pref_sync_frequency_titles">
-        <item>15 minutes</item>
-        <item>30 minutes</item>
-        <item>1 hour</item>
-        <item>3 hours</item>
-        <item>6 hours</item>
-        <item>Never</item>
-    </string-array>
-    <string-array name="pref_sync_frequency_values">
-        <item>15</item>
-        <item>30</item>
-        <item>60</item>
-        <item>180</item>
-        <item>360</item>
-        <item>-1</item>
-    </string-array>
-
-    <string name="pref_title_system_sync_settings">System sync settings</string>
-
-    <!-- Example settings for Notifications -->
-    <string name="pref_header_notifications">Notifications</string>
-
-    <string name="pref_title_new_message_notifications">New message notifications</string>
-
-    <string name="pref_title_ringtone">Ringtone</string>
-    <string name="pref_ringtone_silent">Silent</string>
-
-    <string name="pref_title_vibrate">Vibrate</string>
-
 </resources>

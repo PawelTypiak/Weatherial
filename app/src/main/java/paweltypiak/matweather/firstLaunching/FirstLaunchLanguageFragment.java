@@ -27,16 +27,16 @@ public class FirstLaunchLanguageFragment extends Fragment{
     private void radioGroupListener(){
         RadioGroup radioGroup=(RadioGroup)getActivity().findViewById(R.id.first_launch_language_fragment_radio_group);
         radioGroup.check(getActivity().findViewById(R.id.first_launch_language_fragment_english_radio_button).getId());
-        SharedPreferencesModifier.setLanguage(getActivity(),1);
+        SharedPreferencesModifier.setLanguage(getActivity(),0);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 if (i == R.id.first_launch_language_fragment_english_radio_button) {
                     Log.d("language", "english");
-                    SharedPreferencesModifier.setLanguage(getActivity(),1);
+                    SharedPreferencesModifier.setLanguage(getActivity(),0);
                 } else if (i == R.id.first_launch_language_fragment_polish_radio_button) {
                     Log.d("language", "polish");
-                    SharedPreferencesModifier.setLanguage(getActivity(),2);
+                    SharedPreferencesModifier.setLanguage(getActivity(),1);
                 }
             }
         });

@@ -34,14 +34,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 app:buttonTint="@color/white"
-                android:text="@string/first_launch_layout_language_english"
+                android:text="@string/language_version_english"
                 android:textSize="@dimen/first_launch_configuration_text_size"
                 android:textColor="@color/white"
                 android:id="@+id/first_launch_language_fragment_english_radio_button"/>
             <android.support.v7.widget.AppCompatRadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/first_launch_layout_language_polish"
+                android:text="@string/language_version_polish"
                 android:textSize="@dimen/first_launch_configuration_text_size"
                 android:textColor="@color/white"
                 app:buttonTint="@color/white"

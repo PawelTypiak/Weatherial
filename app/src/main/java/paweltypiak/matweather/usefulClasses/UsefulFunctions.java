@@ -33,6 +33,7 @@ import android.widget.Toast;
 import com.squareup.picasso.Transformation;
 import paweltypiak.matweather.MainActivity;
 import paweltypiak.matweather.R;
+import paweltypiak.matweather.jsonHandling.Channel;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDataSetter;
 
 public class UsefulFunctions {
@@ -45,8 +46,20 @@ public class UsefulFunctions {
     public static void setIsFirstWeatherDownloading(boolean bool) {
         isFirstWeatherDownloading = bool;
     }
+    private static Channel currentChannel;
 
-    public static void setfloatingActionButtonOnClickIndicator(Activity activity,int  fabIndicator) {
+    public static Channel getCurrentChannel() {
+
+        Log.d("current_channel", "getCurrentChannel: "+currentChannel.getLink());
+        return currentChannel;
+    }
+
+    public static void setCurrentChannel(Channel currentChannel) {
+        Log.d("current_channel", "setCurrentChannel: "+currentChannel.getLink());
+        UsefulFunctions.currentChannel = currentChannel;
+    }
+
+    public static void setfloatingActionButtonOnClickIndicator(Activity activity, int  fabIndicator) {
         FloatingActionButton floatingActionButton=(FloatingActionButton)activity.findViewById(R.id.main_fab);
         MainActivity.setFloatingActionButtonOnClickIndicator(fabIndicator);
         if(fabIndicator==1) floatingActionButton.setImageResource(R.drawable.add_black_icon);
@@ -87,23 +100,23 @@ public class UsefulFunctions {
         if(!secondaryText.equals("")) setViewVisible(secondaryLocationTextView);
     }
 
-    public static void initializeWebIntent(Activity activity, String url){
+    public static void initializeWebIntent(Context context, String url){
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(url));
-        activity.startActivity(intent);
+        context.startActivity(intent);
     }
 
-    public static void initializeMapsIntent(Activity activity,double latitude,double longitude , String label){
+    public static void initializeMapsIntent(Context context,double latitude,double longitude , String label){
         String uriBegin = "geo:" + latitude + "," + longitude;
         String query = latitude + "," + longitude + "(" + label + ")";
         String encodedQuery = Uri.encode(query);
         String uriString = uriBegin + "?q=" + encodedQuery + "&z=16";
         Uri uri = Uri.parse(uriString);
         Intent intent = new Intent(android.content.Intent.ACTION_VIEW, uri);
-        activity.startActivity(intent);
+        context.startActivity(intent);
     }
 
-    public static void initializeEmailIntent(Activity activity, String address, String subject, String body, AlertDialog dialog){
+    public static void initializeEmailIntent(Context context, String address, String subject, String body, AlertDialog dialog){
         Intent intent = new Intent(Intent.ACTION_SENDTO);
         intent.setType("text/plain");
         if(subject!=null) intent.putExtra(Intent.EXTRA_SUBJECT, subject);
@@ -111,19 +124,19 @@ public class UsefulFunctions {
         intent.setData(Uri.parse("mailto:"+address));
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         try {
-            activity.startActivity(intent);
+            context.startActivity(intent);
         } catch (android.content.ActivityNotFoundException ex) {
             dialog.show();
         }
     }
 
-    public static void copyToClipboard(Activity activity, String text){
+    public static void copyToClipboard(Context context, String text){
         ClipboardManager myClipboard;
         ClipData myClip;
-        myClipboard = (ClipboardManager)activity.getSystemService(Context.CLIPBOARD_SERVICE);
+        myClipboard = (ClipboardManager)context.getSystemService(Context.CLIPBOARD_SERVICE);
         myClip = ClipData.newPlainText("text", text);
         myClipboard.setPrimaryClip(myClip);
-        Toast.makeText(activity.getApplicationContext(), activity.getString(R.string.clipboard_toast_message),Toast.LENGTH_SHORT).show();
+        Toast.makeText(context.getApplicationContext(), context.getString(R.string.clipboard_toast_message),Toast.LENGTH_SHORT).show();
     }
 
     public static StringBuilder buildStringFromStringArray(String[] stringArray){
@@ -382,7 +395,7 @@ public class UsefulFunctions {
         return pixels;
     }
 
-    public static void setRadiogroupMargins(View view, Activity activity, int marginLeft, int marginTop, int marginRight, int marginBottom){
+    public static void setRadioButtonMargins(View view, Activity activity, int marginLeft, int marginTop, int marginRight, int marginBottom){
         int marginLeftPixels=dpToPixels(marginLeft,activity);
         int marginTopPixels=dpToPixels(marginTop,activity);
         int marginRightPixels=dpToPixels(marginRight,activity);
@@ -394,7 +407,7 @@ public class UsefulFunctions {
         view.setLayoutParams(layoutParams);
     }
 
-    public static void setPadding(View view, Activity activity, int paddingLeft, int paddingTop, int paddingRight, int paddingBottom){
+    public static void setPadding(View view,  Activity activity, int paddingLeft, int paddingTop, int paddingRight, int paddingBottom){
         int paddingLeftPixels=dpToPixels(paddingLeft,activity);
         int paddingTopPixels=dpToPixels(paddingTop,activity);
         int paddingRightPixels=dpToPixels(paddingRight,activity);
@@ -403,14 +416,14 @@ public class UsefulFunctions {
         view.setPadding(paddingLeftPixels,paddingTopPixels,paddingRightPixels,paddingBottomPixels);
     }
 
-    public static void setDialogButtonDisabled(AlertDialog alertDialog, Activity activity){
+    public static void setDialogButtonDisabled(AlertDialog alertDialog, Context context){
         alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
-        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(activity.getResources().getColor(R.color.colorPrimary));
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(context.getResources().getColor(R.color.colorPrimary));
     }
 
-    public static void setDialogButtonEnabled(AlertDialog alertDialog, Activity activity){
+    public static void setDialogButtonEnabled(AlertDialog alertDialog, Context context){
         alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
-        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(activity.getResources().getColor(R.color.colorPrimary));
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(context.getResources().getColor(R.color.colorPrimary));
     }
 
     public class setDrawableColor implements Transformation {

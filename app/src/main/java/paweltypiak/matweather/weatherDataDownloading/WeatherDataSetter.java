@@ -110,10 +110,13 @@ public class WeatherDataSetter {
     private int layoutHeight;
     private int layoutWidth;
     private static Thread uiThread;
-    private int units[];
+    private static int units[];
     private boolean isGeolocalizationMode;
 
-    public WeatherDataSetter(Activity activity, WeatherDataInitializer dataInitializer,boolean doSetAppBar, boolean isGeolocalizationMode) {
+    public WeatherDataSetter(Activity activity,
+                             WeatherDataInitializer dataInitializer,
+                             boolean doSetAppBar,
+                             boolean isGeolocalizationMode) {
         this.activity=activity;
         this.isGeolocalizationMode=isGeolocalizationMode;
         currentDataFormatter=new WeatherDataFormatter(activity, dataInitializer);
@@ -397,9 +400,9 @@ public class WeatherDataSetter {
         Log.d("formatted data", "temperature: "+temperature);
         for(int i=0;i<5;i++){
             Log.d("formatted data", "day "+i+":");
-            Log.d("formatted data", "forecastCode: "+forecastCode[0]);
-            Log.d("formatted data", "forecastCode: "+forecastHighTemperature[0]);
-            Log.d("formatted data", "forecastCode: "+forecastLowTemperature[0]);
+            Log.d("formatted data", "forecastCode: "+forecastCode[i]);
+            Log.d("formatted data", "forecastCode: "+forecastHighTemperature[i]);
+            Log.d("formatted data", "forecastCode: "+forecastLowTemperature[i]);
         }
         Log.d("formatted data", "directionName: "+directionName);
         Log.d("formatted data", "timezone: "+timezone);

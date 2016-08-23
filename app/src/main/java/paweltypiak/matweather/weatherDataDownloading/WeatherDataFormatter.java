@@ -2,6 +2,8 @@ package paweltypiak.matweather.weatherDataDownloading;
 
 import android.app.Activity;
 import android.text.format.DateFormat;
+import android.util.Log;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -58,6 +60,8 @@ public class WeatherDataFormatter {
         formatAstronomy();
         formatAtmosphere();
         formatCondition();
+
+
         formatForecast();
         formatWind();
         countSunPosition(time24);
@@ -90,9 +94,10 @@ public class WeatherDataFormatter {
     }
 
     private void formatForecast(){
+        String dagreesSymbol="\u00B0";
         for(int i=0;i<5;i++){
-            forecastLowTemperature[i]=formatTemperatureUnit(forecastLowTemperature[i])+"\u00B0";
-            forecastHighTemperature[i]=formatTemperatureUnit(forecastHighTemperature[i])+"\u00B0";
+            forecastLowTemperature[i]=formatTemperatureUnit(forecastLowTemperature[i])+dagreesSymbol;
+            forecastHighTemperature[i]=formatTemperatureUnit(forecastHighTemperature[i])+dagreesSymbol;
         }
     }
 
@@ -200,7 +205,7 @@ public class WeatherDataFormatter {
     }
     private String formatSpeedUnit(String speed){
         if(units[1]==0){
-            speed=Integer.toString((int)Math.round(0.625*Integer.parseInt(speed)))+" "+activity.getResources().getString(R.string.speed_kmh);
+            speed=Integer.toString((int)Math.round(0.625*Integer.parseInt(speed)))+" "+activity.getResources().getString(R.string.speed_kph);
         }
         else speed=speed+" "+activity.getResources().getString(R.string.speed_mph);
         return speed;
@@ -269,9 +274,9 @@ public class WeatherDataFormatter {
         sunset= dataInitializer.getSunset();
         code= dataInitializer.getCode();
         temperature= dataInitializer.getTemperature();
-        forecastCode = dataInitializer.getForecastCode();
-        forecastHighTemperature = dataInitializer.getForecastHighTemperature();
-        forecastLowTemperature = dataInitializer.getForecastLowTemperature();
+        forecastCode = dataInitializer.getForecastCode().clone();
+        forecastHighTemperature = dataInitializer.getForecastHighTemperature().clone();
+        forecastLowTemperature = dataInitializer.getForecastLowTemperature().clone();
     }
 
     public String getChill() {return chill;}

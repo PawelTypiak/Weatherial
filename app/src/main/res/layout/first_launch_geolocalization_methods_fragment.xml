@@ -34,14 +34,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 app:buttonTint="@color/white"
-                android:text="@string/first_launch_layout_localization_options_gps"
+                android:text="@string/geolocalization_method_gps"
                 android:textSize="@dimen/first_launch_configuration_text_size"
                 android:textColor="@color/white"
                 android:id="@+id/first_launch_geolocalization_methods_fragment_gps_radio_button"/>
             <android.support.v7.widget.AppCompatRadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/first_launch_layout_localization_options_network"
+                android:text="@string/geolocalization_method_network"
                 android:textSize="@dimen/first_launch_configuration_text_size"
                 android:textColor="@color/white"
                 app:buttonTint="@color/white"
