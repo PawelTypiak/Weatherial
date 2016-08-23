@@ -113,7 +113,7 @@ public class CurrentCoordinatesDownloader implements  ActivityCompat.OnRequestPe
                 else{
                     Log.d("provider", "gps unavailable");
                     DialogInitializer dialogInitializer=new DialogInitializer(activity);
-                    providerUnavailableDialog=dialogInitializer.initializeProviderUnavailableDialog(1,gpsUnavailableRunnable);
+                    providerUnavailableDialog=dialogInitializer.initializeProviderUnavailableDialog(0,gpsUnavailableRunnable);
                     providerUnavailableDialog.show();
                 }
             }
@@ -129,7 +129,7 @@ public class CurrentCoordinatesDownloader implements  ActivityCompat.OnRequestPe
                 } else{
                     Log.d("provider:", "network unavailable");
                     DialogInitializer dialogInitializer=new DialogInitializer(activity);
-                    providerUnavailableDialog=dialogInitializer.initializeProviderUnavailableDialog(2,networkUnavailableRunnable);
+                    providerUnavailableDialog=dialogInitializer.initializeProviderUnavailableDialog(1,networkUnavailableRunnable);
                     providerUnavailableDialog.show();
                 }
             }

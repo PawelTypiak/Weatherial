@@ -39,7 +39,7 @@ public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaun
     }
     private void setButtonText(){
         TextView buttonTextView=(TextView)findViewById(R.id.first_launch_button_text);
-        buttonTextView.setText(getString(R.string.first_launch_layout_continue_button));
+        buttonTextView.setText(getString(R.string.first_launch_button_continue_text));
     }
 
     private void initializeConfigurationFragment(boolean isFirstLaunch){
@@ -68,7 +68,7 @@ public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaun
 
     private void initializeDialogs(){
         DialogInitializer dialogInitializer=new DialogInitializer(this);
-        exitDialog=dialogInitializer.initializeExitDialog(2,null);
+        exitDialog=dialogInitializer.initializeExitDialog(1,null);
     }
 
     private void initializeFirstLaunch(){

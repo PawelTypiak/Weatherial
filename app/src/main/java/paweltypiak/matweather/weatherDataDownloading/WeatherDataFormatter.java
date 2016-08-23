@@ -2,8 +2,6 @@ package paweltypiak.matweather.weatherDataDownloading;
 
 import android.app.Activity;
 import android.text.format.DateFormat;
-import android.util.Log;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -204,29 +202,33 @@ public class WeatherDataFormatter {
         return temperature;
     }
     private String formatSpeedUnit(String speed){
+        String speedUnitsNames[]=activity.getResources().getStringArray(R.array.units_array_1);
         if(units[1]==0){
-            speed=Integer.toString((int)Math.round(0.625*Integer.parseInt(speed)))+" "+activity.getResources().getString(R.string.speed_kph);
+
+            speed=Integer.toString((int)Math.round(0.625*Integer.parseInt(speed)))+" "+speedUnitsNames[0];
         }
-        else speed=speed+" "+activity.getResources().getString(R.string.speed_mph);
+        else speed=speed+" "+speedUnitsNames[1];
         return speed;
     }
     private String formatDistanceUnit(String distance){
+        String distanceUnitsNames[]=activity.getResources().getStringArray(R.array.units_array_2);
         if (distance.indexOf(".") != -1) distance= distance.substring(0 , distance.indexOf("."));
-        if(units[2]==0) distance=distance+" "+activity.getResources().getString(R.string.distance_km);
+        if(units[2]==0) distance=distance+" "+distanceUnitsNames[0];
         else {
             distance=Integer.toString((int)Math.round(0.62*Double.parseDouble(distance)));
-            distance=distance+" "+activity.getResources().getString(R.string.distance_mi);
+            distance=distance+" "+distanceUnitsNames[1];
         }
         return distance;
     }
     private String formatPressureUnit(String pressure){
+        String pressureUnitsNames[]=activity.getResources().getStringArray(R.array.units_array_3);
         if (pressure.indexOf(".") != -1) pressure= pressure.substring(0 , pressure.indexOf("."));
         if(units[3]==0){
-            pressure=pressure+" "+activity.getResources().getString(R.string.pressure_hpa);
+            pressure=pressure+" "+pressureUnitsNames[0];
         }
         else {
             pressure=Integer.toString((int)Math.round(0.0295*Integer.parseInt(pressure)));
-            pressure=pressure+" "+activity.getResources().getString(R.string.pressure_mmHg);
+            pressure=pressure+" "+pressureUnitsNames[1];
         }
         return pressure;
     }

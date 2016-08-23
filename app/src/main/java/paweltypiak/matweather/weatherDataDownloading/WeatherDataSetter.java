@@ -1,7 +1,6 @@
 package paweltypiak.matweather.weatherDataDownloading;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
@@ -15,7 +14,6 @@ import java.util.Calendar;
 import static paweltypiak.matweather.usefulClasses.UsefulFunctions.initializeUiThread;
 import static paweltypiak.matweather.usefulClasses.UsefulFunctions.setfloatingActionButtonOnClickIndicator;
 import paweltypiak.matweather.R;
-import paweltypiak.matweather.usefulClasses.DialogInitializer;
 import paweltypiak.matweather.usefulClasses.FavouritesEditor;
 import paweltypiak.matweather.usefulClasses.SharedPreferencesModifier;
 import paweltypiak.matweather.usefulClasses.UsefulFunctions;
@@ -221,9 +219,9 @@ public class WeatherDataSetter {
         }
         else{
             UsefulFunctions.setAppBarStrings(activity,city,region+", "+country);
-            setfloatingActionButtonOnClickIndicator(activity,1);
+            setfloatingActionButtonOnClickIndicator(activity,0);
             if(isGeolocalizationMode==true){
-                UsefulFunctions.checkNavigationDrawerMenuItem(activity,1);
+                UsefulFunctions.checkNavigationDrawerMenuItem(activity,0);
             }
             else {
                 UsefulFunctions.uncheckAllNavigationDrawerMenuItems(activity);

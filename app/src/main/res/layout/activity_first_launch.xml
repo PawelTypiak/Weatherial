@@ -48,7 +48,7 @@
                     android:layout_marginRight="15dp"
                     android:textColor="@color/white"
                     android:textStyle="bold"
-                    android:text="@string/first_launch_layout_start_button"
+                    android:text="@string/first_launch_button_start_text"
                     android:id="@+id/first_launch_button_text"/>
                 <ImageView
                     android:layout_width="30dp"

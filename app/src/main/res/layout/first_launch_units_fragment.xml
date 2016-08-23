@@ -19,7 +19,7 @@
             android:layout_marginBottom="20dp"
             android:visibility="invisible"
             android:textSize="@dimen/first_launch_configuration_title_text_size"
-            android:text="@string/first_launch_layout_units_header"
+            android:text="@string/first_launch_units_header"
             android:textStyle="bold"
             android:gravity="center"
             android:textColor="@color/textPrimaryDarkBackground"
@@ -35,20 +35,60 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:id="@+id/first_launch_units_fragment_image_and_spinner_1_layout">
+                android:id="@+id/first_launch_units_fragment_image_and_spinner_layout_0">
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
                     android:paddingRight="@dimen/first_launch_units_image_padding"
                     android:paddingLeft="@dimen/first_launch_units_image_padding"
-                    android:id="@+id/first_launch_units_fragment_spinner_1_image"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:id="@+id/first_launch_units_fragment_spinner_image_0"
                     />
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:id="@+id/first_launch_units_fragment_spinner_1_layout"
+                    android:id="@+id/first_launch_units_fragment_spinner_layout_0"
+                    >
+                    <view
+                        class="paweltypiak.matweather.firstLaunching.FirstLaunchUnitsFragment$FirstLaunchSpinner"
+                        android:layout_width="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_height="wrap_content"
+                        android:dropDownWidth="@dimen/first_launch_units_dropdown_item_width"
+                        android:visibility="invisible"
+                        android:id="@+id/first_launch_units_fragment_spinner_0"
+                        />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_centerInParent="true"
+                        android:layout_height="0dp"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:id="@+id/first_launch_units_fragment_spinner_selectable_view_0"
+                        />
+                </RelativeLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:id="@+id/first_launch_units_fragment_image_and_spinner_layout_1">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:paddingRight="@dimen/first_launch_units_image_padding"
+                    android:paddingLeft="@dimen/first_launch_units_image_padding"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:id="@+id/first_launch_units_fragment_spinner_image_1"
+                    />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/first_launch_units_fragment_spinner_layout_1"
                     >
                     <view
                         class="paweltypiak.matweather.firstLaunching.FirstLaunchUnitsFragment$FirstLaunchSpinner"
@@ -63,8 +103,8 @@
                         android:layout_width="match_parent"
                         android:layout_centerInParent="true"
                         android:layout_height="0dp"
-                        android:id="@+id/first_launch_units_fragment_spinner_1_selectable_view"
                         android:background="?selectableItemBackgroundBorderless"
+                        android:id="@+id/first_launch_units_fragment_spinner_selectable_view_1"
                         />
                 </RelativeLayout>
             </LinearLayout>
@@ -73,20 +113,21 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:id="@+id/first_launch_units_fragment_image_and_spinner_2_layout">
+                android:id="@+id/first_launch_units_fragment_image_and_spinner_layout_2">
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
                     android:paddingRight="@dimen/first_launch_units_image_padding"
                     android:paddingLeft="@dimen/first_launch_units_image_padding"
-                    android:id="@+id/first_launch_units_fragment_spinner_2_image"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:id="@+id/first_launch_units_fragment_spinner_image_2"
                     />
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:id="@+id/first_launch_units_fragment_spinner_2_layout"
+                    android:id="@+id/first_launch_units_fragment_spinner_layout_2"
                     >
                     <view
                         class="paweltypiak.matweather.firstLaunching.FirstLaunchUnitsFragment$FirstLaunchSpinner"
@@ -101,8 +142,8 @@
                         android:layout_width="match_parent"
                         android:layout_centerInParent="true"
                         android:layout_height="0dp"
+                        android:id="@+id/first_launch_units_fragment_spinner_selectable_view_2"
                         android:background="?selectableItemBackgroundBorderless"
-                        android:id="@+id/first_launch_units_fragment_spinner_2_selectable_view"
                         />
                 </RelativeLayout>
             </LinearLayout>
@@ -111,20 +152,21 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:id="@+id/first_launch_units_fragment_image_and_spinner_3_layout">
+                android:id="@+id/first_launch_units_fragment_image_and_spinner_layout_3">
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
                     android:paddingRight="@dimen/first_launch_units_image_padding"
                     android:paddingLeft="@dimen/first_launch_units_image_padding"
-                    android:id="@+id/first_launch_units_fragment_spinner_3_image"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:id="@+id/first_launch_units_fragment_spinner_image_3"
                     />
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:id="@+id/first_launch_units_fragment_spinner_3_layout"
+                    android:id="@+id/first_launch_units_fragment_spinner_layout_3"
                     >
                     <view
                         class="paweltypiak.matweather.firstLaunching.FirstLaunchUnitsFragment$FirstLaunchSpinner"
@@ -139,8 +181,8 @@
                         android:layout_width="match_parent"
                         android:layout_centerInParent="true"
                         android:layout_height="0dp"
-                        android:id="@+id/first_launch_units_fragment_spinner_3_selectable_view"
                         android:background="?selectableItemBackgroundBorderless"
+                        android:id="@+id/first_launch_units_fragment_spinner_selectable_view_3"
                         />
                 </RelativeLayout>
             </LinearLayout>
@@ -149,20 +191,21 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:id="@+id/first_launch_units_fragment_image_and_spinner_4_layout">
+                android:id="@+id/first_launch_units_fragment_image_and_spinner_layout_4">
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
                     android:paddingRight="@dimen/first_launch_units_image_padding"
                     android:paddingLeft="@dimen/first_launch_units_image_padding"
-                    android:id="@+id/first_launch_units_fragment_spinner_4_image"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:id="@+id/first_launch_units_fragment_spinner_image_4"
                     />
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:id="@+id/first_launch_units_fragment_spinner_4_layout"
+                    android:id="@+id/first_launch_units_fragment_spinner_layout_4"
                     >
                     <view
                         class="paweltypiak.matweather.firstLaunching.FirstLaunchUnitsFragment$FirstLaunchSpinner"
@@ -178,45 +221,7 @@
                         android:layout_centerInParent="true"
                         android:layout_height="0dp"
                         android:background="?selectableItemBackgroundBorderless"
-                        android:id="@+id/first_launch_units_fragment_spinner_4_selectable_view"
-                        />
-                </RelativeLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:id="@+id/first_launch_units_fragment_image_and_spinner_5_layout">
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-                    android:paddingRight="@dimen/first_launch_units_image_padding"
-                    android:paddingLeft="@dimen/first_launch_units_image_padding"
-                    android:id="@+id/first_launch_units_fragment_spinner_5_image"
-                    />
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:id="@+id/first_launch_units_fragment_spinner_5_layout"
-                    >
-                    <view
-                        class="paweltypiak.matweather.firstLaunching.FirstLaunchUnitsFragment$FirstLaunchSpinner"
-                        android:layout_width="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:layout_height="wrap_content"
-                        android:dropDownWidth="@dimen/first_launch_units_dropdown_item_width"
-                        android:visibility="invisible"
-                        android:id="@+id/first_launch_units_fragment_spinner_5"
-                        />
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_centerInParent="true"
-                        android:layout_height="0dp"
-                        android:background="?selectableItemBackgroundBorderless"
-                        android:id="@+id/first_launch_units_fragment_spinner_5_selectable_view"
+                        android:id="@+id/first_launch_units_fragment_spinner_selectable_view_4"
                         />
                 </RelativeLayout>
             </LinearLayout>

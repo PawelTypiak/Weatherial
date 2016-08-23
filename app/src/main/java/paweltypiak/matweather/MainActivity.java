@@ -67,8 +67,6 @@ public class MainActivity extends AppCompatActivity
     private DialogInitializer dialogInitializer;
     private SwipeRefreshLayout swipeRefreshLayout;
     private String geocodingLocation;
-    private CoordinatorLayout mainLayout;
-    private LinearLayout weatherLayout;
     private TextView refreshMessageTextView;
     private ImageView refreshImageView;
     private static int floatingActionButtonOnClickIndicator;
@@ -106,7 +104,7 @@ public class MainActivity extends AppCompatActivity
     public void weatherServiceSuccess(Channel channel) {
 
         weatherDataInitializer = new WeatherDataInitializer(channel);
-        if(downloadMode==1){
+        if(downloadMode==0){
             new WeatherDataSetter(this, weatherDataInitializer,true,true);
             geolocalizationProgressDialog.dismiss();
         }
@@ -119,7 +117,7 @@ public class MainActivity extends AppCompatActivity
     }
     @Override
     public void weatherServiceFailure(int errorCode) {
-        if(downloadMode==1){
+        if(downloadMode==0){
             geolocalizationProgressDialog.dismiss();
             if(errorCode==1) {
                 weatherGeolocalizationInternetFailureDialog.show();
@@ -164,11 +162,11 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void startGeolocalization(){
-        downloadMode=1;
+        downloadMode=0;
         geolocalizationProgressDialog.show();
         if(geolocalizationProgressMessageTextView==null)geolocalizationProgressMessageTextView=(TextView)geolocalizationProgressDialog.findViewById(R.id.progress_dialog_message_text);
-        permissionDeniedDialog=dialogInitializer.initializePermissionDeniedDialog(2,startGeolocalizationRunnable,null);
-        coordinatesDownloadFailureDialog =dialogInitializer.initializeGeolocalizationFailureDialog(2,startGeolocalizationRunnable,null);
+        permissionDeniedDialog=dialogInitializer.initializePermissionDeniedDialog(1,startGeolocalizationRunnable,null);
+        coordinatesDownloadFailureDialog =dialogInitializer.initializeGeolocalizationFailureDialog(1,startGeolocalizationRunnable,null);
         int geolocalizationMethod=SharedPreferencesModifier.getGeolocalizationMethod(this);
         currentCoordinatesDownloader =new CurrentCoordinatesDownloader(
                 this,
@@ -205,20 +203,20 @@ public class MainActivity extends AppCompatActivity
     private void setDialogs(){
         dialogInitializer=new DialogInitializer(this);
         yahooRedirectDialog=dialogInitializer.initializeYahooRedirectDialog();
-        exitDialog=dialogInitializer.initializeExitDialog(2,null);
+        exitDialog=dialogInitializer.initializeExitDialog(1,null);
         aboutDialog=dialogInitializer.initializeAboutDialog();
         feedbackDialog=dialogInitializer.initializeFeedbackDialog();
         authorDialog=dialogInitializer.initializeAuthorDialog();
-        searchDialog=dialogInitializer.initializeSearchDialog(2,null);
+        searchDialog=dialogInitializer.initializeSearchDialog(1,null);
         noFavouritesDialog =dialogInitializer.initializeNoFavouritesDialog();
         geolocalizationMethodsDialog=dialogInitializer.initializeGeolocalizationMethodsDialog(startGeolocalizationRunnable);
         geolocalizationProgressDialog=dialogInitializer.initializeProgressDialog(getString(R.string.waiting_for_localization_progress_message));
-        noWeatherResultsForLocation =dialogInitializer.initializeNoWeatherResultsForLocationDialog(3,startGeolocalizationRunnable,null);
-        geocodingInternetFailureDialog=dialogInitializer.initializeInternetFailureDialog(2,geocodingRunnable,null);
-        weatherGeolocalizationInternetFailureDialog=dialogInitializer.initializeInternetFailureDialog(2, downloadWeatherDataAfterGeocodingFailureRunnable,null);
-        weatherRefreshInternetFailureDialog=dialogInitializer.initializeInternetFailureDialog(2,refreshWeatherRunnable,null);
-        weatherServiceFailureDialog =dialogInitializer.initializeServiceFailureDialog(2,refreshWeatherRunnable,null);
-        geocodingServiceFailureDialog=dialogInitializer.initializeServiceFailureDialog(2,startGeolocalizationRunnable,null);
+        noWeatherResultsForLocation =dialogInitializer.initializeNoWeatherResultsForLocationDialog(2,startGeolocalizationRunnable,null);
+        geocodingInternetFailureDialog=dialogInitializer.initializeInternetFailureDialog(1,geocodingRunnable,null);
+        weatherGeolocalizationInternetFailureDialog=dialogInitializer.initializeInternetFailureDialog(1, downloadWeatherDataAfterGeocodingFailureRunnable,null);
+        weatherRefreshInternetFailureDialog=dialogInitializer.initializeInternetFailureDialog(1,refreshWeatherRunnable,null);
+        weatherServiceFailureDialog =dialogInitializer.initializeServiceFailureDialog(1,refreshWeatherRunnable,null);
+        geocodingServiceFailureDialog=dialogInitializer.initializeServiceFailureDialog(1,startGeolocalizationRunnable,null);
     }
 
     private void initializeLayout(){
@@ -234,7 +232,6 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         refreshMessageTextView=(TextView)findViewById(R.id.app_bar_refresh_text);
         refreshImageView=(ImageView) findViewById(R.id.app_bar_refresh_image);
-        weatherLayout=(LinearLayout) findViewById(R.id.weather_layout);
         setSwipeRefreshLayout();
         setDialogs();
         setButtonsClickable();
@@ -316,15 +313,15 @@ public class MainActivity extends AppCompatActivity
 
     private void setFloatingActionButton(){
         floatingActionButton=(FloatingActionButton)findViewById(R.id.main_fab);
-        UsefulFunctions.setfloatingActionButtonOnClickIndicator(this,1);
+        UsefulFunctions.setfloatingActionButtonOnClickIndicator(this,0);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(floatingActionButtonOnClickIndicator ==1){
+                if(floatingActionButtonOnClickIndicator ==0){
                     addToFavouritesDialog = dialogInitializer.initializeAddToFavouritesDialog();
                     addToFavouritesDialog.show();
                 }
-                else {
+                else if(floatingActionButtonOnClickIndicator ==1){
                     editFavouritesDialog=dialogInitializer.initializeEditFavouritesDialog();
                     editFavouritesDialog.show();
                 }
@@ -387,7 +384,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onRefresh() {
         Log.d("refresh", "refresh ");
-        downloadMode=2;
+        downloadMode=1;
         swipeRefreshLayout.setRefreshing(true);
         refreshMessageTextView.setTextColor(Color.argb(255, 255, 255, 255));
         refreshMessageTextView.setText(getString(R.string.refreshing_progress_message));
@@ -428,7 +425,7 @@ public class MainActivity extends AppCompatActivity
         else if(id==R.id.nav_button_favourites){
             if(SharedPreferencesModifier.getFavouriteLocationsAddresses(MainActivity.this).length==0) noFavouritesDialog.show();
             else{
-                favouritesDialog=dialogInitializer.initializeFavouritesDialog(2,null,null);
+                favouritesDialog=dialogInitializer.initializeFavouritesDialog(1,null,null);
                 favouritesDialog.show();
             }
         }

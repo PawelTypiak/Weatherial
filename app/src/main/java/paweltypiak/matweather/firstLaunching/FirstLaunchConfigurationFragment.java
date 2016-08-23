@@ -118,7 +118,7 @@ public class FirstLaunchConfigurationFragment extends Fragment{
                 }
                 else{
                     String differentLocationName=getDifferentLocationNameFromLocationFragment();
-                    if(differentLocationName.equals(getString(R.string.first_launch_layout_location_different))){
+                    if(differentLocationName.equals(getString(R.string.first_launch_defeault_location_different))){
                         showNoDifferentLocationChoosenDialogInLocationFragment();
                     }
                     else{

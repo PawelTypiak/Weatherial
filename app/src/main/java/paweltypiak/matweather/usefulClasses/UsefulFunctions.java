@@ -62,8 +62,8 @@ public class UsefulFunctions {
     public static void setfloatingActionButtonOnClickIndicator(Activity activity, int  fabIndicator) {
         FloatingActionButton floatingActionButton=(FloatingActionButton)activity.findViewById(R.id.main_fab);
         MainActivity.setFloatingActionButtonOnClickIndicator(fabIndicator);
-        if(fabIndicator==1) floatingActionButton.setImageResource(R.drawable.add_black_icon);
-        else floatingActionButton.setImageResource(R.drawable.edit_black_icon);
+        if(fabIndicator==0) floatingActionButton.setImageResource(R.drawable.add_black_icon);
+        else if (fabIndicator==1) floatingActionButton.setImageResource(R.drawable.edit_black_icon);
     }
 
     public static String[] getCurrentLocationAddress(){
@@ -257,10 +257,10 @@ public class UsefulFunctions {
         NavigationView navigationView = (NavigationView)activity. findViewById(R.id.nav_view);
         MenuItem geolocalizationItem=navigationView.getMenu().findItem(R.id.nav_button_geolocalization);;
         MenuItem favouritesItem=navigationView.getMenu().findItem(R.id.nav_button_favourites);
-        if(itemId==1) {
+        if(itemId==0) {
             geolocalizationItem.setChecked(false);
         }
-        else if(itemId==2) {
+        else if(itemId==1) {
             favouritesItem.setChecked(false);
         }
     }
@@ -269,14 +269,14 @@ public class UsefulFunctions {
         NavigationView navigationView = (NavigationView)activity. findViewById(R.id.nav_view);
         MenuItem geolocalizationItem=navigationView.getMenu().findItem(R.id.nav_button_geolocalization);;
         MenuItem favouritesItem=navigationView.getMenu().findItem(R.id.nav_button_favourites);
-        if(itemId==1) {
+        if(itemId==0) {
             geolocalizationItem.setCheckable(true);
             geolocalizationItem.setChecked(true);
             favouritesItem.setCheckable(false);
             favouritesItem.setChecked(false);
 
         }
-        else if(itemId==2) {
+        else if(itemId==1) {
             favouritesItem.setCheckable(true);
             favouritesItem.setChecked(true);
             geolocalizationItem.setCheckable(false);

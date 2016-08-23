@@ -63,7 +63,7 @@ public class FirstLaunchLocationFragment extends Fragment {
 
             @Override
             public void onClick(View view) {
-                differentLocationDialog=dialogInitializer.initializeSearchDialog(1,radioButton);
+                differentLocationDialog=dialogInitializer.initializeSearchDialog(0,radioButton);
                 differentLocationDialog.show();
                 UsefulFunctions.showKeyboard(getActivity());
             }

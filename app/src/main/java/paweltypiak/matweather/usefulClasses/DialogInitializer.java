@@ -163,7 +163,7 @@ public class DialogInitializer  {
 
     private Runnable showSearchDialogRunnable = new Runnable() {
         public void run() {
-            searchDialog=initializeSearchDialog(2,null);
+            searchDialog=initializeSearchDialog(1,null);
             searchDialog.show();
             UsefulFunctions.showKeyboard(activity);
         }
@@ -187,7 +187,7 @@ public class DialogInitializer  {
 
         public void run(){
             progressDialog = initializeProgressDialog(activity.getString(R.string.searching_location_progress_message));
-            noWeatherResultsForLocation = initializeNoWeatherResultsForLocationDialog(2,showSearchDialogRunnable,null);
+            noWeatherResultsForLocation = initializeNoWeatherResultsForLocationDialog(1,showSearchDialogRunnable,null);
             progressDialog.show();
             if(isReconnect==false){
                 location=locationEditText.getText().toString();
@@ -200,7 +200,7 @@ public class DialogInitializer  {
         @Override
         public void weatherServiceSuccess(Channel channel) {
             dataInitializer=new WeatherDataInitializer(channel);
-            localizationResultsDialog = initializeWeatherResultsForLocationDialog(2,dataInitializer,new setMainLayoutRunnable(dataInitializer),showSearchDialogRunnable,null);
+            localizationResultsDialog = initializeWeatherResultsForLocationDialog(1,dataInitializer,new setMainLayoutRunnable(dataInitializer),showSearchDialogRunnable,null);
             localizationResultsDialog.show();
             progressDialog.dismiss();
         }
@@ -208,7 +208,7 @@ public class DialogInitializer  {
         @Override
         public void weatherServiceFailure(int errorCode) {
             if(errorCode==1)   {
-                internetFailureDialog=initializeInternetFailureDialog(2, new searchRunnable(location),null);
+                internetFailureDialog=initializeInternetFailureDialog(1, new searchRunnable(location),null);
                 internetFailureDialog.show();
             }
             else {
@@ -246,8 +246,8 @@ public class DialogInitializer  {
     private Runnable deleteFromFavouritesRunnable = new Runnable() {
         public void run() {
             FavouritesEditor.deleteFavouritesItem(activity);
-            UsefulFunctions.setfloatingActionButtonOnClickIndicator(activity,1);
-            UsefulFunctions.uncheckNavigationDrawerMenuItem(activity,2);
+            UsefulFunctions.setfloatingActionButtonOnClickIndicator(activity,0);
+            UsefulFunctions.uncheckNavigationDrawerMenuItem(activity,1);
             String currentLocationHeaderString=UsefulFunctions.getCurrentLocationAddress()[0];
             String currentLocationSubheaderString=UsefulFunctions.getCurrentLocationAddress()[1];
             UsefulFunctions.setAppBarStrings(activity,currentLocationHeaderString,currentLocationSubheaderString);
@@ -311,11 +311,11 @@ public class DialogInitializer  {
         @Override
         public void weatherServiceFailure(int errorCode) {
             if(errorCode==1)   {
-                internetFailureDialog=initializeInternetFailureDialog(2, new favouritesDialogRunnable(),null);
+                internetFailureDialog=initializeInternetFailureDialog(1, new favouritesDialogRunnable(),null);
                 internetFailureDialog.show();
             }
             else {
-                serviceFailureDialog=initializeServiceFailureDialog(2,new favouritesDialogRunnable(),null);
+                serviceFailureDialog=initializeServiceFailureDialog(1,new favouritesDialogRunnable(),null);
                 serviceFailureDialog.show();
             }
             progressDialog.dismiss();
@@ -365,21 +365,21 @@ public class DialogInitializer  {
         int icon=0;
         String positiveButtonString=null;
         Runnable positiveButtonRunnable=null;
-        if(type==1){
+        if(type==0){
             String radioButtonString=radioButton.getText().toString();
-            if(!radioButtonString.equals(activity.getString(R.string.first_launch_layout_location_different))){
+            if(!radioButtonString.equals(activity.getString(R.string.first_launch_defeault_location_different))){
                 locationEditText.setText(radioButtonString);
                 locationEditText.setSelection(radioButtonString.length());
             }
-            title=activity.getString(R.string.search_dialog_type1_title);
+            title=activity.getString(R.string.search_dialog_title_type_0);
             icon=R.drawable.localization_icon;
-            positiveButtonString=activity.getString(R.string.search_dialog_type1_positive_button);
+            positiveButtonString=activity.getString(R.string.search_dialog_positive_button_type_0);
             positiveButtonRunnable=new differentLocationDialogRunnable(radioButton,dialogView);
         }
-        else if(type==2){
-            title=activity.getString(R.string.search_dialog_type2_title);
+        else if(type==1){
+            title=activity.getString(R.string.search_dialog_title_type_1);
             icon=R.drawable.search_icon;
-            positiveButtonString=activity.getString(R.string.search_dialog_type2_positive_button);
+            positiveButtonString=activity.getString(R.string.search_dialog_positive_button_type_1);
             positiveButtonRunnable=new searchRunnable(dialogView);
         }
         searchDialog=buildDialog(
@@ -421,15 +421,15 @@ public class DialogInitializer  {
         boolean isUncancelable=false;
         String positiveButtonString=null;
         String negativeButtonString=null;
-        if(type==1){
+        if(type==0){
             isUncancelable=true;
-            positiveButtonString=activity.getString(R.string.geolocalization_failure_dialog_type1_positive_button);
-            negativeButtonString=activity.getString(R.string.geolocalization_failure_dialog_type1_negative_button);
+            positiveButtonString=activity.getString(R.string.geolocalization_failure_dialog_positive_button_type_0);
+            negativeButtonString=activity.getString(R.string.geolocalization_failure_dialog_negative_button_type_0);
         }
-        else if(type==2){
+        else if(type==1){
             isUncancelable=false;
-            positiveButtonString=activity.getString(R.string.geolocalization_failure_dialog_type2_positive_button);
-            negativeButtonString=activity.getString(R.string.geolocalization_failure_dialog_type2_negative_button);
+            positiveButtonString=activity.getString(R.string.geolocalization_failure_dialog_positive_button_type_1);
+            negativeButtonString=activity.getString(R.string.geolocalization_failure_dialog_negative_button_type_1);
         }
         localizationFailureDialog=buildDialog(
                 activity,
@@ -456,12 +456,12 @@ public class DialogInitializer  {
         String message=null;
         String title=null;
         String positiveButtonString=null;
-        if(type==1){
+        if(type==0){
             message=activity.getString(R.string.gps_unavailable_dialog_message);
             title=activity.getString(R.string.gps_unavailable_dialog_title);
             positiveButtonString=activity.getString(R.string.gps_unavailable_dialog_positive_button);
         }
-        else if(type==2){
+        else if(type==1){
             message=activity.getString(R.string.network_unavailable_dialog_message);
             title=activity.getString(R.string.network_unavailable_dialog_title);
             positiveButtonString=activity.getString(R.string.network_unavailable_dialog_positive_button);
@@ -493,15 +493,15 @@ public class DialogInitializer  {
         boolean isUncancelable=false;
         String positiveButtonString=null;
         String negativeButtonString=null;
-        if(type==1){
+        if(type==0){
             isUncancelable=true;
-            positiveButtonString=activity.getString(R.string.permission_denied_dialog_type1_positive_button);
-            negativeButtonString=activity.getString(R.string.permission_denied_dialog_type1_negative_button);
+            positiveButtonString=activity.getString(R.string.permission_denied_dialog_positive_button_type_0);
+            negativeButtonString=activity.getString(R.string.permission_denied_dialog_negative_button_type_0);
         }
-        else if(type==2){
+        else if(type==1){
             isUncancelable=false;
-            positiveButtonString=activity.getString(R.string.permission_denied_dialog_type2_positive_button);
-            negativeButtonString=activity.getString(R.string.permission_denied_dialog_type2_negative_button);
+            positiveButtonString=activity.getString(R.string.permission_denied_dialog_positive_button_type_1);
+            negativeButtonString=activity.getString(R.string.permission_denied_dialog_negative_button_type_1);
         }
         permissionDeniedDialog=buildDialog(
                 activity,
@@ -552,20 +552,20 @@ public class DialogInitializer  {
         boolean isUncancelable=false;
         String negativeButtonString=null;
         String positiveButtonString=null;
-        if(type==1){
+        if(type==0){
             isUncancelable=true;
-            negativeButtonString=activity.getString(R.string.no_weather_results_for_location_dialog_type1_negative_button);
-            positiveButtonString=activity.getString(R.string.no_weather_results_for_location_dialog_type1_type2_positive_button);
+            negativeButtonString=activity.getString(R.string.no_weather_results_for_location_dialog_negative_button_type_0);
+            positiveButtonString=activity.getString(R.string.no_weather_results_for_location_dialog_positive_button_type_0_1);
+        }
+        else if(type==1){
+            isUncancelable=false;
+            negativeButtonString=activity.getString(R.string.no_weather_results_for_location_dialog_negative_button_type_1_2);
+            positiveButtonString=activity.getString(R.string.no_weather_results_for_location_dialog_positive_button_type_0_1);
         }
         else if(type==2){
             isUncancelable=false;
-            negativeButtonString=activity.getString(R.string.no_weather_results_for_location_dialog_type2_type3_negative_button);
-            positiveButtonString=activity.getString(R.string.no_weather_results_for_location_dialog_type1_type2_positive_button);
-        }
-        else if(type==3){
-            isUncancelable=false;
-            negativeButtonString=activity.getString(R.string.no_weather_results_for_location_dialog_type2_type3_negative_button);
-            positiveButtonString=activity.getString(R.string.no_weather_results_for_location_dialog_type3_positive_button);
+            negativeButtonString=activity.getString(R.string.no_weather_results_for_location_dialog_negative_button_type_1_2);
+            positiveButtonString=activity.getString(R.string.no_weather_results_for_location_dialog_positive_button_type_2);
         }
         noWeatherResultsForLocation =buildDialog(
                 activity,
@@ -613,12 +613,12 @@ public class DialogInitializer  {
         messageTextView.setText(activity.getString(R.string.service_failure_dialog_message));
         String negativeButtonString=null;
         boolean isUncancelable=false;
-        if(type==1){
-            negativeButtonString=activity.getString(R.string.service_failure_dialog_type1_negative_button);
+        if(type==0){
+            negativeButtonString=activity.getString(R.string.service_failure_dialog_negative_button_type_0);
             isUncancelable=true;
         }
-        else if(type==2){
-            negativeButtonString=activity.getString(R.string.service_failure_dialog_type2_negative_button);
+        else if(type==1){
+            negativeButtonString=activity.getString(R.string.service_failure_dialog_negative_button_type_1);
             isUncancelable=false;
         }
         serviceFailureDialog = buildDialog(
@@ -669,13 +669,13 @@ public class DialogInitializer  {
         messageTextView.setText(activity.getString(R.string.internet_failure_dialog_message));
         boolean isUncancelable=false;
         String negativeButtonString=null;
-        if(type==1){
+        if(type==0){
             isUncancelable=true;
-            negativeButtonString=activity.getString(R.string.internet_failure_dialog_type1_negative_button);
+            negativeButtonString=activity.getString(R.string.internet_failure_dialog_negative_button_type_0);
         }
-        else if(type==2){
+        else if(type==1){
             isUncancelable=false;
-            negativeButtonString=activity.getString(R.string.internet_failure_dialog_type2_negative_button);
+            negativeButtonString=activity.getString(R.string.internet_failure_dialog_negative_button_type_1);
         }
         internetFailureDialog = buildDialog(
                 activity,
@@ -701,8 +701,8 @@ public class DialogInitializer  {
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
         messageTextView.setText(activity.getText(R.string.exit_dialog_message));
         boolean isUncancelable=false;
-        if(type==1) isUncancelable=true;
-        else if(type==2) isUncancelable=false;
+        if(type==0) isUncancelable=true;
+        else if(type==1) isUncancelable=false;
         exitDialog = buildDialog(
                 activity,
                 dialogView,
@@ -931,13 +931,13 @@ public class DialogInitializer  {
         regionCountryTextView.setText(region+", "+country);
         boolean ifUncancellable=false;
         String negativeButtonString=null;
-        if(type==1){
+        if(type==0){
             ifUncancellable=true;
-            negativeButtonString=activity.getString(R.string.first_launch_localization_results_dialog_type1_negative_button);
+            negativeButtonString=activity.getString(R.string.first_launch_localization_results_dialog_negative_button_type_0);
         }
-        else if(type==2){
+        else if(type==1){
             ifUncancellable=false;
-            negativeButtonString=activity.getString(R.string.weather_results_for_location_dialog_type2_negative_button);
+            negativeButtonString=activity.getString(R.string.weather_results_for_location_dialog_negative_button_type_1);
         }
         localizationResultsDialog = buildDialog(
                 activity,
@@ -1118,19 +1118,19 @@ public class DialogInitializer  {
         final List<String> favouritesList = FavouritesEditor.getFavouriteLocationsNamesDialogList(activity);
         String locationName=null;
         int size=favouritesList.size();
-        if(type==1) {
+        if(type==0) {
             size=++size;
         }
         for(int i=0;i<size;i++){
             RadioButton radioButton=new RadioButton(activity);
             if(i!=size-1){
                 UsefulFunctions.setRadioButtonMargins(radioButton,activity,0,0,0,16);
-                if(type==1) locationName=favouritesList.get(i);
+                if(type==0) locationName=favouritesList.get(i);
             }
             else{
-                if(type==1) locationName=activity.getString(R.string.favourites_dialog_geolocalization_option);
+                if(type==0) locationName=activity.getString(R.string.favourites_dialog_geolocalization_option);
             }
-            if(type==2) locationName=favouritesList.get(i);
+            if(type==1) locationName=favouritesList.get(i);
             radioButton.setId(i);
             radioButton.setText(Html.fromHtml(locationName));
             radioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX,activity.getResources().getDimensionPixelSize(R.dimen.locations_list_text_size));
@@ -1151,15 +1151,15 @@ public class DialogInitializer  {
         String negativeButtonString=null;
         boolean isUncancelable=false;
         int icon=0;
-        if(type==1) {
+        if(type==0) {
             title=activity.getString(R.string.favourites_dialog_first_launch_title);
-            negativeButtonString=activity.getString(R.string.favourites_dialog_type1_negative_button);
+            negativeButtonString=activity.getString(R.string.favourites_dialog_negative_button_type_0);
             isUncancelable=true;
             icon=R.drawable.localization_icon;
         }
-        else if(type==2){
+        else if(type==1){
             positiveButtonRunnable=new favouritesDialogRunnable();
-            negativeButtonString=activity.getString(R.string.favourites_dialog_type2_negative_button);
+            negativeButtonString=activity.getString(R.string.favourites_dialog_negative_button_type_1);
             title=activity.getString(R.string.favourites_dialog_title);
             isUncancelable=false;
             icon=R.drawable.favourites_icon;

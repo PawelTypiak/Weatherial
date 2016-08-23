@@ -1,9 +1,7 @@
 package paweltypiak.matweather.weatherDataDownloading;
 
-import android.app.Activity;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 import paweltypiak.matweather.jsonHandling.Channel;
 
@@ -81,7 +79,6 @@ public class WeatherDataInitializer implements Parcelable {
         forecastLowTemperature = new String[5];
         forecastCode =channel.getItem().getForecast().getCode();
         forecastHighTemperature =channel.getItem().getForecast().getHigh();
-        Log.d("pobieranie_z_channel", "getForecastHighTemperature: "+channel.getItem().getForecast().getHigh()[0]);
         forecastLowTemperature =channel.getItem().getForecast().getLow();
     }
 
@@ -132,7 +129,6 @@ public class WeatherDataInitializer implements Parcelable {
         return forecastCode;
     }
     public String[] getForecastHighTemperature() {
-        Log.d("prevprev", "getForecastHighTemperature: "+forecastHighTemperature[1]);
         return forecastHighTemperature;
     }
     public String[] getForecastLowTemperature() {

@@ -185,8 +185,8 @@ public class FavouritesEditor {
         int id=getCurrentFavouriteLocationId(activity);
         getFavouriteLocationsNamesList(activity);
         setAppBarForFavouriteLocation(activity,id);
-        UsefulFunctions.setfloatingActionButtonOnClickIndicator(activity,2);
-        UsefulFunctions.checkNavigationDrawerMenuItem(activity,2);
+        UsefulFunctions.setfloatingActionButtonOnClickIndicator(activity,1);
+        UsefulFunctions.checkNavigationDrawerMenuItem(activity,1);
     }
 
     private static int getCurrentFavouriteLocationId(Context context){

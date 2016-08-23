@@ -44,13 +44,13 @@ public class FirstLaunchUnitsFragment extends Fragment{
            final FirstLaunchSpinner spinner=initializeSpinner(i);
             setWhiteSpinnerArrow(spinner);
             setSpinnerRippleView(spinner,i);
-            setLayoutVisible(spinner,i);
+            setImagesVisibleAndClickable(spinner,i);
             setSpinnerListener(spinner,i);
         }
     }
 
     private FirstLaunchSpinner initializeSpinner(int id){
-        FirstLaunchSpinner spinner = (FirstLaunchSpinner) getActivity().findViewById(getActivity().getResources().getIdentifier("first_launch_units_fragment_spinner_"+(id+1), "id", getActivity().getPackageName()));
+        FirstLaunchSpinner spinner = (FirstLaunchSpinner) getActivity().findViewById(getActivity().getResources().getIdentifier("first_launch_units_fragment_spinner_"+id, "id", getActivity().getPackageName()));
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity().getApplicationContext(),
                 R.layout.first_launch_spinner_item,
                 getActivity().getResources().getStringArray(getActivity().getResources().getIdentifier("units_array_"+id, "array", getActivity().getPackageName())));
@@ -66,8 +66,8 @@ public class FirstLaunchUnitsFragment extends Fragment{
     }
 
     private void setSpinnerRippleView(final FirstLaunchSpinner spinner,int id){
-        final RelativeLayout spinnerLayout = (RelativeLayout)getActivity().findViewById(getActivity().getResources().getIdentifier("first_launch_units_fragment_spinner_"+(id+1)+"_layout", "id", getActivity().getPackageName()));
-        final View selectableView=getActivity().findViewById(getActivity().getResources().getIdentifier("first_launch_units_fragment_spinner_"+(id+1)+"_selectable_view", "id", getActivity().getPackageName()));
+        final RelativeLayout spinnerLayout = (RelativeLayout)getActivity().findViewById(getActivity().getResources().getIdentifier("first_launch_units_fragment_spinner_layout_"+id, "id", getActivity().getPackageName()));
+        final View selectableView=getActivity().findViewById(getActivity().getResources().getIdentifier("first_launch_units_fragment_spinner_selectable_view_"+id, "id", getActivity().getPackageName()));
         ViewTreeObserver observer = spinnerLayout.getViewTreeObserver();
         observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -90,10 +90,12 @@ public class FirstLaunchUnitsFragment extends Fragment{
                 spinner.performClick();
             }
         });
+
     }
 
-    private void setLayoutVisible(final Spinner spinner, final int id) {
-        ImageView unitsImageView = (ImageView) getActivity().findViewById(getResources().getIdentifier("first_launch_units_fragment_spinner_" + (id + 1) + "_image", "id", getActivity().getPackageName()));
+    private void setImagesVisibleAndClickable(final Spinner spinner, final int id) {
+        ImageView unitsImageView = (ImageView) getActivity().findViewById(getResources().getIdentifier("first_launch_units_fragment_spinner_image_" + id, "id", getActivity().getPackageName()));
+        setImagesClickable(spinner,unitsImageView);
         Picasso.with(getActivity().getApplicationContext()).load(getActivity().getResources().getIdentifier("drawable/units_icon_" + id, null, getActivity().getPackageName())).transform(new UsefulFunctions().new setDrawableColor(getActivity().getResources().getColor(R.color.white))).into(unitsImageView, new com.squareup.picasso.Callback() {
             @Override
             public void onSuccess() {
@@ -104,6 +106,15 @@ public class FirstLaunchUnitsFragment extends Fragment{
             }
             @Override
             public void onError() {
+            }
+        });
+    }
+
+    private void setImagesClickable(final Spinner spinner,ImageView imageView){
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                spinner.performClick();
             }
         });
     }
