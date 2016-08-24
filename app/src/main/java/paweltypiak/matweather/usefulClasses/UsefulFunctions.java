@@ -15,6 +15,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
@@ -458,4 +461,38 @@ public class UsefulFunctions {
             return "DrawableColor:" + color;
         }
     }
+
+    public class SmoothActionBarDrawerToggle extends ActionBarDrawerToggle {
+        private Runnable runnable;
+        private Runnable invalidateOptionsMenuRunnable;
+
+        public SmoothActionBarDrawerToggle(Activity activity, DrawerLayout drawerLayout, Toolbar toolbar, int openDrawerContentDescRes, int closeDrawerContentDescRes, Runnable invalidateOptionsMenuRunnable) {
+            super(activity, drawerLayout, toolbar, openDrawerContentDescRes, closeDrawerContentDescRes);
+            this.invalidateOptionsMenuRunnable=invalidateOptionsMenuRunnable;
+        }
+
+        @Override
+        public void onDrawerOpened(View drawerView) {
+            super.onDrawerOpened(drawerView);
+            invalidateOptionsMenuRunnable.run();
+        }
+        @Override
+        public void onDrawerClosed(View view) {
+            super.onDrawerClosed(view);
+            invalidateOptionsMenuRunnable.run();
+        }
+        @Override
+        public void onDrawerStateChanged(int newState) {
+            super.onDrawerStateChanged(newState);
+            if (runnable != null && newState == DrawerLayout.STATE_IDLE) {
+                runnable.run();
+                runnable = null;
+            }
+        }
+
+        public void runWhenIdle(Runnable runnable) {
+            this.runnable = runnable;
+        }
+    }
+
 }

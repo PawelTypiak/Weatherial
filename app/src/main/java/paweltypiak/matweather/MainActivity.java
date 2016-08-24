@@ -39,7 +39,9 @@ import static paweltypiak.matweather.weatherDataDownloading.WeatherDataSetter.se
 import paweltypiak.matweather.jsonHandling.Channel;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, WeatherDownloadCallback, SwipeRefreshLayout.OnRefreshListener,
+        implements NavigationView.OnNavigationItemSelectedListener,
+        WeatherDownloadCallback,
+        SwipeRefreshLayout.OnRefreshListener,
         GeocodingCallback {
     private WeatherDataInitializer weatherDataInitializer;
     private AlertDialog weatherServiceFailureDialog;
@@ -76,6 +78,7 @@ public class MainActivity extends AppCompatActivity
     private TextView geolocalizationProgressMessageTextView;
     private int downloadMode;
     private String link;
+    private UsefulFunctions.SmoothActionBarDrawerToggle navigationDrawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -200,6 +203,10 @@ public class MainActivity extends AppCompatActivity
         public void run() {downloadWeatherData(geocodingLocation);}
     };
 
+    Runnable invalidateOptionsMenuRunnable = new Runnable() {
+        public void run() {invalidateOptionsMenu();}
+    };
+
     private void setDialogs(){
         dialogInitializer=new DialogInitializer(this);
         yahooRedirectDialog=dialogInitializer.initializeYahooRedirectDialog();
@@ -224,10 +231,10 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
+        navigationDrawerToggle = new UsefulFunctions().new SmoothActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close,invalidateOptionsMenuRunnable);
+        drawer.addDrawerListener(navigationDrawerToggle);
+        navigationDrawerToggle.syncState();
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         refreshMessageTextView=(TextView)findViewById(R.id.app_bar_refresh_text);
@@ -412,36 +419,41 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if(id==R.id.nav_button_geolocalization){
-            int localizationOption=SharedPreferencesModifier.getGeolocalizationMethod(this);
-            if(localizationOption==-1){
-                geolocalizationMethodsDialog.show();
+        final int id = item.getItemId();
+        navigationDrawerToggle.runWhenIdle(new Runnable() {
+            @Override
+            public void run() {
+                if(id==R.id.nav_button_geolocalization){
+                    int localizationOption=SharedPreferencesModifier.getGeolocalizationMethod(MainActivity.this);
+                    if(localizationOption==-1){
+                        geolocalizationMethodsDialog.show();
+                    }
+                    else{
+                        startGeolocalization();
+                    }
+                }
+                else if(id==R.id.nav_button_favourites){
+                    if(SharedPreferencesModifier.getFavouriteLocationsAddresses(MainActivity.this).length==0) noFavouritesDialog.show();
+                    else{
+                        favouritesDialog=dialogInitializer.initializeFavouritesDialog(1,null,null);
+                        favouritesDialog.show();
+                    }
+                }
+                else if (id == R.id.nav_button_settings) {
+                    Intent intent = new Intent(MainActivity.this, Settings.class);
+                    startActivity(intent);
+                }
+                else if (id == R.id.nav_button_about) {
+                    aboutDialog.show();
+                }
+                else if (id == R.id.nav_button_feedback) {
+                    feedbackDialog.show();
+                }
+                else if(id == R.id.nav_button_author){
+                    authorDialog.show();
+                }
             }
-            else{
-                startGeolocalization();
-            }
-        }
-        else if(id==R.id.nav_button_favourites){
-            if(SharedPreferencesModifier.getFavouriteLocationsAddresses(MainActivity.this).length==0) noFavouritesDialog.show();
-            else{
-                favouritesDialog=dialogInitializer.initializeFavouritesDialog(1,null,null);
-                favouritesDialog.show();
-            }
-        }
-        else if (id == R.id.nav_button_settings) {
-            Intent intent = new Intent(this, Settings.class);
-            startActivity(intent);
-        }
-        else if (id == R.id.nav_button_about) {
-            aboutDialog.show();
-        }
-        else if (id == R.id.nav_button_feedback) {
-            feedbackDialog.show();
-        }
-        else if(id == R.id.nav_button_author){
-            authorDialog.show();
-        }
+        });
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
