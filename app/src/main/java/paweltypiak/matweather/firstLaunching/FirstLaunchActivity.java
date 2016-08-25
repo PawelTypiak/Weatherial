@@ -32,6 +32,11 @@ public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaun
         else initializeNextLaunch();
     }
 
+    private void setLanguageVersion(){
+        int languageVersion=SharedPreferencesModifier.getLanguageVersion(this);
+        if(languageVersion!=-1) UsefulFunctions.setLocale(this,languageVersion);
+    }
+
     private void setButtonIcon(){
         ImageView buttonImageView;
         buttonImageView=(ImageView)findViewById(R.id.first_launch_button_image);
@@ -80,6 +85,7 @@ public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaun
 
     private void initializeNextLaunch(){
         Log.d("launch", "next launch");
+        setLanguageVersion();
         initializeConfigurationFragment(isFirstLaunch);
         setStartButton();
     }

@@ -25,124 +25,124 @@
     <string name="extras_data_initializer_key">data_initializer_key</string>
 
     <!-- Dialog strings -->
-    <string name="failure_dialog_title">Niepowodzenie!</string>
-    <string name="service_failure_dialog_message">Brak odpowiedzi z serwisu!</string>
-    <string name="service_failure_dialog_positive_button">Odśwież</string>
-    <string name="service_failure_dialog_negative_button_type_0">Wyjdź</string>
-    <string name="service_failure_dialog_negative_button_type_1">Anuluj</string>
-    <string name="internet_failure_dialog_message">Brak połączenia z internetem!</string>
-    <string name="internet_failure_dialog_positive_button">Odśwież</string>
-    <string name="internet_failure_dialog_negative_button_type_0">Wyjdź</string>
-    <string name="internet_failure_dialog_negative_button_type_1">Anuluj</string>
-    <string name="yahoo_redirect_dialog_title">Przekierowanie</string>
-    <string name="yahoo_redirect_dialog_message">Nastąpi przekierowanie na witrynę:</string>
+    <string name="failure_dialog_title">Failure</string>
+    <string name="service_failure_dialog_message">Empty reply from weather service!</string>
+    <string name="service_failure_dialog_positive_button">Refresh</string>
+    <string name="service_failure_dialog_negative_button_type_0">Exit</string>
+    <string name="service_failure_dialog_negative_button_type_1">Cancel</string>
+    <string name="internet_failure_dialog_message">No internet connection!</string>
+    <string name="internet_failure_dialog_positive_button">Refresh</string>
+    <string name="internet_failure_dialog_negative_button_type_0">Exit</string>
+    <string name="internet_failure_dialog_negative_button_type_1">Cancel</string>
+    <string name="yahoo_redirect_dialog_title">Redirection</string>
+    <string name="yahoo_redirect_dialog_message">You will be redirected to website:</string>
     <string name="yahoo_redirect_dialog_message_service_name">Yahoo.com</string>
-    <string name="yahoo_redirect_dialog_positive_button">Kontynuuj</string>
-    <string name="yahoo_redirect_dialog_negative_button">Anuluj</string>
-    <string name="yahoo_weather_redirect_dialog_title">Przekierowanie</string>
-    <string name="yahoo_weather_redirect_dialog_message">Nastąpi przekierowanie do serwisu:</string>
+    <string name="yahoo_redirect_dialog_positive_button">Continue</string>
+    <string name="yahoo_redirect_dialog_negative_button">Cancel</string>
+    <string name="yahoo_weather_redirect_dialog_title">Redirection</string>
+    <string name="yahoo_weather_redirect_dialog_message">You will be redirected to website:</string>
     <string name="yahoo_weather_redirect_dialog_message_service_name">Yahoo Weather</string>
-    <string name="yahoo_weather_redirect_dialog_positive_button">Kontynuuj</string>
-    <string name="yahoo_weather_redirect_dialog_negative_button">Anuluj</string>
-    <string name="exit_dialog_title">Wyjście</string>
-    <string name="exit_dialog_message">Czy na pewno chcesz wyjsć z <b>MatWeather</b>?</string>
-    <string name="exit_dialog_positive_button">Wyjdź</string>
-    <string name="exit_dialog_negative_button">Anuluj</string>
-    <string name="about_dialog_header">Witaj w <b>MatWeather</b> - prostej aplikacji pogodowej zaprojektowanej zgodnie z filozofią <i>Material Design</i>.</string>
-    <string name="about_dialog_description_additional_information">Informacje dodatkowe:</string>
-    <string name="about_dialog_description_part1">informacje pogodowe: <b><a href="https://developer.yahoo.com/weather/">Yahoo Weather API</a></b></string>
-    <string name="about_dialog_description_part2">informacje o lokalizacji: <b><a href="https://developers.google.com/maps/">Google Maps API</a></b></string>
-    <string name="about_dialog_description_part3">ikony: <b><a href="http://www.flaticon.com/">Flaticon</a></b></string>
-    <string name="about_dialog_description_part4">repozytorium: <b><a href="https://github.com/PawelTypiak/MatWeather">GitHub</a></b></string>
-    <string name="about_dialog_negative_button">Cofnij</string>
-    <string name="feedback_dialog_title">Prześlij opinię</string>
-    <string name="feedback_dialog_message">Jeśli masz jakieś pytanie, bądź chcesz wyrazić opinię, wyślij wiadomość na adres:</string>
+    <string name="yahoo_weather_redirect_dialog_positive_button">Continue</string>
+    <string name="yahoo_weather_redirect_dialog_negative_button">Cancel</string>
+    <string name="exit_dialog_title">Exit</string>
+    <string name="exit_dialog_message">Are you sure you want to leave <b>MatWeather</b>?</string>
+    <string name="exit_dialog_positive_button">Exit</string>
+    <string name="exit_dialog_negative_button">Cancel</string>
+    <string name="about_dialog_header">Welcome in <b>MatWeather</b> - simple weather application created according to <i>Material Design</i> philosphy.</string>
+    <string name="about_dialog_description_additional_information">Additional information:</string>
+    <string name="about_dialog_description_part1">weather information: <b><a href="https://developer.yahoo.com/weather/">Yahoo Weather API</a></b></string>
+    <string name="about_dialog_description_part2">geocoding information: <b><a href="https://developers.google.com/maps/">Google Maps API</a></b></string>
+    <string name="about_dialog_description_part3">icons: <b><a href="http://www.flaticon.com/">Flaticon</a></b></string>
+    <string name="about_dialog_description_part4">repository: <b><a href="https://github.com/PawelTypiak/MatWeather">GitHub</a></b></string>
+    <string name="about_dialog_negative_button">Ok</string>
+    <string name="feedback_dialog_title">Send feedback</string>
+    <string name="feedback_dialog_message">If you have any questions or you want to express opinion, send me an email to address:</string>
     <string name="feedback_dialog_mail">pawel.p.typiak@gmail.com</string>
-    <string name="feedback_dialog_positive_button">Wyślij wiadomość</string>
-    <string name="feedback_dialog_negative_button">Anuluj</string>
-    <string name="author_dialog_title">Autor</string>
+    <string name="feedback_dialog_positive_button">Send</string>
+    <string name="feedback_dialog_negative_button">Cancel</string>
+    <string name="author_dialog_title">Author</string>
     <string name="author_dialog_mail_address">pawel.p.typiak@gmail.com</string>
     <string name="author_dialog_mail_description">E-mail</string>
     <string name="author_dialog_github">github.com/PawelTypiak</string>
     <string name="author_dialog_github_description">GitHub</string>
-    <string name="author_dialog_negative_button">Cofnij</string>
-    <string name="no_email_application_dialog_title">Brak aplikacji!</string>
-    <string name="no_email_application_dialog_message">Niestety nie wykryto aplikacji służącej do wysyłania wiadomości E-mail. Czy chcesz skopiować adres <b>pawel.p.typiak@gmail.com</b> do schowka?</string>
-    <string name="no_email_application_dialog_positive_button">Skopiuj</string>
-    <string name="no_email_application_dialog_negative_button">Anuluj</string>
-    <string name="search_dialog_title_type_0">Inna lokacja</string>
+    <string name="author_dialog_negative_button">Ok</string>
+    <string name="no_email_application_dialog_title">Failure!</string>
+    <string name="no_email_application_dialog_message">Unfortunately, there is no E-mail application available. Do you want to copy an address <b>pawel.p.typiak@gmail.com</b> to clipboard?</string>
+    <string name="no_email_application_dialog_positive_button">Copy</string>
+    <string name="no_email_application_dialog_negative_button">Cancel</string>
+    <string name="search_dialog_title_type_0">Different Location</string>
     <string name="search_dialog_positive_button_type_0">Ok</string>
-    <string name="search_dialog_title_type_1">Szukaj</string>
-    <string name="search_dialog_edit_text_hint">Wprowadź nazwę lokacji</string>
-    <string name="search_dialog_positive_button_type_1">Wyszukaj</string>
-    <string name="search_dialog_negative_button">Anuluj</string>
-    <string name="no_weather_results_for_location_dialog_message">Prawdopodobnie brak danych pogodowych dla danej lokacji.</string>
-    <string name="no_weather_results_for_location_dialog_negative_button_type_1_2">Anuluj</string>
-    <string name="no_weather_results_for_location_dialog_positive_button_type_0_1">Zmień lokację</string>
-    <string name="no_weather_results_for_location_dialog_positive_button_type_2">Odśwież</string>
-    <string name="no_weather_results_for_location_dialog_negative_button_type_0">Wyjdź</string>
-    <string name="weather_results_for_location_dialog_title">Wynik wyszukiwania</string>
-    <string name="weather_results_for_location_dialog_message">Znaleziono następującą lokację:</string>
-    <string name="weather_results_for_location_dialog_negative_button_type_1">Anuluj</string>
-    <string name="weather_results_for_location_dialog_neutral_button">Zmień lokację</string>
-    <string name="weather_results_for_location_dialog_positive_button">Kontynuuj</string>
-    <string name="first_launch_localization_results_dialog_negative_button_type_0">Wyjdź</string>
-    <string name="permission_denied_dialog_title">Odmowa dostępu</string>
-    <string name="permission_denied_dialog_positive_button_type_0">Zmień lokację</string>
-    <string name="permission_denied_dialog_negative_button_type_0">Wyjdź</string>
-    <string name="permission_denied_dialog_negative_button_type_1">Anuluj</string>
-    <string name="permission_denied_dialog_positive_button_type_1">Ponów</string>
-    <string name="permission_denied_dialog_message">Brak pozwolenia na dostęp do geolokalizacji!</string>
-    <string name="geolocalization_failure_dialog_positive_button_type_0">Zmień lokację</string>
-    <string name="geolocalization_failure_dialog_negative_button_type_0">Wyjdź</string>
-    <string name="geolocalization_failure_dialog_positive_button_type_1">Odśwież</string>
-    <string name="geolocalization_failure_dialog_negative_button_type_1">Anuluj</string>
-    <string name="geolocalization_failure_dialog_message">Brak możliwości znalezienia aktualnej lokalizacji!</string>
-    <string name="no_different_location_choosen_dialog_message">Podaj lokację!</string>
+    <string name="search_dialog_title_type_1">Search</string>
+    <string name="search_dialog_edit_text_hint">Provide the location</string>
+    <string name="search_dialog_positive_button_type_1">Search</string>
+    <string name="search_dialog_negative_button">Cancel</string>
+    <string name="no_weather_results_for_location_dialog_message">Empty reply from weather service - probably there is no weather information provided for this location</string>
+    <string name="no_weather_results_for_location_dialog_negative_button_type_1_2">Cancel</string>
+    <string name="no_weather_results_for_location_dialog_positive_button_type_0_1">Change location</string>
+    <string name="no_weather_results_for_location_dialog_positive_button_type_2">refresh</string>
+    <string name="no_weather_results_for_location_dialog_negative_button_type_0">Exit</string>
+    <string name="weather_results_for_location_dialog_title">Search result</string>
+    <string name="weather_results_for_location_dialog_message">Found location:</string>
+    <string name="weather_results_for_location_dialog_negative_button_type_1">Cancel</string>
+    <string name="weather_results_for_location_dialog_neutral_button">Change location</string>
+    <string name="weather_results_for_location_dialog_positive_button">Continue</string>
+    <string name="first_launch_localization_results_dialog_negative_button_type_0">Exit</string>
+    <string name="permission_denied_dialog_title">Access denied</string>
+    <string name="permission_denied_dialog_positive_button_type_0">Change location</string>
+    <string name="permission_denied_dialog_negative_button_type_0">Exit</string>
+    <string name="permission_denied_dialog_negative_button_type_1">Cancel</string>
+    <string name="permission_denied_dialog_positive_button_type_1">Try again</string>
+    <string name="permission_denied_dialog_message">No permission for geolocalization!</string>
+    <string name="geolocalization_failure_dialog_positive_button_type_0">Change location</string>
+    <string name="geolocalization_failure_dialog_negative_button_type_0">Exit</string>
+    <string name="geolocalization_failure_dialog_positive_button_type_1">Refresh</string>
+    <string name="geolocalization_failure_dialog_negative_button_type_1">Cancel</string>
+    <string name="geolocalization_failure_dialog_message">No possibility of finding current location!</string>
+    <string name="no_different_location_choosen_dialog_message">No location provided!</string>
     <string name="no_different_location_choosen_dialog_positive_button">Ok</string>
-    <string name="no_different_location_choosen_dialog_negative_button">Anuluj</string>
-    <string name="maps_dialog_title">Przekierowanie</string>
-    <string name="maps_dialog_message">Czy chcesz otworzyć lokację?</string>
-    <string name="maps_dialog_negative_button">Anuluj</string>
-    <string name="maps_dialog_positive_button">Kontynuuj</string>
-    <string name="add_location_dialog_title">Zapisz lokację</string>
-    <string name="add_location_dialog_checkbox_message">ustaw jako lokację domyślną</string>
-    <string name="add_location_dialog_positive_button">Zapisz</string>
-    <string name="add_location_dialog_negative_button">Anuluj</string>
-    <string name="edit_location_dialog_header_edit_text_hint">Podaj nazwę główną</string>
-    <string name="edit_location_dialog_subheader_edit_text_hint">Podaj nazwę pomocniczą</string>
-    <string name="edit_location_dialog_title">Edytuj lokację</string>
-    <string name="edit_location_dialog_checkbox_message">ustaw jako lokację domyślną</string>
-    <string name="edit_location_dialog_positive_button">Zapisz</string>
-    <string name="edit_location_dialog_negative_button">Anuluj</string>
-    <string name="edit_location_dialog_neutral_button">Usuń</string>
-    <string name="gps_unavailable_dialog_title">GPS niedostępny</string>
-    <string name="gps_unavailable_dialog_message">Nastąpi wyszukanie lokalizacji za pomocą sieci.</string>
+    <string name="no_different_location_choosen_dialog_negative_button">Cancel</string>
+    <string name="maps_dialog_title">Redirection</string>
+    <string name="maps_dialog_message">Do you want to open the following location?</string>
+    <string name="maps_dialog_negative_button">Cancel</string>
+    <string name="maps_dialog_positive_button">Continue</string>
+    <string name="add_location_dialog_title">Save location</string>
+    <string name="add_location_dialog_checkbox_message">set as defeault location</string>
+    <string name="add_location_dialog_positive_button">Save</string>
+    <string name="add_location_dialog_negative_button">Cancel</string>
+    <string name="edit_location_dialog_header_edit_text_hint">Header location name</string>
+    <string name="edit_location_dialog_subheader_edit_text_hint">Subheader location name</string>
+    <string name="edit_location_dialog_title">Edit location</string>
+    <string name="edit_location_dialog_checkbox_message">set as defeault location</string>
+    <string name="edit_location_dialog_positive_button">Save</string>
+    <string name="edit_location_dialog_negative_button">Cancel</string>
+    <string name="edit_location_dialog_neutral_button">Delete</string>
+    <string name="gps_unavailable_dialog_title">GPS unavailable</string>
+    <string name="gps_unavailable_dialog_message">Network will be used as geolocalization provider.</string>
     <string name="gps_unavailable_dialog_positive_button">Ok</string>
-    <string name="network_unavailable_dialog_title">Sieć niedostępna</string>
-    <string name="network_unavailable_dialog_message">Nastąpi wyszukanie lokalizacji za pomocą GPS.</string>
+    <string name="network_unavailable_dialog_title">Network unavailable</string>
+    <string name="network_unavailable_dialog_message">GPS will be used as geolocalization provider.</string>
     <string name="network_unavailable_dialog_positive_button">Ok</string>
-    <string name="favourites_dialog_title">Ulubione</string>
-    <string name="favourites_dialog_first_launch_title">Wybierz lokację</string>
-    <string name="favourites_dialog_positive_button">Wybierz</string>
-    <string name="favourites_dialog_neutral_button">Inna lokacja</string>
-    <string name="favourites_dialog_negative_button_type_0">Wyjdź</string>
-    <string name="favourites_dialog_negative_button_type_1">Anuluj</string>
-    <string name="favourites_dialog_geolocalization_option">Bieżąca lokacja</string>
-    <string name="no_favourites_dialog_title">Brak ulubionych</string>
+    <string name="favourites_dialog_title">Favourites</string>
+    <string name="favourites_dialog_first_launch_title">Select location</string>
+    <string name="favourites_dialog_positive_button">Select</string>
+    <string name="favourites_dialog_neutral_button">Different location</string>
+    <string name="favourites_dialog_negative_button_type_0">Exit</string>
+    <string name="favourites_dialog_negative_button_type_1">Cancel</string>
+    <string name="favourites_dialog_geolocalization_option">Current location</string>
+    <string name="no_favourites_dialog_title">No favourites</string>
     <string name="no_favourites_dialog_positive_button">Ok</string>
-    <string name="no_favourites_dialog_message">Nie masz żadnych zapisanych lokacji.</string>
-    <string name="geolocalization_methods_dialog_title">Metoda geolokalizacji</string>
-    <string name="geolocalization_methods_dialog_message">Wybierz metodę geolokalizacji:</string>
-    <string name="geolocalization_methods_dialog_positive_button">Kontynuuj</string>
+    <string name="no_favourites_dialog_message">You don\'t have any saved locations.</string>
+    <string name="geolocalization_methods_dialog_title">Geolocalization methods</string>
+    <string name="geolocalization_methods_dialog_message">Select geolocalization method:</string>
+    <string name="geolocalization_methods_dialog_positive_button">Continue</string>
 
     <!-- First launch layout strings-->
     <string name="first_launch_button_start_text">GET STARTED</string>
     <string name="first_launch_button_continue_text">KONTYNUUJ</string>
-    <string name="first_launch_language_header">Wybierz wersję językową:</string>
-    <string name="language_version_english">Język angielski</string>
-    <string name="language_version_polish">Język polski</string>
-    <string name="first_launch_units_header">Wybierz system jednostek:</string>
+    <string name="first_launch_language_header">Select language version:</string>
+    <string name="language_version_english">English</string>
+    <string name="language_version_polish">Polish</string>
+    <string name="first_launch_units_header">Select measurement system:</string>
     <string-array name="units_array_0">
         <item>\u2103</item>
         <item>\u2109</item>
@@ -163,21 +163,21 @@
         <item>24h</item>
         <item>12h</item>
     </string-array>
-    <string name="first_launch_location_header">Wybierz domyślną lokację:</string>
-    <string name="first_launch_defeault_location_current">Bieżąca lokacja</string>
-    <string name="first_launch_defeault_location_different">Inna lokacja</string>
-    <string name="first_launch_geolocalization_header">Wybierz metodę geolokalizacji:</string>
-    <string name="geolocalization_method_gps">GPS (dokładna)</string>
-    <string name="geolocalization_method_network">Sieć (szybka)</string>
+    <string name="first_launch_location_header">Select defeault location:</string>
+    <string name="first_launch_defeault_location_current">Current location</string>
+    <string name="first_launch_defeault_location_different">Different location</string>
+    <string name="first_launch_geolocalization_header">Select geolocalization method:</string>
+    <string name="geolocalization_method_gps">GPS (accurate)</string>
+    <string name="geolocalization_method_network">Network (fast)</string>
 
     <!-- progress info messages-->
-    <string name="searching_location_progress_message">Wyszukiwanie lokacji...</string>
-    <string name="waiting_for_localization_progress_message">Oczekiwanie na lokalizację...</string>
-    <string name="looking_for_address_progress_message">Wyszukiwanie adresu...</string>
-    <string name="downloading_weather_data_progress_message">Pobieranie informacji pogodowych...</string>
-    <string name="loading_content_progress_message">Ładowanie zawartości...</string>
-    <string name="refreshing_progress_message">Odświeżanie...</string>
-    <string name="refresh_message_pull_to_refresh">Pociągnij, żeby odświeżyć</string>
+    <string name="searching_location_progress_message">Retrieve location...</string>
+    <string name="waiting_for_localization_progress_message">Waiting for geolocalization...</string>
+    <string name="looking_for_address_progress_message">Retrieving address...</string>
+    <string name="downloading_weather_data_progress_message">Downloading weather information...</string>
+    <string name="loading_content_progress_message">Loading content...</string>
+    <string name="refreshing_progress_message">Refreshing...</string>
+    <string name="refresh_message_pull_to_refresh">Pull to refresh</string>
 
     <!-- Clipboard texts-->
     <string name="clipboard_mail_feedback_title">MatWeather - feedback</string>
@@ -189,94 +189,93 @@
     <string name="yahoo_weather_address">https://www.yahoo.com/news/weather/poland/greater-poland/poznan-514048</string>
 
     <!-- Toast messages-->
-    <string name="clipboard_toast_message">Skopiowano adres E-mail</string>
+    <string name="clipboard_toast_message">E-mail address copied</string>
 
     <!-- Options in navigation drawer -->
-    <string name="nav_drawer_locations_group_item">Lokacje</string>
-    <string name="nav_drawer_others_group_item">Inne</string>
-    <string name="nav_drawer_geolocalization">Geolokalizacja</string>
-    <string name="nav_drawer_favourites">Ulubione</string>
-    <string name="nav_drawer_search">Szukaj</string>
-    <string name="nav_drawer_settings">Ustawienia</string>
-    <string name="nav_drawer_feedback">Prześlij opinię</string>
-    <string name="nav_drawer_about">O aplikacji</string>
-    <string name="nav_drawer_author">Autor</string>
+    <string name="nav_drawer_locations_group_item">Locations</string>
+    <string name="nav_drawer_others_group_item">Others</string>
+    <string name="nav_drawer_geolocalization">Geolocalization</string>
+    <string name="nav_drawer_favourites">Favourites</string>
+    <string name="nav_drawer_settings">Settings</string>
+    <string name="nav_drawer_feedback">Send feedback</string>
+    <string name="nav_drawer_about">About</string>
+    <string name="nav_drawer_author">Author</string>
 
     <!-- Preferences -->
-    <string name="preferences_dialog_positive_button">Wybierz</string>
-    <string name="preferences_dialog_negative_button">Anuluj</string>
-    <string name="preferences_defeault_location_title">Lokacja domyślna</string>
-    <string name="preferences_geolocalization_method_title">Metoda geolokalizacji</string>
-    <string name="preferences_geolocalization_method_defeault_summary">Wybierz metodę geolokalizacji</string>
-    <string name="preferences_units_title">Jednostki</string>
-    <string name="preferences_units_summary">Wybierz system jednostek</string>
-    <string name="preferences_units_temperature_title">Temperatura powietrza</string>
-    <string name="preferences_units_speed_title">Prędkość wiatru</string>
-    <string name="preferences_units_distance_title">Odległość widzenia</string>
-    <string name="preferences_units_pressure_title">Ciśnienie atmosferyczne</string>
-    <string name="preferences_units_time_title">Format czasu</string>
+    <string name="preferences_dialog_positive_button">Select</string>
+    <string name="preferences_dialog_negative_button">Cancel</string>
+    <string name="preferences_defeault_location_title">Defeault location</string>
+    <string name="preferences_geolocalization_method_title">Geolocalization method</string>
+    <string name="preferences_geolocalization_method_defeault_summary">Select geolocalization method</string>
+    <string name="preferences_units_title">Units</string>
+    <string name="preferences_units_summary">Select measurement system</string>
+    <string name="preferences_units_temperature_title">Temperature</string>
+    <string name="preferences_units_speed_title">Wind speed</string>
+    <string name="preferences_units_distance_title">Field of vision</string>
+    <string name="preferences_units_pressure_title">Atmospheric pressure</string>
+    <string name="preferences_units_time_title">Time format</string>
     <string-array name="preferences_units_names_array">
-        <item>Temperatura powietrza</item>
-        <item>Prędkość wiatru</item>
-        <item>Odległość widzenia</item>
-        <item>Ciśnienie atmosferyczne</item>
-        <item>Format czasu</item>
+        <item>Temperature</item>
+        <item>Wind speed</item>
+        <item>Field of vision</item>
+        <item>Atmospheric pressure</item>
+        <item>Time format</item>
     </string-array>
-    <string name="preferences_language_version_title">Wersja językowa</string>
+    <string name="preferences_language_version_title">Language version</string>
 
     <!-- Weather strings -->
-    <string name="weather_title">Pogoda</string>
-    <string name="weather_chill">Odczuwalna</string>
-    <string name="weather_tomorrow_name">Jutro</string>
+    <string name="weather_title">Weather</string>
+    <string name="weather_chill">Feels like</string>
+    <string name="weather_tomorrow_name">Tomorrow</string>
 
     <string name="condition_0">Tornado</string>
-    <string name="condition_1">Burza tropikalna</string>
-    <string name="condition_2">Huragan</string>
-    <string name="condition_3">Gwałtowne burze z piorunami</string>
-    <string name="condition_4">Burze</string>
-    <string name="condition_5">Śnieg z deszczem</string>
-    <string name="condition_6">Śnieg z deszczem</string>
-    <string name="condition_7">Śnieg z deszczem</string>
-    <string name="condition_8">Mroźna mżawka</string>
-    <string name="condition_9">Mżawka</string>
-    <string name="condition_10">Mroźny deszcz</string>
-    <string name="condition_11">Opady deszczu</string>
-    <string name="condition_12">Opady deszczu</string>
-    <string name="condition_13">Śnieżyca</string>
-    <string name="condition_14">Lekkie opady śniegu</string>
-    <string name="condition_15">Śnieżyca</string>
-    <string name="condition_16">Opady śniegu</string>
-    <string name="condition_17">Grad</string>
-    <string name="condition_18">Śnieg z deszczem</string>
-    <string name="condition_19">Burza pyłowa</string>
-    <string name="condition_20">Mgliście</string>
-    <string name="condition_21">Mgła</string>
-    <string name="condition_22">Dym</string>
-    <string name="condition_23">Wietrznie</string>
-    <string name="condition_24">Wietrznie</string>
-    <string name="condition_25">Mroźnie</string>
-    <string name="condition_26">Pochmurnie</string>
-    <string name="condition_27">Przewaga chmur</string>
-    <string name="condition_28">Przewaga chmur</string>
-    <string name="condition_29">Częściowe zachmurzenie</string>
-    <string name="condition_30">Częściowe zachmurzenie</string>
-    <string name="condition_31">Bezchmurnie</string>
-    <string name="condition_32">Słonecznie</string>
-    <string name="condition_33">Pogodnie</string>
-    <string name="condition_34">Pogodnie</string>
-    <string name="condition_35">Grad z deszczem</string>
-    <string name="condition_36">Upalnie</string>
-    <string name="condition_37">Burze z piorunami</string>
-    <string name="condition_38">Przelotne burze z piorunami</string>
-    <string name="condition_39">Przelotne burze z piorunami</string>
-    <string name="condition_40">Przelotny deszcz</string>
-    <string name="condition_41">Śnieżyca</string>
-    <string name="condition_42">Przelotne opady śniegu</string>
-    <string name="condition_43">Przelotne opady śniegu</string>
-    <string name="condition_44">Zachmurzenie</string>
-    <string name="condition_45">Burze z piorunami</string>
-    <string name="condition_46">Opady śniegu</string>
-    <string name="condition_47">Burze z piorunami</string>
-    <string name="condition_3200">Nieznane warunki</string>
+    <string name="condition_1">Tropical storm</string>
+    <string name="condition_2">Hurricane</string>
+    <string name="condition_3">Severe thunderstorms</string>
+    <string name="condition_4">Thunderstorms</string>
+    <string name="condition_5">Mixed rain and snow</string>
+    <string name="condition_6">Mixed rain and sleet</string>
+    <string name="condition_7">Mixed snow and sleet</string>
+    <string name="condition_8">Freezing drizzle</string>
+    <string name="condition_9">Drizzle</string>
+    <string name="condition_10">Freezing rain</string>
+    <string name="condition_11">Showers</string>
+    <string name="condition_12">Showers</string>
+    <string name="condition_13">Snow flurries</string>
+    <string name="condition_14">Light snow showers</string>
+    <string name="condition_15">Blowing snow</string>
+    <string name="condition_16">Snow</string>
+    <string name="condition_17">Hail</string>
+    <string name="condition_18">Sleet</string>
+    <string name="condition_19">Dust</string>
+    <string name="condition_20">Foggy</string>
+    <string name="condition_21">Haze</string>
+    <string name="condition_22">smoky</string>
+    <string name="condition_23">Blustery</string>
+    <string name="condition_24">Windy</string>
+    <string name="condition_25">Cold</string>
+    <string name="condition_26">Cloudy</string>
+    <string name="condition_27">Mostly cloudy</string>
+    <string name="condition_28">Mostly cloudy</string>
+    <string name="condition_29">Partly cloudy</string>
+    <string name="condition_30">Partly cloudy</string>
+    <string name="condition_31">Clear</string>
+    <string name="condition_32">Sunny</string>
+    <string name="condition_33">Fair</string>
+    <string name="condition_34">Fair</string>
+    <string name="condition_35">Mixed rain and hail</string>
+    <string name="condition_36">Hot</string>
+    <string name="condition_37">Isolated thunderstorms</string>
+    <string name="condition_38">Scattered thunderstorms</string>
+    <string name="condition_39">Scattered thunderstorms</string>
+    <string name="condition_40">Scattered showers</string>
+    <string name="condition_41">Heavy snow</string>
+    <string name="condition_42">Scattered snow showers</string>
+    <string name="condition_43">Heavy snow</string>
+    <string name="condition_44">Partly cloudy</string>
+    <string name="condition_45">Thundershowers</string>
+    <string name="condition_46">Snow showers</string>
+    <string name="condition_47">Isolated thundershowers</string>
+    <string name="condition_3200">Conditions unavailable</string>
     <string name="title_activity_settings">Settings</string>
 </resources>

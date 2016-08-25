@@ -2,10 +2,12 @@ package paweltypiak.matweather.usefulClasses;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Application;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -13,6 +15,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -34,6 +37,9 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.squareup.picasso.Transformation;
+
+import java.util.Locale;
+
 import paweltypiak.matweather.MainActivity;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.jsonHandling.Channel;
@@ -429,6 +435,32 @@ public class UsefulFunctions {
         alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(context.getResources().getColor(R.color.colorPrimary));
     }
 
+    public static void setLocale(Context context,int type){
+        String language=null;
+        if(type==0) language="en";
+        else if(type==1) language="pl";
+        Locale locale = new Locale(language);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
+    }
+
+    public static int getLocale(Context context){
+        String languageString;
+        if(android.os.Build.VERSION.SDK_INT < 24) {
+            languageString=context.getResources().getConfiguration().locale.toString();
+        } else {
+            languageString=context.getResources().getConfiguration().getLocales().get(0).toString();
+        }
+        languageString=languageString.substring(0,2);
+        Log.d("languagestring", languageString);
+        int language;
+        if(languageString.equals("pl")) language=1;
+        else language=0;
+        return language;
+    }
+
     public class setDrawableColor implements Transformation {
 
         private int color = 0;
@@ -495,4 +527,7 @@ public class UsefulFunctions {
         }
     }
 
+    public interface RefreshFragmentListener{
+        void refreshFragment();
+    }
 }

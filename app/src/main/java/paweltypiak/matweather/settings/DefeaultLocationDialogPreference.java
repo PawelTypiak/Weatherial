@@ -65,7 +65,7 @@ public class DefeaultLocationDialogPreference extends CustomDialogPreference {
             SharedPreferencesModifier.setDefeaultLocationConstant(getContext(),defeaultLocationAddress);
             setSummary(Html.fromHtml(FavouritesEditor.getChoosenFavouriteLocationEditedName()));
         }
-        Log.d("change preference",getTitle()+ " preference changed to: "+getSummary());
+        Log.d("changed_preference",getTitle()+ " preference changed to: "+getSummary());
     }
     protected void setPreferenceSummary(){
         if(SharedPreferencesModifier.isDefeaultLocationConstant(getContext())){

@@ -100,7 +100,6 @@ public class WeatherDataSetter {
     private int objectIconColor;
     private static WeatherDataFormatter currentDataFormatter;
     private static boolean startTimeThread;
-    private static boolean timeThreadStartedFlag;
     public static boolean newRefresh;
     private String sunsetSunriseDiffMinutesString;
     private String currentDiffMinutesString;
@@ -110,6 +109,7 @@ public class WeatherDataSetter {
     private static Thread uiThread;
     private static int units[];
     private boolean isGeolocalizationMode;
+    private static WeatherDataInitializer currentWeatherDataInitializer;
 
     public WeatherDataSetter(Activity activity,
                              WeatherDataInitializer dataInitializer,
@@ -117,6 +117,7 @@ public class WeatherDataSetter {
                              boolean isGeolocalizationMode) {
         this.activity=activity;
         this.isGeolocalizationMode=isGeolocalizationMode;
+        currentWeatherDataInitializer=dataInitializer;
         currentDataFormatter=new WeatherDataFormatter(activity, dataInitializer);
         newRefresh=true;
         units= SharedPreferencesModifier.getUnits(activity);
@@ -133,7 +134,6 @@ public class WeatherDataSetter {
             uiThread.start();
         }
         setStartTimeThread(true);
-        timeThreadStartedFlag =true;
     }
 
     static public void interruptUiThread(){
@@ -477,7 +477,7 @@ public class WeatherDataSetter {
     public static WeatherDataFormatter getCurrentDataFormatter() {return currentDataFormatter;}
     public static void setStartTimeThread(boolean startTimeThread) {
         WeatherDataSetter.startTimeThread = startTimeThread;}
-    public static boolean getTimeThreadStartedFlag() {
-        return timeThreadStartedFlag;
+    public static WeatherDataInitializer getCurrentWeatherDataInitializer() {
+        return currentWeatherDataInitializer;
     }
 }

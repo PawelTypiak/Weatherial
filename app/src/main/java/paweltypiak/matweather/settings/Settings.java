@@ -1,9 +1,13 @@
 package paweltypiak.matweather.settings;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.media.audiofx.BassBoost;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,20 +15,14 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import paweltypiak.matweather.R;
+import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
-public class Settings extends AppCompatPreferenceActivity  {
+public class Settings extends AppCompatPreferenceActivity  implements UsefulFunctions.RefreshFragmentListener{
     private static FragmentManager fragmentManager;
     private static android.support.v7.app.ActionBar actionBar;
-    private static boolean preferencesChanged=false;
-
-    public static boolean isPreferencesChanged() {
-        return preferencesChanged;
-    }
-
-    public static void setPreferencesChanged(boolean preferencesChanged) {
-
-        Settings.preferencesChanged = preferencesChanged;
-    }
+    private static boolean languagePreferencesChanged=false;
+    private static boolean unitsPreferencesChanged=false;
+    private static UsefulFunctions.RefreshFragmentListener refreshSettingsFragmentListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +30,10 @@ public class Settings extends AppCompatPreferenceActivity  {
         actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(getString(R.string.nav_drawer_settings));
+        refreshSettingsFragmentListener=this;
         fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(android.R.id.content, new SettingsFragment())
+                .replace(android.R.id.content, new SettingsFragment(),"SettingsFragment")
                 .commit();
     }
 
@@ -51,7 +50,31 @@ public class Settings extends AppCompatPreferenceActivity  {
         super.onBackPressed();
     }
 
-    public static class SettingsFragment extends PreferenceFragment {
+    public void refreshFragment(){
+        recreate();
+    }
+
+    public static boolean isLanguagePreferencesChanged() {
+        return languagePreferencesChanged;
+    }
+
+    public static boolean isUnitsPreferencesChanged() {
+        return unitsPreferencesChanged;
+    }
+
+    public static void setLanguagePreferencesChanged(boolean languagePreferencesChanged) {
+        Settings.languagePreferencesChanged = languagePreferencesChanged;
+    }
+
+    public static void setUnitsPreferencesChanged(boolean unitsPreferencesChanged) {
+        Settings.unitsPreferencesChanged = unitsPreferencesChanged;
+    }
+
+    public static UsefulFunctions.RefreshFragmentListener getRefreshSettingsFragmentListener() {
+        return refreshSettingsFragmentListener;
+    }
+
+    public static class SettingsFragment extends PreferenceFragment{
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -61,7 +84,7 @@ public class Settings extends AppCompatPreferenceActivity  {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     fragmentManager.beginTransaction()
-                            .replace(android.R.id.content, new unitsSettingsFragment())
+                            .replace(android.R.id.content, new unitsSettingsFragment(),"UnitsSettingsFragment")
                             .addToBackStack(null)
                             .commit();
                     actionBar.setTitle(getString(R.string.preferences_units_title));

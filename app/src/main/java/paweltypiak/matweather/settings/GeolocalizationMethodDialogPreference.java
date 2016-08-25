@@ -56,14 +56,13 @@ public class GeolocalizationMethodDialogPreference extends CustomDialogPreferenc
         if(choosenOption==0){
             SharedPreferencesModifier.setGeolocalizationMethod(getContext(),0);
             setSummary(getContext().getString(R.string.geolocalization_method_gps));
-            Log.d("change preference",getTitle()+ " preference changed to: "+getSummary());
+            Log.d("changed_preference",getTitle()+ " preference changed to: "+getSummary());
         }
         else if(choosenOption==1){
             SharedPreferencesModifier.setGeolocalizationMethod(getContext(),1);
             setSummary(getContext().getString(R.string.geolocalization_method_network));
-            Log.d("change preference",getTitle()+ " preference changed to: "+getSummary());
+            Log.d("changed_preference",getTitle()+ " preference changed to: "+getSummary());
         }
-
     }
     protected void setPreferenceSummary(){
         int geolocalizationMethod=SharedPreferencesModifier.getGeolocalizationMethod(getContext());

@@ -4,13 +4,12 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -23,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
+
 import paweltypiak.matweather.localizationDataDownloading.GeocodingCallback;
 import paweltypiak.matweather.localizationDataDownloading.GeocodingDownloader;
 import paweltypiak.matweather.localizationDataDownloading.CurrentCoordinatesDownloader;
@@ -34,7 +34,7 @@ import paweltypiak.matweather.weatherDataDownloading.WeatherDataDownloader;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDownloadCallback;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDataInitializer;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDataSetter;
-import static paweltypiak.matweather.weatherDataDownloading.WeatherDataSetter.getTimeThreadStartedFlag;
+
 import static paweltypiak.matweather.weatherDataDownloading.WeatherDataSetter.setStartTimeThread;
 import paweltypiak.matweather.jsonHandling.Channel;
 
@@ -83,16 +83,23 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        loadExtras();
+        loadInitialWeatherData(savedInstanceState);
         UsefulFunctions.setIsFirstWeatherDownloading(true);
         initializeLayout();
         loadDefeaultLocation();
     }
 
-    private void loadExtras(){
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            weatherDataInitializer =extras.getParcelable(getString(R.string.extras_data_initializer_key));
+    private void loadInitialWeatherData(Bundle savedInstanceState){
+        if(savedInstanceState==null){
+            Bundle extras = getIntent().getExtras();
+            if (extras != null) {
+                weatherDataInitializer =extras.getParcelable(getString(R.string.extras_data_initializer_key));
+                Log.d("initial_weather_data", "from extras: "+weatherDataInitializer.getCity());
+            }
+        }
+        else  {
+            weatherDataInitializer =  savedInstanceState.getParcelable(getString(R.string.extras_data_initializer_key));
+            Log.d("initial_weather_data", "from savedInstanceState: "+weatherDataInitializer.getCity());
         }
     }
 
@@ -401,7 +408,7 @@ public class MainActivity extends AppCompatActivity
         downloadWeatherData(currentLocation[0]+", "+currentLocation[1]);
     }
 
-    private void refreshLayoutAfterPreferencesChange(){
+    private void refreshLayoutAfterUnitsPreferencesChange(){
         new WeatherDataSetter(this,weatherDataInitializer,true,false);
     }
 
@@ -460,29 +467,45 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onPause() {
-        setStartTimeThread(false);
+    protected void onSaveInstanceState(Bundle state) {
+        super.onSaveInstanceState(state);
+        WeatherDataInitializer currentWeatherDataInitializer=WeatherDataSetter.getCurrentWeatherDataInitializer();
+        state.putParcelable(getString(R.string.extras_data_initializer_key), currentWeatherDataInitializer);
+    }
+
+    @Override
+    protected  void onPause(){
         super.onPause();
+        setStartTimeThread(false);
+        weatherDataInitializer=WeatherDataSetter.getCurrentWeatherDataInitializer();
     }
 
     @Override
     protected void onResume() {
-        if(getTimeThreadStartedFlag()==true)    {
-            setStartTimeThread(true);
-            //WeatherDataSetter.newRefresh=true;
-        }
         super.onResume();
+        setStartTimeThread(true);
     }
 
     @Override
     public void onRestart() {
         super.onRestart();
-        Log.d("options change", "onpreferenceschanged: "+Settings.isPreferencesChanged());
-        if(Settings.isPreferencesChanged())
+        new Handler().postDelayed(new Runnable()
         {
-            refreshLayoutAfterPreferencesChange();
-            Settings.setPreferencesChanged(false);
-        }
+            @Override
+            public void run()
+            {
+                if(Settings.isUnitsPreferencesChanged()) {
+                    refreshLayoutAfterUnitsPreferencesChange();
+                    Settings.setUnitsPreferencesChanged(false);
+                    Log.d("options change", "units change");
+                }
+                if(Settings.isLanguagePreferencesChanged()){
+                    recreate();
+                    Settings.setLanguagePreferencesChanged(false);
+                    Log.d("options change", "language change");
+                }
+            }
+        }, 0);
     }
 
     @Override

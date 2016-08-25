@@ -7,6 +7,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.usefulClasses.SharedPreferencesModifier;
+import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
 public class LanguageVersionDialogPreference extends CustomDialogPreference{
 
@@ -54,14 +55,20 @@ public class LanguageVersionDialogPreference extends CustomDialogPreference{
     protected void onPositiveResult(){
         if(choosenOption==0){
             SharedPreferencesModifier.setLanguage(getContext(),0);
+            UsefulFunctions.setLocale(getContext(),0);
             setSummary(getContext().getString(R.string.language_version_english));
         }
         else if(choosenOption==1){
             SharedPreferencesModifier.setLanguage(getContext(),1);
+            UsefulFunctions.setLocale(getContext(),1);
             setSummary(getContext().getString(R.string.language_version_polish));
         }
+        Settings.setLanguagePreferencesChanged(true);
+        UsefulFunctions.RefreshFragmentListener refreshFragmentListener=Settings.getRefreshSettingsFragmentListener();
+        refreshFragmentListener.refreshFragment();
         Log.d("change preference",getTitle()+ " preference changed to: "+getSummary());
     }
+
     protected void setPreferenceSummary(){
         int languageVersion=SharedPreferencesModifier.getLanguageVersion(getContext());
         if(languageVersion==0){
@@ -71,4 +78,6 @@ public class LanguageVersionDialogPreference extends CustomDialogPreference{
             setSummary(getContext().getString(R.string.language_version_polish));
         }
     }
+
+
 }
