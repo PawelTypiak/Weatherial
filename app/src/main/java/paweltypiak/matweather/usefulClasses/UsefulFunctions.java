@@ -16,6 +16,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -43,6 +44,7 @@ import java.util.Locale;
 import paweltypiak.matweather.MainActivity;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.jsonHandling.Channel;
+import paweltypiak.matweather.settings.Settings;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDataSetter;
 
 public class UsefulFunctions {
@@ -298,8 +300,8 @@ public class UsefulFunctions {
         inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
 
     }
-    public static void hideKeyboard(Activity activity, EditText editText) {
-        if(editText==null)activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+    public static void hideKeyboard(final Activity activity, final EditText editText) {
+        if(editText==null)activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         else{
             InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);

@@ -345,9 +345,9 @@ public class WeatherDataSetter {
             }
             forecastDayNameTextView[i].setText(dayName[i]);
             forecastDayNameTextView[i].setTextColor(textPrimaryColor);
-            forecastHighTemperatureTextView[i].setText(forecastHighTemperature[i]);
+            forecastHighTemperatureTextView[i].setText(forecastHighTemperature[i+1]);
             forecastHighTemperatureTextView[i].setTextColor(textPrimaryColor);
-            forecastLowTemperatureTextView[i].setText(forecastLowTemperature[i]);
+            forecastLowTemperatureTextView[i].setText(forecastLowTemperature[i+1]);
             forecastLowTemperatureTextView[i].setTextColor(textPrimaryColor);
             Picasso.with(activity.getApplicationContext()).load(forecastDrawable[i]).into(forecastDayConditionsImageView[i]);
             Picasso.with(activity.getApplicationContext()).load(R.drawable.arrow).transform(new UsefulFunctions().new setDrawableColor(iconColor)).into(forecastHighTemperatureImageView[i]);
