@@ -15,14 +15,15 @@ import paweltypiak.matweather.R;
 import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
 public class FirstLaunchConfigurationFragment extends Fragment{
+
     private FragmentTransaction fragmentTransaction;
     private FirstLaunchLocationFragment locationFragment;
     private FirstLaunchLoadingFragment loadingFragment;
     private FirstLaunchGeolocalizationMethodFragment geolocalizationMethodsFragment;
     private boolean isFirstLaunch;
     private boolean isAfterChoosingGeolocalizationMethod =false;
-    private int choosenDefeaultLocationOption =-1;
-    private int choosenGeolocalizationMethod =-1;
+    private int selectedDefeaultLocationOption =-1;
+    private int selectedGeolocalizationMethod =-1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -38,6 +39,7 @@ public class FirstLaunchConfigurationFragment extends Fragment{
         if(isFirstLaunch) insertNestedFragment(new FirstLaunchLanguageFragment(),"LanguageFragment");
         else initializeLoadingLocation(null);
     }
+
     public static FirstLaunchConfigurationFragment newInstance(boolean isFirstLaunch,Activity activity) {
         FirstLaunchConfigurationFragment configurationFragment = new FirstLaunchConfigurationFragment();
         Bundle extras = new Bundle();
@@ -45,7 +47,9 @@ public class FirstLaunchConfigurationFragment extends Fragment{
         configurationFragment.setArguments(extras);
         return configurationFragment;
     }
+
     private void getExtras(){
+        //get information if it is first launch
         isFirstLaunch = getArguments().getBoolean(getString(R.string.extras_is_first_launch_key));
     }
 
@@ -55,20 +59,22 @@ public class FirstLaunchConfigurationFragment extends Fragment{
     }
 
     public void insertNestedFragment(android.support.v4.app.Fragment nestedFragment,String tag) {
+        //set nested fragment
         fragmentTransaction = getChildFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.first_launch_configuration_fragment_placeholder, nestedFragment,tag)
                 .commit();
     }
 
     private Fragment getChildFragment(String tag){
+        //get child fragment by tag
         Fragment childFragment =
                 getChildFragmentManager().findFragmentByTag(tag);
         return childFragment;
     }
 
-    public void insertLoadingFragment(int choosenGeolocalizationMethod,int choosenDefeaultLocationOption, String differentLocationName, CardView startCardViewButton) {
+    public void insertLoadingFragment(int selectedGeolocalizationMethod,int selectedDefeaultLocationOption, String differentLocationName, CardView startCardViewButton) {
         fragmentTransaction = getChildFragmentManager().beginTransaction();
-        loadingFragment = FirstLaunchLoadingFragment.newInstance(getActivity(),isFirstLaunch,choosenGeolocalizationMethod,choosenDefeaultLocationOption,differentLocationName);
+        loadingFragment = FirstLaunchLoadingFragment.newInstance(getActivity(),isFirstLaunch,selectedGeolocalizationMethod,selectedDefeaultLocationOption,differentLocationName);
         fragmentTransaction.replace(R.id.first_launch_configuration_fragment_placeholder, loadingFragment, "LoadingFragment");
         fragmentTransaction.commit();
         if(startCardViewButton!=null)UsefulFunctions.setViewInvisible(startCardViewButton);
@@ -82,36 +88,41 @@ public class FirstLaunchConfigurationFragment extends Fragment{
     }
 
     public int getDefeaultLocationOptionFromLocationFragment(){
+        //get information if selected defeault location is current location, or different location
         try{
             locationFragment=(FirstLaunchLocationFragment)getChildFragment("LocationFragment");
-            return locationFragment.getChoosenDefeaultLocationOption();
+            return locationFragment.getSelectedDefeaultLocationOption();
         }catch (Exception exception){
             return 0;
         }
     }
 
     public String getDifferentLocationNameFromLocationFragment(){
+        //get name for selected location
         locationFragment=(FirstLaunchLocationFragment)getChildFragment("LocationFragment");
         String differentLocationNameString=locationFragment.getDifferentLocationName();
         return differentLocationNameString;
     }
 
-    public void showNoDifferentLocationChoosenDialogInLocationFragment(){
-        locationFragment.showNoDifferentLocationChoosenDialog();
+    public void showNoDifferentLocationSelectedDialogInLocationFragment(){
+        //show dialog with information about empty location name
+        locationFragment.showNoDifferentLocationSelectedDialog();
     }
 
     public void initializeLoadingLocation(CardView nextCardViewButton){
         if(isFirstLaunch){
             if(isAfterChoosingGeolocalizationMethod ==true){
-                choosenGeolocalizationMethod = geolocalizationMethodsFragment.getChoosenGeolocalizationMethod();
-                insertLoadingFragment(choosenGeolocalizationMethod,0, "",nextCardViewButton);
+                //geolocalization after selected geololocalization method
+                selectedGeolocalizationMethod = geolocalizationMethodsFragment.getSelectedGeolocalizationMethod();
+                insertLoadingFragment(selectedGeolocalizationMethod,0, "",nextCardViewButton);
                 UsefulFunctions.setViewInvisible(nextCardViewButton);
                 isAfterChoosingGeolocalizationMethod =false;
             }
             else{
-                choosenDefeaultLocationOption = getDefeaultLocationOptionFromLocationFragment();
-                if(choosenDefeaultLocationOption ==0){
+                selectedDefeaultLocationOption = getDefeaultLocationOptionFromLocationFragment();
+                if(selectedDefeaultLocationOption ==0){
                     if(isAfterChoosingGeolocalizationMethod ==false){
+                        //insert fragment with geolocalization methods
                         insertGeolocalizationMethodsFragment();
                         isAfterChoosingGeolocalizationMethod =true;
                     }
@@ -119,10 +130,11 @@ public class FirstLaunchConfigurationFragment extends Fragment{
                 else{
                     String differentLocationName=getDifferentLocationNameFromLocationFragment();
                     if(differentLocationName.equals(getString(R.string.first_launch_defeault_location_different))){
-                        showNoDifferentLocationChoosenDialogInLocationFragment();
+                        //dialog with information that user didn't provided location name
+                        showNoDifferentLocationSelectedDialogInLocationFragment();
                     }
                     else{
-                        insertLoadingFragment(-1, choosenDefeaultLocationOption,differentLocationName,nextCardViewButton);
+                        insertLoadingFragment(-1, selectedDefeaultLocationOption,differentLocationName,nextCardViewButton);
                     }
                 }
             }
@@ -131,7 +143,8 @@ public class FirstLaunchConfigurationFragment extends Fragment{
             insertLoadingFragment(-1,-1,"",null);
         }
     }
-    public int getChoosenDefeaultLocationOption() {
-        return choosenDefeaultLocationOption;
+
+    public int getSelectedDefeaultLocationOption() {
+        return selectedDefeaultLocationOption;
     }
 }

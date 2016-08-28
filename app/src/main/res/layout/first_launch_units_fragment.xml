@@ -5,7 +5,6 @@
     tools:context=".firstLaunching.FirstLaunchActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:id="@+id/first_launch_units_fragment_layout">
     <LinearLayout
         android:layout_width="match_parent"

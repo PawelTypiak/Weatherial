@@ -11,7 +11,7 @@ import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
 public class LanguageVersionDialogPreference extends CustomDialogPreference{
 
-    private int choosenOption=-1;
+    private int selectedOption =-1;
 
     public LanguageVersionDialogPreference(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
@@ -33,40 +33,41 @@ public class LanguageVersionDialogPreference extends CustomDialogPreference{
         int languageVersion= SharedPreferencesModifier.getLanguageVersion(getContext());
         if(languageVersion==0) {
             englishRadioButton.setChecked(true);
-            choosenOption=0;
+            selectedOption =0;
         }
         else if(languageVersion==1) {
             polishRadioButton.setChecked(true);
-            choosenOption=1;
+            selectedOption =1;
         }
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 if (i == englishRadioButtonId) {
-                    choosenOption=0;
+                    selectedOption =0;
                 }
                 else if (i == polishRadioButtonId) {
-                    choosenOption=1;
+                    selectedOption =1;
                 }
             }
         });
     };
 
     protected void onPositiveResult(){
-        if(choosenOption==0){
+        if(selectedOption ==0){
             SharedPreferencesModifier.setLanguage(getContext(),0);
             UsefulFunctions.setLocale(getContext(),0);
             setSummary(getContext().getString(R.string.language_version_english));
         }
-        else if(choosenOption==1){
+        else if(selectedOption ==1){
             SharedPreferencesModifier.setLanguage(getContext(),1);
             UsefulFunctions.setLocale(getContext(),1);
             setSummary(getContext().getString(R.string.language_version_polish));
         }
         Settings.setLanguagePreferencesChanged(true);
-        UsefulFunctions.RefreshFragmentListener refreshFragmentListener=Settings.getRefreshSettingsFragmentListener();
-        refreshFragmentListener.refreshFragment();
-        Log.d("change preference",getTitle()+ " preference changed to: "+getSummary());
+        //callback for refreshing view
+        RecreateSettingsListener recreateSettingsListener =Settings.getRefreshSettingsFragmentListener();
+        recreateSettingsListener.recreateSettings();
+        Log.d("changed_preference",getTitle()+ " preference changed to: "+getSummary());
     }
 
     protected void setPreferenceSummary(){
@@ -79,5 +80,8 @@ public class LanguageVersionDialogPreference extends CustomDialogPreference{
         }
     }
 
-
+    public interface RecreateSettingsListener {
+        //listener for recreating settings activity
+        void recreateSettings();
+    }
 }

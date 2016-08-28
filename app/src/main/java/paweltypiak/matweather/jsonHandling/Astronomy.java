@@ -3,12 +3,14 @@ package paweltypiak.matweather.jsonHandling;
 import org.json.JSONObject;
 
 public class Astronomy implements JSONPopulator {
+
     private String sunrise;
     private String sunset;
 
     public String getSunrise() {
         return sunrise;
     }
+
     public String getSunset() {
         return sunset;
     }

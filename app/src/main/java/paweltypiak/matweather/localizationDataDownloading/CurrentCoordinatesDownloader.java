@@ -15,12 +15,12 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import paweltypiak.matweather.usefulClasses.DialogInitializer;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
 public class CurrentCoordinatesDownloader implements  ActivityCompat.OnRequestPermissionsResultCallback{
+
     private LocationManager locationManager;
     private Activity activity;
     private ProgressBar loadingBar;
@@ -28,7 +28,6 @@ public class CurrentCoordinatesDownloader implements  ActivityCompat.OnRequestPe
     private Location location;
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION=1;
     private boolean isPermissionGranted;
-    private GeocodingDownloader geocodingDownloader;
     private AlertDialog geolocalizationFailureDialog;
     private AlertDialog permissionDeniedDialog;
     private AlertDialog providerUnavailableDialog;
@@ -61,6 +60,7 @@ public class CurrentCoordinatesDownloader implements  ActivityCompat.OnRequestPe
     }
 
     private boolean checkPermissions(){
+        //permissions for Android 6.0
         if ( ContextCompat.checkSelfPermission( activity, Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED )
            return false;
         else return true;
@@ -88,7 +88,6 @@ public class CurrentCoordinatesDownloader implements  ActivityCompat.OnRequestPe
         if(locationManager==null) locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
         Criteria locationCriteria = new Criteria();
         locationCriteria.setAccuracy(Criteria.ACCURACY_MEDIUM);
-
         try{
             gpsEnabled=locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
             networkEnabled=locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
@@ -101,6 +100,7 @@ public class CurrentCoordinatesDownloader implements  ActivityCompat.OnRequestPe
         }
         else{
             if (geolocalizationMethod ==0) {
+                //selected provider is GPS
                 if(gpsEnabled){
                     Log.d("provider", "gps");
                     try {
@@ -118,6 +118,7 @@ public class CurrentCoordinatesDownloader implements  ActivityCompat.OnRequestPe
                 }
             }
             else if (geolocalizationMethod ==1) {
+                //selected provider is network
                 if(networkEnabled){
                     Log.d("provider:", "network");
                     try {
@@ -137,24 +138,22 @@ public class CurrentCoordinatesDownloader implements  ActivityCompat.OnRequestPe
     }
 
     private LocationListener locationListener = new LocationListener() {
+        //listening for geolocalization result
         public void onLocationChanged(Location location) {
             CurrentCoordinatesDownloader.this.location=location;
             Log.d("coordinates", "longitude: "+location.getLongitude());
             Log.d("coordinates", "latitude: "+location.getLatitude());
-            geocodingDownloader=new GeocodingDownloader(location,geocodingCallack,messageTextView,activity);
+            new GeocodingDownloader(location,geocodingCallack,messageTextView,activity);
         }
         public void onProviderDisabled(String provider) {}
         public void onProviderEnabled(String provider) {}
         public void onStatusChanged(String provider, int status, Bundle extras) {}
     };
 
-    public Location getLocation() {
-        return location;
-    }
-
     private Runnable networkUnavailableRunnable=new Runnable() {
         @Override
         public void run() {
+            //network provider unavailable
             try{
             locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER,locationListener,null);
             }catch (SecurityException exception){
@@ -165,6 +164,7 @@ public class CurrentCoordinatesDownloader implements  ActivityCompat.OnRequestPe
     private Runnable gpsUnavailableRunnable=new Runnable() {
         @Override
         public void run() {
+            //gps provider unavailable
             try{
                 locationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER,locationListener,null);
 
@@ -175,6 +175,7 @@ public class CurrentCoordinatesDownloader implements  ActivityCompat.OnRequestPe
     };
 
     private void showErrorDialog(AlertDialog alertDialog){
+        //set progress bar and text invisible when alertDialog.show()
         alertDialog.show();
         if(progressDialog!=null) progressDialog.dismiss();
         else{
@@ -183,5 +184,9 @@ public class CurrentCoordinatesDownloader implements  ActivityCompat.OnRequestPe
                 UsefulFunctions.setViewInvisible(messageTextView);
             }
         }
+    }
+
+    public Location getLocation() {
+        return location;
     }
 }

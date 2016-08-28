@@ -6,7 +6,6 @@
     android:gravity="center"
     android:orientation="vertical"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
-
     <ImageView
         android:id="@+id/imageView"
         android:layout_weight="1"
@@ -16,7 +15,6 @@
         android:padding="10dp"
         android:layout_gravity="center"
         android:src="@drawable/app_icon_small" />
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,5 +24,4 @@
         android:text="MatWeather"
         android:textColor="@color/white"
         />
-
 </LinearLayout>

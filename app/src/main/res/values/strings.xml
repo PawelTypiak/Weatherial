@@ -4,7 +4,6 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
     <string name="bullet">&#8226; </string>
 
     <!-- Keys -->
@@ -17,10 +16,9 @@
     <string name="shared_preferences_is_first_launch_key">is_first_launch_key</string>
     <string name="shared_preferences_favourite_locations_names_key">favourites_locations_key</string>
     <string name="shared_preferences_favourite_locations_addresses_key">favourites_locations_addresses_key</string>
-    <string name="shared_preferences_favourite_locations_coordinates_key">favourites_locations_coordinates_key</string>
     <string name="extras_is_first_launch_key">is_first_launch_key</string>
-    <string name="extras_choosen_defeault_location_option_key">choosen_defeault_location_option_key</string>
-    <string name="extras_choosen_geolocalization_method_key">choosen_geolocalization_method_key</string>
+    <string name="extras_selected_defeault_location_option_key">selected_defeault_location_option_key</string>
+    <string name="extras_selected_geolocalization_method_key">selected_geolocalization_method_key</string>
     <string name="extras_different_location_name_key">different_location_name_key</string>
     <string name="extras_data_initializer_key">data_initializer_key</string>
 
@@ -36,14 +34,10 @@
     <string name="internet_failure_dialog_negative_button_type_1">Cancel</string>
     <string name="yahoo_redirect_dialog_title">Redirection</string>
     <string name="yahoo_redirect_dialog_message">You will be redirected to website:</string>
-    <string name="yahoo_redirect_dialog_message_service_name">Yahoo.com</string>
+    <string name="yahoo_main_redirect_dialog_message_service_name">Yahoo.com</string>
+    <string name="yahoo_weather_redirect_dialog_message_service_name">Yahoo Weather</string>
     <string name="yahoo_redirect_dialog_positive_button">Continue</string>
     <string name="yahoo_redirect_dialog_negative_button">Cancel</string>
-    <string name="yahoo_weather_redirect_dialog_title">Redirection</string>
-    <string name="yahoo_weather_redirect_dialog_message">You will be redirected to website:</string>
-    <string name="yahoo_weather_redirect_dialog_message_service_name">Yahoo Weather</string>
-    <string name="yahoo_weather_redirect_dialog_positive_button">Continue</string>
-    <string name="yahoo_weather_redirect_dialog_negative_button">Cancel</string>
     <string name="exit_dialog_title">Exit</string>
     <string name="exit_dialog_message">Are you sure you want to leave <b>MatWeather</b>?</string>
     <string name="exit_dialog_positive_button">Exit</string>
@@ -98,9 +92,9 @@
     <string name="geolocalization_failure_dialog_positive_button_type_1">Refresh</string>
     <string name="geolocalization_failure_dialog_negative_button_type_1">Cancel</string>
     <string name="geolocalization_failure_dialog_message">No possibility of finding current location!</string>
-    <string name="no_different_location_choosen_dialog_message">No location provided!</string>
-    <string name="no_different_location_choosen_dialog_positive_button">Ok</string>
-    <string name="no_different_location_choosen_dialog_negative_button">Cancel</string>
+    <string name="no_different_location_selected_dialog_message">No location provided!</string>
+    <string name="no_different_location_selected_dialog_positive_button">Ok</string>
+    <string name="no_different_location_selected_dialog_negative_button">Cancel</string>
     <string name="maps_dialog_title">Redirection</string>
     <string name="maps_dialog_message">Do you want to open the following location?</string>
     <string name="maps_dialog_negative_button">Cancel</string>
@@ -138,8 +132,8 @@
 
     <!-- First launch layout strings-->
     <string name="first_launch_button_start_text">GET STARTED</string>
-    <string name="first_launch_button_continue_text">KONTYNUUJ</string>
-    <string name="first_launch_language_header">Select language version:</string>
+    <string name="first_launch_button_continue_text">CONTINUE</string>
+    <string name="first_launch_language_version_header">Select language version:</string>
     <string name="language_version_english">English</string>
     <string name="language_version_polish">Polish</string>
     <string name="first_launch_units_header">Select measurement system:</string>
@@ -171,7 +165,7 @@
     <string name="geolocalization_method_network">Network (fast)</string>
 
     <!-- progress info messages-->
-    <string name="searching_location_progress_message">Retrieve location...</string>
+    <string name="searching_location_progress_message">Retrieving location...</string>
     <string name="waiting_for_localization_progress_message">Waiting for geolocalization...</string>
     <string name="looking_for_address_progress_message">Retrieving address...</string>
     <string name="downloading_weather_data_progress_message">Downloading weather information...</string>

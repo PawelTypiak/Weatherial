@@ -70,7 +70,6 @@ public class SharedPreferencesModifier {
 
     public static boolean isDefeaultLocationConstant(Context context){
         String defeaultLocation= getDefeaultLocation(context);
-        Log.d("defeault wartosc", "isDefeaultLocationConstant: "+defeaultLocation);
         if(defeaultLocation==null) return false;
         else return true;
     }
@@ -113,21 +112,5 @@ public class SharedPreferencesModifier {
 
     public static void setFavouriteLocationAddresses(Context context,String adressesString){
         getSharedPreferences(context).edit().putString(context.getString(R.string.shared_preferences_favourite_locations_addresses_key), adressesString).commit();
-    }
-
-    public static String[] getFavouriteLocationsCoordinates(Context context){
-        String favouritesString = getSharedPreferences(context).getString(context.getString(R.string.shared_preferences_favourite_locations_coordinates_key), "");
-        StringTokenizer stringTokenizer = new StringTokenizer(favouritesString, "|");
-        int numberOfFavourites=stringTokenizer.countTokens();
-        String favourites[]=new String[numberOfFavourites];
-        for (int i = 0; i < numberOfFavourites; i++) {
-            favourites[i] = stringTokenizer.nextToken();
-            Log.d("SharedPreferences", "favourites coordinates: "+ favourites[i]);
-        }
-        return favourites;
-    }
-
-    public static void setFavouriteLocationCoordinates(Context context,String coordinatesString){
-        getSharedPreferences(context).edit().putString(context.getString(R.string.shared_preferences_favourite_locations_coordinates_key), coordinatesString).commit();
     }
 }

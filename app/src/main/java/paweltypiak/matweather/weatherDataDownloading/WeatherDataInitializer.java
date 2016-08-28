@@ -6,6 +6,7 @@ import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 import paweltypiak.matweather.jsonHandling.Channel;
 
 public class WeatherDataInitializer implements Parcelable {
+
     private Channel channel;
     private String link;
     private String city;
@@ -27,7 +28,6 @@ public class WeatherDataInitializer implements Parcelable {
     private String[] forecastLowTemperature;
     private double latitude;
     private double longitude;
-
 
     public WeatherDataInitializer(Channel channel){
         this.channel=channel;
@@ -134,6 +134,8 @@ public class WeatherDataInitializer implements Parcelable {
     public String[] getForecastLowTemperature() {
         return forecastLowTemperature;
     }
+
+    //create parcelable
     public WeatherDataInitializer(Parcel in){
         String[] stringData = new String[17];
         in.readStringArray(stringData);

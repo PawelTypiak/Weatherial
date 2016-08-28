@@ -25,8 +25,10 @@ import paweltypiak.matweather.usefulClasses.SharedPreferencesModifier;
 import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
 public class FirstLaunchUnitsFragment extends Fragment{
+
     private int units[]={0,0,0,0,0};
     private TextView unitsHeaderTextView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.first_launch_units_fragment, parent, false);
@@ -50,6 +52,7 @@ public class FirstLaunchUnitsFragment extends Fragment{
     }
 
     private FirstLaunchSpinner initializeSpinner(int id){
+        //initialize custom spinner
         FirstLaunchSpinner spinner = (FirstLaunchSpinner) getActivity().findViewById(getActivity().getResources().getIdentifier("first_launch_units_fragment_spinner_"+id, "id", getActivity().getPackageName()));
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity().getApplicationContext(),
                 R.layout.first_launch_spinner_item,
@@ -66,6 +69,7 @@ public class FirstLaunchUnitsFragment extends Fragment{
     }
 
     private void setSpinnerRippleView(final FirstLaunchSpinner spinner,int id){
+        //set custom ripple view when spinner is clicked
         final RelativeLayout spinnerLayout = (RelativeLayout)getActivity().findViewById(getActivity().getResources().getIdentifier("first_launch_units_fragment_spinner_layout_"+id, "id", getActivity().getPackageName()));
         final View selectableView=getActivity().findViewById(getActivity().getResources().getIdentifier("first_launch_units_fragment_spinner_selectable_view_"+id, "id", getActivity().getPackageName()));
         ViewTreeObserver observer = spinnerLayout.getViewTreeObserver();
@@ -94,6 +98,7 @@ public class FirstLaunchUnitsFragment extends Fragment{
     }
 
     private void setImagesVisibleAndClickable(final Spinner spinner, final int id) {
+        //set layout visibility after all icons are loaded
         ImageView unitsImageView = (ImageView) getActivity().findViewById(getResources().getIdentifier("first_launch_units_fragment_spinner_image_" + id, "id", getActivity().getPackageName()));
         setImagesClickable(spinner,unitsImageView);
         Picasso.with(getActivity().getApplicationContext()).load(getActivity().getResources().getIdentifier("drawable/units_icon_" + id, null, getActivity().getPackageName())).transform(new UsefulFunctions().new setDrawableColor(getActivity().getResources().getColor(R.color.white))).into(unitsImageView, new com.squareup.picasso.Callback() {
@@ -123,7 +128,7 @@ public class FirstLaunchUnitsFragment extends Fragment{
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.d("units", "choosen unit: "+spinner.getSelectedItem().toString());
+                Log.d("units", "selected unit: "+spinner.getSelectedItem().toString());
                 units[id]=i;
                 SharedPreferencesModifier.setUnits(getActivity(),units);
             }

@@ -14,7 +14,6 @@
         android:layout_centerHorizontal="true"
         android:id="@+id/first_launch_loading_fragment_content_layout"
         >
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

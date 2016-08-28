@@ -11,9 +11,11 @@ public class Atmosphere implements JSONPopulator {
     public String getHumidity() {
         return humidity;
     }
+
     public String getPressure() {
         return pressure;
     }
+
     public String getVisibility() {
         return visibility;
     }

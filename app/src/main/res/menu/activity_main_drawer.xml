@@ -15,7 +15,6 @@
 
     </menu>
     </item>
-
     <item android:title="@string/nav_drawer_others_group_item">
         <menu>
             <item
@@ -40,5 +39,4 @@
                 android:title="@string/nav_drawer_author" />
         </menu>
     </item>
-
 </menu>

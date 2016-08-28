@@ -5,6 +5,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Forecast {
+
     private int[] code = new int[5];
     private String high[] = new String[5];
     private String low[] = new String[5];
@@ -12,9 +13,11 @@ public class Forecast {
     public int[] getCode() {
         return code;
     }
+
     public String[] getHigh() {
         return high;
     }
+
     public String[] getLow() {
         return low;
     }

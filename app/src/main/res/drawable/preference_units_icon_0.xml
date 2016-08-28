@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:bottom="@dimen/units_icon_padding_size"
+        android:top="@dimen/units_icon_padding_size"
+        >
+        <bitmap xmlns:android="http://schemas.android.com/apk/res/android"
+            android:src="@drawable/units_icon_0"
+            android:tint="@color/colorAccent">
+        </bitmap>
+    </item>
+</layer-list>

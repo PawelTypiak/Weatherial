@@ -1,8 +1,5 @@
 <resources>
-
-    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -12,66 +9,63 @@
         <item name="android:windowBackground">@color/colorPrimary</item>
     </style>
 
-    <style name="MainTheme" parent="@style/AppTheme">
+    <style name="MainTheme" parent="@style/AppTheme"/>
 
-    </style>
-    <style name="FirstLaunchTheme" parent="@style/AppTheme">
-    </style>
+    <style name="FirstLaunchTheme" parent="@style/AppTheme"/>
+
     <style name="SettingsTheme.base" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:actionBarStyle">@style/CustomActionBar</item>
-    </style>
-    <style name="SettingsTheme" parent="SettingsTheme.base">
-
+        <item name="android:actionBarStyle">@style/ActionBarStyle</item>
     </style>
 
+    <style name="SettingsTheme" parent="SettingsTheme.base"/>
 
-    <style name="CustomActionBar" parent="@android:style/Widget.ActionBar">
+    <style name="ActionBarStyle" parent="@android:style/Widget.ActionBar">
         <item name="android:background">@color/colorPrimary</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" >
-    </style>
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
         <item name="color">@color/white</item>
     </style>
 
-    <style name="CustomDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+    <style name="DialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowMinWidthMajor">90%</item>
         <item name="android:windowMinWidthMinor">90%</item>
     </style>
-    <style name="CustomLoadingDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+
+    <style name="LoadingDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:windowMinWidthMajor">90%</item>
         <item name="android:windowMinWidthMinor">90%</item>
     </style>
+
     <style name="AppTheme.White">
         <item name="colorAccent">@color/white</item>
     </style>
-    <style name="SelectableSpinner" parent="Widget.AppCompat.Light.Spinner.DropDown.ActionBar">
+
+    <style name="SelectableSpinnerStyle" parent="Widget.AppCompat.Light.Spinner.DropDown.ActionBar">
         <item name="android:background">?android:selectableItemBackground</item>
         <item name="android:dropDownSelector">?android:selectableItemBackground</item>
         <item name="android:divider">@null</item>
     </style>
-    <style name="selectableText" parent="MainTheme">
-        <item name="android:background">?android:selectableItemBackground</item>
 
+    <style name="SelectableTextStyle" parent="MainTheme">
+        <item name="android:background">?android:selectableItemBackground</item>
     </style>
-    <style name="checkBoxStyle" parent="Base.Theme.AppCompat">
+
+    <style name="CheckBoxStyle" parent="Base.Theme.AppCompat">
         <item name="colorAccent">@color/colorPrimary</item>
         <item name="android:textColorSecondary">@color/textSecondaryLightBackground</item>
     </style>
 
-    <style name="MyEditTextTheme">
-        <!-- Used for the bottom line when not selected / focused -->
+    <style name="EditTextStyle">
         <item name="colorControlNormal">@color/transparent</item>
-        <!-- colorControlActivated & colorControlHighlight use the colorAccent color by default -->
     </style>
-
 </resources>

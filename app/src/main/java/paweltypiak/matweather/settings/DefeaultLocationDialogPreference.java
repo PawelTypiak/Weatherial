@@ -20,6 +20,7 @@ public class DefeaultLocationDialogPreference extends CustomDialogPreference {
     }
 
     protected void buildRadioGroup(RadioGroup radioGroup){
+        //radioGroup with favourite locations list
         final List<String> favouritesList = FavouritesEditor.getFavouriteLocationsNamesDialogList(getContext());
         String locationName;
         int size=favouritesList.size()+1;
@@ -37,7 +38,6 @@ public class DefeaultLocationDialogPreference extends CustomDialogPreference {
             }
             RadioButton radioButton=setRadioButtonLayout(locationName,radioButtonId,radioButtonBottomMargin);
             int checkedRadioButtonId=FavouritesEditor.getDefeaultLocationId(getContext());
-            Log.d("checked radio button id", "buildRadioGroup: "+checkedRadioButtonId);
             if(i==checkedRadioButtonId) {
                 radioButton.setChecked(true);
             }
@@ -47,26 +47,28 @@ public class DefeaultLocationDialogPreference extends CustomDialogPreference {
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                FavouritesEditor.setChoosenFavouriteLocationID(i);
+                FavouritesEditor.setSelectedFavouriteLocationID(i);
             }
         });
     };
 
     protected void onPositiveResult(){
+        //this method is called when user clicks positive button
         String defeaultLocationAddress;
-        int choosenLocationID=FavouritesEditor.getChoosenFavouriteLocationID();
+        int selectedLocationID=FavouritesEditor.getSelectedFavouriteLocationID();
         int numberOfFavourites=FavouritesEditor.getNumberOfFavourites(getContext());
-        if(choosenLocationID==numberOfFavourites) {
+        if(selectedLocationID==numberOfFavourites) {
             SharedPreferencesModifier.setDefeaultLocationGeolocalization(getContext());
             setSummary(getContext().getString(R.string.favourites_dialog_geolocalization_option));
         }
         else {
-            defeaultLocationAddress=FavouritesEditor.getChoosenFavouriteLocationAddress(getContext());
+            defeaultLocationAddress=FavouritesEditor.getSelectedFavouriteLocationAddress(getContext());
             SharedPreferencesModifier.setDefeaultLocationConstant(getContext(),defeaultLocationAddress);
-            setSummary(Html.fromHtml(FavouritesEditor.getChoosenFavouriteLocationEditedName()));
+            setSummary(Html.fromHtml(FavouritesEditor.getSelectedFavouriteLocationEditedName()));
         }
         Log.d("changed_preference",getTitle()+ " preference changed to: "+getSummary());
     }
+
     protected void setPreferenceSummary(){
         if(SharedPreferencesModifier.isDefeaultLocationConstant(getContext())){
             String defeaultLocationEditedName=FavouritesEditor.getDefeaultLocationEditedName(getContext());

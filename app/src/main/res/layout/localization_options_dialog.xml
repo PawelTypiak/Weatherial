@@ -13,6 +13,5 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:id="@+id/localization_options_dialog_radio_group">
-
     </RadioGroup>
 </LinearLayout>

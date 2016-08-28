@@ -42,5 +42,4 @@
             android:id="@+id/location_dialog_region_county_text"
             />
     </LinearLayout>
-
 </LinearLayout>

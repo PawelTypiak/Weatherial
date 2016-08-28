@@ -10,6 +10,7 @@ import paweltypiak.matweather.R;
 import paweltypiak.matweather.usefulClasses.SharedPreferencesModifier;
 
 public class WeatherDataFormatter {
+
     private int[] units;
     private Activity activity;
     private String chill;
@@ -58,8 +59,6 @@ public class WeatherDataFormatter {
         formatAstronomy();
         formatAtmosphere();
         formatCondition();
-
-
         formatForecast();
         formatWind();
         countSunPosition(time24);
@@ -67,6 +66,7 @@ public class WeatherDataFormatter {
     }
 
     private void formatLastBuildDate(){
+        //format last build date to get time zone
         lastBuildDate=lastBuildDate.substring(17);
         unformattedTime =lastBuildDate.substring(0,8);
         time =formatTimeUnit(unformattedTime);
@@ -81,6 +81,7 @@ public class WeatherDataFormatter {
     }
 
     private void formatAstronomy(){
+        //format sunrise and sunset in 12h and 24h time format
         sunrise24=get24Time(sunrise);
         sunset24=get24Time(sunset);
         sunrise=formatTimeUnit(sunrise);
@@ -100,6 +101,7 @@ public class WeatherDataFormatter {
     }
 
     private void formatWind(){
+        //format wind direction angle to get direction name
         if( Integer.parseInt(direction)<22 ||Integer.parseInt(direction)>=337 )
             directionName="N";
         else if( Integer.parseInt(direction)>=22 &&Integer.parseInt(direction)<67 )
@@ -138,6 +140,7 @@ public class WeatherDataFormatter {
     }
 
     public String[] countSunPosition(String currentTime){
+        //count sun position on sun line between sunrise and sunshine
         Date sunriseHour=null;
         Date sunsetHour=null;
         Date beforeMidnight=null;

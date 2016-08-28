@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Item implements JSONPopulator{
+
     private Condition condition;
     private JSONArray jsonArray;
     private Forecast forecast;
@@ -13,10 +14,13 @@ public class Item implements JSONPopulator{
     public Condition getCondition() {
         return condition;
     }
+
     public Forecast getForecast() {
         return forecast;
     }
+
     public double getLatitude() {return latitude; }
+
     public double getLongitude() {return longitude; }
 
     @Override

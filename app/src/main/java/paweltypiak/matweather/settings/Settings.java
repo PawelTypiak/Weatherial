@@ -1,28 +1,24 @@
 package paweltypiak.matweather.settings;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
-import android.media.audiofx.BassBoost;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.app.FragmentManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
-public class Settings extends AppCompatPreferenceActivity  implements UsefulFunctions.RefreshFragmentListener{
+public class Settings extends AppCompatPreferenceActivity  implements LanguageVersionDialogPreference.RecreateSettingsListener {
+
     private static FragmentManager fragmentManager;
     private static android.support.v7.app.ActionBar actionBar;
     private static boolean languagePreferencesChanged=false;
     private static boolean unitsPreferencesChanged=false;
-    private static UsefulFunctions.RefreshFragmentListener refreshSettingsFragmentListener;
+    private static LanguageVersionDialogPreference.RecreateSettingsListener refreshSettingsFragmentListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +46,7 @@ public class Settings extends AppCompatPreferenceActivity  implements UsefulFunc
         super.onBackPressed();
     }
 
-    public void refreshFragment(){
-        recreate();
-    }
-
+    //get information about preferences changes which need to reload interface - units and language
     public static boolean isLanguagePreferencesChanged() {
         return languagePreferencesChanged;
     }
@@ -70,11 +63,17 @@ public class Settings extends AppCompatPreferenceActivity  implements UsefulFunc
         Settings.unitsPreferencesChanged = unitsPreferencesChanged;
     }
 
-    public static UsefulFunctions.RefreshFragmentListener getRefreshSettingsFragmentListener() {
+    //recreate fragment after language change
+    public void recreateSettings(){
+        recreate();
+    }
+
+    public static LanguageVersionDialogPreference.RecreateSettingsListener getRefreshSettingsFragmentListener() {
         return refreshSettingsFragmentListener;
     }
 
     public static class SettingsFragment extends PreferenceFragment{
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -92,6 +91,7 @@ public class Settings extends AppCompatPreferenceActivity  implements UsefulFunc
                 }
             });
         }
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
@@ -102,6 +102,7 @@ public class Settings extends AppCompatPreferenceActivity  implements UsefulFunc
             }
             return v;
         }
+
         @Override
         public boolean onOptionsItemSelected(MenuItem item) {
             int id = item.getItemId();
@@ -116,12 +117,14 @@ public class Settings extends AppCompatPreferenceActivity  implements UsefulFunc
     }
 
     public static class unitsSettingsFragment extends PreferenceFragment {
+        //fragment with units preferences
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setHasOptionsMenu(true);
             addPreferencesFromResource(R.xml.preferences_units);
         }
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
@@ -132,6 +135,7 @@ public class Settings extends AppCompatPreferenceActivity  implements UsefulFunc
             }
             return v;
         }
+
         @Override
         public boolean onOptionsItemSelected(MenuItem item) {
             int id = item.getItemId();

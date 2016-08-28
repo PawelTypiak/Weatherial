@@ -4,6 +4,7 @@ import android.util.Log;
 import org.json.JSONObject;
 
 public class Channel implements JSONPopulator {
+
     private Item item;
     private Astronomy astronomy;
     private Wind wind;
@@ -13,19 +14,25 @@ public class Channel implements JSONPopulator {
     private String lastBuildDate;
 
     public String getLastBuildDate() {return lastBuildDate;}
+
     public Item getItem() {
         return item;
     }
+
     public String getLink() {return link;}
+
     public Astronomy getAstronomy() {
         return astronomy;
     }
+
     public Wind getWind() {
         return wind;
     }
+
     public Atmosphere getAtmosphere() {
         return atmosphere;
     }
+
     public Location getLocation() {return location;}
 
     @Override

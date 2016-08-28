@@ -13,14 +13,10 @@
     <string name="internet_failure_dialog_negative_button_type_1">Anuluj</string>
     <string name="yahoo_redirect_dialog_title">Przekierowanie</string>
     <string name="yahoo_redirect_dialog_message">Nastąpi przekierowanie na witrynę:</string>
-    <string name="yahoo_redirect_dialog_message_service_name">Yahoo.com</string>
+    <string name="yahoo_main_redirect_dialog_message_service_name">Yahoo.com</string>
+    <string name="yahoo_weather_redirect_dialog_message_service_name">Yahoo Weather</string>
     <string name="yahoo_redirect_dialog_positive_button">Kontynuuj</string>
     <string name="yahoo_redirect_dialog_negative_button">Anuluj</string>
-    <string name="yahoo_weather_redirect_dialog_title">Przekierowanie</string>
-    <string name="yahoo_weather_redirect_dialog_message">Nastąpi przekierowanie do serwisu:</string>
-    <string name="yahoo_weather_redirect_dialog_message_service_name">Yahoo Weather</string>
-    <string name="yahoo_weather_redirect_dialog_positive_button">Kontynuuj</string>
-    <string name="yahoo_weather_redirect_dialog_negative_button">Anuluj</string>
     <string name="exit_dialog_title">Wyjście</string>
     <string name="exit_dialog_message">Czy na pewno chcesz wyjsć z <b>MatWeather</b>?</string>
     <string name="exit_dialog_positive_button">Wyjdź</string>
@@ -75,9 +71,9 @@
     <string name="geolocalization_failure_dialog_positive_button_type_1">Odśwież</string>
     <string name="geolocalization_failure_dialog_negative_button_type_1">Anuluj</string>
     <string name="geolocalization_failure_dialog_message">Brak możliwości znalezienia aktualnej lokalizacji!</string>
-    <string name="no_different_location_choosen_dialog_message">Podaj lokację!</string>
-    <string name="no_different_location_choosen_dialog_positive_button">Ok</string>
-    <string name="no_different_location_choosen_dialog_negative_button">Anuluj</string>
+    <string name="no_different_location_selected_dialog_message">Podaj lokację!</string>
+    <string name="no_different_location_selected_dialog_positive_button">Ok</string>
+    <string name="no_different_location_selected_dialog_negative_button">Anuluj</string>
     <string name="maps_dialog_title">Przekierowanie</string>
     <string name="maps_dialog_message">Czy chcesz otworzyć lokację?</string>
     <string name="maps_dialog_negative_button">Anuluj</string>
@@ -116,7 +112,7 @@
     <!-- First launch layout strings-->
     <string name="first_launch_button_start_text">ROZPOCZNIJ</string>
     <string name="first_launch_button_continue_text">KONTYNUUJ</string>
-    <string name="first_launch_language_header">Wybierz wersję językową:</string>
+    <string name="first_launch_language_version_header">Wybierz wersję językową:</string>
     <string name="language_version_english">Język angielski</string>
     <string name="language_version_polish">Język polski</string>
     <string name="first_launch_units_header">Wybierz system jednostek:</string>

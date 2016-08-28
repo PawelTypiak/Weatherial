@@ -47,8 +47,6 @@
                 android:textSize="@dimen/first_launch_configuration_text_size"
                 android:textColor="@color/textPrimaryDarkBackground"
                 android:id="@+id/first_launch_location_fragment_different_location_radio_button"/>
-
-
         </RadioGroup>
     </LinearLayout>
 </RelativeLayout>

@@ -15,7 +15,8 @@ import paweltypiak.matweather.R;
 import paweltypiak.matweather.usefulClasses.SharedPreferencesModifier;
 import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
-public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaunchLoadingFragment.ChooseLocationAgainListener{
+public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaunchLoadingFragment.SelectLocationAgainListener {
+
     private CardView nextCardViewButton;
     private AlertDialog exitDialog;
     private FragmentTransaction fragmentTransaction;
@@ -33,6 +34,7 @@ public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaun
     }
 
     private void setLanguageVersion(){
+        //set saved language version
         int languageVersion=SharedPreferencesModifier.getLanguageVersion(this);
         if(languageVersion!=-1) UsefulFunctions.setLocale(this,languageVersion);
     }
@@ -77,6 +79,7 @@ public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaun
     }
 
     private void initializeFirstLaunch(){
+        //first launch of application
         Log.d("launch", "first launch");
         initializeStartFragment();
         initializeDialogs();
@@ -84,6 +87,7 @@ public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaun
     }
 
     private void initializeNextLaunch(){
+        //every next launch of application
         Log.d("launch", "next launch");
         setLanguageVersion();
         initializeConfigurationFragment(isFirstLaunch);
@@ -93,10 +97,12 @@ public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaun
     private void setStartButton(){
         nextCardViewButton = (CardView) findViewById(R.id.first_launch_button_cardView);
         if(isFirstLaunch ==true){
+            //next button usable when first launch
             setButtonIcon();
             setStartButtonOnClickListener(nextCardViewButton);
         }
         else{
+            //next button invisible when next launch
             UsefulFunctions.setViewInvisible(nextCardViewButton);
         }
     }
@@ -138,9 +144,10 @@ public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaun
 
     @Override
     public void onBackPressed() {
+        //exit dialog availiblity depending on the current step
         if(isFirstLaunch ==true){
             if(step>3){
-                int locationOption=configurationFragment.getChoosenDefeaultLocationOption();
+                int locationOption=configurationFragment.getSelectedDefeaultLocationOption();
                 if(locationOption==1&&step==4) exitDialog.show();
             }
             else exitDialog.show();

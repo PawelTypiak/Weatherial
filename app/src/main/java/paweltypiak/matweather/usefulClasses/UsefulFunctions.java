@@ -2,7 +2,6 @@ package paweltypiak.matweather.usefulClasses;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Application;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -11,12 +10,9 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -38,16 +34,13 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.squareup.picasso.Transformation;
-
 import java.util.Locale;
-
 import paweltypiak.matweather.MainActivity;
 import paweltypiak.matweather.R;
-import paweltypiak.matweather.jsonHandling.Channel;
-import paweltypiak.matweather.settings.Settings;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDataSetter;
 
 public class UsefulFunctions {
+    //information about first weather downloading, after application launch
     private static boolean isFirstWeatherDownloading;
 
     public static boolean getIsFirstWeatherDownloading() {
@@ -57,24 +50,13 @@ public class UsefulFunctions {
     public static void setIsFirstWeatherDownloading(boolean bool) {
         isFirstWeatherDownloading = bool;
     }
-    private static Channel currentChannel;
-
-    public static Channel getCurrentChannel() {
-
-        Log.d("current_channel", "getCurrentChannel: "+currentChannel.getLink());
-        return currentChannel;
-    }
-
-    public static void setCurrentChannel(Channel currentChannel) {
-        Log.d("current_channel", "setCurrentChannel: "+currentChannel.getLink());
-        UsefulFunctions.currentChannel = currentChannel;
-    }
 
     public static void setfloatingActionButtonOnClickIndicator(Activity activity, int  fabIndicator) {
+        //floating button layout for adding or editing favourite location
         FloatingActionButton floatingActionButton=(FloatingActionButton)activity.findViewById(R.id.main_fab);
         MainActivity.setFloatingActionButtonOnClickIndicator(fabIndicator);
-        if(fabIndicator==0) floatingActionButton.setImageResource(R.drawable.add_black_icon);
-        else if (fabIndicator==1) floatingActionButton.setImageResource(R.drawable.edit_black_icon);
+        if(fabIndicator==0) floatingActionButton.setImageResource(R.drawable.fab_favourites_icon);
+        else if (fabIndicator==1) floatingActionButton.setImageResource(R.drawable.fab_edit_icon);
     }
 
     public static String[] getCurrentLocationAddress(){
@@ -92,6 +74,7 @@ public class UsefulFunctions {
     }
 
     public static String[] getAppBarStrings(Activity activity){
+        //get location name from AppBar
         String[] location=new String[2];
         TextView primaryLocationTextView=(TextView)activity.findViewById(R.id.app_bar_primary_location_name_text);
         TextView secondaryLocationTextView=(TextView)activity.findViewById(R.id.app_bar_secondary_location_name_text);
@@ -101,6 +84,7 @@ public class UsefulFunctions {
     }
 
     public static void setAppBarStrings(Activity activity, String primaryText, String secondaryText){
+        //set custom location name in AppBar
         TextView primaryLocationTextView=(TextView)activity.findViewById(R.id.app_bar_primary_location_name_text);
         TextView secondaryLocationTextView=(TextView)activity.findViewById(R.id.app_bar_secondary_location_name_text);
         primaryLocationTextView.setText(primaryText);
@@ -151,6 +135,7 @@ public class UsefulFunctions {
     }
 
     public static StringBuilder buildStringFromStringArray(String[] stringArray){
+        //build string from array of strings  for SharedPreferences
         int numberOfLocations=stringArray.length;
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < numberOfLocations; i++) {
@@ -160,6 +145,7 @@ public class UsefulFunctions {
     }
 
     public static String getFormattedString(String string){
+        //cut empty characters before and after string and set upper case
         if(string.length()!=0){
             string=getStringWithUpperCase(string);
             string=getStringWithoutLastSpace(string);
@@ -191,6 +177,7 @@ public class UsefulFunctions {
     }
 
     public static void customizeEditText(final Activity activity,final AlertDialog dialog, final EditText editText){
+        //custom edit text in dialogs with string validation and edition
         final String hint=editText.getHint().toString();
         if(editText.getText().length()!=0) {
             editText.getBackground().setColorFilter(activity.getResources().getColor(R.color.transparent), PorterDuff.Mode.SRC_ATOP);
@@ -255,6 +242,7 @@ public class UsefulFunctions {
     }
 
     public static void uncheckAllNavigationDrawerMenuItems(Activity activity){
+        //uncheck all items in navigation drawer
         NavigationView navigationView = (NavigationView)activity. findViewById(R.id.nav_view);
         MenuItem geolocalizationItem=navigationView.getMenu().findItem(R.id.nav_button_geolocalization);;
         MenuItem favouritesItem=navigationView.getMenu().findItem(R.id.nav_button_favourites);
@@ -265,6 +253,7 @@ public class UsefulFunctions {
     }
 
     public static void uncheckNavigationDrawerMenuItem(Activity activity, int itemId){
+        //uncheck one item in navigation drawer
         NavigationView navigationView = (NavigationView)activity. findViewById(R.id.nav_view);
         MenuItem geolocalizationItem=navigationView.getMenu().findItem(R.id.nav_button_geolocalization);;
         MenuItem favouritesItem=navigationView.getMenu().findItem(R.id.nav_button_favourites);
@@ -277,6 +266,7 @@ public class UsefulFunctions {
     }
 
     public static void checkNavigationDrawerMenuItem(Activity activity, int itemId){
+        //check one item in navigation drawer
         NavigationView navigationView = (NavigationView)activity. findViewById(R.id.nav_view);
         MenuItem geolocalizationItem=navigationView.getMenu().findItem(R.id.nav_button_geolocalization);;
         MenuItem favouritesItem=navigationView.getMenu().findItem(R.id.nav_button_favourites);
@@ -301,7 +291,7 @@ public class UsefulFunctions {
 
     }
     public static void hideKeyboard(final Activity activity, final EditText editText) {
-        if(editText==null)activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        if(editText==null)activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         else{
             InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
@@ -311,14 +301,17 @@ public class UsefulFunctions {
     public static void setViewVisible(View view){
         view.setVisibility(View.VISIBLE);
     }
+
     public static void setViewInvisible(View view){
         view.setVisibility(View.INVISIBLE);
     }
+
     public static void setViewGone(View view){
         view.setVisibility(View.GONE);
     }
 
     public static void hideWeatherSublayouts(Activity activity){
+        //hide weather layout when refreshing
         LinearLayout currentLayout=(LinearLayout)activity.findViewById(R.id.current_layout);
         LinearLayout detailsLayout=(LinearLayout)activity.findViewById(R.id.details_layout);
         LinearLayout forecastLayout=(LinearLayout)activity.findViewById(R.id.forecast_layout);
@@ -332,6 +325,7 @@ public class UsefulFunctions {
     }
 
     public static void showWeatherSublayouts(Activity activity){
+        //show weather layout after refreshing
         LinearLayout currentLayout=(LinearLayout)activity.findViewById(R.id.current_layout);
         LinearLayout detailsLayout=(LinearLayout)activity.findViewById(R.id.details_layout);
         LinearLayout forecastLayout=(LinearLayout)activity.findViewById(R.id.forecast_layout);
@@ -344,7 +338,7 @@ public class UsefulFunctions {
         setViewVisible(detailsForecastDivider);
     }
 
-    public static double getPullOpacity(double screenPercentage,float movedDistance, Context context, boolean isVertical){
+    public static double getPullTransparency(double screenPercentage, float movedDistance, Context context, boolean isVertical){
         int screenWidth=getScreenResolution(context)[0];
         int screenHeight=getScreenResolution(context)[1];
         double alpha;
@@ -357,6 +351,7 @@ public class UsefulFunctions {
     }
 
     public static Thread initializeUiThread(final Activity activity, final Runnable runnable) {
+        //initialize new thead for updating UI every second
         Thread uiThread = new Thread() {
             @Override
             public void run() {
@@ -428,11 +423,13 @@ public class UsefulFunctions {
     }
 
     public static void setDialogButtonDisabled(AlertDialog alertDialog, Context context){
+        //disable alert dialog positive button
         alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
         alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(context.getResources().getColor(R.color.colorPrimary));
     }
 
     public static void setDialogButtonEnabled(AlertDialog alertDialog, Context context){
+        //enable alert dialog positive button
         alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
         alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(context.getResources().getColor(R.color.colorPrimary));
     }
@@ -464,7 +461,7 @@ public class UsefulFunctions {
     }
 
     public class setDrawableColor implements Transformation {
-
+        //change drawable color in Picasso
         private int color = 0;
 
         public setDrawableColor(int color ) {
@@ -497,6 +494,7 @@ public class UsefulFunctions {
     }
 
     public class SmoothActionBarDrawerToggle extends ActionBarDrawerToggle {
+        //smooth drawer toggle - action is called after drawer is hide
         private Runnable runnable;
         private Runnable invalidateOptionsMenuRunnable;
 
@@ -527,9 +525,5 @@ public class UsefulFunctions {
         public void runWhenIdle(Runnable runnable) {
             this.runnable = runnable;
         }
-    }
-
-    public interface RefreshFragmentListener{
-        void refreshFragment();
     }
 }

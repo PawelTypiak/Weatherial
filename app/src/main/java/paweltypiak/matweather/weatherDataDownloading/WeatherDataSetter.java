@@ -19,6 +19,7 @@ import paweltypiak.matweather.usefulClasses.SharedPreferencesModifier;
 import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
 public class WeatherDataSetter {
+
     private String chill;
     private String direction;
     private String directionName;
@@ -129,6 +130,7 @@ public class WeatherDataSetter {
     }
 
     private void startUiThread(){
+        //start threat for updating UI
         if(UsefulFunctions.getIsFirstWeatherDownloading()==true){
             uiThread=initializeUiThread(activity,timeUpdateRunnable);
             uiThread.start();
@@ -142,6 +144,7 @@ public class WeatherDataSetter {
 
     Runnable timeUpdateRunnable = new Runnable() {
         public void run() {
+            //update UI
             if (startTimeThread == true) {
                 Calendar calendar = Calendar.getInstance();
                 calendar.add(Calendar.HOUR,getCurrentDataFormatter().getHourDifference());
@@ -152,17 +155,20 @@ public class WeatherDataSetter {
     };
 
     private void setCurrentTime(Calendar calendar){
+        //update timeTextView text every second
         String outputFormat;
         if(units[4]==0) outputFormat="H:mm:ss";
         else outputFormat="h:mm:ss a";
         timeTextView.setText(DateFormat.format(outputFormat, calendar));
     }
     private void changeTimeOfDay(){
+        //change time of  day if sunrise or sunset
         isDay=!isDay;
         setTheme();
         setWeatherLayout();
     }
     private void updateLayout(Calendar calendar){
+        //update sun position every minute
         String outputMinutesFormat="H:mm";
         String outputMinutesString=DateFormat.format(outputMinutesFormat, calendar).toString();
         String[] sunPositionStrings=currentDataFormatter.countSunPosition(outputMinutesString);
@@ -192,6 +198,7 @@ public class WeatherDataSetter {
     }
 
     private void setTheme(){
+        //set theme for time of day - light for day, dark for night
         if(isDay==true) {
             backgroundColor=activity.getResources().getColor(R.color.backgroundLight);
             textPrimaryColor=activity.getResources().getColor(R.color.textPrimaryLightBackground);
@@ -215,7 +222,6 @@ public class WeatherDataSetter {
         if(FavouritesEditor.isAddressEqual(activity)){
             FavouritesEditor.setLayoutForFavourites(activity);
             Log.d("data setter", "location in favourites");
-
         }
         else{
             UsefulFunctions.setAppBarStrings(activity,city,region+", "+country);
@@ -263,6 +269,7 @@ public class WeatherDataSetter {
     }
 
     private void setSunPathLayout(){
+        //set layout for sun path
         ViewTreeObserver treeObserver = sunPathLayout.getViewTreeObserver();
         treeObserver.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             public boolean onPreDraw() {
@@ -290,6 +297,7 @@ public class WeatherDataSetter {
     }
 
     private void setSunTranslation(){
+        //translate sun on sun line
         int imageTranslation = (int)((currentDiffMinutes *(layoutWidth-(layoutHeight * objectScale))/sunsetSunriseDiffMinutes));
         sunPathObjectImageView.setTranslationX(imageTranslation);
     }
@@ -321,8 +329,8 @@ public class WeatherDataSetter {
         pressureTextView.setTextColor(textPrimaryColor);
         visibilityTextView.setText(visibility);
         visibilityTextView.setTextColor(textPrimaryColor);
-        Picasso.with(activity.getApplicationContext()).load(R.drawable.direction_icon).transform(new UsefulFunctions().new setDrawableColor(iconColor)).rotate(Float.parseFloat(direction)).fit().centerInside().into(directionImageView);
-        Picasso.with(activity.getApplicationContext()).load(R.drawable.north_letter_icon).fit().centerInside().into(directionNorthImageView);
+        Picasso.with(activity.getApplicationContext()).load(R.drawable.direction_icon).transform(new UsefulFunctions().new setDrawableColor(backgroundColor)).rotate(Float.parseFloat(direction)).fit().centerInside().into(directionImageView);
+        Picasso.with(activity.getApplicationContext()).load(R.drawable.north_letter_icon).fit().transform(new UsefulFunctions().new setDrawableColor(iconColor)).centerInside().into(directionNorthImageView);
         Picasso.with(activity.getApplicationContext()).load(R.drawable.speed_icon).fit().transform(new UsefulFunctions().new setDrawableColor(iconColor)).centerInside().into(speedImageView);
         Picasso.with(activity.getApplicationContext()).load(R.drawable.humidity_icon).fit().transform(new UsefulFunctions().new setDrawableColor(iconColor)).centerInside().into(humidityImageView);
         Picasso.with(activity.getApplicationContext()).load(R.drawable.pressure_icon).fit().transform(new UsefulFunctions().new setDrawableColor(iconColor)).centerInside().into(pressureImageView);
@@ -380,33 +388,33 @@ public class WeatherDataSetter {
         isDay=currentDataFormatter.getDay();
         currentDiffMinutes=currentDataFormatter.getCurrentDiffMinutes();
         sunsetSunriseDiffMinutes=currentDataFormatter.getSunsetSunriseDiffMinutes();
-        Log.d("formatted data", "link: "+link);
-        Log.d("formatted data", "city: "+city);
-        Log.d("formatted data", "region: "+region);
-        Log.d("formatted data", "country: "+country);
-        Log.d("formatted data", "latitude: "+latitude);
-        Log.d("formatted data", "longitude: "+longitude);
-        Log.d("formatted data", "chill: "+chill);
-        Log.d("formatted data", "direction: "+direction);
-        Log.d("formatted data", "speed: "+speed);
-        Log.d("formatted data", "humidity: "+humidity);
-        Log.d("formatted data", "pressure: "+pressure);
-        Log.d("formatted data", "visibility: "+visibility);
-        Log.d("formatted data", "sunrise: "+sunrise);
-        Log.d("formatted data", "sunset: "+sunset);
-        Log.d("formatted data", "code: "+code);
-        Log.d("formatted data", "temperature: "+temperature);
+        Log.d("formatted_data", "link: "+link);
+        Log.d("formatted_data", "city: "+city);
+        Log.d("formatted_data", "region: "+region);
+        Log.d("formatted_data", "country: "+country);
+        Log.d("formatted_data", "latitude: "+latitude);
+        Log.d("formatted_data", "longitude: "+longitude);
+        Log.d("formatted_data", "chill: "+chill);
+        Log.d("formatted_data", "direction: "+direction);
+        Log.d("formatted_data", "speed: "+speed);
+        Log.d("formatted_data", "humidity: "+humidity);
+        Log.d("formatted_data", "pressure: "+pressure);
+        Log.d("formatted_data", "visibility: "+visibility);
+        Log.d("formatted_data", "sunrise: "+sunrise);
+        Log.d("formatted_data", "sunset: "+sunset);
+        Log.d("formatted_data", "code: "+code);
+        Log.d("formatted_data", "temperature: "+temperature);
         for(int i=0;i<5;i++){
-            Log.d("formatted data", "day "+i+":");
-            Log.d("formatted data", "forecastCode: "+forecastCode[i]);
-            Log.d("formatted data", "forecastCode: "+forecastHighTemperature[i]);
-            Log.d("formatted data", "forecastCode: "+forecastLowTemperature[i]);
+            Log.d("formatted_data", "day "+i+":");
+            Log.d("formatted_data", "forecastCode: "+forecastCode[i]);
+            Log.d("formatted_data", "forecastCode: "+forecastHighTemperature[i]);
+            Log.d("formatted_data", "forecastCode: "+forecastLowTemperature[i]);
         }
-        Log.d("formatted data", "directionName: "+directionName);
-        Log.d("formatted data", "timezone: "+timezone);
-        Log.d("formatted data", "isDay: "+isDay);
-        Log.d("formatted data", "currentDiffMinutes: "+currentDiffMinutes);
-        Log.d("formatted data", "sunsetSunriseDiffMinutes: "+sunsetSunriseDiffMinutes);
+        Log.d("formatted_data", "directionName: "+directionName);
+        Log.d("formatted_data", "timezone: "+timezone);
+        Log.d("formatted_data", "isDay: "+isDay);
+        Log.d("formatted_data", "currentDiffMinutes: "+currentDiffMinutes);
+        Log.d("formatted_data", "sunsetSunriseDiffMinutes: "+sunsetSunriseDiffMinutes);
     }
 
     private void getAppBarResources(){
@@ -474,9 +482,12 @@ public class WeatherDataSetter {
             forecastLowTemperatureImageView[i]=(ImageView)activity.findViewById(activity.getResources().getIdentifier("forecast_day"+(i+1)+"_low_temperature_image","id", activity.getPackageName()));
         }
     }
+
     public static WeatherDataFormatter getCurrentDataFormatter() {return currentDataFormatter;}
+
     public static void setStartTimeThread(boolean startTimeThread) {
         WeatherDataSetter.startTimeThread = startTimeThread;}
+
     public static WeatherDataInitializer getCurrentWeatherDataInitializer() {
         return currentWeatherDataInitializer;
     }

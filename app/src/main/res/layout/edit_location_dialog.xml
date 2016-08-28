@@ -33,7 +33,6 @@
             android:layout_marginTop="-5dp"
             android:hint="@string/edit_location_dialog_subheader_edit_text_hint"
             android:textColorHint="@color/textDisabledLightBackground"
-
             android:textColor="@color/textSecondaryLightBackground"
             android:id="@+id/edit_location_dialog_subheader_edittext"
             />

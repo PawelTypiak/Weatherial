@@ -11,12 +11,13 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
 public abstract class CustomDialogPreference extends DialogPreference{
+    //dialog preference with custom layout
     private String dialogTitle;
+
     public CustomDialogPreference(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
         setPositiveButtonText(getContext().getString(R.string.preferences_dialog_positive_button));
@@ -67,6 +68,8 @@ public abstract class CustomDialogPreference extends DialogPreference{
         }
     }
     protected abstract void buildRadioGroup(RadioGroup radioGroup);
+
     protected abstract void onPositiveResult();
+
     protected abstract void setPreferenceSummary();
 }

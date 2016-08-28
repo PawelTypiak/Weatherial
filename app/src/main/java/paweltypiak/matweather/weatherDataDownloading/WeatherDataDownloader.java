@@ -13,6 +13,7 @@ import java.net.URLConnection;
 import paweltypiak.matweather.jsonHandling.Channel;
 
 public class WeatherDataDownloader {
+
     private WeatherDownloadCallback callback;
     private  Exception error;
     public WeatherDataDownloader(String location, WeatherDownloadCallback callback){
@@ -24,9 +25,10 @@ public class WeatherDataDownloader {
         new AsyncTask<String, Void, String>(){
             @Override
             protected String doInBackground(String ... strings){
+                //get weather information for location
                 String YQL = String.format("select * from weather.forecast where woeid in (select woeid from geo.places(1) where text=\"%s\") and u='f'",strings[0]);
                 String endpoint = String.format("https://query.yahooapis.com/v1/public/yql?q=%s&format=json", Uri.encode(YQL));
-                Log.d("weather donwloading", "endpoint: "+endpoint);
+                Log.d("weather_downloading", "endpoint: "+endpoint);
                 try {
                     URL url = new URL(endpoint);
                     URLConnection connection=url.openConnection();
@@ -37,7 +39,7 @@ public class WeatherDataDownloader {
                     while((line=reader.readLine())!=null){
                         result.append(line);
                     }
-                    Log.d("weather donwloading", "result: "+result.toString());
+                    Log.d("weather_downloading", "result: "+result.toString());
                     return result.toString();
                 }catch(Exception e) {
                     error =e;
@@ -47,9 +49,9 @@ public class WeatherDataDownloader {
             @Override
             protected  void onPostExecute(String s){
                 if(s==null && error!=null){
-                    Log.d("weather donwloading", "service failure");
-                    Log.d("weather donwloading", "error: internet");
-                    callback.weatherServiceFailure(1);
+                    Log.d("weather_downloading", "service failure");
+                    Log.d("weather_downloading", "error: internet");
+                    callback.weatherServiceFailure(0);
                     return;
                 }
                 try{
@@ -57,14 +59,14 @@ public class WeatherDataDownloader {
                     JSONObject queryResluts=data.getJSONObject("query");
                     int count =queryResluts.optInt("count");
                     if (count == 0) {
-                        callback.weatherServiceFailure(2);
-                        Log.d("weather donwloading", "service failure");
-                        Log.d("weather donwloading", "error: service");
+                        callback.weatherServiceFailure(1);
+                        Log.d("weather_downloading", "service failure");
+                        Log.d("weather_downloading", "error: service");
                         return;
                     }
                     Channel channel = new Channel();
                     channel.populate(queryResluts.optJSONObject("results").optJSONObject("channel"));
-                    Log.d("weather donwloading", "service success");
+                    Log.d("weather_downloading", "service success");
                     callback.weatherServiceSuccess(channel);
                 } catch (JSONException e) {
                     e.printStackTrace();

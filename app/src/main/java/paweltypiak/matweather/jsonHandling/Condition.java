@@ -3,6 +3,7 @@ package paweltypiak.matweather.jsonHandling;
 import org.json.JSONObject;
 
 public class Condition implements JSONPopulator {
+
     private int code;
     private String temperature;
     private String description;
@@ -10,9 +11,11 @@ public class Condition implements JSONPopulator {
     public int getCode() {
         return code;
     }
+
     public String getTemperature() {
         return temperature;
     }
+
     public String getDescription() {
         return description;
     }
