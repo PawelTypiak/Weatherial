@@ -15,12 +15,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
             android:visibility="invisible"
             android:textSize="@dimen/first_launch_configuration_title_text_size"
             android:text="@string/first_launch_units_header"
             android:textStyle="bold"
             android:gravity="center"
+            android:layout_marginBottom="5dp"
             android:textColor="@color/textPrimaryDarkBackground"
             android:id="@+id/first_launch_units_fragment_header_text"
             />
@@ -37,17 +37,14 @@
                 android:id="@+id/first_launch_units_fragment_image_and_spinner_layout_0">
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="52dp"
                     android:adjustViewBounds="true"
-                    android:paddingRight="@dimen/first_launch_units_image_padding"
-                    android:paddingLeft="@dimen/first_launch_units_image_padding"
                     android:background="?selectableItemBackgroundBorderless"
                     android:id="@+id/first_launch_units_fragment_spinner_image_0"
                     />
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
                     android:id="@+id/first_launch_units_fragment_spinner_layout_0"
                     >
                     <view
@@ -76,17 +73,14 @@
                 android:id="@+id/first_launch_units_fragment_image_and_spinner_layout_1">
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="52dp"
                     android:adjustViewBounds="true"
-                    android:paddingRight="@dimen/first_launch_units_image_padding"
-                    android:paddingLeft="@dimen/first_launch_units_image_padding"
                     android:background="?selectableItemBackgroundBorderless"
                     android:id="@+id/first_launch_units_fragment_spinner_image_1"
                     />
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
                     android:id="@+id/first_launch_units_fragment_spinner_layout_1"
                     >
                     <view
@@ -115,17 +109,14 @@
                 android:id="@+id/first_launch_units_fragment_image_and_spinner_layout_2">
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="52dp"
                     android:adjustViewBounds="true"
-                    android:paddingRight="@dimen/first_launch_units_image_padding"
-                    android:paddingLeft="@dimen/first_launch_units_image_padding"
                     android:background="?selectableItemBackgroundBorderless"
                     android:id="@+id/first_launch_units_fragment_spinner_image_2"
                     />
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
                     android:id="@+id/first_launch_units_fragment_spinner_layout_2"
                     >
                     <view
@@ -154,17 +145,14 @@
                 android:id="@+id/first_launch_units_fragment_image_and_spinner_layout_3">
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="52dp"
                     android:adjustViewBounds="true"
-                    android:paddingRight="@dimen/first_launch_units_image_padding"
-                    android:paddingLeft="@dimen/first_launch_units_image_padding"
                     android:background="?selectableItemBackgroundBorderless"
                     android:id="@+id/first_launch_units_fragment_spinner_image_3"
                     />
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
                     android:id="@+id/first_launch_units_fragment_spinner_layout_3"
                     >
                     <view
@@ -193,17 +181,14 @@
                 android:id="@+id/first_launch_units_fragment_image_and_spinner_layout_4">
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="52dp"
                     android:adjustViewBounds="true"
-                    android:paddingRight="@dimen/first_launch_units_image_padding"
-                    android:paddingLeft="@dimen/first_launch_units_image_padding"
                     android:background="?selectableItemBackgroundBorderless"
                     android:id="@+id/first_launch_units_fragment_spinner_image_4"
                     />
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
                     android:id="@+id/first_launch_units_fragment_spinner_layout_4"
                     >
                     <view

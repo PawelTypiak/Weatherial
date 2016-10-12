@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.preference.DialogPreference;
+import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -30,9 +31,9 @@ public abstract class CustomDialogPreference extends DialogPreference{
 
     protected RadioButton setRadioButtonLayout(String radioButtonText,int radioButtonId,int bottomMargin){
         RadioButton radioButton=new RadioButton(getContext());
-        radioButton.setText(Html.fromHtml(radioButtonText));
+        radioButton.setText(UsefulFunctions.fromHtml(radioButtonText));
         radioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX,getContext().getResources().getDimensionPixelSize(R.dimen.dialog_text_size));
-        radioButton.setTextColor(getContext().getResources().getColor(R.color.textSecondaryLightBackground));
+        radioButton.setTextColor(ContextCompat.getColor(getContext(),R.color.textSecondaryLightBackground));
         radioButton.setId(radioButtonId);
         UsefulFunctions.setRadioButtonMargins(radioButton,(Activity)getContext(),0,0,0,bottomMargin);
         return radioButton;
@@ -56,8 +57,8 @@ public abstract class CustomDialogPreference extends DialogPreference{
     protected void showDialog(Bundle state) {
         super.showDialog(state);
         AlertDialog dialog=(AlertDialog)getDialog();
-        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getContext().getResources().getColor(R.color.colorPrimary));
-        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getContext().getResources().getColor(R.color.colorPrimary));
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(getContext(),R.color.colorPrimary));
+        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(getContext(),R.color.colorPrimary));
     }
 
     @Override

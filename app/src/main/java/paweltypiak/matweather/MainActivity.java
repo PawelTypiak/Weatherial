@@ -1,11 +1,15 @@
 package paweltypiak.matweather;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -78,6 +82,7 @@ public class MainActivity extends AppCompatActivity
     private int downloadMode;
     private String yahooWeatherLink;
     private UsefulFunctions.SmoothActionBarDrawerToggle navigationDrawerToggle;
+    private static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -195,12 +200,39 @@ public class MainActivity extends AppCompatActivity
        new WeatherDataDownloader(location,this);
     }
 
+    private void checkGeolocalizationPermissions(){
+        //permissions for Android 6.0
+        if ( ContextCompat.checkSelfPermission( this, Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED )
+        {
+            ActivityCompat.requestPermissions(this, new String[] {  android.Manifest.permission.ACCESS_FINE_LOCATION  },
+                    MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+        else {
+            startGeolocalization();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    startGeolocalization();
+                    Log.d("permissions", "granted");
+                } else {
+                    permissionDeniedDialog.show();
+                    Log.d("permissions", "denied");
+                }
+                return;
+            }
+        }
+    }
+
     private void startGeolocalization(){
         downloadMode=0;
         geolocalizationProgressDialog.show();
         if(geolocalizationProgressMessageTextView==null)geolocalizationProgressMessageTextView=(TextView)geolocalizationProgressDialog.findViewById(R.id.progress_dialog_message_text);
-        permissionDeniedDialog=dialogInitializer.initializePermissionDeniedDialog(1,startGeolocalizationRunnable,null);
-        coordinatesDownloadFailureDialog =dialogInitializer.initializeGeolocalizationFailureDialog(1,startGeolocalizationRunnable,null);
         int geolocalizationMethod=SharedPreferencesModifier.getGeolocalizationMethod(this);
         currentCoordinatesDownloader =new CurrentCoordinatesDownloader(
                 this,
@@ -223,7 +255,7 @@ public class MainActivity extends AppCompatActivity
     };
 
     Runnable startGeolocalizationRunnable = new Runnable() {
-        public void run() {startGeolocalization();}
+        public void run() {checkGeolocalizationPermissions();}
     };
 
     Runnable refreshWeatherRunnable = new Runnable() {
@@ -255,6 +287,8 @@ public class MainActivity extends AppCompatActivity
         weatherRefreshInternetFailureDialog=dialogInitializer.initializeInternetFailureDialog(1,refreshWeatherRunnable,null);
         weatherServiceFailureDialog =dialogInitializer.initializeServiceFailureDialog(1,refreshWeatherRunnable,null);
         geocodingServiceFailureDialog=dialogInitializer.initializeServiceFailureDialog(1,startGeolocalizationRunnable,null);
+        permissionDeniedDialog=dialogInitializer.initializePermissionDeniedDialog(1,startGeolocalizationRunnable,null);
+        coordinatesDownloadFailureDialog =dialogInitializer.initializeGeolocalizationFailureDialog(1,startGeolocalizationRunnable,null);
     }
 
     private void setButtonsClickable(){
@@ -448,7 +482,7 @@ public class MainActivity extends AppCompatActivity
                         geolocalizationMethodsDialog.show();
                     }
                     else{
-                        startGeolocalization();
+                        checkGeolocalizationPermissions();
                     }
                 }
                 else if(id==R.id.nav_button_favourites){

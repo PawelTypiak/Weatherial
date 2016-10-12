@@ -10,6 +10,7 @@ import java.util.List;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.usefulClasses.FavouritesEditor;
 import paweltypiak.matweather.usefulClasses.SharedPreferencesModifier;
+import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
 public class DefeaultLocationDialogPreference extends CustomDialogPreference {
 
@@ -64,7 +65,7 @@ public class DefeaultLocationDialogPreference extends CustomDialogPreference {
         else {
             defeaultLocationAddress=FavouritesEditor.getSelectedFavouriteLocationAddress(getContext());
             SharedPreferencesModifier.setDefeaultLocationConstant(getContext(),defeaultLocationAddress);
-            setSummary(Html.fromHtml(FavouritesEditor.getSelectedFavouriteLocationEditedName()));
+            setSummary(UsefulFunctions.fromHtml(FavouritesEditor.getSelectedFavouriteLocationEditedName()));
         }
         Log.d("changed_preference",getTitle()+ " preference changed to: "+getSummary());
     }
@@ -72,7 +73,7 @@ public class DefeaultLocationDialogPreference extends CustomDialogPreference {
     protected void setPreferenceSummary(){
         if(SharedPreferencesModifier.isDefeaultLocationConstant(getContext())){
             String defeaultLocationEditedName=FavouritesEditor.getDefeaultLocationEditedName(getContext());
-            setSummary(Html.fromHtml(defeaultLocationEditedName));
+            setSummary(UsefulFunctions.fromHtml(defeaultLocationEditedName));
         }
         else{
             setSummary(getContext().getString(R.string.favourites_dialog_geolocalization_option));

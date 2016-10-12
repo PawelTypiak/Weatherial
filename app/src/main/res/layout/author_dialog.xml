@@ -18,7 +18,6 @@
             <ImageView
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:padding="10dp"
                 android:layout_gravity="center"
                 android:background="@drawable/circle_shape"
                 android:id="@+id/author_dialog_mail_image"/>
@@ -59,7 +58,6 @@
             <ImageView
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:padding="10dp"
                 android:layout_gravity="center"
                 android:background="@drawable/circle_shape"
                 android:id="@+id/author_dialog_github_image"/>

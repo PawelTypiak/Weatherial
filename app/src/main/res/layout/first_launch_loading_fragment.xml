@@ -20,6 +20,7 @@
             android:layout_gravity="center"
             android:textColor="@color/textPrimaryDarkBackground"
             android:textSize="@dimen/first_launch_configuration_text_size"
+            android:visibility="invisible"
             android:id="@+id/first_launch_loading_fragment_message"
             />
         <ProgressBar
@@ -27,6 +28,7 @@
             style="?android:attr/progressBarStyle"
             android:layout_height="64dp"
             android:layout_width="64dp"
+            android:visibility="invisible"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:theme="@style/AppTheme.White"

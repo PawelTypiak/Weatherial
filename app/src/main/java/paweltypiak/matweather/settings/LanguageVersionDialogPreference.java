@@ -72,6 +72,7 @@ public class LanguageVersionDialogPreference extends CustomDialogPreference{
 
     protected void setPreferenceSummary(){
         int languageVersion=SharedPreferencesModifier.getLanguageVersion(getContext());
+        Log.d("language_ver", ""+languageVersion);
         if(languageVersion==0){
             setSummary(getContext().getString(R.string.language_version_english));
         }

@@ -1,17 +1,13 @@
 package paweltypiak.matweather.localizationDataDownloading;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -19,15 +15,13 @@ import paweltypiak.matweather.usefulClasses.DialogInitializer;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
-public class CurrentCoordinatesDownloader implements  ActivityCompat.OnRequestPermissionsResultCallback{
+public class CurrentCoordinatesDownloader {
 
     private LocationManager locationManager;
     private Activity activity;
     private ProgressBar loadingBar;
     private TextView messageTextView;
     private Location location;
-    private static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION=1;
-    private boolean isPermissionGranted;
     private AlertDialog geolocalizationFailureDialog;
     private AlertDialog permissionDeniedDialog;
     private AlertDialog providerUnavailableDialog;
@@ -53,34 +47,7 @@ public class CurrentCoordinatesDownloader implements  ActivityCompat.OnRequestPe
         this.messageTextView=messageTextView;
         this.loadingBar=loadingBar;
         this.geolocalizationMethod =geolocalizationMethod;
-        isPermissionGranted=checkPermissions();
-        if(isPermissionGranted==true) getCurrentLocation();
-        else ActivityCompat.requestPermissions( activity, new String[] {  android.Manifest.permission.ACCESS_FINE_LOCATION  },
-                MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
-    }
-
-    private boolean checkPermissions(){
-        //permissions for Android 6.0
-        if ( ContextCompat.checkSelfPermission( activity, Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED )
-           return false;
-        else return true;
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    getCurrentLocation();
-                    Log.d("permissions", "granted");
-                } else {
-                    showErrorDialog(permissionDeniedDialog);
-                    Log.d("permissions", "denied");
-                }
-                return;
-            }
-        }
+        getCurrentLocation();
     }
 
     private void getCurrentLocation(){

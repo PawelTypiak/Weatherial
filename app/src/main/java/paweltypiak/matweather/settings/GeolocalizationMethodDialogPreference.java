@@ -14,7 +14,7 @@ public class GeolocalizationMethodDialogPreference extends CustomDialogPreferenc
 
     public GeolocalizationMethodDialogPreference(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
-        setDialogTitle(getContext().getString(R.string.preferences_language_version_title));
+        setDialogTitle(getContext().getString(R.string.preferences_geolocalization_method_title));
         setPreferenceSummary();
     }
 

@@ -1099,7 +1099,7 @@ public class DialogInitializer  {
         aboutDesctiptionPart3.setLinkTextColor( ContextCompat.getColor(activity,R.color.textSecondaryLightBackground));
         aboutDesctiptionPart4.setLinkTextColor( ContextCompat.getColor(activity,R.color.textSecondaryLightBackground));
         ImageView iconImageView=(ImageView)dialogView.findViewById(R.id.about_dialog_app_icon_image);
-        Picasso.with(activity.getApplicationContext()).load(R.drawable.app_icon_small).fit().centerInside().into(iconImageView);
+        Picasso.with(activity.getApplicationContext()).load(R.drawable.logo_small).fit().centerInside().into(iconImageView);
         aboutDialog = buildDialog(
                 activity,
                 dialogView,

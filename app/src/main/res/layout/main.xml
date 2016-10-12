@@ -160,13 +160,11 @@
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_weight="2"
-                        android:layout_margin="5dp"
+                        android:layout_weight="1"
                         android:id="@+id/sunrise_sunset_left_image"/>
                     <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
                         android:gravity="center"
                         android:id="@+id/sunrise_sunset_left_text"/>
                 </LinearLayout>
@@ -222,13 +220,11 @@
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_weight="2"
-                        android:layout_margin="5dp"
+                        android:layout_weight="1"
                         android:id="@+id/sunrise_sunset_right_image"/>
                     <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
                         android:gravity="center"
                         android:id="@+id/sunrise_sunset_right_text"/>
                 </LinearLayout>
@@ -249,7 +245,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:layout_margin="10dp"
                         android:orientation="vertical"
                         android:id="@+id/direction_icon_layout">
                         <ImageView
@@ -281,7 +276,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:layout_margin="10dp"
                         android:layout_gravity="center"
                         android:id="@+id/speed_image"
                         />
@@ -301,7 +295,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:layout_margin="10dp"
                         android:layout_gravity="center"
                         android:id="@+id/humidity_image"
                         />
@@ -321,7 +314,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:layout_margin="10dp"
                         android:layout_gravity="center"
                         android:id="@+id/pressure_image"
                         />
@@ -341,7 +333,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:layout_margin="10dp"
                         android:layout_gravity="center"
                         android:id="@+id/visibility_image"
                         />

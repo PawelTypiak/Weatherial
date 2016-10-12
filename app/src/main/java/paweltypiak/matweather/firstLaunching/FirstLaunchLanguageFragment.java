@@ -53,26 +53,31 @@ public class FirstLaunchLanguageFragment extends Fragment{
         int currentLocale=UsefulFunctions.getLocale(getContext());
         if(currentLocale==0) {
             languageVersionRadioGroup.check(englishRadioButton.getId());
+            setSelectedLanguage(0);
         }
         else if(currentLocale==1){
             languageVersionRadioGroup.check(polishRadioButton.getId());
+            setSelectedLanguage(1);
         }
-        UsefulFunctions.getLocale(getContext());
         languageVersionRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 if (i == R.id.first_launch_language_fragment_english_radio_button) {
                     Log.d("language", "english");
-                    SharedPreferencesModifier.setLanguage(getActivity(),0);
-                    UsefulFunctions.setLocale(getContext(),0);
+                    setSelectedLanguage(0);
                 } else if (i == R.id.first_launch_language_fragment_polish_radio_button) {
                     Log.d("language", "polish");
-                    SharedPreferencesModifier.setLanguage(getActivity(),1);
-                    UsefulFunctions.setLocale(getContext(),1);
+                    setSelectedLanguage(1);
                 }
                 UsefulFunctions.getLocale(getContext());
                 refreshFragmentLayout();
             }
         });
+    }
+
+    private void setSelectedLanguage(int type){
+        SharedPreferencesModifier.setLanguage(getActivity(),type);
+        UsefulFunctions.setLocale(getContext(),type);
+        Log.d("sprawdzenie", "setSelectedLanguage: "+SharedPreferencesModifier.getLanguageVersion(getContext()));
     }
 }

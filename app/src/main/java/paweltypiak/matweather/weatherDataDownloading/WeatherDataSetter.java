@@ -1,6 +1,7 @@
 package paweltypiak.matweather.weatherDataDownloading;
 
 import android.app.Activity;
+import android.support.v4.content.ContextCompat;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
@@ -200,20 +201,20 @@ public class WeatherDataSetter {
     private void setTheme(){
         //set theme for time of day - light for day, dark for night
         if(isDay==true) {
-            backgroundColor=activity.getResources().getColor(R.color.backgroundLight);
-            textPrimaryColor=activity.getResources().getColor(R.color.textPrimaryLightBackground);
-            textSecondaryColor=activity.getResources().getColor(R.color.textSecondaryLightBackground);
-            dividerColor=activity.getResources().getColor(R.color.dividerLightBackground);
-            iconColor=activity.getResources().getColor(R.color.iconLightBackground);
-            objectIconColor=activity.getResources().getColor(R.color.black);
+            backgroundColor= ContextCompat.getColor(activity,R.color.backgroundLight);
+            textPrimaryColor=ContextCompat.getColor(activity,R.color.textPrimaryLightBackground);
+            textSecondaryColor=ContextCompat.getColor(activity,R.color.textSecondaryLightBackground);
+            dividerColor=ContextCompat.getColor(activity,R.color.dividerLightBackground);
+            iconColor=ContextCompat.getColor(activity,R.color.iconLightBackground);
+            objectIconColor=ContextCompat.getColor(activity,R.color.black);
         }
         else {
-            backgroundColor=activity.getResources().getColor(R.color.backgroundDark);
-            textPrimaryColor=activity.getResources().getColor(R.color.textPrimaryDarkBackground);
-            textSecondaryColor=activity.getResources().getColor(R.color.textSecondaryDarkBackground);
-            dividerColor=activity.getResources().getColor(R.color.dividerDarkBackground);
-            iconColor=activity.getResources().getColor(R.color.iconDarkBackground);
-            objectIconColor=activity.getResources().getColor(R.color.white);
+            backgroundColor=ContextCompat.getColor(activity,R.color.backgroundDark);
+            textPrimaryColor=ContextCompat.getColor(activity,R.color.textPrimaryDarkBackground);
+            textSecondaryColor=ContextCompat.getColor(activity,R.color.textSecondaryDarkBackground);
+            dividerColor=ContextCompat.getColor(activity,R.color.dividerDarkBackground);
+            iconColor=ContextCompat.getColor(activity,R.color.iconDarkBackground);
+            objectIconColor=ContextCompat.getColor(activity,R.color.white);
         }
     }
 
@@ -407,8 +408,8 @@ public class WeatherDataSetter {
         for(int i=0;i<5;i++){
             Log.d("formatted_data", "day "+i+":");
             Log.d("formatted_data", "forecastCode: "+forecastCode[i]);
-            Log.d("formatted_data", "forecastCode: "+forecastHighTemperature[i]);
-            Log.d("formatted_data", "forecastCode: "+forecastLowTemperature[i]);
+            Log.d("formatted_data", "forecastHigh: "+forecastHighTemperature[i]);
+            Log.d("formatted_data", "forecastLow: "+forecastLowTemperature[i]);
         }
         Log.d("formatted_data", "directionName: "+directionName);
         Log.d("formatted_data", "timezone: "+timezone);

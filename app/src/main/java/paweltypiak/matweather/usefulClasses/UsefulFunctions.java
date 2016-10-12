@@ -13,12 +13,15 @@ import android.graphics.Canvas;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.Html;
+import android.text.Spanned;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -434,6 +437,7 @@ public class UsefulFunctions {
         alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(context.getResources().getColor(R.color.colorPrimary));
     }
 
+    @SuppressWarnings("deprecation")
     public static void setLocale(Context context,int type){
         String language=null;
         if(type==0) language="en";
@@ -441,16 +445,23 @@ public class UsefulFunctions {
         Locale locale = new Locale(language);
         Locale.setDefault(locale);
         Configuration config = new Configuration();
-        config.locale = locale;
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            config.setLocale(locale);
+
+        } else {
+            config.locale = locale;
+        }
         context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
     }
 
+    @SuppressWarnings("deprecation")
     public static int getLocale(Context context){
         String languageString;
-        if(android.os.Build.VERSION.SDK_INT < 24) {
-            languageString=context.getResources().getConfiguration().locale.toString();
-        } else {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             languageString=context.getResources().getConfiguration().getLocales().get(0).toString();
+
+        } else {
+            languageString=context.getResources().getConfiguration().locale.toString();
         }
         languageString=languageString.substring(0,2);
         Log.d("languagestring", languageString);
@@ -458,6 +469,15 @@ public class UsefulFunctions {
         if(languageString.equals("pl")) language=1;
         else language=0;
         return language;
+    }
+
+    @SuppressWarnings("deprecation")
+    public static Spanned fromHtml(String source) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return Html.fromHtml(source, Html.FROM_HTML_MODE_LEGACY);
+        } else {
+            return Html.fromHtml(source);
+        }
     }
 
     public class setDrawableColor implements Transformation {

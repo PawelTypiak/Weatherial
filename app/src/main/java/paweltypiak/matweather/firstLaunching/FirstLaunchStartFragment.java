@@ -28,6 +28,6 @@ public class FirstLaunchStartFragment extends Fragment{
     private void setAppIcon(){
         ImageView appIconImageView;
         appIconImageView=(ImageView)getActivity().findViewById(R.id.first_launch_start_fragment_app_icon_image);
-        Picasso.with(getActivity()).load(R.drawable.app_icon).fit().centerInside().into(appIconImageView);
+        Picasso.with(getActivity()).load(R.drawable.logo_intro).fit().centerInside().into(appIconImageView);
     }
 }

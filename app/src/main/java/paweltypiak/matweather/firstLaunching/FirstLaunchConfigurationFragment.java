@@ -36,8 +36,6 @@ public class FirstLaunchConfigurationFragment extends Fragment{
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setAppIcon();
-        if(isFirstLaunch) insertNestedFragment(new FirstLaunchLanguageFragment(),"LanguageFragment");
-        else initializeLoadingLocation(null);
     }
 
     public static FirstLaunchConfigurationFragment newInstance(boolean isFirstLaunch,Activity activity) {
@@ -53,9 +51,23 @@ public class FirstLaunchConfigurationFragment extends Fragment{
         isFirstLaunch = getArguments().getBoolean(getString(R.string.extras_is_first_launch_key));
     }
 
+    private void loadAppropiateFragment(){
+        if(isFirstLaunch) insertNestedFragment(new FirstLaunchLanguageFragment(),"LanguageFragment");
+        else initializeLoadingLocation(null);
+    }
+
     private void setAppIcon(){
         final ImageView appIconImageView=(ImageView)getActivity().findViewById(R.id.first_launch_configuration_fragment_app_icon_image);
-        Picasso.with(getActivity()).load(R.drawable.app_icon).fit().centerInside().into(appIconImageView);
+        Picasso.with(getActivity()).load(R.drawable.logo_intro).fit().centerInside().into(appIconImageView, new com.squareup.picasso.Callback() {
+            @Override
+            public void onSuccess() {
+                loadAppropiateFragment();
+            }
+            @Override
+            public void onError() {
+            }
+        });
+
     }
 
     public void insertNestedFragment(android.support.v4.app.Fragment nestedFragment,String tag) {

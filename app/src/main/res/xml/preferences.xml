@@ -4,13 +4,19 @@
     >
     <paweltypiak.matweather.settings.DefeaultLocationDialogPreference
         android:title="@string/preferences_defeault_location_title"
+        android:icon="@drawable/preference_defeault_location_icon"
         />
     <paweltypiak.matweather.settings.GeolocalizationMethodDialogPreference
-        android:title="@string/preferences_geolocalization_method_title" />
+        android:title="@string/preferences_geolocalization_method_title"
+        android:icon="@drawable/preference_localization_method_icon"
+        />
     <Preference
         android:key="preferences_units"
         android:title="@string/preferences_units_title"
-        android:summary="@string/preferences_units_summary"/>
+        android:summary="@string/preferences_units_summary"
+        android:icon="@drawable/preference_units_icon"/>
     <paweltypiak.matweather.settings.LanguageVersionDialogPreference
-        android:title="@string/preferences_language_version_title" />
+        android:title="@string/preferences_language_version_title"
+        android:icon="@drawable/preference_language_version_icon"
+        />
 </PreferenceScreen>

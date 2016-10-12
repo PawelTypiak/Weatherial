@@ -5,25 +5,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/first_launch_start_fragment_app_icon_layout">
-    <LinearLayout
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:id="@+id/first_launch_start_fragment_app_icon_inner_layout"
-        android:orientation="vertical">
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:id="@+id/first_launch_start_fragment_app_icon_image"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="40dp"
-            android:layout_marginTop="40dp"
-            android:text="@string/app_name"
-            android:textColor="@color/white"
-            android:id="@+id/first_launch_start_fragment_app_name_about_text"
-            />
-    </LinearLayout>
+        android:layout_height="match_parent"
+        android:id="@+id/first_launch_start_fragment_app_icon_image"/>
 </RelativeLayout>

@@ -1,12 +1,16 @@
 package paweltypiak.matweather.firstLaunching;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,6 +56,7 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
     private CurrentCoordinatesDownloader currentCoordinatesDownloader;
     private boolean isNextLaunchAfterFailure=false;
     private String changedLocation;
+    private static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION=1;
 
     @Override
     public void onAttach(Context context) {
@@ -109,10 +114,51 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
         marginView=getActivity().findViewById(R.id.first_launch_loading_fragment_margin_view);
     }
 
+    private void checkPermissions(){
+        //permissions for Android 6.0
+        if ( ContextCompat.checkSelfPermission( getActivity(), Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED )
+        {
+            Log.d("permissions", "denied");
+            requestPermissions( new String[] {  android.Manifest.permission.ACCESS_FINE_LOCATION  },
+                    MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+        else {
+            Log.d("permissions", "granted");
+            startGeolocalization();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    startGeolocalization();
+                    Log.d("permissions", "granted");
+                } else {
+                    permissionDeniedDialog.show();
+                    Log.d("permissions", "denied");
+                }
+                return;
+            }
+        }
+    }
+
+    private void setLoadingViewsVisible(boolean isVisible){
+        if(isVisible==true){
+            UsefulFunctions.setViewVisible(loadingBar);
+            UsefulFunctions.setViewVisible(messageTextView);
+        }
+        else{
+            UsefulFunctions.setViewInvisible(loadingBar);
+            UsefulFunctions.setViewInvisible(messageTextView);
+        }
+    }
+
     private void startGeolocalization(){
         Log.d("geolocalization", "startGeolocalization");
-        UsefulFunctions.setViewVisible(loadingBar);
-        UsefulFunctions.setViewVisible(messageTextView);
+        setLoadingViewsVisible(true);
         currentCoordinatesDownloader =new CurrentCoordinatesDownloader(
                 getActivity(),
                 this,
@@ -127,9 +173,10 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
 
     private void initializeFirstLaunch(){
         if(selectedDefeaultLocationOption ==0) {
-            startGeolocalization();
+            checkPermissions();
         }
         else if(selectedDefeaultLocationOption ==1){
+            setLoadingViewsVisible(true);
             location=differentLocationName;
             downloadWeatherData(location);
         }
@@ -139,15 +186,14 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
         if(!SharedPreferencesModifier.isDefeaultLocationConstant(getActivity())){
             selectedDefeaultLocalizationMethod =SharedPreferencesModifier.getGeolocalizationMethod(getActivity());
             if(selectedDefeaultLocalizationMethod ==-1){
-                UsefulFunctions.setViewInvisible(loadingBar);
-                UsefulFunctions.setViewInvisible(messageTextView);
                 geolocalizationMethodsDialog.show();
             }
             else{
-                startGeolocalization();
+                checkPermissions();
             }
         }
         else {
+            setLoadingViewsVisible(true);
             location=SharedPreferencesModifier.getDefeaultLocation(getActivity());
             downloadWeatherData(location);
         }
@@ -156,25 +202,24 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
         isNextLaunchAfterFailure=true;
         if(changedLocation==null){
             if(selectedDefeaultLocalizationMethod ==-1){
-                UsefulFunctions.setViewInvisible(loadingBar);
-                UsefulFunctions.setViewInvisible(messageTextView);
+                setLoadingViewsVisible(false);
                 geolocalizationMethodsDialog.show();
             }
             else {
-                startGeolocalization();
+                checkPermissions();
             }
         }
         else{
+            setLoadingViewsVisible(true);
             downloadWeatherData(changedLocation);
         }
     }
 
     private void downloadWeatherData(String location){
         Log.d("weather", "start weather downloading");
-        UsefulFunctions.setViewVisible(loadingBar);
         if(isFirstLaunch&& selectedDefeaultLocationOption ==1) messageTextView.setText(getString(R.string.searching_location_progress_message));
         else messageTextView.setText(getString(R.string.downloading_weather_data_progress_message));
-        UsefulFunctions.setViewVisible(messageTextView);
+        setLoadingViewsVisible(true);
         new WeatherDataDownloader(location,this);
     }
 
@@ -322,8 +367,7 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
     private Runnable startGeolocalizationRunnable = new Runnable() {
         public void run() {
             new GeocodingDownloader(currentCoordinatesDownloader.getLocation(),FirstLaunchLoadingFragment.this,messageTextView,getActivity());
-            UsefulFunctions.setViewVisible(messageTextView);
-            UsefulFunctions.setViewVisible(loadingBar);
+            setLoadingViewsVisible(true);
         }
     };
 

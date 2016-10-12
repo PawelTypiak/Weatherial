@@ -12,20 +12,8 @@
         android:id="@+id/about_dialog_icon_layout">
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:paddingTop="30dp"
+            android:layout_height="250dp"
             android:id="@+id/about_dialog_app_icon_image"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="30dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:text="MatWeather"
-            android:textColor="@color/white"
-            android:id="@+id/about_dialog_app_name_about_text"
-            />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"

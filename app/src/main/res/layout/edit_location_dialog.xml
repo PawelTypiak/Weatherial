@@ -37,7 +37,7 @@
             android:id="@+id/edit_location_dialog_subheader_edittext"
             />
         <android.support.v7.widget.AppCompatCheckBox
-            android:theme="@style/checkBoxStyle"
+            android:theme="@style/CheckBoxStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/textSecondaryLightBackground"
