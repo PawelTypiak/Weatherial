@@ -1026,7 +1026,7 @@ public class DialogInitializer  {
                 dialogView,
                 R.style.LoadingDialogStyle,
                 activity.getString(R.string.geolocalization_methods_dialog_title),
-                R.drawable.dialog_localization_icon,
+                R.drawable.dialog_geolocalization_method_icon,
                 null,
                 isUncancelable,
                 activity.getString(R.string.geolocalization_methods_dialog_positive_button),
@@ -1142,7 +1142,7 @@ public class DialogInitializer  {
             radioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX,activity.getResources().getDimensionPixelSize(R.dimen.locations_list_text_size));
             radioButton.setSingleLine();
             radioButton.setEllipsize(TextUtils.TruncateAt.END);
-            radioButton.setTextColor(activity.getResources().getColor(R.color.textSecondaryLightBackground));
+            radioButton.setTextColor(ContextCompat.getColor(activity,R.color.textSecondaryLightBackground));
             radioGroup.addView(radioButton);
         }
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {

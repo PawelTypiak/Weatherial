@@ -474,7 +474,7 @@ public class WeatherDataSetter {
         forecastHighTemperatureImageView=new ImageView[4];
         forecastLowTemperatureImageView=new ImageView[4];
         for(int i=0;i<4;i++){
-            forecastDrawable[i]=activity.getResources().getIdentifier("drawable/conditions_icon_" + forecastCode[i+1], null, activity.getPackageName());
+            forecastDrawable[i]=activity.getResources().getIdentifier("drawable/forecast_conditions_icon_" + forecastCode[i+1], null, activity.getPackageName());
             forecastDayNameTextView[i] =(TextView)activity.findViewById(activity.getResources().getIdentifier("forecast_day"+(i+1)+"_name_text", "id", activity.getPackageName()));
             forecastDayConditionsImageView[i] =(ImageView)activity.findViewById(activity.getResources().getIdentifier("forecast_day"+(i+1)+"_conditions_image", "id",activity.getPackageName()));
             forecastHighTemperatureTextView[i]=(TextView)activity.findViewById(activity.getResources().getIdentifier("forecast_day"+(i+1)+"_high_temperature_text", "id",activity.getPackageName()));

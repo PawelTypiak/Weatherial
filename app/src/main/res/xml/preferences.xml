@@ -8,7 +8,7 @@
         />
     <paweltypiak.matweather.settings.GeolocalizationMethodDialogPreference
         android:title="@string/preferences_geolocalization_method_title"
-        android:icon="@drawable/preference_localization_method_icon"
+        android:icon="@drawable/preference_geolocalization_method_icon"
         />
     <Preference
         android:key="preferences_units"
