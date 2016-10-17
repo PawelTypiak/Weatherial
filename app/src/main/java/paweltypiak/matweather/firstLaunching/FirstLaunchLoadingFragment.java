@@ -198,6 +198,7 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
             downloadWeatherData(location);
         }
     }
+
     private void initializeNextLaunchAfterFailure(){
         isNextLaunchAfterFailure=true;
         if(changedLocation==null){

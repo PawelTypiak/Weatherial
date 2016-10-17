@@ -150,7 +150,10 @@ public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaun
                 int locationOption=configurationFragment.getSelectedDefeaultLocationOption();
                 if(locationOption==1&&step==4) exitDialog.show();
             }
-            else exitDialog.show();
+            else {
+                initializeDialogs();
+                exitDialog.show();
+            }
         }
     }
 }

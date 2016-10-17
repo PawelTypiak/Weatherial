@@ -59,11 +59,11 @@ public class CurrentCoordinatesDownloader {
             gpsEnabled=locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
             networkEnabled=locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
         }catch(Exception ex){
-            showErrorDialog(geolocalizationFailureDialog);
+            showDialog(geolocalizationFailureDialog);
         }
         if(!gpsEnabled && !networkEnabled) {
             Log.d("provider", "provider unavailable");
-            showErrorDialog(geolocalizationFailureDialog);
+            showDialog(geolocalizationFailureDialog);
         }
         else{
             if (geolocalizationMethod ==0) {
@@ -73,7 +73,7 @@ public class CurrentCoordinatesDownloader {
                     try {
                         locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, locationListener, null);
                     }catch (SecurityException exception){
-                        showErrorDialog(permissionDeniedDialog);
+                        showDialog(permissionDeniedDialog);
                         Log.d("permissions", ""+exception);
                     }
                 }
@@ -81,7 +81,7 @@ public class CurrentCoordinatesDownloader {
                     Log.d("provider", "gps unavailable");
                     DialogInitializer dialogInitializer=new DialogInitializer(activity);
                     providerUnavailableDialog=dialogInitializer.initializeProviderUnavailableDialog(0,gpsUnavailableRunnable);
-                    providerUnavailableDialog.show();
+                    showDialog(providerUnavailableDialog);
                 }
             }
             else if (geolocalizationMethod ==1) {
@@ -91,14 +91,14 @@ public class CurrentCoordinatesDownloader {
                     try {
                         locationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, locationListener, null);
                     }catch (SecurityException exception){
-                        showErrorDialog(permissionDeniedDialog);
+                        showDialog(permissionDeniedDialog);
                         Log.d("permissions", ""+exception);
                     }
                 } else{
                     Log.d("provider:", "network unavailable");
                     DialogInitializer dialogInitializer=new DialogInitializer(activity);
                     providerUnavailableDialog=dialogInitializer.initializeProviderUnavailableDialog(1,networkUnavailableRunnable);
-                    providerUnavailableDialog.show();
+                    showDialog(providerUnavailableDialog);
                 }
             }
         }
@@ -124,7 +124,7 @@ public class CurrentCoordinatesDownloader {
             try{
             locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER,locationListener,null);
             }catch (SecurityException exception){
-                showErrorDialog(permissionDeniedDialog);
+                showDialog(permissionDeniedDialog);
             }
         }
     };
@@ -136,12 +136,12 @@ public class CurrentCoordinatesDownloader {
                 locationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER,locationListener,null);
 
             }catch (SecurityException exception){
-                showErrorDialog(permissionDeniedDialog);
+                showDialog(permissionDeniedDialog);
             }
         }
     };
 
-    private void showErrorDialog(AlertDialog alertDialog){
+    private void showDialog(AlertDialog alertDialog){
         //set progress bar and text invisible when alertDialog.show()
         alertDialog.show();
         if(progressDialog!=null) progressDialog.dismiss();
