@@ -3,7 +3,7 @@
 
     <!-- Dialog strings -->
     <string name="failure_dialog_title">Niepowodzenie!</string>
-    <string name="service_failure_dialog_message">Brak odpowiedzi z serwisu!</string>
+    <string name="service_failure_dialog_message">Brak odpowiedzi z serwera, prawdopodobnie wywołany chwilowym błędem serwisu. Spróbuj ponownie póżniej.</string>
     <string name="service_failure_dialog_positive_button">Odśwież</string>
     <string name="service_failure_dialog_negative_button_type_0">Wyjdź</string>
     <string name="service_failure_dialog_negative_button_type_1">Anuluj</string>

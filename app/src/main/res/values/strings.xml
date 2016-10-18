@@ -24,7 +24,7 @@
 
     <!-- Dialog strings -->
     <string name="failure_dialog_title">Failure</string>
-    <string name="service_failure_dialog_message">Empty reply from weather service!</string>
+    <string name="service_failure_dialog_message">Empty reply from server, probably caused by temporary service failure. Try again later.</string>
     <string name="service_failure_dialog_positive_button">Refresh</string>
     <string name="service_failure_dialog_negative_button_type_0">Exit</string>
     <string name="service_failure_dialog_negative_button_type_1">Cancel</string>
@@ -42,7 +42,7 @@
     <string name="exit_dialog_message">Are you sure you want to leave <b>MatWeather</b>?</string>
     <string name="exit_dialog_positive_button">Exit</string>
     <string name="exit_dialog_negative_button">Cancel</string>
-    <string name="about_dialog_header">Welcome in <b>MatWeather</b> - simple weather application created according to <i>Material Design</i> philosphy.</string>
+    <string name="about_dialog_header">Welcome to <b>MatWeather</b> - simple weather application created according to <i>Material Design</i> philosphy.</string>
     <string name="about_dialog_description_additional_information">Additional information:</string>
     <string name="about_dialog_description_part1">weather information: <b><a href="https://developer.yahoo.com/weather/">Yahoo Weather API</a></b></string>
     <string name="about_dialog_description_part2">geocoding information: <b><a href="https://developers.google.com/maps/">Google Maps API</a></b></string>
@@ -67,7 +67,7 @@
     <string name="search_dialog_title_type_0">Different Location</string>
     <string name="search_dialog_positive_button_type_0">Ok</string>
     <string name="search_dialog_title_type_1">Search</string>
-    <string name="search_dialog_edit_text_hint">Choose location</string>
+    <string name="search_dialog_edit_text_hint">Enter location</string>
     <string name="search_dialog_positive_button_type_1">Search</string>
     <string name="search_dialog_negative_button">Cancel</string>
     <string name="no_weather_results_for_location_dialog_message">Empty reply from weather service - probably there is no weather information provided for this location</string>
@@ -92,7 +92,7 @@
     <string name="geolocalization_failure_dialog_positive_button_type_1">Refresh</string>
     <string name="geolocalization_failure_dialog_negative_button_type_1">Cancel</string>
     <string name="geolocalization_failure_dialog_message">No possibility of finding current location!</string>
-    <string name="no_different_location_selected_dialog_message">Choose location!</string>
+    <string name="no_different_location_selected_dialog_message">Enter location!</string>
     <string name="no_different_location_selected_dialog_positive_button">Ok</string>
     <string name="no_different_location_selected_dialog_negative_button">Cancel</string>
     <string name="maps_dialog_title">Redirection</string>
