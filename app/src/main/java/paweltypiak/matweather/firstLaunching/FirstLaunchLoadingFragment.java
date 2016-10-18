@@ -218,6 +218,7 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
 
     private void downloadWeatherData(String location){
         Log.d("weather", "start weather downloading");
+        messageTextView.setText(getString(R.string.downloading_weather_data_progress_message));
         if(isFirstLaunch&& selectedDefeaultLocationOption ==1) messageTextView.setText(getString(R.string.searching_location_progress_message));
         else messageTextView.setText(getString(R.string.downloading_weather_data_progress_message));
         setLoadingViewsVisible(true);

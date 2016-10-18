@@ -67,7 +67,7 @@
     <string name="search_dialog_title_type_0">Different Location</string>
     <string name="search_dialog_positive_button_type_0">Ok</string>
     <string name="search_dialog_title_type_1">Search</string>
-    <string name="search_dialog_edit_text_hint">Provide the location</string>
+    <string name="search_dialog_edit_text_hint">Choose location</string>
     <string name="search_dialog_positive_button_type_1">Search</string>
     <string name="search_dialog_negative_button">Cancel</string>
     <string name="no_weather_results_for_location_dialog_message">Empty reply from weather service - probably there is no weather information provided for this location</string>
@@ -92,7 +92,7 @@
     <string name="geolocalization_failure_dialog_positive_button_type_1">Refresh</string>
     <string name="geolocalization_failure_dialog_negative_button_type_1">Cancel</string>
     <string name="geolocalization_failure_dialog_message">No possibility of finding current location!</string>
-    <string name="no_different_location_selected_dialog_message">No location provided!</string>
+    <string name="no_different_location_selected_dialog_message">Choose location!</string>
     <string name="no_different_location_selected_dialog_positive_button">Ok</string>
     <string name="no_different_location_selected_dialog_negative_button">Cancel</string>
     <string name="maps_dialog_title">Redirection</string>

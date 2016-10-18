@@ -76,7 +76,6 @@ public class GeocodingDownloader {
                     } else {
                         Log.d("geocoding", "service success");
                         geocodingCallback.geocodingServiceSuccess(location);
-
                     }
                 }catch (Exception exception){
                     exception.printStackTrace();

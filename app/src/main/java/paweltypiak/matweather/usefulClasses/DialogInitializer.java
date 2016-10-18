@@ -1089,15 +1089,12 @@ public class DialogInitializer  {
         TextView aboutDesctiptionPart1=(TextView)dialogView.findViewById(R.id.about_dialog_text_part1);
         TextView aboutDesctiptionPart2=(TextView)dialogView.findViewById(R.id.about_dialog_text_part2);
         TextView aboutDesctiptionPart3=(TextView)dialogView.findViewById(R.id.about_dialog_text_part3);
-        TextView aboutDesctiptionPart4=(TextView)dialogView.findViewById(R.id.about_dialog_text_part4);
         aboutDesctiptionPart1.setMovementMethod(LinkMovementMethod.getInstance());
         aboutDesctiptionPart2.setMovementMethod(LinkMovementMethod.getInstance());
         aboutDesctiptionPart3.setMovementMethod(LinkMovementMethod.getInstance());
-        aboutDesctiptionPart4.setMovementMethod(LinkMovementMethod.getInstance());
         aboutDesctiptionPart1.setLinkTextColor( ContextCompat.getColor(activity,R.color.textSecondaryLightBackground));
         aboutDesctiptionPart2.setLinkTextColor( ContextCompat.getColor(activity,R.color.textSecondaryLightBackground));
         aboutDesctiptionPart3.setLinkTextColor( ContextCompat.getColor(activity,R.color.textSecondaryLightBackground));
-        aboutDesctiptionPart4.setLinkTextColor( ContextCompat.getColor(activity,R.color.textSecondaryLightBackground));
         ImageView iconImageView=(ImageView)dialogView.findViewById(R.id.about_dialog_app_icon_image);
         Picasso.with(activity.getApplicationContext()).load(R.drawable.logo_small).fit().centerInside().into(iconImageView);
         aboutDialog = buildDialog(

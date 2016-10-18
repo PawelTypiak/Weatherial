@@ -97,27 +97,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textSize="@dimen/dialog_text_size"
-                    android:text="@string/about_dialog_description_part3"
-                    android:id="@+id/about_dialog_text_part3"
-                    />
-            </TableRow>
-            <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/about_dialog_text_table_row4">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/dialog_text_size"
-                    android:text="@string/bullet"
-                    android:id="@+id/about_dialog_bullet4"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="@dimen/dialog_text_size"
                     android:text="@string/about_dialog_description_part4"
-                    android:id="@+id/about_dialog_text_part4"
+                    android:id="@+id/about_dialog_text_part3"
                     />
             </TableRow>
         </TableLayout>

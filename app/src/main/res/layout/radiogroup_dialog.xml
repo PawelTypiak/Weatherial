@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:scrollbarThumbVertical="@color/colorPrimary"
-        android:scrollbarSize="5dp"
+        android:scrollbarSize="3dp"
         android:fillViewport="true"
         android:id="@+id/radiogroup_dialog_scrollview">
         <RadioGroup
