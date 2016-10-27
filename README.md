@@ -266,9 +266,11 @@ User has the possibility to search the weather information for every location pr
    - Settings
    - Send feedback
    - About
-   - cvv
+   - Author
    
-   
+<p align="center">
+        <img src="images/screenshots/main_navigation_drawer.png" width="250"/> 
+    </p>
    
 #### 5. Geolocalization
  
