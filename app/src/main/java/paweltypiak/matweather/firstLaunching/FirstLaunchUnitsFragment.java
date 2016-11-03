@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -97,7 +98,7 @@ public class FirstLaunchUnitsFragment extends Fragment{
         //set layout visibility after all icons are loaded
         ImageView unitsImageView = (ImageView) getActivity().findViewById(getResources().getIdentifier("first_launch_units_fragment_spinner_image_" + id, "id", getActivity().getPackageName()));
         setImagesClickable(spinner,unitsImageView);
-        Picasso.with(getActivity().getApplicationContext()).load(getActivity().getResources().getIdentifier("drawable/units_icon_" + id, null, getActivity().getPackageName())).transform(new UsefulFunctions().new setDrawableColor(getActivity().getResources().getColor(R.color.white))).into(unitsImageView, new com.squareup.picasso.Callback() {
+        Picasso.with(getActivity().getApplicationContext()).load(getActivity().getResources().getIdentifier("drawable/units_icon_" + id, null, getActivity().getPackageName())).transform(new UsefulFunctions().new setDrawableColor(ContextCompat.getColor(getActivity(),R.color.white))).into(unitsImageView, new com.squareup.picasso.Callback() {
             @Override
             public void onSuccess() {
                 UsefulFunctions.setViewVisible(spinner);

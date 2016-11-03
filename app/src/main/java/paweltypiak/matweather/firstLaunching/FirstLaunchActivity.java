@@ -2,6 +2,7 @@ package paweltypiak.matweather.firstLaunching;
 
 import android.app.AlertDialog;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -42,7 +43,7 @@ public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaun
     private void setButtonIcon(){
         ImageView buttonImageView;
         buttonImageView=(ImageView)findViewById(R.id.first_launch_button_image);
-        Picasso.with(getApplicationContext()).load(R.drawable.next_arrow_icon).transform(new UsefulFunctions().new setDrawableColor(this.getResources().getColor(R.color.white))).fit().centerInside().into(buttonImageView);
+        Picasso.with(getApplicationContext()).load(R.drawable.next_arrow_icon).transform(new UsefulFunctions().new setDrawableColor(ContextCompat.getColor(this,R.color.white))).fit().centerInside().into(buttonImageView);
     }
     private void setButtonText(){
         TextView buttonTextView=(TextView)findViewById(R.id.first_launch_button_text);

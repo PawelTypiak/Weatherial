@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
@@ -183,7 +184,7 @@ public class UsefulFunctions {
         //custom edit text in dialogs with string validation and edition
         final String hint=editText.getHint().toString();
         if(editText.getText().length()!=0) {
-            editText.getBackground().setColorFilter(activity.getResources().getColor(R.color.transparent), PorterDuff.Mode.SRC_ATOP);
+            editText.getBackground().setColorFilter(ContextCompat.getColor(activity,R.color.transparent), PorterDuff.Mode.SRC_ATOP);
             editText.setHint("");
         }
         else {
@@ -194,7 +195,7 @@ public class UsefulFunctions {
             @Override
             public void onFocusChange(View view, boolean b) {
                 if(editText.isFocused()) {
-                    editText.getBackground().setColorFilter(activity.getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
+                    editText.getBackground().setColorFilter(ContextCompat.getColor(activity,R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
                     previusEditTextString=editText.getText().toString();
                     showKeyboard(activity);
                 }
@@ -202,10 +203,10 @@ public class UsefulFunctions {
                     String editTextString=editText.getText().toString();
                     editTextString=getFormattedString(editTextString);
                     if(editTextString.length()==0) {
-                        editText.getBackground().setColorFilter(activity.getResources().getColor(R.color.hintLightBackgroud), PorterDuff.Mode.SRC_ATOP);
+                        editText.getBackground().setColorFilter(ContextCompat.getColor(activity,R.color.hintLightBackgroud), PorterDuff.Mode.SRC_ATOP);
                     }
                     else{
-                        editText.getBackground().setColorFilter(activity.getResources().getColor(R.color.transparent), PorterDuff.Mode.SRC_ATOP);
+                        editText.getBackground().setColorFilter(ContextCompat.getColor(activity,R.color.transparent), PorterDuff.Mode.SRC_ATOP);
                         editText.setText(editTextString);
                     }
                     hideKeyboard(activity,editText);
@@ -428,13 +429,13 @@ public class UsefulFunctions {
     public static void setDialogButtonDisabled(AlertDialog alertDialog, Context context){
         //disable alert dialog positive button
         alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
-        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(context.getResources().getColor(R.color.colorPrimary));
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(context,R.color.colorPrimary));
     }
 
     public static void setDialogButtonEnabled(AlertDialog alertDialog, Context context){
         //enable alert dialog positive button
         alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
-        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(context.getResources().getColor(R.color.colorPrimary));
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(context,R.color.colorPrimary));
     }
 
     @SuppressWarnings("deprecation")

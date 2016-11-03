@@ -340,6 +340,7 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
             exitDialog.show();
         }
     }
+
     private void showDialog(AlertDialog alertDialog){
         alertDialog.show();
         UsefulFunctions.setViewInvisible(messageTextView);
