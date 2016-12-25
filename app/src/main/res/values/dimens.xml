@@ -16,4 +16,29 @@
     <dimen name="locations_list_text_size">16dp</dimen>
     <dimen name="dialog_icon_padding_size">24dp</dimen>
     <dimen name="units_icon_padding_size">48dp</dimen>
+
+    <dimen name="activity_very_small_margin">4dp</dimen>
+    <dimen name="activity_small_margin">8dp</dimen>
+    <dimen name="activity_normal_margin">16dp</dimen>
+    <dimen name="activity_big_margin">24dp</dimen>
+    <dimen name="activity_very_big_margin">32dp</dimen>
+    <dimen name="activity_huge_margin">72dp</dimen>
+    <dimen name="toolbar_icons_padding">16dp</dimen>
+    <dimen name="expended_toolbar_top_padding">48dp</dimen>
+    <dimen name="toolbar_right_margin">78dp</dimen>
+
+    <!-- other sizes -->
+    <dimen name="dialog_loading_progress_bar_size">48dp</dimen>
+    <dimen name="intro_loading_progress_bar_size">56dp</dimen>
+    <dimen name="bar_elevation">4dp</dimen>
+    <dimen name="floating_action_bar_elevation">6dp</dimen>
+    <dimen name="subheader_height">48dp</dimen>
+    <dimen name="toolbar_height">56dp</dimen>
+    <dimen name="scrollbar_size">3dp</dimen>
+
+    <dimen name="header_text_size">45dp</dimen>
+    <dimen name="subheader_text_size">20dp</dimen>
+    <dimen name="refresh_message_text_size">14dp</dimen>
+    <dimen name="refresh_message_icon_size">12dp</dimen>
+
 </resources>

@@ -11,6 +11,8 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.PorterDuff;
+import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -26,10 +28,12 @@ import android.text.Spanned;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -38,6 +42,9 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.squareup.picasso.Transformation;
+
+import net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout;
+
 import java.util.Locale;
 import paweltypiak.matweather.MainActivity;
 import paweltypiak.matweather.R;
@@ -80,20 +87,22 @@ public class UsefulFunctions {
     public static String[] getAppBarStrings(Activity activity){
         //get location name from AppBar
         String[] location=new String[2];
-        TextView primaryLocationTextView=(TextView)activity.findViewById(R.id.app_bar_primary_location_name_text);
+        CollapsingToolbarLayout collapsingToolbarLayout=(CollapsingToolbarLayout)activity.findViewById(R.id.collapsing_toolbar_layout);
         TextView secondaryLocationTextView=(TextView)activity.findViewById(R.id.app_bar_secondary_location_name_text);
-        location[0]=primaryLocationTextView.getText().toString();
+        location[0]=collapsingToolbarLayout.getTitle().toString();
         location[1]=secondaryLocationTextView.getText().toString();
         return location;
     }
 
     public static void setAppBarStrings(Activity activity, String primaryText, String secondaryText){
         //set custom location name in AppBar
-        TextView primaryLocationTextView=(TextView)activity.findViewById(R.id.app_bar_primary_location_name_text);
+        CollapsingToolbarLayout collapsingToolbarLayout=(CollapsingToolbarLayout)activity.findViewById(R.id.collapsing_toolbar_layout);
+        collapsingToolbarLayout.setTitle(primaryText);
+        //TextView primaryLocationTextView=(TextView)activity.findViewById(R.id.app_bar_primary_location_name_text);
         TextView secondaryLocationTextView=(TextView)activity.findViewById(R.id.app_bar_secondary_location_name_text);
-        primaryLocationTextView.setText(primaryText);
-        setViewGone(primaryLocationTextView);
-        setViewVisible(primaryLocationTextView);
+        //primaryLocationTextView.setText(primaryText);
+        //setViewGone(primaryLocationTextView);
+        //setViewVisible(primaryLocationTextView);
         secondaryLocationTextView.setText(secondaryText);
         setViewGone(secondaryLocationTextView);
         if(!secondaryText.equals("")) setViewVisible(secondaryLocationTextView);
@@ -546,5 +555,35 @@ public class UsefulFunctions {
         public void runWhenIdle(Runnable runnable) {
             this.runnable = runnable;
         }
+    }
+
+    public static int getScreenHeight(Activity activity){
+        DisplayMetrics metrics = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int screenHeight = metrics.heightPixels;
+        return screenHeight;
+    }
+
+    public static int getStatusBarHeight(Activity activity){
+        Rect rectangle = new Rect();
+        Window window = activity.getWindow();
+        window.getDecorView().getWindowVisibleDisplayFrame(rectangle);
+        int statusBarHeight = rectangle.top;
+        return statusBarHeight;
+    }
+
+    public static int getTextViewHeight(Activity activity, String text, int textSize, Typeface typeface,
+                                        int paddingLeft, int paddingTop, int paddingRight, int paddingBottom) {
+        TextView textView = new TextView(activity);
+        textView.setPadding(paddingLeft,paddingTop,paddingRight,paddingBottom);
+        textView.setTypeface(typeface);
+        textView.setText(text, TextView.BufferType.SPANNABLE);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
+        DisplayMetrics displayMetrics = activity.getResources().getDisplayMetrics();
+        int deviceWidth = displayMetrics.widthPixels;
+        int widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(deviceWidth, View.MeasureSpec.AT_MOST);
+        int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        textView.measure(widthMeasureSpec, heightMeasureSpec);
+        return textView.getMeasuredHeight();
     }
 }

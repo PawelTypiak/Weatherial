@@ -67,6 +67,18 @@
         <item name="android:textColorSecondary">@color/textSecondaryLightBackground</item>
     </style>
 
+    <style name="TextAppearance.CollapsedTitle"
+        parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/textPrimaryDarkBackground</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+    <style name="TextAppearance.ExpandedTitle"
+        parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textSize">45sp</item>
+        <item name="android:textColor">@color/textPrimaryDarkBackground</item>
+    </style>
+
     <style name="EditTextStyle">
         <item name="colorControlNormal">@color/transparent</item>
     </style>

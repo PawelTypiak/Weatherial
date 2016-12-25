@@ -1,6 +1,8 @@
 package paweltypiak.matweather.weatherDataDownloading;
 
 import android.app.Activity;
+import android.graphics.Typeface;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.content.ContextCompat;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -11,6 +13,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
+
+import net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout;
+
 import java.util.Calendar;
 import static paweltypiak.matweather.usefulClasses.UsefulFunctions.initializeUiThread;
 import static paweltypiak.matweather.usefulClasses.UsefulFunctions.setfloatingActionButtonOnClickIndicator;
@@ -43,7 +48,8 @@ public class WeatherDataSetter {
     private double latitude;
     private double longitude;
     private String[] dayName;
-    private LinearLayout weatherLayout;
+    private CollapsingToolbarLayout collapsingToolbarLayout;
+    private LinearLayout contentLayout;
     private View currentDetailsDividerView;
     private View detailsForecastDividerView;
     private ImageView yahooImageView;
@@ -112,6 +118,7 @@ public class WeatherDataSetter {
     private static int units[];
     private boolean isGeolocalizationMode;
     private static WeatherDataInitializer currentWeatherDataInitializer;
+    private int toolbarExpandedHeight;
 
     public WeatherDataSetter(Activity activity,
                              WeatherDataInitializer dataInitializer,
@@ -218,8 +225,77 @@ public class WeatherDataSetter {
         }
     }
 
+    private void setCollapsingToolbarViewsHeight(){
+        int bottomLayoutHeight=getBottomLayoutHeight();
+        toolbarExpandedHeight = getComputedExpendedToolbarHeight(bottomLayoutHeight);
+        setComputedToolbarExpandedHeight(bottomLayoutHeight, toolbarExpandedHeight);
+        setContentLayoutTopPadding();
+    }
+
+    private void setComputedToolbarExpandedHeight(int bottomLayoutHeight, int toolbarExpandedHeight){
+        collapsingToolbarLayout=(net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout)activity. findViewById(R.id.collapsing_toolbar_layout);
+        AppBarLayout.LayoutParams collapsingToolbarParams = (AppBarLayout.LayoutParams)collapsingToolbarLayout.getLayoutParams();
+        collapsingToolbarParams.height = toolbarExpandedHeight;
+        collapsingToolbarLayout.setExpandedTitleMarginBottom(bottomLayoutHeight);
+    }
+
+    private void setContentLayoutTopPadding(){
+        contentLayout.setPadding(0,toolbarExpandedHeight,0,0);
+    }
+
+    private int getBottomLayoutHeight(){
+        int locationSubheaderTextSize=UsefulFunctions.getTextViewHeight(
+                activity,
+                "",
+                (int)activity.getResources().getDimension(R.dimen.subheader_text_size),
+                Typeface.DEFAULT,
+                0,
+                0,
+                0,
+                (int)activity.getResources().getDimension(R.dimen.activity_very_small_margin)
+                );
+        int refreshMessageTextViewHeight=UsefulFunctions.getTextViewHeight(
+                activity,
+                "",
+                (int)activity.getResources().getDimension(R.dimen.refresh_message_text_size),
+                Typeface.DEFAULT,
+                0,
+                0,
+                0,
+                (int)activity.getResources().getDimension(R.dimen.activity_very_small_margin)
+        );
+        int refreshMessageIconSize=(int)activity.getResources().getDimension(R.dimen.refresh_message_icon_size);
+        int refreshMessageLayoutSize;
+        if(refreshMessageIconSize>refreshMessageTextViewHeight) {
+            refreshMessageLayoutSize=refreshMessageIconSize;
+        }
+        else {
+            refreshMessageLayoutSize=locationSubheaderTextSize;
+        }
+        int layoutHeight=locationSubheaderTextSize+refreshMessageLayoutSize;
+        return layoutHeight;
+    }
+
+    private int getComputedExpendedToolbarHeight(int bottomAppbarLayoutHeigh){
+        int paddingLeft=(int)activity.getResources().getDimension(R.dimen.activity_normal_margin);
+        int paddingTop=(int)activity.getResources().getDimension(R.dimen.expended_toolbar_top_padding);
+        int paddingRight=(int)activity.getResources().getDimension(R.dimen.activity_normal_margin);
+        int paddingBottom=bottomAppbarLayoutHeigh;
+        int collapsingToolbarHeight=UsefulFunctions.getTextViewHeight(
+                activity,
+                "",
+                (int)activity.getResources().getDimension(R.dimen.header_text_size),
+                Typeface.DEFAULT,
+                paddingLeft,
+                paddingTop,
+                paddingRight,
+                paddingBottom
+        );
+        return collapsingToolbarHeight;
+    }
     private void setAppBarLayout(){
         getAppBarResources();
+        setCollapsingToolbarViewsHeight();
         if(FavouritesEditor.isAddressEqual(activity)){
             FavouritesEditor.setLayoutForFavourites(activity);
             Log.d("data setter", "location in favourites");
@@ -250,7 +326,7 @@ public class WeatherDataSetter {
 
     private void setCurrentLayout(){
         getCurrentResources();
-        weatherLayout.setBackgroundColor(backgroundColor);
+        contentLayout.setBackgroundColor(backgroundColor);
         conditionTextView.setText(conditionStringId);
         conditionTextView.setTextColor(textPrimaryColor);
         temperatureTextView.setText(temperature);
@@ -419,6 +495,7 @@ public class WeatherDataSetter {
     }
 
     private void getAppBarResources(){
+        contentLayout =(LinearLayout)activity.findViewById(R.id.main_activity_content_layout);
         timeTextView=(TextView)activity.findViewById(R.id.app_bar_time_text);
         timezoneTextView =(TextView)activity.findViewById(R.id.app_bar_timezone_text);
         refreshIconImageView=(ImageView)activity.findViewById(R.id.app_bar_refresh_image);
@@ -426,7 +503,7 @@ public class WeatherDataSetter {
     }
 
     private void getCurrentResources(){
-        weatherLayout=(LinearLayout)activity.findViewById(R.id.weather_layout);
+        if(contentLayout==null) contentLayout =(LinearLayout)activity.findViewById(R.id.main_activity_content_layout);
         conditionStringId=activity.getResources().getIdentifier("condition_" + code, "string", activity.getPackageName());
         conditionDrawableId=activity.getResources().getIdentifier("drawable/conditions_icon_" + code, null, activity.getPackageName());
         conditionTextView =(TextView)activity.findViewById(R.id.current_conditions_text);

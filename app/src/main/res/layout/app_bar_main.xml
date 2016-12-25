@@ -6,118 +6,66 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/main_coordinator_layout">
-    <LinearLayout
+    <android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:fitsSystemWindows="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:id="@+id/appbar_main_layout"
-        >
-        <android.support.design.widget.AppBarLayout
+        android:layout_height="wrap_content"
+
+        android:id="@+id/swipe_refresh_layout">
+        <me.henrytao.smoothappbarlayout.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/app_bar">
+
+            android:id="@+id/nested_scroll_view"
+            >
+            <include
+                layout="@layout/main"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                />
+        </me.henrytao.smoothappbarlayout.widget.NestedScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+    <me.henrytao.smoothappbarlayout.SmoothAppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="@dimen/bar_elevation"
+        android:stateListAnimator="@drawable/elevation_animator"
+        android:id="@+id/app_bar">
+        <net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:expandedTitleMarginStart="16dp"
+            app:expandedTitleMarginEnd="16dp"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:expandedTitleTextAppearance="@style/TextAppearance.ExpandedTitle"
+            app:collapsedTitleTextAppearance="@style/TextAppearance.CollapsedTitle"
+            app:expandedTitleGravity="bottom|center_horizontal"
+            app:collapsedTitleGravity="center"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            app:maxLines="1"
+            >
+            <android.support.v7.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_marginRight="@dimen/toolbar_right_margin"
+                app:popupTheme="@style/AppTheme.PopupOverlay"
+                app:layout_collapseMode="pin"
+                android:id="@+id/toolbar"/>
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/app_bar_layout">
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="-5dp"
-                    android:layout_below="@+id/app_bar_time_layout"
-                    android:id="@+id/app_bar_text_layout">
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="90dp"
-                        android:orientation="vertical"
-                        android:paddingLeft="24dp"
-                        android:paddingRight="24dp"
-                        android:layout_marginBottom="8dp"
-                        android:layout_centerHorizontal="true"
-                        android:background="?selectableItemBackgroundBorderless"
-                        android:id="@+id/location_text_layout">
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:orientation="vertical"
-                            android:id="@+id/location_text_inner_layout">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textSize="45dp"
-                                android:maxLines="1"
-                                android:ellipsize="end"
-                                android:layout_gravity="center"
-                                android:gravity="center"
-                                android:textColor="@color/textPrimaryDarkBackground"
-                                android:id="@+id/app_bar_primary_location_name_text"
-                                />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textSize="20dp"
-                                android:maxLines="1"
-                                android:ellipsize="end"
-                                android:textColor="@color/textSecondaryDarkBackground"
-                                android:layout_gravity="center_horizontal"
-                                android:id="@+id/app_bar_secondary_location_name_text"
-                                />
-                        </LinearLayout>
-                    </RelativeLayout>
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:id="@+id/app_bar_refresh_layout"
-                        android:layout_below="@+id/location_text_layout">
-                        <ImageView
-                            android:layout_width="12dp"
-                            android:layout_height="12dp"
-                            android:visibility="invisible"
-                            android:layout_marginRight="3dp"
-                            android:layout_gravity="center"
-                            android:layout_marginBottom="-1dp"
-                            android:id="@+id/app_bar_refresh_image"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="14dp"
-                            android:layout_gravity="center"
-                            android:textColor="@color/white"
-                            android:visibility="invisible"
-                            android:layout_alignLeft="@+id/app_bar_refresh_image"
-                            android:id="@+id/app_bar_refresh_text"
-                            />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/location_text_layout"
-                        android:layout_alignParentLeft="true"
-                        android:background="?selectableItemBackground"
-                        android:padding="5dp"
-                        android:id="@+id/yahoo_layout">
-                        <ImageView
-                            android:layout_width="134px"
-                            android:layout_height="29px"
-                            android:id="@+id/yahoo_image"
-                            />
-                    </LinearLayout>
-                </RelativeLayout>
-                <android.support.v7.widget.Toolbar
-                    android:layout_width="?attr/actionBarSize"
-                    android:layout_height="?attr/actionBarSize"
-                    android:layout_alignParentLeft="true"
-                    android:id="@+id/toolbar"/>
+                android:layout_height="?attr/actionBarSize"
+                android:layout_marginLeft="@dimen/activity_huge_margin"
+                android:layout_marginRight="@dimen/activity_huge_margin"
+                app:layout_collapseMode="pin">
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"
+                    android:layout_centerInParent="true"
                     android:id="@+id/app_bar_time_layout">
                     <TextView
                         android:layout_width="match_parent"
@@ -125,42 +73,111 @@
                         android:textSize="14dp"
                         android:textColor="@color/textSecondaryDarkBackground"
                         android:gravity="center"
-                        android:layout_centerHorizontal="true"
                         android:id="@+id/app_bar_time_text"
                         />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:includeFontPadding="false"
                         android:textSize="12dp"
                         android:textColor="@color/textSecondaryDarkBackground"
                         android:gravity="center"
-                        android:layout_centerHorizontal="true"
                         android:id="@+id/app_bar_timezone_text"
                         />
                 </LinearLayout>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|right"
+                android:background="?selectableItemBackgroundBorderless"
+                android:clickable="true"
+                app:layout_collapseMode="pin"
+                android:id="@+id/search_layout">
+                <ImageView
+                    android:layout_width="?attr/actionBarSize"
+                    android:layout_height="?attr/actionBarSize"
+                    android:padding="16dp"
+                    android:id="@+id/search_image"/>
+            </LinearLayout>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="bottom"
+                android:id="@+id/location_text_layout">
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentRight="true"
-                    android:background="?selectableItemBackgroundBorderless"
-                    android:clickable="true"
-                    android:id="@+id/search_layout">
-                    <ImageView
-                        android:layout_width="?attr/actionBarSize"
-                        android:layout_height="?attr/actionBarSize"
-                        android:padding="16dp"
-                        android:id="@+id/search_image"/>
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical"
+                    android:id="@+id/location_text_inner_layout">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/activity_very_small_margin"
+                        android:textSize="20dp"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:textColor="@color/textSecondaryDarkBackground"
+                        android:layout_gravity="center_horizontal"
+                        android:id="@+id/app_bar_secondary_location_name_text"
+                        />
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:id="@+id/app_bar_refresh_layout"
+                            android:layout_marginBottom="@dimen/activity_very_small_margin">
+                            <ImageView
+                                android:layout_width="12dp"
+                                android:layout_height="12dp"
+                                android:visibility="invisible"
+                                android:layout_marginRight="3dp"
+                                android:layout_gravity="center"
+                                android:id="@+id/app_bar_refresh_image"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="@dimen/refresh_message_text_size"
+                                android:layout_gravity="center"
+                                android:textColor="@color/white"
+                                android:visibility="invisible"
+                                android:layout_alignLeft="@+id/app_bar_refresh_image"
+                                android:id="@+id/app_bar_refresh_text"
+                                />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="?selectableItemBackground"
+                            android:padding="5dp"
+                            android:id="@+id/yahoo_layout">
+                            <ImageView
+                                android:layout_width="134px"
+                                android:layout_height="29px"
+                                android:id="@+id/yahoo_image"
+                                />
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
                 </LinearLayout>
             </RelativeLayout>
-        </android.support.design.widget.AppBarLayout>
-        <include
-            layout="@layout/main"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.75"
-            />
-    </LinearLayout>
+
+
+        </net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout>
+
+    </me.henrytao.smoothappbarlayout.SmoothAppBarLayout>
+
+
+
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
