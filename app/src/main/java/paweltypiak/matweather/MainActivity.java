@@ -5,8 +5,10 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -26,6 +28,11 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
+
+import net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout;
+
+import java.lang.reflect.Field;
+
 import paweltypiak.matweather.localizationDataDownloading.GeocodingCallback;
 import paweltypiak.matweather.localizationDataDownloading.GeocodingDownloader;
 import paweltypiak.matweather.localizationDataDownloading.CurrentCoordinatesDownloader;
@@ -83,6 +90,7 @@ public class MainActivity extends AppCompatActivity
     private String yahooWeatherLink;
     private UsefulFunctions.SmoothActionBarDrawerToggle navigationDrawerToggle;
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION=1;
+    private int toolbarExpandedHeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,7 +119,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void loadDefeaultLocation(){
-        //delivering information if defeaut location is constant, or is from geolocalization
+        //delivering information if defeault location is constant, or is from geolocalization
         boolean isDefeaultLocationConstant=SharedPreferencesModifier.isDefeaultLocationConstant(this);
         if(isDefeaultLocationConstant) new WeatherDataSetter(this, weatherDataInitializer,true,false);
         else new WeatherDataSetter(this, weatherDataInitializer,true,true);
@@ -131,9 +139,124 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         refreshMessageTextView=(TextView)findViewById(R.id.app_bar_refresh_text);
         refreshImageView=(ImageView) findViewById(R.id.app_bar_refresh_image);
+        initializeAppBar();
         setSwipeRefreshLayout();
-        setDialogs();
+        initializeDialogs();
         setButtonsClickable();
+    }
+
+
+    private void initializeAppBar(){
+        setCollapsingToolbarViewsHeight();
+        setAppbarOnOffsetChangeListener();
+    }
+
+    private void setCollapsingToolbarViewsHeight(){
+        int bottomLayoutHeight=getBottomLayoutHeight();
+        toolbarExpandedHeight = getComputedExpendedToolbarHeight(bottomLayoutHeight);
+        setComputedToolbarExpandedHeight(bottomLayoutHeight, toolbarExpandedHeight);
+        setContentLayoutTopPadding();
+    }
+
+    private void setComputedToolbarExpandedHeight(int bottomLayoutHeight, int toolbarExpandedHeight){
+        CollapsingToolbarLayout collapsingToolbarLayout=(net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout)findViewById(R.id.collapsing_toolbar_layout);
+        AppBarLayout.LayoutParams collapsingToolbarParams = (AppBarLayout.LayoutParams)collapsingToolbarLayout.getLayoutParams();
+        collapsingToolbarParams.height = toolbarExpandedHeight;
+        collapsingToolbarLayout.setExpandedTitleMarginBottom(bottomLayoutHeight);
+    }
+
+    private void setContentLayoutTopPadding(){
+        LinearLayout contentLayout=(LinearLayout)findViewById(R.id.main_activity_content_layout);
+        contentLayout.setPadding(0,toolbarExpandedHeight,0,0);
+    }
+
+    private int getBottomLayoutHeight(){
+        int locationSubheaderTextSize=UsefulFunctions.getTextViewHeight(
+                this,
+                "",
+                (int)getResources().getDimension(R.dimen.subheader_text_size),
+                Typeface.DEFAULT,
+                0,
+                0,
+                0,
+                (int)getResources().getDimension(R.dimen.activity_very_small_margin)
+        );
+        int refreshMessageTextViewHeight=UsefulFunctions.getTextViewHeight(
+                this,
+                "",
+                (int)getResources().getDimension(R.dimen.refresh_message_text_size),
+                Typeface.DEFAULT,
+                0,
+                0,
+                0,
+                (int)getResources().getDimension(R.dimen.activity_very_small_margin)
+        );
+        int refreshMessageIconSize=(int)getResources().getDimension(R.dimen.refresh_message_icon_size);
+        int refreshMessageLayoutSize;
+        if(refreshMessageIconSize>refreshMessageTextViewHeight) {
+            refreshMessageLayoutSize=refreshMessageIconSize;
+        }
+        else {
+            refreshMessageLayoutSize=locationSubheaderTextSize;
+        }
+        int layoutHeight=locationSubheaderTextSize+refreshMessageLayoutSize;
+        return layoutHeight;
+    }
+
+    private int getComputedExpendedToolbarHeight(int bottomAppbarLayoutHeigh){
+        int paddingLeft=(int)getResources().getDimension(R.dimen.activity_normal_margin);
+        int paddingTop=(int)getResources().getDimension(R.dimen.expended_toolbar_top_padding);
+        int paddingRight=(int)getResources().getDimension(R.dimen.activity_normal_margin);
+        int paddingBottom=bottomAppbarLayoutHeigh;
+        int collapsingToolbarHeight=UsefulFunctions.getTextViewHeight(
+                this,
+                "",
+                (int)getResources().getDimension(R.dimen.header_text_size),
+                Typeface.DEFAULT,
+                paddingLeft,
+                paddingTop,
+                paddingRight,
+                paddingBottom
+        );
+        return collapsingToolbarHeight;
+    }
+
+    private void setAppbarOnOffsetChangeListener(){
+        AppBarLayout appBarLayout=(AppBarLayout)findViewById(R.id.app_bar);
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                animateOnOffsetChanged(appBarLayout,verticalOffset);
+            }
+        });
+    }
+
+    private void animateOnOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+        float percentage = ((float)Math.abs(verticalOffset)/appBarLayout.getTotalScrollRange());
+        animateTimeLayout(percentage);
+        animateSecondaryLocationNameTextView(percentage);
+        animateYahooLogoLayout(percentage);
+    }
+
+    private void animateTimeLayout(float percentage){
+        final int TIME_LAYOUT_DISAPPEARANCE_TIME_MULTIPLIER =3;
+        float timezoneDisappearPercentage=1f-(percentage* TIME_LAYOUT_DISAPPEARANCE_TIME_MULTIPLIER);
+        RelativeLayout timezoneLayout=(RelativeLayout)findViewById(R.id.app_bar_time_layout);
+        timezoneLayout.setAlpha(timezoneDisappearPercentage);
+    }
+
+    private void animateSecondaryLocationNameTextView(float percentage){
+        final int SECONDARY_LOCATION_NAME_TEXT_VIEW_DISAPPEARANCE_TIME_MULTIPLIER =3;
+        float secondaryLocationNameTextViewDisappearPercentage=1f-(percentage* SECONDARY_LOCATION_NAME_TEXT_VIEW_DISAPPEARANCE_TIME_MULTIPLIER);
+        TextView bottomLayout=(TextView)findViewById(R.id.app_bar_secondary_location_name_text);
+        bottomLayout.setAlpha(secondaryLocationNameTextViewDisappearPercentage);
+    }
+
+    private void animateYahooLogoLayout(float percentage){
+        final int YAHOO_LOGO_LAYOUT_DISAPPEARANCE_TIME_MULTIPLIER =4;
+        float yahooLogoLayoutDisappearPercentage=1-(percentage* YAHOO_LOGO_LAYOUT_DISAPPEARANCE_TIME_MULTIPLIER);
+        LinearLayout yahooLogoLayout=(LinearLayout)findViewById(R.id.yahoo_logo_layout);
+        yahooLogoLayout.setAlpha(yahooLogoLayoutDisappearPercentage);
     }
 
     @Override
@@ -270,7 +393,7 @@ public class MainActivity extends AppCompatActivity
         public void run() {invalidateOptionsMenu();}
     };
 
-    private void setDialogs(){
+    private void initializeDialogs(){
         dialogInitializer=new DialogInitializer(this);
         yahooMainRedirectDialog =dialogInitializer.initializeYahooRedirectDialog(0,null);
         exitDialog=dialogInitializer.initializeExitDialog(1,null);
@@ -300,7 +423,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setYahooClickable(){
-        LinearLayout yahooLayout=(LinearLayout)findViewById(R.id.yahoo_layout);
+        LinearLayout yahooLayout=(LinearLayout)findViewById(R.id.yahoo_logo_layout);
         yahooLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -354,7 +477,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setLocationClickable(){
-        RelativeLayout locactionLayout=(RelativeLayout) findViewById(R.id.location_text_layout);
+        LinearLayout locactionLayout=(LinearLayout) findViewById(R.id.bottom_layout);
         locactionLayout.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -393,6 +516,10 @@ public class MainActivity extends AppCompatActivity
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
+        int swipeRefrehLayoutOffset = UsefulFunctions.dpToPixels(56,this);
+        int progressViewStart = toolbarExpandedHeight-swipeRefrehLayoutOffset;
+        int progressViewEnd = (int)(progressViewStart+swipeRefrehLayoutOffset*1.5f);
+        swipeRefreshLayout.setProgressViewOffset(true, progressViewStart, progressViewEnd);
         swipeRefreshLayout.setOnTouchListener(new View.OnTouchListener() {
             //dynamically set transparency depending on the pull
             boolean isTouched=false;

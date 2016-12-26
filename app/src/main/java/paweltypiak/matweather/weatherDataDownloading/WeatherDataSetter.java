@@ -48,7 +48,6 @@ public class WeatherDataSetter {
     private double latitude;
     private double longitude;
     private String[] dayName;
-    private CollapsingToolbarLayout collapsingToolbarLayout;
     private LinearLayout contentLayout;
     private View currentDetailsDividerView;
     private View detailsForecastDividerView;
@@ -118,7 +117,7 @@ public class WeatherDataSetter {
     private static int units[];
     private boolean isGeolocalizationMode;
     private static WeatherDataInitializer currentWeatherDataInitializer;
-    private int toolbarExpandedHeight;
+
 
     public WeatherDataSetter(Activity activity,
                              WeatherDataInitializer dataInitializer,
@@ -225,77 +224,12 @@ public class WeatherDataSetter {
         }
     }
 
-    private void setCollapsingToolbarViewsHeight(){
-        int bottomLayoutHeight=getBottomLayoutHeight();
-        toolbarExpandedHeight = getComputedExpendedToolbarHeight(bottomLayoutHeight);
-        setComputedToolbarExpandedHeight(bottomLayoutHeight, toolbarExpandedHeight);
-        setContentLayoutTopPadding();
-    }
 
-    private void setComputedToolbarExpandedHeight(int bottomLayoutHeight, int toolbarExpandedHeight){
-        collapsingToolbarLayout=(net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout)activity. findViewById(R.id.collapsing_toolbar_layout);
-        AppBarLayout.LayoutParams collapsingToolbarParams = (AppBarLayout.LayoutParams)collapsingToolbarLayout.getLayoutParams();
-        collapsingToolbarParams.height = toolbarExpandedHeight;
-        collapsingToolbarLayout.setExpandedTitleMarginBottom(bottomLayoutHeight);
-    }
 
-    private void setContentLayoutTopPadding(){
-        contentLayout.setPadding(0,toolbarExpandedHeight,0,0);
-    }
-
-    private int getBottomLayoutHeight(){
-        int locationSubheaderTextSize=UsefulFunctions.getTextViewHeight(
-                activity,
-                "",
-                (int)activity.getResources().getDimension(R.dimen.subheader_text_size),
-                Typeface.DEFAULT,
-                0,
-                0,
-                0,
-                (int)activity.getResources().getDimension(R.dimen.activity_very_small_margin)
-                );
-        int refreshMessageTextViewHeight=UsefulFunctions.getTextViewHeight(
-                activity,
-                "",
-                (int)activity.getResources().getDimension(R.dimen.refresh_message_text_size),
-                Typeface.DEFAULT,
-                0,
-                0,
-                0,
-                (int)activity.getResources().getDimension(R.dimen.activity_very_small_margin)
-        );
-        int refreshMessageIconSize=(int)activity.getResources().getDimension(R.dimen.refresh_message_icon_size);
-        int refreshMessageLayoutSize;
-        if(refreshMessageIconSize>refreshMessageTextViewHeight) {
-            refreshMessageLayoutSize=refreshMessageIconSize;
-        }
-        else {
-            refreshMessageLayoutSize=locationSubheaderTextSize;
-        }
-        int layoutHeight=locationSubheaderTextSize+refreshMessageLayoutSize;
-        return layoutHeight;
-    }
-
-    private int getComputedExpendedToolbarHeight(int bottomAppbarLayoutHeigh){
-        int paddingLeft=(int)activity.getResources().getDimension(R.dimen.activity_normal_margin);
-        int paddingTop=(int)activity.getResources().getDimension(R.dimen.expended_toolbar_top_padding);
-        int paddingRight=(int)activity.getResources().getDimension(R.dimen.activity_normal_margin);
-        int paddingBottom=bottomAppbarLayoutHeigh;
-        int collapsingToolbarHeight=UsefulFunctions.getTextViewHeight(
-                activity,
-                "",
-                (int)activity.getResources().getDimension(R.dimen.header_text_size),
-                Typeface.DEFAULT,
-                paddingLeft,
-                paddingTop,
-                paddingRight,
-                paddingBottom
-        );
-        return collapsingToolbarHeight;
-    }
     private void setAppBarLayout(){
         getAppBarResources();
-        setCollapsingToolbarViewsHeight();
+
+
         if(FavouritesEditor.isAddressEqual(activity)){
             FavouritesEditor.setLayoutForFavourites(activity);
             Log.d("data setter", "location in favourites");
@@ -317,6 +251,8 @@ public class WeatherDataSetter {
         Picasso.with(activity.getApplicationContext()).load(R.drawable.arrow).transform(new UsefulFunctions().new setDrawableColor(ContextCompat.getColor(activity,R.color.textPrimaryDarkBackground))).rotate(180).fit().centerInside().into(refreshIconImageView);
         Picasso.with(activity.getApplicationContext()).load(R.drawable.yahoo_logo).fit().centerInside().into(yahooImageView);
     }
+
+
 
     private void setWeatherLayout(){
         setCurrentLayout();
