@@ -143,6 +143,10 @@
     <string name="geolocalization_method_gps">GPS (dokładna)</string>
     <string name="geolocalization_method_network">Sieć (szybka)</string>
 
+    <!-- Content Layout headers-->
+    <string name="details_header">SZCZEGÓŁY</string>
+    <string name="forecast_header">PROGNOZA</string>
+
     <!-- progress info messages-->
     <string name="searching_location_progress_message">Wyszukiwanie lokacji...</string>
     <string name="waiting_for_localization_progress_message">Oczekiwanie na lokalizację...</string>

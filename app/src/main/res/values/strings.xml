@@ -5,6 +5,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="bullet">&#8226; </string>
+    <string name="dagree_sign">°</string>
 
     <!-- Keys -->
     <string name="shared_preferences_name_key">paweltypiak.matweather.preference_file_key</string>
@@ -163,6 +164,10 @@
     <string name="first_launch_geolocalization_header">Select geolocalization method:</string>
     <string name="geolocalization_method_gps">GPS (accurate)</string>
     <string name="geolocalization_method_network">Network (fast)</string>
+
+    <!-- Content Layout headers-->
+    <string name="details_header">DETAILS</string>
+    <string name="forecast_header">FORECAST</string>
 
     <!-- progress info messages-->
     <string name="searching_location_progress_message">Retrieving location...</string>

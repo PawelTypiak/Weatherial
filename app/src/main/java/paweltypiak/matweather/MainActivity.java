@@ -8,7 +8,9 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.ContactsContract;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -19,10 +21,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -140,6 +145,7 @@ public class MainActivity extends AppCompatActivity
         refreshMessageTextView=(TextView)findViewById(R.id.app_bar_refresh_text);
         refreshImageView=(ImageView) findViewById(R.id.app_bar_refresh_image);
         initializeAppBar();
+        setGeneralWeatherLayoutHeight();
         setSwipeRefreshLayout();
         initializeDialogs();
         setButtonsClickable();
@@ -174,7 +180,7 @@ public class MainActivity extends AppCompatActivity
         int locationSubheaderTextSize=UsefulFunctions.getTextViewHeight(
                 this,
                 "",
-                (int)getResources().getDimension(R.dimen.subheader_text_size),
+                (int)getResources().getDimension(R.dimen.secondary_location_text_size),
                 Typeface.DEFAULT,
                 0,
                 0,
@@ -211,7 +217,7 @@ public class MainActivity extends AppCompatActivity
         int collapsingToolbarHeight=UsefulFunctions.getTextViewHeight(
                 this,
                 "",
-                (int)getResources().getDimension(R.dimen.header_text_size),
+                (int)getResources().getDimension(R.dimen.primary_location_text_size),
                 Typeface.DEFAULT,
                 paddingLeft,
                 paddingTop,
@@ -236,6 +242,7 @@ public class MainActivity extends AppCompatActivity
         animateTimeLayout(percentage);
         animateSecondaryLocationNameTextView(percentage);
         animateYahooLogoLayout(percentage);
+        animateSeeMoreArrow(percentage);
     }
 
     private void animateTimeLayout(float percentage){
@@ -258,6 +265,62 @@ public class MainActivity extends AppCompatActivity
         LinearLayout yahooLogoLayout=(LinearLayout)findViewById(R.id.yahoo_logo_layout);
         yahooLogoLayout.setAlpha(yahooLogoLayoutDisappearPercentage);
     }
+
+    private void animateSeeMoreArrow(float percentage){
+        final int SEE_MORE_IMAGE_VIEW_DISAPPEARANCE_TIME_MULTIPLIER =3;
+        float seeMoreImageViewDisappearPercentage=1-(percentage* SEE_MORE_IMAGE_VIEW_DISAPPEARANCE_TIME_MULTIPLIER);
+        ImageView seeMoreImageView=(ImageView)findViewById(R.id.current_weather_layout_see_more_image);
+        seeMoreImageView.setAlpha(seeMoreImageViewDisappearPercentage);
+    }
+
+    private void setGeneralWeatherLayoutHeight(){
+        int screenHeight=UsefulFunctions.getScreenHeight(this);
+        int statusBarHeight=UsefulFunctions.getStatusBarHeight(this);
+        int generalWeatherLayoutHeight=screenHeight-toolbarExpandedHeight-statusBarHeight;
+        LinearLayout generalWeatherLayout=(LinearLayout)findViewById(R.id.current_layout);
+        LinearLayout.LayoutParams generalWeatherLayoutParams=(LinearLayout.LayoutParams)generalWeatherLayout.getLayoutParams();
+        generalWeatherLayoutParams.height=generalWeatherLayoutHeight;
+        generalWeatherLayout.setLayoutParams(generalWeatherLayoutParams);
+        setCurrentTemperatureTextViewHeight(generalWeatherLayoutHeight);
+    }
+
+    private void setCurrentTemperatureTextViewHeight(final int generalWeatherLayoutHeight){
+        final LinearLayout generalWeatherLayout=(LinearLayout)findViewById(R.id.current_layout);
+        ViewTreeObserver observer = generalWeatherLayout.getViewTreeObserver();
+        observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                ImageView currentConditionsImageView=(ImageView)findViewById(R.id.current_conditions_image);
+
+                int currentConditionsImageViewVerticalPadding=generalWeatherLayoutHeight/20;
+                //currentConditionsImageView.setPadding(0,currentConditionsImageViewVerticalPadding,0,currentConditionsImageViewVerticalPadding);
+                RelativeLayout currentTemperatureLayout=(RelativeLayout)findViewById(R.id.current_temperature_layout);
+                int currentTemperatureLayoutVerticalTranslation=(int)(generalWeatherLayoutHeight*0.02f);
+                currentTemperatureLayout.setTranslationY(-currentTemperatureLayoutVerticalTranslation);
+                int currentTemperatureTextViewHeight=currentTemperatureLayout.getHeight();
+                TextView currentTemperatureTextView=(TextView)findViewById(R.id.current_temperature_text);
+                currentTemperatureTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, currentTemperatureTextViewHeight);
+                TextView currentTemperatureDagreeSignTextView=(TextView)findViewById(R.id.current_temperature_dagree_sign_text);
+                currentTemperatureDagreeSignTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, currentTemperatureTextViewHeight);
+
+                TextView currentTemperatureUnitTextView=(TextView)findViewById(R.id.current_temperature_unit_text);
+                int currentTemperatureUnitTextViewHeight=(int)(currentTemperatureTextViewHeight/2.5f);
+                currentTemperatureUnitTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, currentTemperatureUnitTextViewHeight);
+                int currentTemperatureUnitTextViewTranslationY=(int)(currentTemperatureTextViewHeight/35);
+                currentTemperatureUnitTextView.setTranslationY(currentTemperatureUnitTextViewTranslationY);
+
+                ImageView seeMoreImageView=(ImageView)findViewById(R.id.current_weather_layout_see_more_image);
+                Log.d("image_size", "onGlobalLayout: "+seeMoreImageView.getWidth());
+
+
+                generalWeatherLayout.getViewTreeObserver().removeOnGlobalLayoutListener(
+                        this);
+            }
+        });
+
+
+    }
+
 
     @Override
     public void weatherServiceSuccess(Channel channel) {
@@ -422,6 +485,22 @@ public class MainActivity extends AppCompatActivity
         setLocationClickable();
     }
 
+    private void setSeeMoreButtonClickable(){
+        ImageView seeMoreImageView=(ImageView)findViewById(R.id.current_weather_layout_see_more_image);
+        final AppBarLayout appBarLayout=(AppBarLayout)findViewById(R.id.app_bar);
+        final CoordinatorLayout coordinatorLayout=(CoordinatorLayout)findViewById(R.id.main_coordinator_layout);
+        seeMoreImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams();
+                AppBarLayout.Behavior behavior = (AppBarLayout.Behavior) params.getBehavior();
+                if (behavior != null) {
+                    behavior.onNestedFling(coordinatorLayout, appBarLayout, null, 0, 10000, true);
+                }
+            }
+        });
+    }
+
     private void setYahooClickable(){
         LinearLayout yahooLayout=(LinearLayout)findViewById(R.id.yahoo_logo_layout);
         yahooLayout.setOnClickListener(new View.OnClickListener() {
@@ -520,6 +599,7 @@ public class MainActivity extends AppCompatActivity
         int progressViewStart = toolbarExpandedHeight-swipeRefrehLayoutOffset;
         int progressViewEnd = (int)(progressViewStart+swipeRefrehLayoutOffset*1.5f);
         swipeRefreshLayout.setProgressViewOffset(true, progressViewStart, progressViewEnd);
+
         swipeRefreshLayout.setOnTouchListener(new View.OnTouchListener() {
             //dynamically set transparency depending on the pull
             boolean isTouched=false;
@@ -537,6 +617,7 @@ public class MainActivity extends AppCompatActivity
                         isTouched=true;
                         startWidth = event.getRawX();
                         startHeight = event.getRawY();
+
                     }
                     movedWidth = event.getRawX() - startWidth;
                     movedHeight = event.getRawY() - startHeight;

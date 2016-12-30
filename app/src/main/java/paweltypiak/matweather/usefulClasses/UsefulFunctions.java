@@ -11,9 +11,11 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
@@ -523,6 +525,13 @@ public class UsefulFunctions {
         }
     }
 
+    public static Drawable getColoredDrawable(Activity activity, int drawableId, int color){
+        Drawable drawable = ContextCompat.getDrawable(activity, drawableId).mutate();
+        drawable.setColorFilter(new
+                PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN));
+        return drawable;
+    }
+
     public class SmoothActionBarDrawerToggle extends ActionBarDrawerToggle {
         //smooth drawer toggle - action is called after drawer is hide
         private Runnable runnable;
@@ -565,10 +574,11 @@ public class UsefulFunctions {
     }
 
     public static int getStatusBarHeight(Activity activity){
-        Rect rectangle = new Rect();
-        Window window = activity.getWindow();
-        window.getDecorView().getWindowVisibleDisplayFrame(rectangle);
-        int statusBarHeight = rectangle.top;
+        int statusBarHeight = 0;
+        int resourceId = activity.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            statusBarHeight = activity.getResources().getDimensionPixelSize(resourceId);
+        }
         return statusBarHeight;
     }
 

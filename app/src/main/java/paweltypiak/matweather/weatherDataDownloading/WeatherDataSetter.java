@@ -2,6 +2,7 @@ package paweltypiak.matweather.weatherDataDownloading;
 
 import android.app.Activity;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.content.ContextCompat;
 import android.text.format.DateFormat;
@@ -26,7 +27,7 @@ import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
 public class WeatherDataSetter {
 
-    private String chill;
+    //private String chill;
     private String direction;
     private String directionName;
     private String speed;
@@ -37,6 +38,8 @@ public class WeatherDataSetter {
     private String sunset;
     private int code;
     private String temperature;
+    private String temperatureUnit;
+    private String temperatureDagreeSign;
     private int[] forecastCode;
     private String[] forecastHighTemperature;
     private String[] forecastLowTemperature;
@@ -50,6 +53,7 @@ public class WeatherDataSetter {
     private String[] dayName;
     private LinearLayout contentLayout;
     private View currentDetailsDividerView;
+    private View detailsSubdividerView;
     private View detailsForecastDividerView;
     private ImageView yahooImageView;
     private TextView timeTextView;
@@ -59,12 +63,8 @@ public class WeatherDataSetter {
     private TextView conditionTextView;
     private ImageView conditionImageView;
     private TextView temperatureTextView;
-    private TextView chillTextView;
-    private TextView chillTitleTextView;
-    private TextView highTemperatureTextView;
-    private TextView lowTemperatureTextView;
-    private ImageView highTemperatureImageView;
-    private ImageView lowTemperatureImageView;
+    private TextView temperatureUnitTextView;
+    private TextView temperatureDagreeSignTextView;
     private ImageView sunsetSunriseLeftImageView;
     private ImageView sunsetSunriseRightImageView;
     private TextView sunsetSunriseLeftTextView;
@@ -102,6 +102,7 @@ public class WeatherDataSetter {
     private int backgroundColor;
     private int textPrimaryColor;
     private int textSecondaryColor;
+    private int textDisabledColor;
     private int dividerColor;
     private int iconColor;
     private int objectIconColor;
@@ -210,6 +211,7 @@ public class WeatherDataSetter {
             backgroundColor= ContextCompat.getColor(activity,R.color.backgroundLight);
             textPrimaryColor=ContextCompat.getColor(activity,R.color.textPrimaryLightBackground);
             textSecondaryColor=ContextCompat.getColor(activity,R.color.textSecondaryLightBackground);
+            textDisabledColor=ContextCompat.getColor(activity,R.color.textDisabledLightBackground);
             dividerColor=ContextCompat.getColor(activity,R.color.dividerLightBackground);
             iconColor=ContextCompat.getColor(activity,R.color.iconLightBackground);
             objectIconColor=ContextCompat.getColor(activity,R.color.black);
@@ -218,6 +220,7 @@ public class WeatherDataSetter {
             backgroundColor=ContextCompat.getColor(activity,R.color.backgroundDark);
             textPrimaryColor=ContextCompat.getColor(activity,R.color.textPrimaryDarkBackground);
             textSecondaryColor=ContextCompat.getColor(activity,R.color.textSecondaryDarkBackground);
+            textDisabledColor=ContextCompat.getColor(activity,R.color.textDisabledDarkBackground);
             dividerColor=ContextCompat.getColor(activity,R.color.dividerDarkBackground);
             iconColor=ContextCompat.getColor(activity,R.color.iconDarkBackground);
             objectIconColor=ContextCompat.getColor(activity,R.color.white);
@@ -267,17 +270,15 @@ public class WeatherDataSetter {
         conditionTextView.setTextColor(textPrimaryColor);
         temperatureTextView.setText(temperature);
         temperatureTextView.setTextColor(textPrimaryColor);
-        highTemperatureTextView.setText(forecastHighTemperature[0]);
-        highTemperatureTextView.setTextColor(textPrimaryColor);
-        lowTemperatureTextView.setText(forecastLowTemperature[0]);
-        lowTemperatureTextView.setTextColor(textPrimaryColor);
-        chillTitleTextView.setText(activity.getResources().getString(R.string.weather_chill) + ": ");
-        chillTitleTextView.setTextColor(iconColor);
-        chillTextView.setText(chill);
-        chillTextView.setTextColor(textPrimaryColor);
+        temperatureDagreeSignTextView.setTextColor(textPrimaryColor);
+        temperatureUnitTextView.setText(temperatureUnit);
+        temperatureUnitTextView.setTextColor(textDisabledColor);
         Picasso.with(activity.getApplicationContext()).load(conditionDrawableId).into(conditionImageView);
-        Picasso.with(activity.getApplicationContext()).load(R.drawable.arrow).transform(new UsefulFunctions().new setDrawableColor(iconColor)).into(highTemperatureImageView);
-        Picasso.with(activity.getApplicationContext()).load(R.drawable.arrow).transform(new UsefulFunctions().new setDrawableColor(iconColor)).rotate(180f).into(lowTemperatureImageView);
+        Drawable arrowIconDrawable = UsefulFunctions.getColoredDrawable(activity,R.drawable.arrow_no_padding_icon,dividerColor);
+        ImageView seeMoreImageView=(ImageView)activity.findViewById(R.id.current_weather_layout_see_more_image);
+        seeMoreImageView.setRotation(180);
+        seeMoreImageView.setImageDrawable(arrowIconDrawable);
+
         currentDetailsDividerView.setBackgroundColor(dividerColor);
     }
 
@@ -348,6 +349,7 @@ public class WeatherDataSetter {
         Picasso.with(activity.getApplicationContext()).load(R.drawable.humidity_icon).fit().transform(new UsefulFunctions().new setDrawableColor(iconColor)).centerInside().into(humidityImageView);
         Picasso.with(activity.getApplicationContext()).load(R.drawable.pressure_icon).fit().transform(new UsefulFunctions().new setDrawableColor(iconColor)).centerInside().into(pressureImageView);
         Picasso.with(activity.getApplicationContext()).load(R.drawable.visibility_icon).fit().transform(new UsefulFunctions().new setDrawableColor(iconColor)).centerInside().into(visibilityImageView);
+        detailsSubdividerView.setBackgroundColor(dividerColor);
         detailsForecastDividerView.setBackgroundColor(dividerColor);
     }
 
@@ -383,7 +385,7 @@ public class WeatherDataSetter {
         country=currentDataFormatter.getCountry();
         latitude=currentDataFormatter.getLatitude();
         longitude=currentDataFormatter.getLongitude();
-        chill = currentDataFormatter.getChill();
+        //chill = currentDataFormatter.getChill();
         direction= currentDataFormatter.getDirection();
         speed= currentDataFormatter.getSpeed();
         humidity= currentDataFormatter.getHumidity();
@@ -393,6 +395,7 @@ public class WeatherDataSetter {
         sunset= currentDataFormatter.getSunset();
         code= currentDataFormatter.getCode();
         temperature= currentDataFormatter.getTemperature();
+        temperatureUnit=currentDataFormatter.getTemperatureUnit();
         forecastCode = currentDataFormatter.getForecastCode();
         forecastHighTemperature = currentDataFormatter.getForecastHighTemperature();
         forecastLowTemperature = currentDataFormatter.getForecastLowTemperature();
@@ -407,7 +410,7 @@ public class WeatherDataSetter {
         Log.d("formatted_data", "country: "+country);
         Log.d("formatted_data", "latitude: "+latitude);
         Log.d("formatted_data", "longitude: "+longitude);
-        Log.d("formatted_data", "chill: "+chill);
+        //Log.d("formatted_data", "chill: "+chill);
         Log.d("formatted_data", "direction: "+direction);
         Log.d("formatted_data", "speed: "+speed);
         Log.d("formatted_data", "humidity: "+humidity);
@@ -445,12 +448,8 @@ public class WeatherDataSetter {
         conditionTextView =(TextView)activity.findViewById(R.id.current_conditions_text);
         conditionImageView =(ImageView)activity.findViewById(R.id.current_conditions_image);
         temperatureTextView =(TextView)activity.findViewById(R.id.current_temperature_text);
-        chillTextView =(TextView)activity.findViewById(R.id.chill_text);
-        chillTitleTextView =(TextView)activity.findViewById(R.id.chill_title_text);
-        highTemperatureTextView =(TextView)activity.findViewById(R.id.high_temperature_text);
-        lowTemperatureTextView =(TextView)activity.findViewById(R.id.low_temperature_text);
-        highTemperatureImageView =(ImageView)activity.findViewById(R.id.high_temperature_image);
-        lowTemperatureImageView =(ImageView)activity.findViewById(R.id.low_temperature_image);
+        temperatureUnitTextView=(TextView)activity.findViewById(R.id.current_temperature_unit_text);
+        temperatureDagreeSignTextView=(TextView)activity.findViewById(R.id.current_temperature_dagree_sign_text);
         currentDetailsDividerView =activity.findViewById(R.id.current_details_divider);
     }
 
@@ -475,6 +474,7 @@ public class WeatherDataSetter {
         humidityTextView =(TextView)activity.findViewById(R.id.humidity_text);
         pressureTextView=(TextView)activity.findViewById(R.id.pressure_text);
         visibilityTextView =(TextView)activity.findViewById(R.id.visibility_text);
+        detailsSubdividerView=activity.findViewById(R.id.details_subdivider);
         detailsForecastDividerView =activity.findViewById(R.id.details_forecast_divider);
     }
 

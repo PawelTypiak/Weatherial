@@ -26,6 +26,7 @@ public class WeatherDataFormatter {
     private String sunset24;
     private int code;
     private String temperature;
+    private String temperatureUnit;
     private int[] forecastCode;
     private String[] forecastHighTemperature;
     private String[] forecastLowTemperature;
@@ -89,14 +90,14 @@ public class WeatherDataFormatter {
     }
 
     private void formatCondition(){
-        temperature=formatTemperatureUnit(temperature)+"\u00B0";
+        temperature=formatTemperatureUnit(temperature);
     }
 
     private void formatForecast(){
-        String dagreesSymbol="\u00B0";
+        String dagreeSign=activity.getString(R.string.dagree_sign);
         for(int i=0;i<5;i++){
-            forecastLowTemperature[i]=formatTemperatureUnit(forecastLowTemperature[i])+dagreesSymbol;
-            forecastHighTemperature[i]=formatTemperatureUnit(forecastHighTemperature[i])+dagreesSymbol;
+            forecastLowTemperature[i]=formatTemperatureUnit(forecastLowTemperature[i])+dagreeSign;
+            forecastHighTemperature[i]=formatTemperatureUnit(forecastHighTemperature[i])+dagreeSign;
         }
     }
 
@@ -201,6 +202,10 @@ public class WeatherDataFormatter {
     private String formatTemperatureUnit(String temperature){
         if(units[0]==0){
             temperature=Integer.toString((int)Math.round(0.55*(Integer.parseInt(temperature)-32)));
+            temperatureUnit="C";
+        }
+        else {
+            temperatureUnit="F";
         }
         return temperature;
     }
@@ -295,6 +300,7 @@ public class WeatherDataFormatter {
     public String getSunset() {return sunset;}
     public int getCode() {return code;}
     public String getTemperature() {return temperature;}
+    public String getTemperatureUnit(){return temperatureUnit;}
     public int[] getForecastCode() {return forecastCode;}
     public String[] getForecastHighTemperature() {return forecastHighTemperature;}
     public String[] getForecastLowTemperature() {return forecastLowTemperature;}
