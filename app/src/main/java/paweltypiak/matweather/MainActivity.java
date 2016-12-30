@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.ContactsContract;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -22,7 +21,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -36,7 +34,7 @@ import com.squareup.picasso.Picasso;
 
 import net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout;
 
-import java.lang.reflect.Field;
+import java.util.Observer;
 
 import paweltypiak.matweather.localizationDataDownloading.GeocodingCallback;
 import paweltypiak.matweather.localizationDataDownloading.GeocodingDownloader;
@@ -145,7 +143,8 @@ public class MainActivity extends AppCompatActivity
         refreshMessageTextView=(TextView)findViewById(R.id.app_bar_refresh_text);
         refreshImageView=(ImageView) findViewById(R.id.app_bar_refresh_image);
         initializeAppBar();
-        setGeneralWeatherLayoutHeight();
+        setGeneralWeatherLayoutSizes();
+        setDetailsLayoutSizes();
         setSwipeRefreshLayout();
         initializeDialogs();
         setButtonsClickable();
@@ -273,7 +272,7 @@ public class MainActivity extends AppCompatActivity
         seeMoreImageView.setAlpha(seeMoreImageViewDisappearPercentage);
     }
 
-    private void setGeneralWeatherLayoutHeight(){
+    private void setGeneralWeatherLayoutSizes(){
         int screenHeight=UsefulFunctions.getScreenHeight(this);
         int statusBarHeight=UsefulFunctions.getStatusBarHeight(this);
         int generalWeatherLayoutHeight=screenHeight-toolbarExpandedHeight-statusBarHeight;
@@ -319,6 +318,35 @@ public class MainActivity extends AppCompatActivity
         });
 
 
+    }
+
+    private void setDetailsLayoutSizes(){
+        setAdditionalConditionsLayoutSizes();
+    }
+
+    private void setAdditionalConditionsLayoutSizes(){
+        final LinearLayout additionalConditionsLayout=(LinearLayout)findViewById(R.id.additional_conditions_layout);
+        ViewTreeObserver observer=additionalConditionsLayout.getViewTreeObserver();
+        observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                int iconSize=(int)getResources().getDimension(R.dimen.additional_conditions_icon_size);
+                TextView textView = (TextView)findViewById(R.id.speed_text);
+                int textSize=textView.getWidth();
+                int iconEmptySpace=(textSize-iconSize)/2;
+                LinearLayout directionLayout=(LinearLayout)findViewById(R.id.direction_layout);
+                LinearLayout.LayoutParams directionLayoutParams=(LinearLayout.LayoutParams)directionLayout.getLayoutParams();
+                directionLayoutParams.rightMargin=iconEmptySpace;
+                Log.d("space", "onGlobalLayout: "+iconEmptySpace);
+                directionLayout.setLayoutParams(directionLayoutParams);
+                LinearLayout humidityLayout=(LinearLayout)findViewById(R.id.humidity_layout);
+                LinearLayout.LayoutParams humidityLayoutParams=(LinearLayout.LayoutParams)humidityLayout.getLayoutParams();
+                humidityLayoutParams.leftMargin=iconEmptySpace;
+                humidityLayout.setLayoutParams(humidityLayoutParams);
+                additionalConditionsLayout.getViewTreeObserver().removeOnGlobalLayoutListener(
+                        this);
+            }
+        });
     }
 
 

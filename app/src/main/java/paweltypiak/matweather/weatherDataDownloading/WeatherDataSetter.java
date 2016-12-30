@@ -1,9 +1,7 @@
 package paweltypiak.matweather.weatherDataDownloading;
 
 import android.app.Activity;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.support.design.widget.AppBarLayout;
 import android.support.v4.content.ContextCompat;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -14,8 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
-
-import net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout;
 
 import java.util.Calendar;
 import static paweltypiak.matweather.usefulClasses.UsefulFunctions.initializeUiThread;
@@ -33,7 +29,7 @@ public class WeatherDataSetter {
     private String speed;
     private String humidity;
     private String pressure;
-    private String visibility;
+    //private String visibility;
     private String sunrise;
     private String sunset;
     private int code;
@@ -81,12 +77,12 @@ public class WeatherDataSetter {
     private ImageView speedImageView;
     private ImageView humidityImageView;
     private ImageView pressureImageView;
-    private ImageView visibilityImageView;
+   // private ImageView visibilityImageView;
     private TextView directionTextView;
     private TextView speedTextView;
     private TextView humidityTextView;
     private TextView pressureTextView;
-    private TextView visibilityTextView;
+   // private TextView visibilityTextView;
     private ImageView refreshIconImageView;
     private int[] forecastDrawable;
     private TextView[] forecastDayNameTextView;
@@ -341,16 +337,33 @@ public class WeatherDataSetter {
         humidityTextView.setTextColor(textPrimaryColor);
         pressureTextView.setText(pressure);
         pressureTextView.setTextColor(textPrimaryColor);
-        visibilityTextView.setText(visibility);
-        visibilityTextView.setTextColor(textPrimaryColor);
+        //visibilityTextView.setText(visibility);
+        //visibilityTextView.setTextColor(textPrimaryColor);
         Picasso.with(activity.getApplicationContext()).load(R.drawable.direction_icon).transform(new UsefulFunctions().new setDrawableColor(backgroundColor)).rotate(Float.parseFloat(direction)).fit().centerInside().into(directionImageView);
         Picasso.with(activity.getApplicationContext()).load(R.drawable.north_letter_icon).fit().transform(new UsefulFunctions().new setDrawableColor(iconColor)).centerInside().into(directionNorthImageView);
         Picasso.with(activity.getApplicationContext()).load(R.drawable.speed_icon).fit().transform(new UsefulFunctions().new setDrawableColor(iconColor)).centerInside().into(speedImageView);
         Picasso.with(activity.getApplicationContext()).load(R.drawable.humidity_icon).fit().transform(new UsefulFunctions().new setDrawableColor(iconColor)).centerInside().into(humidityImageView);
         Picasso.with(activity.getApplicationContext()).load(R.drawable.pressure_icon).fit().transform(new UsefulFunctions().new setDrawableColor(iconColor)).centerInside().into(pressureImageView);
-        Picasso.with(activity.getApplicationContext()).load(R.drawable.visibility_icon).fit().transform(new UsefulFunctions().new setDrawableColor(iconColor)).centerInside().into(visibilityImageView);
+        //Picasso.with(activity.getApplicationContext()).load(R.drawable.visibility_icon).fit().transform(new UsefulFunctions().new setDrawableColor(iconColor)).centerInside().into(visibilityImageView);
         detailsSubdividerView.setBackgroundColor(dividerColor);
         detailsForecastDividerView.setBackgroundColor(dividerColor);
+
+
+       /*final LinearLayout lin=(LinearLayout)activity.findViewById(R.id.additional_conditions_layout);
+        ViewTreeObserver observer = lin.getViewTreeObserver();
+        observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                View view_small=activity.findViewById(R.id.test_view_small);
+                Log.d("width", "onGlobalLayout small: "+view_small.getWidth());
+                View view_big=activity.findViewById(R.id.test_view_big);
+                Log.d("width", "onGlobalLayout big: "+view_big.getWidth());
+                lin.getViewTreeObserver().removeOnGlobalLayoutListener(
+                        this);
+            }
+        });*/
+
+
     }
 
     private void setForecastLayout() {
@@ -390,7 +403,7 @@ public class WeatherDataSetter {
         speed= currentDataFormatter.getSpeed();
         humidity= currentDataFormatter.getHumidity();
         pressure= currentDataFormatter.getPressure();
-        visibility= currentDataFormatter.getVisibility();
+        //visibility= currentDataFormatter.getVisibility();
         sunrise= currentDataFormatter.getSunrise();
         sunset= currentDataFormatter.getSunset();
         code= currentDataFormatter.getCode();
@@ -415,7 +428,7 @@ public class WeatherDataSetter {
         Log.d("formatted_data", "speed: "+speed);
         Log.d("formatted_data", "humidity: "+humidity);
         Log.d("formatted_data", "pressure: "+pressure);
-        Log.d("formatted_data", "visibility: "+visibility);
+        //Log.d("formatted_data", "visibility: "+visibility);
         Log.d("formatted_data", "sunrise: "+sunrise);
         Log.d("formatted_data", "sunset: "+sunset);
         Log.d("formatted_data", "code: "+code);
@@ -468,12 +481,12 @@ public class WeatherDataSetter {
         speedImageView =(ImageView)activity.findViewById(R.id.speed_image);
         humidityImageView =(ImageView)activity.findViewById(R.id.humidity_image);
         pressureImageView =(ImageView)activity.findViewById(R.id.pressure_image);
-        visibilityImageView =(ImageView)activity.findViewById(R.id.visibility_image);
+        //visibilityImageView =(ImageView)activity.findViewById(R.id.visibility_image);
         directionTextView =(TextView)activity.findViewById(R.id.direction_text);
         speedTextView =(TextView)activity.findViewById(R.id.speed_text);
         humidityTextView =(TextView)activity.findViewById(R.id.humidity_text);
         pressureTextView=(TextView)activity.findViewById(R.id.pressure_text);
-        visibilityTextView =(TextView)activity.findViewById(R.id.visibility_text);
+        //visibilityTextView =(TextView)activity.findViewById(R.id.visibility_text);
         detailsSubdividerView=activity.findViewById(R.id.details_subdivider);
         detailsForecastDividerView =activity.findViewById(R.id.details_forecast_divider);
     }

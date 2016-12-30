@@ -30,6 +30,7 @@
     <dimen name="current_weather_layout_bottom_padding">16dp</dimen>
     <dimen name="current_weather_layout_top_padding">48dp</dimen>
     <dimen name="current_Weather_layout_temperature_layout_bottom_padding">48dp</dimen>
+    <dimen name="additional_conditions_icons_bottom_margin">8dp</dimen>
 
     <!-- other sizes -->
     <dimen name="dialog_loading_progress_bar_size">48dp</dimen>
@@ -43,6 +44,7 @@
     <!-- image sizes -->
     <dimen name="refresh_message_icon_size">12dp</dimen>
     <dimen name="see_more_icon_size">24dp</dimen>
+    <dimen name="additional_conditions_icon_size">56dp</dimen>
 
     <!-- text sizes -->
     <dimen name="primary_location_text_size">45dp</dimen>
