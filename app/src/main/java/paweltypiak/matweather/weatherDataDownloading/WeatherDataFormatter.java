@@ -253,7 +253,7 @@ public class WeatherDataFormatter {
             }
         }
         else {
-            SimpleDateFormat outputFormat = new SimpleDateFormat("h:mm a");
+            SimpleDateFormat outputFormat = new SimpleDateFormat("hh:mm\na");
             Date date;
             try {
                 date = inputFormat.parse(time);
