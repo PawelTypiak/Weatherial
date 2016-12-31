@@ -1,0 +1,6 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <solid
+        android:color="@color/black"/>
+    <size android:width="@dimen/sun_path_progress_bar_boundary_size" android:height="@dimen/sun_path_progress_bar_boundary_size"/>
+</shape>

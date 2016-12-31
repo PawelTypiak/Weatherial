@@ -8,9 +8,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/current_weather_layout_bottom_padding"
         android:paddingLeft="@dimen/activity_normal_margin"
         android:paddingRight="@dimen/activity_normal_margin"
+        android:paddingBottom="@dimen/activity_normal_margin"
         android:orientation="vertical"
         android:id="@+id/current_layout">
         <View
@@ -95,9 +95,10 @@
             />
         <ImageView
             android:id="@+id/current_weather_layout_see_more_image"
-            android:layout_width="@dimen/see_more_icon_size"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/see_more_icon_size"
             android:scaleType="centerInside"
+            android:adjustViewBounds="true"
             android:layout_gravity="center_horizontal"
             />
     </LinearLayout>
@@ -258,62 +259,111 @@
             android:id="@+id/sunrise_sunset_layout">
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_alignParentLeft="true"
-                    android:id="@+id/sunrise_sunset_left_text"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_alignParentRight="true"
-                    android:id="@+id/sunrise_sunset_right_text"/>
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="72dp"
-                android:orientation="vertical"
-                android:id="@+id/sun_path_layout"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/sun_path_arrow_indicator_margin"
                 >
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:id="@+id/sun_path_backgroud_image"
-                    />
-                <ImageView
+                <LinearLayout
+                    android:id="@+id/sun_path_left_layout"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:id="@+id/sun_path_left_image"
-                    />
-                <ImageView
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/sunrise_sunset_left_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/sun_path_text_arrow_margin"
+                        android:gravity="center"
+                        android:includeFontPadding="false"
+                        />
+                    <ImageView
+                        android:id="@+id/sunrise_sunset_left_image"
+                        android:layout_width="@dimen/sunrise_sunset_icon_size"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:layout_gravity="center_horizontal"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/sun_path_right_layout"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:id="@+id/sun_path_right_image"
-                    />
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:id="@+id/sun_path_object_image"
-                    />
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:id="@+id/sun_path_object_background_image"
-                    />
-            </RelativeLayout>
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/sunrise_sunset_right_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/sun_path_text_arrow_margin"
+                        android:includeFontPadding="false"
+                        android:gravity="center"/>
+                    <ImageView
+                        android:id="@+id/sunrise_sunset_right_image"
+                        android:layout_width="@dimen/sunrise_sunset_icon_size"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:layout_gravity="center_horizontal"
+                        />
+                </LinearLayout>
 
+            </RelativeLayout>
+            <LinearLayout
+                android:id="@+id/sun_path_progress_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:id="@+id/sun_path_progress_bar_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="@dimen/sun_path_progress_bar_progress_icon_margin">
+                    <ImageView
+                        android:id="@+id/sun_path_progress_bar_left_boundary_image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/sun_path_progress_bar_boundary"
+                        />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="center_vertical"
+                        >
+                        <View
+                            android:id="@+id/sun_path_progress_bar_progress_view"
+                            android:layout_width="30dp"
+                            android:layout_height="@dimen/sun_path_progress_bar_view_size"
+                            android:background="@color/iconDarkBackground"/>
+                        <View
+                            android:id="@+id/sun_path_progress_bar_background_view"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/sun_path_progress_bar_view_size"
+                            android:layout_weight="1"
+                            android:background="@color/dividerDarkBackground"/>
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/sun_path_progress_bar_right_boundary_image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/sun_path_progress_bar_boundary"
+                        android:layout_alignParentRight="true"
+                        />
+                </LinearLayout>
+                <RelativeLayout
+                    android:id="@+id/sun_path_progress_icon_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/sun_path_progress_icon_image"
+                        android:layout_width="@dimen/sun_path_progress_icon_size"
+                        android:layout_height="@dimen/sun_path_progress_icon_size"
+                        android:src="@drawable/sun_icon"
+                        />
+                </RelativeLayout>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
     <View
@@ -437,6 +487,7 @@
                                         android:layout_width="@dimen/forecast_max_min_temperature_image_size"
                                         android:layout_height="@dimen/forecast_max_min_temperature_image_size"
                                         android:layout_gravity="center"/>
+
                                 </FrameLayout>
                                 <FrameLayout
                                     android:layout_width="wrap_content"
@@ -680,7 +731,8 @@
                                     <ImageView
                                         android:id="@+id/forecast_day2_high_temperature_image"
                                         android:layout_width="@dimen/forecast_max_min_temperature_image_size"
-                                        android:layout_height="@dimen/forecast_max_min_temperature_image_size"
+                                        android:layout_height="wrap_content"
+                                        android:adjustViewBounds="true"
                                         android:layout_gravity="center"/>
                                 </FrameLayout>
                                 <FrameLayout
@@ -690,7 +742,8 @@
                                     <ImageView
                                         android:id="@+id/forecast_day2_low_temperature_image"
                                         android:layout_width="@dimen/forecast_max_min_temperature_image_size"
-                                        android:layout_height="@dimen/forecast_max_min_temperature_image_size"
+                                        android:layout_height="wrap_content"
+                                        android:adjustViewBounds="true"
                                         android:layout_gravity="center"
                                         />
                                 </FrameLayout>

@@ -243,7 +243,7 @@ public class WeatherDataFormatter {
     private String formatTimeUnit(String time) {
         SimpleDateFormat inputFormat = new SimpleDateFormat("hh:mm a");
         if (units[4] == 0) {
-            SimpleDateFormat outputFormat = new SimpleDateFormat("H:mm");
+            SimpleDateFormat outputFormat = new SimpleDateFormat("HH:mm");
             Date date;
             try {
                 date = inputFormat.parse(time);
