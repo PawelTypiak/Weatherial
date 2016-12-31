@@ -34,8 +34,6 @@ import com.squareup.picasso.Picasso;
 
 import net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout;
 
-import java.util.Observer;
-
 import paweltypiak.matweather.localizationDataDownloading.GeocodingCallback;
 import paweltypiak.matweather.localizationDataDownloading.GeocodingDownloader;
 import paweltypiak.matweather.localizationDataDownloading.CurrentCoordinatesDownloader;
@@ -145,6 +143,7 @@ public class MainActivity extends AppCompatActivity
         initializeAppBar();
         setGeneralWeatherLayoutSizes();
         setDetailsLayoutSizes();
+        setForecastLayoutSizes();
         setSwipeRefreshLayout();
         initializeDialogs();
         setButtonsClickable();
@@ -344,6 +343,34 @@ public class MainActivity extends AppCompatActivity
                 humidityLayoutParams.leftMargin=iconEmptySpace;
                 humidityLayout.setLayoutParams(humidityLayoutParams);
                 additionalConditionsLayout.getViewTreeObserver().removeOnGlobalLayoutListener(
+                        this);
+            }
+        });
+    }
+
+    private void setForecastLayoutSizes(){
+        final LinearLayout forecastLayout=(LinearLayout)findViewById(R.id.forecast_layout);
+        ViewTreeObserver observer=forecastLayout.getViewTreeObserver();
+        observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                LinearLayout daysLayout=(LinearLayout)findViewById(R.id.forecast_days_layout);
+                int daysLayoutHeight=daysLayout.getHeight();
+                LinearLayout dayLayout=(LinearLayout)findViewById(R.id.forecast_day0_layout);
+                int dayLayoutHeight=dayLayout.getHeight();
+                int stepperHeight=daysLayoutHeight-dayLayoutHeight;
+                RelativeLayout dateLayout=(RelativeLayout)findViewById(R.id.forecast_day0_date_layout);
+                int dateLayoutWidth=dateLayout.getWidth();
+                int conditionIconSize=(int)getResources().getDimension(R.dimen.forecast_condition_icon_size);
+                int conditionIconHorizontalMargin=(int)getResources().getDimension(R.dimen.forecast_condition_icon_horizontal_margin);
+                int stepperWidth=(int)getResources().getDimension(R.dimen.forecast_stepper_size);
+                int marginLeft=dateLayoutWidth+conditionIconHorizontalMargin+(conditionIconSize-stepperWidth)/2;
+                View stepperView=findViewById(R.id.forecast_stepper_view);
+                RelativeLayout.LayoutParams stepperViewLayoutParams=(RelativeLayout.LayoutParams)stepperView.getLayoutParams();
+                stepperViewLayoutParams.height=stepperHeight;
+                stepperViewLayoutParams.leftMargin=marginLeft;
+                stepperView.setLayoutParams(stepperViewLayoutParams);
+                forecastLayout.getViewTreeObserver().removeOnGlobalLayoutListener(
                         this);
             }
         });
