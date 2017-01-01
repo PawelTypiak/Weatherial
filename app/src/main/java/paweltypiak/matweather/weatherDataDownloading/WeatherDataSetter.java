@@ -59,18 +59,22 @@ public class WeatherDataSetter {
     private TextView temperatureTextView;
     private TextView temperatureUnitTextView;
     private TextView temperatureDagreeSignTextView;
-    private ImageView sunsetSunriseLeftImageView;
-    private ImageView sunsetSunriseRightImageView;
-    private TextView sunsetSunriseLeftTextView;
-    private TextView sunsetSunriseRightTextView;
-    private LinearLayout sunriseSunsetLayout;
-    private ImageView sunPathProgressIconImageView;
+    private LinearLayout sunPathLayout;
+    private int sunPathLayoutWidth;
+    private int sunPathTextViewWidth;
+    private RelativeLayout sunPathTimeLayout;
+    private TextView sunPathLeftTimeTextView;
+    private TextView sunPathRightTimeTextView;
+    private RelativeLayout sunPathArrowLayout;
+    private ImageView sunPathLeftArrowImageView;
+    private ImageView sunPathRightArrowImageView;
+    private LinearLayout sunPathProgressBarLayout;
     private ImageView sunPathProgressBarLeftBoundaryImageView;
     private ImageView sunPathProgressBarRightBoundaryImageView;
     private View sunPathProgressBarProgressView;
     private View sunPathProgressBarBackgroundView;
-    private long currentDiffMinutes;
-    private long sunsetSunriseDiffMinutes;
+    private RelativeLayout sunPathProgressIconLayout;
+    private ImageView sunPathProgressIconImageView;
     private ImageView directionImageView;
     private ImageView directionNorthImageView;
     private ImageView speedImageView;
@@ -95,9 +99,6 @@ public class WeatherDataSetter {
     private View[] forecastDividerView;
     private View forecastStepperView;
     private Activity activity;
-    private double objectScale;
-    private double lineScale;
-    private boolean isDay;
     private int backgroundColor;
     private int textPrimaryColor;
     private int textSecondaryColor;
@@ -108,13 +109,12 @@ public class WeatherDataSetter {
     private static WeatherDataFormatter currentDataFormatter;
     private static boolean startTimeThread;
     public static boolean newRefresh;
+    private long currentDiffMinutes;
+    private long sunsetSunriseDiffMinutes;
+    private boolean isDay;
     private String sunsetSunriseDiffMinutesString;
     private String currentDiffMinutesString;
     private String isDayString;
-    private int layoutHeight;
-    private int layoutWidth;
-    private int sunPathLength;
-    private int progressBoundarySize;
     private static Thread uiThread;
     private static int units[];
     private boolean isGeolocalizationMode;
@@ -166,16 +166,11 @@ public class WeatherDataSetter {
     private void setCurrentTime(Calendar calendar){
         //update timeTextView text every second
         String outputFormat;
-        if(units[4]==0) outputFormat="H:mm:ss";
-        else outputFormat="h:mm:ss a";
+        if(units[4]==0) outputFormat="HH:mm:ss";
+        else outputFormat="hh:mm:ss a";
         timeTextView.setText(DateFormat.format(outputFormat, calendar));
     }
-    private void changeTimeOfDay(){
-        //change time of  day if sunrise or sunset
-        isDay=!isDay;
-        setTheme();
-        setWeatherLayout();
-    }
+
     private void updateLayout(Calendar calendar){
         //update sun position every minute
         String outputMinutesFormat="H:mm";
@@ -195,6 +190,13 @@ public class WeatherDataSetter {
                 setSunPathProgress();
             }
         }
+    }
+
+    private void changeTimeOfDay(){
+        //change time of  day if sunrise or sunset
+        isDay=!isDay;
+        setTheme();
+        setWeatherLayout();
     }
 
     private void assignSunPositionStrings(String[] sunPositionStrings){
@@ -281,85 +283,13 @@ public class WeatherDataSetter {
         currentDetailsDividerView.setBackgroundColor(dividerColor);
     }
 
-    private void setSunPathLayout(){
-        //set layout for sun path
-        ViewTreeObserver treeObserver = sunriseSunsetLayout.getViewTreeObserver();
-        treeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                progressBoundarySize=(int)activity.getResources().getDimension(R.dimen.sun_path_progress_bar_boundary_size);
-                LinearLayout leftLayout=(LinearLayout)activity.findViewById(R.id.sun_path_left_layout);
-                int leftLayoutWidth=leftLayout.getMeasuredWidth();
-                sunPathLength=sunriseSunsetLayout.getMeasuredWidth()-leftLayoutWidth;
-                setSunPathProgressLayoutDimensions(leftLayoutWidth);
-                setSunPathProgress();
-                sunriseSunsetLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-            }
-        });
-    }
-
-    private void setSunPathProgress(){
-        int iconProgress=(int)(currentDiffMinutes*sunPathLength/sunsetSunriseDiffMinutes);
-        int barProgress=iconProgress-progressBoundarySize/2;
-        LinearLayout.LayoutParams progressViewParams=(LinearLayout.LayoutParams)sunPathProgressBarProgressView.getLayoutParams();
-        progressViewParams.width=barProgress;
-        sunPathProgressBarProgressView.setLayoutParams(progressViewParams);
-        sunPathProgressIconImageView.setTranslationX(iconProgress);
-    }
-
-    private void setSunPathProgressLayoutDimensions(int leftLayoutWidth){
-        setSunPathProgressBarDimensions(leftLayoutWidth);
-        setSunPathImageLayoutDimensions(leftLayoutWidth);
-    }
-
-    private void setSunPathProgressBarDimensions(int leftLayoutWidth){
-        int progressBarLayoutMargin=(leftLayoutWidth-progressBoundarySize)/2;
-        LinearLayout progressLayout=(LinearLayout)activity.findViewById(R.id.sun_path_progress_bar_layout);
-        LinearLayout.LayoutParams progressLayoutParams=(LinearLayout.LayoutParams)progressLayout.getLayoutParams();
-        progressLayoutParams.leftMargin=progressBarLayoutMargin;
-        progressLayoutParams.rightMargin=progressBarLayoutMargin;
-        progressLayout.setLayoutParams(progressLayoutParams);
-    }
-
-    private void setSunPathImageLayoutDimensions(int leftLayoutWidth){
-        int progressIconSize=(int)activity.getResources().getDimension(R.dimen.sun_path_progress_icon_size);
-        int progressIconLayoutMargin=(leftLayoutWidth-progressIconSize)/2;
-        RelativeLayout progressIconLayout=(RelativeLayout)activity.findViewById(R.id.sun_path_progress_icon_layout);
-        LinearLayout.LayoutParams progressIconLayoutParams= (LinearLayout.LayoutParams)progressIconLayout.getLayoutParams();
-        progressIconLayoutParams.leftMargin=progressIconLayoutMargin;
-        progressIconLayoutParams.rightMargin=progressIconLayoutMargin;
-        progressIconLayout.setLayoutParams(progressIconLayoutParams);
-    }
-
     private void setDetailsLayout(){
         getDetailsResources();
-        Drawable fullArrowIconDrawable = UsefulFunctions.getColoredDrawable(activity,R.drawable.full_arrow_icon,iconColor);
-        if(isDay ==true){
-            sunsetSunriseLeftTextView.setText(sunrise);
-            sunsetSunriseRightTextView.setText(sunset);
-            sunsetSunriseLeftImageView.setImageDrawable(fullArrowIconDrawable);
-            sunsetSunriseLeftImageView.setRotation(0);
-            sunsetSunriseRightImageView.setRotation(180);
-            sunsetSunriseRightImageView.setImageDrawable(fullArrowIconDrawable);
-        }
-        else {
-            sunsetSunriseLeftTextView.setText(sunset);
-            sunsetSunriseRightTextView.setText(sunrise);
-            sunsetSunriseRightTextView.setRotation(0);
-            sunsetSunriseLeftImageView.setRotation(180);
-            sunsetSunriseLeftImageView.setImageDrawable(fullArrowIconDrawable);
-            sunsetSunriseRightImageView.setImageDrawable(fullArrowIconDrawable);
-        }
-        sunsetSunriseLeftTextView.setTextColor(textPrimaryColor);
-        sunsetSunriseRightTextView.setTextColor(textPrimaryColor);
-        Drawable sunIconDrawable = UsefulFunctions.getColoredDrawable(activity,R.drawable.sun_icon,textPrimaryColor);
-        sunPathProgressIconImageView.setImageDrawable(sunIconDrawable);
-        Drawable boundaryDrawable = UsefulFunctions.getColoredDrawable(activity,R.drawable.sun_path_progress_bar_boundary,iconColor);
-        sunPathProgressBarLeftBoundaryImageView.setImageDrawable(boundaryDrawable);
-        sunPathProgressBarRightBoundaryImageView.setImageDrawable(boundaryDrawable);
-        sunPathProgressBarProgressView.setBackgroundColor(iconColor);
-        sunPathProgressBarBackgroundView.setBackgroundColor(dividerColor);
+        setAdditionalConditionsLayout();
         setSunPathLayout();
+    }
+
+    private void setAdditionalConditionsLayout(){
         directionTextView.setText(directionName);
         directionTextView.setTextColor(textPrimaryColor);
         speedTextView.setText(speed);
@@ -375,6 +305,136 @@ public class WeatherDataSetter {
         Picasso.with(activity.getApplicationContext()).load(R.drawable.pressure_icon).fit().transform(new UsefulFunctions().new setDrawableColor(iconColor)).centerInside().into(pressureImageView);
         detailsSubdividerView.setBackgroundColor(dividerColor);
         detailsForecastDividerView.setBackgroundColor(dividerColor);
+    }
+
+    private void setSunPathLayout(){
+        setSunPathLayoutChildOrder();
+        setVerticalMargins();
+        if(isDay ==true){
+            sunPathLeftTimeTextView.setText(sunrise);
+            sunPathRightTimeTextView.setText(sunset);
+            sunPathLeftArrowImageView.setRotation(0);
+            sunPathRightArrowImageView.setRotation(180);
+        }
+        else {
+            sunPathLeftTimeTextView.setText(sunset);
+            sunPathRightTimeTextView.setText(sunrise);
+            sunPathRightTimeTextView.setRotation(0);
+            sunPathLeftArrowImageView.setRotation(180);
+
+        }
+        Drawable fullArrowIconDrawable = UsefulFunctions.getColoredDrawable(activity,R.drawable.full_arrow_icon,iconColor);
+        sunPathLeftArrowImageView.setImageDrawable(fullArrowIconDrawable);
+        sunPathRightArrowImageView.setImageDrawable(fullArrowIconDrawable);
+        sunPathLeftTimeTextView.setTextColor(textPrimaryColor);
+        sunPathRightTimeTextView.setTextColor(textPrimaryColor);
+        Drawable sunIconDrawable = UsefulFunctions.getColoredDrawable(activity,R.drawable.sun_icon,textPrimaryColor);
+        sunPathProgressIconImageView.setImageDrawable(sunIconDrawable);
+        Drawable boundaryDrawable = UsefulFunctions.getColoredDrawable(activity,R.drawable.sun_path_progress_bar_boundary,iconColor);
+        sunPathProgressBarLeftBoundaryImageView.setImageDrawable(boundaryDrawable);
+        sunPathProgressBarRightBoundaryImageView.setImageDrawable(boundaryDrawable);
+        sunPathProgressBarProgressView.setBackgroundColor(iconColor);
+        sunPathProgressBarBackgroundView.setBackgroundColor(dividerColor);
+        setInitialSunPathLayoutDimensions();
+    }
+
+    private void setSunPathLayoutChildOrder(){
+        sunPathLayout.removeAllViews();
+        if(isDay==true){
+            sunPathLayout.addView(sunPathProgressIconLayout);
+            sunPathLayout.addView(sunPathProgressBarLayout);
+            sunPathLayout.addView(sunPathArrowLayout);
+            sunPathLayout.addView(sunPathTimeLayout);
+        }
+        else{
+            sunPathLayout.addView(sunPathTimeLayout);
+            sunPathLayout.addView(sunPathArrowLayout);
+            sunPathLayout.addView(sunPathProgressBarLayout);
+            sunPathLayout.addView(sunPathProgressIconLayout);
+        }
+    }
+
+    private void setVerticalMargins(){
+        LinearLayout.LayoutParams progressBarLayoutParams= (LinearLayout.LayoutParams)sunPathProgressBarLayout.getLayoutParams();
+        LinearLayout.LayoutParams arrowLayoutParams= (LinearLayout.LayoutParams)sunPathArrowLayout.getLayoutParams();
+        LinearLayout.LayoutParams timeLayoutParams=(LinearLayout.LayoutParams)sunPathTimeLayout.getLayoutParams();
+        int progressBarLayoutProgressIconLayoutMargin=(int)activity.getResources().getDimension(R.dimen.sun_path_progress_bar_progress_icon_margin);
+        int arrowLayoutProgressBarLayoutMargin=(int)activity.getResources().getDimension(R.dimen.sun_path_arrow_progress_bar_margin);
+        int timeLayoutArrowLayoutMargin=(int)activity.getResources().getDimension(R.dimen.sun_path_time_arrow_margin);
+        if(isDay==true){
+            progressBarLayoutParams.setMargins(0,progressBarLayoutProgressIconLayoutMargin,0,0);
+            arrowLayoutParams.setMargins(0,arrowLayoutProgressBarLayoutMargin,0,0);
+            timeLayoutParams.setMargins(0,timeLayoutArrowLayoutMargin,0,0);
+        }
+        else{
+            progressBarLayoutParams.setMargins(0,0,0,progressBarLayoutProgressIconLayoutMargin);
+            arrowLayoutParams.setMargins(0,0,0,arrowLayoutProgressBarLayoutMargin);
+            timeLayoutParams.setMargins(0,0,0,timeLayoutArrowLayoutMargin);
+        }
+        sunPathProgressBarLayout.setLayoutParams(progressBarLayoutParams);
+        sunPathArrowLayout.setLayoutParams(arrowLayoutParams);
+        sunPathTimeLayout.setLayoutParams(timeLayoutParams);
+    }
+
+    private void setInitialSunPathLayoutDimensions(){
+        //set layout for sun path
+        Log.d("jestem", "setSunPathLayoutDimensions: ");
+        ViewTreeObserver treeObserver = sunPathLayout.getViewTreeObserver();
+        treeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                sunPathLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                sunPathTextViewWidth=sunPathLeftTimeTextView.getWidth();
+                sunPathLayoutWidth=sunPathLayout.getWidth();
+                setSunPathLayoutDimensions();
+                setSunPathProgress();
+            }
+        });
+    }
+
+    private void setSunPathLayoutDimensions(){
+        setSunPathArrowLayoutDimensions();
+        setSunPathProgressBarDimensions();
+        setSunPathImageLayoutDimensions();
+    }
+
+    private void setSunPathArrowLayoutDimensions(){
+        int arrowImageViewSize=(int)activity.getResources().getDimension(R.dimen.sun_path_arrow_icon_size);
+        int arrowLayoutMargin=(sunPathTextViewWidth-arrowImageViewSize)/2;
+        LinearLayout.LayoutParams arrowLayoutParams=(LinearLayout.LayoutParams)sunPathArrowLayout.getLayoutParams();
+        arrowLayoutParams.leftMargin=arrowLayoutMargin;
+        arrowLayoutParams.rightMargin=arrowLayoutMargin;
+        sunPathArrowLayout.setLayoutParams(arrowLayoutParams);
+    }
+
+    private void setSunPathProgressBarDimensions(){
+        int progressBoundarySize=(int)activity.getResources().getDimension(R.dimen.sun_path_progress_bar_boundary_size);
+        int progressBarLayoutMargin=(sunPathTextViewWidth-progressBoundarySize)/2;
+        LinearLayout.LayoutParams progressLayoutParams=(LinearLayout.LayoutParams)sunPathProgressBarLayout.getLayoutParams();
+        progressLayoutParams.leftMargin=progressBarLayoutMargin;
+        progressLayoutParams.rightMargin=progressBarLayoutMargin;
+        sunPathProgressBarLayout.setLayoutParams(progressLayoutParams);
+    }
+
+    private void setSunPathImageLayoutDimensions(){
+        int progressIconSize=(int)activity.getResources().getDimension(R.dimen.sun_path_progress_icon_size);
+        int progressIconLayoutMargin=(sunPathTextViewWidth-progressIconSize)/2;
+        LinearLayout.LayoutParams progressIconLayoutParams= (LinearLayout.LayoutParams)sunPathProgressIconLayout.getLayoutParams();
+        progressIconLayoutParams.leftMargin=progressIconLayoutMargin;
+        progressIconLayoutParams.rightMargin=progressIconLayoutMargin;
+        sunPathProgressIconLayout.setLayoutParams(progressIconLayoutParams);
+    }
+
+    private void setSunPathProgress(){
+        Log.d("progress", "setSunPathProgress: ");
+        int progressBoundarySize=(int)activity.getResources().getDimension(R.dimen.sun_path_progress_bar_boundary_size);
+        int sunPathLength= sunPathLayoutWidth-sunPathTextViewWidth;
+        int iconProgress=(int)(currentDiffMinutes*sunPathLength/sunsetSunriseDiffMinutes);
+        int barProgress=iconProgress-progressBoundarySize/2;
+        LinearLayout.LayoutParams progressViewParams=(LinearLayout.LayoutParams)sunPathProgressBarProgressView.getLayoutParams();
+        progressViewParams.width=barProgress;
+        sunPathProgressBarProgressView.setLayoutParams(progressViewParams);
+        sunPathProgressIconImageView.setTranslationX(iconProgress);
     }
 
     private void setForecastLayout() {
@@ -488,24 +548,28 @@ public class WeatherDataSetter {
     }
 
     private void getDetailsResources(){
-        sunsetSunriseLeftImageView =(ImageView)activity.findViewById(R.id.sunrise_sunset_left_image);
-        sunsetSunriseRightImageView =(ImageView)activity.findViewById(R.id.sunrise_sunset_right_image);
-        sunsetSunriseLeftTextView =(TextView)activity.findViewById(R.id.sunrise_sunset_left_text);
-        sunsetSunriseRightTextView =(TextView)activity.findViewById(R.id.sunrise_sunset_right_text);
-        sunriseSunsetLayout=(LinearLayout)activity.findViewById(R.id.sunrise_sunset_layout);
+        sunPathLayout =(LinearLayout)activity.findViewById(R.id.sun_path_layout);
+        sunPathTimeLayout=(RelativeLayout)activity.findViewById(R.id.sun_path_time_layout);
+        sunPathLeftTimeTextView =(TextView)activity.findViewById(R.id.sun_path_left_time_text);
+        sunPathRightTimeTextView =(TextView)activity.findViewById(R.id.sunrise_sunset_right_time_text);
+        sunPathArrowLayout=(RelativeLayout)activity.findViewById(R.id.sun_path_arrow_layout);
+        sunPathLeftArrowImageView =(ImageView)activity.findViewById(R.id.sunpath_left_arrow_image);
+        sunPathRightArrowImageView =(ImageView)activity.findViewById(R.id.sunpath_right_arrow_image);
+        sunPathProgressBarLayout=(LinearLayout)activity.findViewById(R.id.sun_path_progress_bar_layout);
         sunPathProgressBarLeftBoundaryImageView=(ImageView)activity.findViewById(R.id.sun_path_progress_bar_left_boundary_image);
         sunPathProgressBarRightBoundaryImageView=(ImageView)activity.findViewById(R.id.sun_path_progress_bar_right_boundary_image);
         sunPathProgressBarProgressView=activity.findViewById(R.id.sun_path_progress_bar_progress_view);
         sunPathProgressBarBackgroundView=activity.findViewById(R.id.sun_path_progress_bar_background_view);
+        sunPathProgressIconLayout=(RelativeLayout) activity.findViewById(R.id.sun_path_progress_icon_layout);
         sunPathProgressIconImageView=(ImageView)activity.findViewById(R.id.sun_path_progress_icon_image);
         directionImageView =(ImageView)activity.findViewById(R.id.direction_image);
         directionNorthImageView =(ImageView)activity.findViewById(R.id.direction_north_icon_image);
-        speedImageView =(ImageView)activity.findViewById(R.id.speed_image);
-        humidityImageView =(ImageView)activity.findViewById(R.id.humidity_image);
-        pressureImageView =(ImageView)activity.findViewById(R.id.pressure_image);
         directionTextView =(TextView)activity.findViewById(R.id.direction_text);
+        speedImageView =(ImageView)activity.findViewById(R.id.speed_image);
         speedTextView =(TextView)activity.findViewById(R.id.speed_text);
+        humidityImageView =(ImageView)activity.findViewById(R.id.humidity_image);
         humidityTextView =(TextView)activity.findViewById(R.id.humidity_text);
+        pressureImageView =(ImageView)activity.findViewById(R.id.pressure_image);
         pressureTextView=(TextView)activity.findViewById(R.id.pressure_text);
         detailsSubdividerView=activity.findViewById(R.id.details_subdivider);
         detailsForecastDividerView =activity.findViewById(R.id.details_forecast_divider);

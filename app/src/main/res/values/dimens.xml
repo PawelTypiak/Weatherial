@@ -34,8 +34,8 @@
     <dimen name="forecast_days_margin">32dp</dimen>
     <dimen name="forecast_condition_icon_horizontal_margin">8dp</dimen>
     <dimen name="forecast_days_stepper_padding">8dp</dimen>
-    <dimen name="sun_path_text_arrow_margin">8dp</dimen>
-    <dimen name="sun_path_arrow_indicator_margin">12dp</dimen>
+    <dimen name="sun_path_time_arrow_margin">8dp</dimen>
+    <dimen name="sun_path_arrow_progress_bar_margin">12dp</dimen>
     <dimen name="sun_path_progress_bar_progress_icon_margin">12dp</dimen>
 
     <!-- other sizes -->
@@ -54,11 +54,12 @@
     <dimen name="refresh_message_icon_size">12dp</dimen>
     <dimen name="see_more_icon_size">18dp</dimen>
     <dimen name="additional_conditions_icon_size">56dp</dimen>
-    <dimen name="sunrise_sunset_icon_size">18dp</dimen>
-    <dimen name="forecast_condition_icon_size">64dp</dimen>
-    <dimen name="forecast_max_min_temperature_image_size">12dp</dimen>
+    <dimen name="sun_path_arrow_icon_size">18dp</dimen>
     <dimen name="sun_path_progress_bar_boundary_size">8dp</dimen>
     <dimen name="sun_path_progress_icon_size">32dp</dimen>
+    <dimen name="forecast_condition_icon_size">64dp</dimen>
+    <dimen name="forecast_max_min_temperature_image_size">12dp</dimen>
+
 
     <!-- text sizes -->
     <dimen name="primary_location_text_size">45dp</dimen>

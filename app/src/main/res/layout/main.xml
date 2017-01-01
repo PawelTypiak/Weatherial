@@ -256,114 +256,102 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:id="@+id/sunrise_sunset_layout">
+            android:id="@+id/sun_path_layout">
             <RelativeLayout
+                android:id="@+id/sun_path_progress_icon_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/sun_path_arrow_indicator_margin"
-                >
-                <LinearLayout
-                    android:id="@+id/sun_path_left_layout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:orientation="vertical">
-                    <TextView
-                        android:id="@+id/sunrise_sunset_left_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/sun_path_text_arrow_margin"
-                        android:gravity="center"
-                        android:includeFontPadding="false"
-                        />
-                    <ImageView
-                        android:id="@+id/sunrise_sunset_left_image"
-                        android:layout_width="@dimen/sunrise_sunset_icon_size"
-                        android:layout_height="wrap_content"
-                        android:adjustViewBounds="true"
-                        android:layout_gravity="center_horizontal"
-                        />
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/sun_path_right_layout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:orientation="vertical">
-                    <TextView
-                        android:id="@+id/sunrise_sunset_right_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/sun_path_text_arrow_margin"
-                        android:includeFontPadding="false"
-                        android:gravity="center"/>
-                    <ImageView
-                        android:id="@+id/sunrise_sunset_right_image"
-                        android:layout_width="@dimen/sunrise_sunset_icon_size"
-                        android:layout_height="wrap_content"
-                        android:adjustViewBounds="true"
-                        android:layout_gravity="center_horizontal"
-                        />
-                </LinearLayout>
-
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/sun_path_progress_icon_image"
+                    android:layout_width="@dimen/sun_path_progress_icon_size"
+                    android:layout_height="@dimen/sun_path_progress_icon_size"
+                    android:src="@drawable/sun_icon"
+                    />
             </RelativeLayout>
             <LinearLayout
-                android:id="@+id/sun_path_progress_layout"
+                android:id="@+id/sun_path_progress_bar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <LinearLayout
-                    android:id="@+id/sun_path_progress_bar_layout"
-                    android:layout_width="match_parent"
+                android:orientation="horizontal"
+                >
+                <ImageView
+                    android:id="@+id/sun_path_progress_bar_left_boundary_image"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="@dimen/sun_path_progress_bar_progress_icon_margin">
-                    <ImageView
-                        android:id="@+id/sun_path_progress_bar_left_boundary_image"
+                    android:src="@drawable/sun_path_progress_bar_boundary"
+                    />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    >
+                    <View
+                        android:id="@+id/sun_path_progress_bar_progress_view"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/sun_path_progress_bar_boundary"
-                        />
-                    <LinearLayout
+                        android:layout_height="@dimen/sun_path_progress_bar_view_size"
+                        android:background="@color/iconDarkBackground"/>
+                    <View
+                        android:id="@+id/sun_path_progress_bar_background_view"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/sun_path_progress_bar_view_size"
                         android:layout_weight="1"
-                        android:layout_gravity="center_vertical"
-                        >
-                        <View
-                            android:id="@+id/sun_path_progress_bar_progress_view"
-                            android:layout_width="30dp"
-                            android:layout_height="@dimen/sun_path_progress_bar_view_size"
-                            android:background="@color/iconDarkBackground"/>
-                        <View
-                            android:id="@+id/sun_path_progress_bar_background_view"
-                            android:layout_width="0dp"
-                            android:layout_height="@dimen/sun_path_progress_bar_view_size"
-                            android:layout_weight="1"
-                            android:background="@color/dividerDarkBackground"/>
+                        android:background="@color/dividerDarkBackground"/>
 
-                    </LinearLayout>
-
-                    <ImageView
-                        android:id="@+id/sun_path_progress_bar_right_boundary_image"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/sun_path_progress_bar_boundary"
-                        android:layout_alignParentRight="true"
-                        />
                 </LinearLayout>
-                <RelativeLayout
-                    android:id="@+id/sun_path_progress_icon_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <ImageView
-                        android:id="@+id/sun_path_progress_icon_image"
-                        android:layout_width="@dimen/sun_path_progress_icon_size"
-                        android:layout_height="@dimen/sun_path_progress_icon_size"
-                        android:src="@drawable/sun_icon"
-                        />
-                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/sun_path_progress_bar_right_boundary_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/sun_path_progress_bar_boundary"
+                    android:layout_alignParentRight="true"
+                    />
             </LinearLayout>
+            <RelativeLayout
+                android:id="@+id/sun_path_arrow_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/sunpath_left_arrow_image"
+                    android:layout_width="@dimen/sun_path_arrow_icon_size"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:layout_alignParentLeft="true"
+                    android:scaleType="centerInside"
+                    />
+                <ImageView
+                    android:id="@+id/sunpath_right_arrow_image"
+                    android:layout_width="@dimen/sun_path_arrow_icon_size"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:layout_alignParentRight="true"
+                    android:scaleType="centerInside"
+                    />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/sun_path_time_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+                <TextView
+                    android:id="@+id/sun_path_left_time_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_alignParentLeft="true"
+                    android:includeFontPadding="false"
+                    />
+                <TextView
+                    android:id="@+id/sunrise_sunset_right_time_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_alignParentRight="true"
+                    android:includeFontPadding="false"
+                    />
+            </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
     <View

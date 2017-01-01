@@ -2,6 +2,8 @@ package paweltypiak.matweather.weatherDataDownloading;
 
 import android.app.Activity;
 import android.text.format.DateFormat;
+import android.util.Log;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -70,6 +72,7 @@ public class WeatherDataFormatter {
         //format last build date to get time zone
         lastBuildDate=lastBuildDate.substring(17);
         unformattedTime =lastBuildDate.substring(0,8);
+        Log.d(unformattedTime, "formatLastBuildDate: "+unformattedTime);
         time =formatTimeUnit(unformattedTime);
         time24=get24Time(unformattedTime);
         timezone=lastBuildDate.substring(9);
@@ -241,7 +244,7 @@ public class WeatherDataFormatter {
         return pressure;
     }
     private String formatTimeUnit(String time) {
-        SimpleDateFormat inputFormat = new SimpleDateFormat("hh:mm a");
+        SimpleDateFormat inputFormat = new SimpleDateFormat("h:mm a");
         if (units[4] == 0) {
             SimpleDateFormat outputFormat = new SimpleDateFormat("HH:mm");
             Date date;
@@ -253,7 +256,7 @@ public class WeatherDataFormatter {
             }
         }
         else {
-            SimpleDateFormat outputFormat = new SimpleDateFormat("hh:mm\na");
+            SimpleDateFormat outputFormat = new SimpleDateFormat("hh:mm a");
             Date date;
             try {
                 date = inputFormat.parse(time);
