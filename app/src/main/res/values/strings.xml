@@ -175,7 +175,7 @@
     <string name="looking_for_address_progress_message">Retrieving address...</string>
     <string name="downloading_weather_data_progress_message">Downloading weather information...</string>
     <string name="loading_content_progress_message">Loading content...</string>
-    <string name="refreshing_progress_message">Refreshing...</string>
+    <string name="refreshing_progress_message">REFRESHING...</string>
     <string name="refresh_message_pull_to_refresh">Pull to refresh</string>
 
     <!-- Clipboard texts-->

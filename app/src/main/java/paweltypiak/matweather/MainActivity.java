@@ -1,15 +1,15 @@
 package paweltypiak.matweather;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -31,9 +31,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
-
 import net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout;
-
+import paweltypiak.matweather.customViews.LockableSmoothNestedScrollView;
 import paweltypiak.matweather.localizationDataDownloading.GeocodingCallback;
 import paweltypiak.matweather.localizationDataDownloading.GeocodingDownloader;
 import paweltypiak.matweather.localizationDataDownloading.CurrentCoordinatesDownloader;
@@ -52,13 +51,13 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         WeatherDownloadCallback,
         SwipeRefreshLayout.OnRefreshListener,
-        GeocodingCallback {
+        GeocodingCallback,
+        UsefulFunctions.OnAppBarStringsChangeListener {
 
-    private WeatherDataInitializer weatherDataInitializer;
-    private AlertDialog weatherServiceFailureDialog;
+    private WeatherDataInitializer weatherDataInitializer;;
     private AlertDialog geocodingInternetFailureDialog;
     private AlertDialog weatherGeolocalizationInternetFailureDialog;
-    private AlertDialog weatherRefreshInternetFailureDialog;
+    private AlertDialog onRefreshWeatherInternetFailureDialog;
     private AlertDialog yahooMainRedirectDialog;
     private AlertDialog yahooWeatherRedirectDialog;
     private AlertDialog exitDialog;
@@ -77,11 +76,11 @@ public class MainActivity extends AppCompatActivity
     private AlertDialog permissionDeniedDialog;
     private AlertDialog noWeatherResultsForLocation;
     private AlertDialog geocodingServiceFailureDialog;
+    private AlertDialog onRefreshWeatherServiceFailureDialog;
     private DialogInitializer dialogInitializer;
     private SwipeRefreshLayout swipeRefreshLayout;
     private String geocodingLocation;
-    private TextView refreshMessageTextView;
-    private ImageView refreshImageView;
+    private LinearLayout onRefreshMessageLayout;
     private static int floatingActionButtonOnClickIndicator;
     private NavigationView navigationView;
     private static FloatingActionButton favouritesFloatingActionButton;
@@ -92,6 +91,17 @@ public class MainActivity extends AppCompatActivity
     private UsefulFunctions.SmoothActionBarDrawerToggle navigationDrawerToggle;
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION=1;
     private int toolbarExpandedHeight;
+    private static boolean isTransparent=false;
+    private int expandedToolbarTitleHeight;
+    private int expandedToolbarTitleWidth;
+    private int collapsedToolbarTitleHeight;
+    private int collapsedToolbarTitleWidth;
+    private LockableSmoothNestedScrollView nestedScrollView;
+    private float previousVerticalOffset=-1;
+    private boolean isFingerOnScreen;
+    private boolean isToolbarExpanded =true;
+    private float movedHeight;
+    private float startHeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,36 +132,25 @@ public class MainActivity extends AppCompatActivity
     private void loadDefeaultLocation(){
         //delivering information if defeault location is constant, or is from geolocalization
         boolean isDefeaultLocationConstant=SharedPreferencesModifier.isDefeaultLocationConstant(this);
-        if(isDefeaultLocationConstant) new WeatherDataSetter(this, weatherDataInitializer,true,false);
-        else new WeatherDataSetter(this, weatherDataInitializer,true,true);
+        if(isDefeaultLocationConstant) UsefulFunctions.updateLayoutData(this,weatherDataInitializer,true,false);
+        else UsefulFunctions.updateLayoutData(this,weatherDataInitializer,true,true);
         UsefulFunctions.setIsFirstWeatherDownloading(false);
     }
 
     private void initializeLayout(){
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        navigationDrawerToggle = new UsefulFunctions().new SmoothActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close,invalidateOptionsMenuRunnable);
-        drawer.addDrawerListener(navigationDrawerToggle);
-        navigationDrawerToggle.syncState();
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-        refreshMessageTextView=(TextView)findViewById(R.id.app_bar_refresh_text);
-        refreshImageView=(ImageView) findViewById(R.id.app_bar_refresh_image);
         initializeAppBar();
-        setGeneralWeatherLayoutSizes();
-        setDetailsLayoutSizes();
-        setForecastLayoutSizes();
-        setSwipeRefreshLayout();
+        setWeatherGeneralInfoLayoutSizes();
+        setWeatherDetailsLayoutSizes();
+        setWeatherForecastLayoutSizes();
         initializeDialogs();
         setButtonsClickable();
     }
 
-
     private void initializeAppBar(){
         setCollapsingToolbarViewsHeight();
+        setAppbarButtonsClickable();
+        setSwipeRefreshLayout();
         setAppbarOnOffsetChangeListener();
     }
 
@@ -170,7 +169,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setContentLayoutTopPadding(){
-        LinearLayout contentLayout=(LinearLayout)findViewById(R.id.main_activity_content_layout);
+        RelativeLayout contentLayout=(RelativeLayout)findViewById(R.id.main_content_layout);
         contentLayout.setPadding(0,toolbarExpandedHeight,0,0);
     }
 
@@ -209,13 +208,13 @@ public class MainActivity extends AppCompatActivity
 
     private int getComputedExpendedToolbarHeight(int bottomAppbarLayoutHeigh){
         int paddingLeft=(int)getResources().getDimension(R.dimen.activity_normal_margin);
-        int paddingTop=(int)getResources().getDimension(R.dimen.expended_toolbar_top_padding);
+        int paddingTop=(int)getResources().getDimension(R.dimen.expanded_toolbar_top_padding);
         int paddingRight=(int)getResources().getDimension(R.dimen.activity_normal_margin);
         int paddingBottom=bottomAppbarLayoutHeigh;
         int collapsingToolbarHeight=UsefulFunctions.getTextViewHeight(
                 this,
                 "",
-                (int)getResources().getDimension(R.dimen.primary_location_text_size),
+                (int)getResources().getDimension(R.dimen.collapsing_toolbar_title_expanded_size),
                 Typeface.DEFAULT,
                 paddingLeft,
                 paddingTop,
@@ -225,22 +224,362 @@ public class MainActivity extends AppCompatActivity
         return collapsingToolbarHeight;
     }
 
+    private void setAppbarButtonsClickable(){
+        setNavigationDrawerToggle();
+        setSearchButton();
+        setLocationButton();
+        setYahooLogoButton();
+        setFloatingActionButton();
+    }
+
+    private void setNavigationDrawerToggle(){
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        navigationDrawerToggle = new UsefulFunctions().new SmoothActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close,invalidateOptionsMenuRunnable);
+        drawer.addDrawerListener(navigationDrawerToggle);
+        navigationDrawerToggle.syncState();
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private void setSearchButton(){
+        ImageView searchImageView =(ImageView)findViewById(R.id.search_image);
+        LinearLayout searchLayout=(LinearLayout) findViewById(R.id.search_layout);
+        Picasso.with(getApplicationContext()).load(R.drawable.search_icon).transform(new UsefulFunctions().new setDrawableColor(ContextCompat.getColor(this,R.color.white))).into(searchImageView);
+        searchLayout.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        searchDialog.show();
+                        UsefulFunctions.showKeyboard(MainActivity.this);
+                    }
+                });
+    }
+
+    private void setLocationButton(){
+        View clickableView=findViewById(R.id.toolbar_title_clickable_view);
+        clickableView.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mapsDialog= dialogInitializer.initializeMapsDialog(MainActivity.this);
+                        mapsDialog.show();
+                    }
+                });
+    }
+
+    private void setYahooLogoButton(){
+        LinearLayout yahooLayout=(LinearLayout)findViewById(R.id.yahoo_logo_layout);
+        yahooLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                yahooMainRedirectDialog.show();
+            }
+        });
+    }
+
+    private void setFloatingActionButton(){
+        favouritesFloatingActionButton =(FloatingActionButton)findViewById(R.id.main_fab);
+        UsefulFunctions.setfloatingActionButtonOnClickIndicator(this,0);
+        favouritesFloatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(floatingActionButtonOnClickIndicator ==0){
+                    //if location is not in favourites
+                    addToFavouritesDialog = dialogInitializer.initializeAddToFavouritesDialog();
+                    addToFavouritesDialog.show();
+                }
+                else if(floatingActionButtonOnClickIndicator ==1){
+                    //if location is in favourites
+                    editFavouritesDialog=dialogInitializer.initializeEditFavouritesDialog();
+                    editFavouritesDialog.show();
+                }
+            }
+        });
+    }
+
+    public static void setFloatingActionButtonOnClickIndicator(int floatingActionButtonOnClickIndicator) {
+        MainActivity.floatingActionButtonOnClickIndicator = floatingActionButtonOnClickIndicator;
+    }
+
+    private void setSwipeRefreshLayout(){
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
+        setSwipeRefreshLayoutOffset();
+        initializeOnRefreshMessage();
+        addOnSwipeRefreshPullListeners();
+    }
+
+    private void setSwipeRefreshLayoutOffset(){
+        int swipeRefrehLayoutOffset = (int)getResources().getDimension(R.dimen.swipe_refresh_layout_offset);
+        int progressViewStart = toolbarExpandedHeight-swipeRefrehLayoutOffset;
+        float pullRange=swipeRefrehLayoutOffset*1.5f;
+        int progressViewEnd = (int)(progressViewStart+pullRange);
+        swipeRefreshLayout.setProgressViewOffset(true, progressViewStart, progressViewEnd);
+    }
+
+    private void initializeOnRefreshMessage(){
+        onRefreshMessageLayout =(LinearLayout)findViewById(R.id.on_refresh_message_layout);
+        float onRefreshMessageLayoutTopMargin=getResources().getDimension(R.dimen.on_refresh_message_layout_top_margin);
+        int swipeRefrehLayoutOffset = (int)getResources().getDimension(R.dimen.swipe_refresh_layout_offset);
+        RelativeLayout.LayoutParams onRefreshMessageLayoutParams=(RelativeLayout.LayoutParams)onRefreshMessageLayout.getLayoutParams();
+        onRefreshMessageLayoutParams.topMargin=(int)(swipeRefrehLayoutOffset+onRefreshMessageLayoutTopMargin);
+        onRefreshMessageLayout.setLayoutParams(onRefreshMessageLayoutParams);
+    }
+
+    private void addOnSwipeRefreshPullListeners(){
+        nestedScrollView=(LockableSmoothNestedScrollView) findViewById(R.id.nested_scroll_view);
+        addNestedScrollViewOnScrollListener(nestedScrollView);
+        addNestedScrollViewOnTouchListener(nestedScrollView);
+    }
+
+    private void addNestedScrollViewOnTouchListener(LockableSmoothNestedScrollView nestedScrollView){
+        nestedScrollView.setOnTouchListener(new View.OnTouchListener() {
+            //dynamically set transparency depending on the pull
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_MOVE){
+                    if(isFingerOnScreen ==false){
+                        startHeight = event.getRawY();
+                        isFingerOnScreen =true;
+
+                    }
+                    setWeatherLayoutTransparencyOnSwipeRefreshLayoutPull(event);
+                }
+                if(event.getAction()==MotionEvent.ACTION_UP){
+                    refreshSwipeRefreshLayoutAvailabilityAfterActionUp();
+                    setWeatherLayoutNonTransparentOnActionUp();
+                    movedHeight=0;
+                    isFingerOnScreen =false;
+                }
+                return false;
+            }
+        });
+    }
+
+    private void addNestedScrollViewOnScrollListener(LockableSmoothNestedScrollView nestedScrollView){
+        nestedScrollView.addOnScrollListener(new android.support.v4.widget.NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(android.support.v4.widget.NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                detectExpandedToolbar(scrollY);
+                refreshSwipeRefreshLayoutAvailabilityAfterFling();
+            }
+        });
+    }
+
+    private void refreshSwipeRefreshLayoutAvailabilityAfterFling(){
+        if(isFingerOnScreen==false){
+            if(isToolbarExpanded ==true){
+                swipeRefreshLayout.setEnabled(true);
+            }
+        }
+    }
+
+    private void detectExpandedToolbar(int scrollY){
+        if(scrollY==0){
+            isToolbarExpanded =true;
+        }
+        else{
+            isToolbarExpanded =false;
+        }
+    }
+
+    private void refreshSwipeRefreshLayoutAvailabilityAfterActionUp(){
+        if(isToolbarExpanded ==true){
+            swipeRefreshLayout.setEnabled(true);
+        }
+        else{
+            swipeRefreshLayout.setEnabled(false);
+        }
+    }
+
+    private void setWeatherLayoutTransparencyOnSwipeRefreshLayoutPull(MotionEvent event){
+        movedHeight = event.getRawY() - startHeight;
+        if(isSwipeRefreshLayoutPulled(movedHeight)==true){
+            LinearLayout weatherLayout=(LinearLayout)findViewById(R.id.weather_layout);
+            float transparencyRange=getResources().getDimension(R.dimen.swipe_refresh_layout_offset)*1.5f;
+            float transparencyPercentage=movedHeight/transparencyRange;
+            float currentAlpha=1-transparencyPercentage;
+            if(currentAlpha<0.25){
+                currentAlpha=0.25f;
+            }
+            weatherLayout.setAlpha(currentAlpha);
+        }
+    }
+
+    private void setWeatherLayoutNonTransparentOnActionUp(){
+        float swipeRefrehLayoutOffset=getResources().getDimension(R.dimen.swipe_refresh_layout_offset);
+        float fadeOutOffset=swipeRefrehLayoutOffset+UsefulFunctions.dpToPixels(1,this);
+        if(movedHeight<=fadeOutOffset){
+            LinearLayout weatherLayout=(LinearLayout)findViewById(R.id.weather_layout);
+            float alpha=weatherLayout.getAlpha();
+            long transitionTime=100;
+            if(alpha!=1){
+                weatherLayout.animate()
+                        .alpha(1f)
+                        .setDuration(transitionTime)
+                        .setListener(null);
+            }
+        }
+    }
+
+    private boolean isSwipeRefreshLayoutPulled(float movedHeight){
+        if(swipeRefreshLayout.isEnabled()==true && movedHeight>0){
+            return true;
+        }
+        else return false;
+    }
+
     private void setAppbarOnOffsetChangeListener(){
         AppBarLayout appBarLayout=(AppBarLayout)findViewById(R.id.app_bar);
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                animateOnOffsetChanged(appBarLayout,verticalOffset);
+                float percentage = ((float)Math.abs(verticalOffset)/appBarLayout.getTotalScrollRange());
+                changeToolbarTitleClickableViewSizeOnOffsetChanged(percentage);
+                animateOnOffsetChanged(percentage,verticalOffset);
             }
         });
     }
 
-    private void animateOnOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-        float percentage = ((float)Math.abs(verticalOffset)/appBarLayout.getTotalScrollRange());
+    private void changeToolbarTitleClickableViewSizeOnOffsetChanged(float percentage){
+        if(isVerticalOffsetChanged(percentage)==true){
+            int clickableViewHeight= getToolbarTitleClickableViewHeightOnOffsetChanged(percentage);
+            int clickableViewWidth= getToolbarTitleClickableViewWidthOnOffsetChanged(percentage);
+            int clickableViewTopMargin=getToolbarTitleClickableViewTopMarginOnOffsetChanged(percentage);
+            if(clickableViewHeight!=0&&clickableViewWidth!=0){
+                View clickableView=findViewById(R.id.toolbar_title_clickable_view);
+                CollapsingToolbarLayout.LayoutParams clickableViewParams=(CollapsingToolbarLayout.LayoutParams)clickableView.getLayoutParams();
+                clickableViewParams.height=clickableViewHeight;
+                clickableViewParams.width=clickableViewWidth;
+                clickableViewParams.topMargin=clickableViewTopMargin;
+                clickableView.setLayoutParams(clickableViewParams);
+            }
+        }
+    }
+
+    private boolean isVerticalOffsetChanged(float verticalOffset){
+        if(verticalOffset!=previousVerticalOffset){
+            previousVerticalOffset=verticalOffset;
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    private int getToolbarTitleClickableViewTopMarginOnOffsetChanged(float percentage){
+        int expandedTitleMargin=(int)getResources().getDimension(R.dimen.expanded_toolbar_top_padding);
+        int clickableViewTopMargin=(int)(expandedTitleMargin*(1-percentage));
+        return clickableViewTopMargin;
+    }
+
+    private int getToolbarTitleClickableViewHeightOnOffsetChanged(float percentage){
+        int verticalDifference= expandedToolbarTitleHeight -collapsedToolbarTitleHeight;
+        int clickableViewHeight=expandedToolbarTitleHeight-(int)(verticalDifference*percentage);
+        return clickableViewHeight;
+    }
+
+    private int getToolbarTitleClickableViewWidthOnOffsetChanged(float percentage){
+        int horizontalDifference= expandedToolbarTitleWidth -collapsedToolbarTitleWidth;
+        int clickableViewWidth=expandedToolbarTitleWidth-(int)(horizontalDifference*percentage);
+        return clickableViewWidth;
+    }
+
+    public UsefulFunctions.OnAppBarStringsChangeListener getOnAppBarStringsChangeListener(){
+        return this;
+    }
+
+    @Override
+    public void onAppBarStringsChanged(){
+        CollapsingToolbarLayout collapsingToolbarLayout=(net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout)findViewById(R.id.collapsing_toolbar_layout);
+        getToolbarTitleSize(collapsingToolbarLayout);
+    }
+
+    private void getToolbarTitleSize(CollapsingToolbarLayout collapsingToolbarLayout){
+        String collapsingToolbarTitle=collapsingToolbarLayout.getTitle().toString();
+        int toolbarTitleClickableViewHorizontalPadding=(int)getResources().getDimension(R.dimen.toolbar_clickable_view_horizontal_padding);
+        getExpandedToolbarTitleWidth(collapsingToolbarTitle,toolbarTitleClickableViewHorizontalPadding);
+        getCollapsedToolbarTitleWidth(collapsingToolbarTitle,toolbarTitleClickableViewHorizontalPadding);
+        if(expandedToolbarTitleHeight==0){
+            getExpandedToolbarTitleHeight(toolbarTitleClickableViewHorizontalPadding);
+            getCollapsedToolbarTitleHeight();
+        }
+    }
+
+    private void getExpandedToolbarTitleWidth(String collapsingToolbarTitle,int primaryLocationClickableViewPadding){
+        expandedToolbarTitleWidth =UsefulFunctions.getTextViewWidth(
+                this,
+                collapsingToolbarTitle,
+                (int)getResources().getDimension(R.dimen.collapsing_toolbar_title_expanded_size),
+                Typeface.createFromAsset(getAssets(), "Roboto-Medium.ttf"),
+                primaryLocationClickableViewPadding,
+                0,
+                primaryLocationClickableViewPadding,
+                0
+        );
+        int expandedToolbarTitleMaxWidth=getExpandedToolbarTitleMaxWidth();
+        if(expandedToolbarTitleWidth>expandedToolbarTitleMaxWidth){
+            expandedToolbarTitleWidth=expandedToolbarTitleMaxWidth;
+        }
+    }
+
+    private void getCollapsedToolbarTitleWidth(String collapsingToolbarTitle,int primaryLocationClickableViewPadding){
+        collapsedToolbarTitleWidth=UsefulFunctions.getTextViewWidth(
+                this,
+                collapsingToolbarTitle,
+                (int)getResources().getDimension(R.dimen.collapsing_toolbar_title_collapsed_size),
+                Typeface.createFromAsset(getAssets(), "Roboto-Medium.ttf"),
+                primaryLocationClickableViewPadding,
+                0,
+                primaryLocationClickableViewPadding,
+                0
+        );
+        int collapsedToolbarTitleMaxWidth=getCollapsedToolbarTitleMaxWidth();
+        if(collapsedToolbarTitleWidth>collapsedToolbarTitleMaxWidth){
+            collapsedToolbarTitleWidth=collapsedToolbarTitleMaxWidth;
+        }
+    }
+
+    private void getExpandedToolbarTitleHeight(int primaryLocationClickableViewPadding){
+        expandedToolbarTitleHeight =UsefulFunctions.getTextViewHeight(
+                this,
+                "",
+                (int)getResources().getDimension(R.dimen.collapsing_toolbar_title_expanded_size),
+                Typeface.createFromAsset(getAssets(), "Roboto-Medium.ttf"),
+                primaryLocationClickableViewPadding,
+                0,
+                primaryLocationClickableViewPadding,
+                0
+        );
+    }
+
+    private void getCollapsedToolbarTitleHeight(){
+        collapsedToolbarTitleHeight=(int)getResources().getDimension(R.dimen.toolbar_height);
+    }
+
+    private int getExpandedToolbarTitleMaxWidth(){
+        int normalMargin=(int)getResources().getDimension(R.dimen.activity_normal_margin);
+        int screenWidth=UsefulFunctions.getScreenWidth(this);
+        int expandedToolbarTitleMaxWidth=screenWidth-2*normalMargin;
+        return expandedToolbarTitleMaxWidth;
+    }
+
+    private int getCollapsedToolbarTitleMaxWidth(){
+        int hugeMargin=(int)getResources().getDimension(R.dimen.activity_huge_margin);
+        int screenWidth=UsefulFunctions.getScreenWidth(this);
+        int collapsedToolbarTitleMaxWidth=screenWidth-2*hugeMargin;
+        return collapsedToolbarTitleMaxWidth;
+    }
+
+    private void animateOnOffsetChanged(float percentage, int verticalOffset) {
         animateTimeLayout(percentage);
         animateSecondaryLocationNameTextView(percentage);
         animateYahooLogoLayout(percentage);
-        animateSeeMoreArrow(percentage);
+        animateSeeMoreArrow(-verticalOffset);
     }
 
     private void animateTimeLayout(float percentage){
@@ -264,14 +603,20 @@ public class MainActivity extends AppCompatActivity
         yahooLogoLayout.setAlpha(yahooLogoLayoutDisappearPercentage);
     }
 
-    private void animateSeeMoreArrow(float percentage){
-        final int SEE_MORE_IMAGE_VIEW_DISAPPEARANCE_TIME_MULTIPLIER =3;
-        float seeMoreImageViewDisappearPercentage=1-(percentage* SEE_MORE_IMAGE_VIEW_DISAPPEARANCE_TIME_MULTIPLIER);
+    private void animateSeeMoreArrow(int verticalOffset){
         ImageView seeMoreImageView=(ImageView)findViewById(R.id.current_weather_layout_see_more_image);
-        seeMoreImageView.setAlpha(seeMoreImageViewDisappearPercentage);
+        int normalMargin=(int)this.getResources().getDimension(R.dimen.activity_normal_margin);
+        if(verticalOffset>normalMargin && isTransparent==false ){
+            isTransparent=true;
+            UsefulFunctions.crossFade(this,null,seeMoreImageView,1);
+        }
+        else if(verticalOffset<=normalMargin && isTransparent==true){
+            isTransparent=false;
+            UsefulFunctions.crossFade(this,seeMoreImageView,null,1);
+        }
     }
 
-    private void setGeneralWeatherLayoutSizes(){
+    private void setWeatherGeneralInfoLayoutSizes(){
         int screenHeight=UsefulFunctions.getScreenHeight(this);
         int statusBarHeight=UsefulFunctions.getStatusBarHeight(this);
         int generalWeatherLayoutHeight=screenHeight-toolbarExpandedHeight-statusBarHeight;
@@ -288,10 +633,6 @@ public class MainActivity extends AppCompatActivity
         observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                ImageView currentConditionsImageView=(ImageView)findViewById(R.id.current_conditions_image);
-
-                int currentConditionsImageViewVerticalPadding=generalWeatherLayoutHeight/20;
-                //currentConditionsImageView.setPadding(0,currentConditionsImageViewVerticalPadding,0,currentConditionsImageViewVerticalPadding);
                 RelativeLayout currentTemperatureLayout=(RelativeLayout)findViewById(R.id.current_temperature_layout);
                 int currentTemperatureLayoutVerticalTranslation=(int)(generalWeatherLayoutHeight*0.02f);
                 currentTemperatureLayout.setTranslationY(-currentTemperatureLayoutVerticalTranslation);
@@ -300,26 +641,19 @@ public class MainActivity extends AppCompatActivity
                 currentTemperatureTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, currentTemperatureTextViewHeight);
                 TextView currentTemperatureDagreeSignTextView=(TextView)findViewById(R.id.current_temperature_dagree_sign_text);
                 currentTemperatureDagreeSignTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, currentTemperatureTextViewHeight);
-
                 TextView currentTemperatureUnitTextView=(TextView)findViewById(R.id.current_temperature_unit_text);
                 int currentTemperatureUnitTextViewHeight=(int)(currentTemperatureTextViewHeight/2.5f);
                 currentTemperatureUnitTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, currentTemperatureUnitTextViewHeight);
                 int currentTemperatureUnitTextViewTranslationY=(int)(currentTemperatureTextViewHeight/35);
                 currentTemperatureUnitTextView.setTranslationY(currentTemperatureUnitTextViewTranslationY);
-
                 ImageView seeMoreImageView=(ImageView)findViewById(R.id.current_weather_layout_see_more_image);
-                Log.d("image_size", "onGlobalLayout: "+seeMoreImageView.getWidth());
-
-
                 generalWeatherLayout.getViewTreeObserver().removeOnGlobalLayoutListener(
                         this);
             }
         });
-
-
     }
 
-    private void setDetailsLayoutSizes(){
+    private void setWeatherDetailsLayoutSizes(){
         setAdditionalConditionsLayoutSizes();
     }
 
@@ -348,7 +682,7 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    private void setForecastLayoutSizes(){
+    private void setWeatherForecastLayoutSizes(){
         final LinearLayout forecastLayout=(LinearLayout)findViewById(R.id.forecast_layout);
         ViewTreeObserver observer=forecastLayout.getViewTreeObserver();
         observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -376,21 +710,20 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
+    private void onWeatherServiceSuccessAfrerGeolocalization(){
+        UsefulFunctions.updateLayoutData(this,weatherDataInitializer,true,true);
+        geolocalizationProgressDialog.dismiss();
+    }
 
     @Override
     public void weatherServiceSuccess(Channel channel) {
         weatherDataInitializer = new WeatherDataInitializer(channel);
         if(downloadMode==0){
             //weather service success for geolocalization
-            new WeatherDataSetter(this, weatherDataInitializer,true,true);
-            geolocalizationProgressDialog.dismiss();
+            onWeatherServiceSuccessAfrerGeolocalization();
         }
         else{
-            //weather service success for refreshing
-            new WeatherDataSetter(this, weatherDataInitializer,false,false);
-            swipeRefreshLayout.setRefreshing(false);
-            UsefulFunctions.setViewInvisible(refreshMessageTextView);
-            UsefulFunctions.showWeatherSublayouts(this);
+            onWeatherSuccessAfterRefresh();
         }
     }
     @Override
@@ -408,14 +741,14 @@ public class MainActivity extends AppCompatActivity
         else{
             //weather service failure for refreshing
             swipeRefreshLayout.setRefreshing(false);
-            UsefulFunctions.showWeatherSublayouts(this);
-            UsefulFunctions.setViewInvisible(refreshMessageTextView);
+            fadeOutOnRefreshMessageLayout();
             if(errorCode==0) {
-                weatherRefreshInternetFailureDialog.show();
+                onRefreshWeatherInternetFailureDialog.show();
             }
             else if(errorCode==1){
-                weatherServiceFailureDialog.show();
+                onRefreshWeatherServiceFailureDialog.show();
             }
+
         }
     }
 
@@ -525,45 +858,16 @@ public class MainActivity extends AppCompatActivity
         noWeatherResultsForLocation =dialogInitializer.initializeNoWeatherResultsForLocationDialog(2,startGeolocalizationRunnable,null);
         geocodingInternetFailureDialog=dialogInitializer.initializeInternetFailureDialog(1,geocodingRunnable,null);
         weatherGeolocalizationInternetFailureDialog=dialogInitializer.initializeInternetFailureDialog(1, downloadWeatherDataAfterGeocodingFailureRunnable,null);
-        weatherRefreshInternetFailureDialog=dialogInitializer.initializeInternetFailureDialog(1,refreshWeatherRunnable,null);
-        weatherServiceFailureDialog =dialogInitializer.initializeServiceFailureDialog(1,refreshWeatherRunnable,null);
+        onRefreshWeatherInternetFailureDialog =dialogInitializer.initializeInternetFailureDialog(1,refreshWeatherRunnable,setWeatherLayoutVisibleAfterRefreshFailureRunnable);
+        onRefreshWeatherServiceFailureDialog =dialogInitializer.initializeServiceFailureDialog(1,refreshWeatherRunnable,setWeatherLayoutVisibleAfterRefreshFailureRunnable);
         geocodingServiceFailureDialog=dialogInitializer.initializeServiceFailureDialog(1,startGeolocalizationRunnable,null);
         permissionDeniedDialog=dialogInitializer.initializePermissionDeniedDialog(1,startGeolocalizationRunnable,null);
         coordinatesDownloadFailureDialog =dialogInitializer.initializeGeolocalizationFailureDialog(1,startGeolocalizationRunnable,null);
     }
 
     private void setButtonsClickable(){
-        setYahooClickable();
+
         setWeatherClickable();
-        setSearchClickable();
-        setFloatingActionButton();
-        setLocationClickable();
-    }
-
-    private void setSeeMoreButtonClickable(){
-        ImageView seeMoreImageView=(ImageView)findViewById(R.id.current_weather_layout_see_more_image);
-        final AppBarLayout appBarLayout=(AppBarLayout)findViewById(R.id.app_bar);
-        final CoordinatorLayout coordinatorLayout=(CoordinatorLayout)findViewById(R.id.main_coordinator_layout);
-        seeMoreImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams();
-                AppBarLayout.Behavior behavior = (AppBarLayout.Behavior) params.getBehavior();
-                if (behavior != null) {
-                    behavior.onNestedFling(coordinatorLayout, appBarLayout, null, 0, 10000, true);
-                }
-            }
-        });
-    }
-
-    private void setYahooClickable(){
-        LinearLayout yahooLayout=(LinearLayout)findViewById(R.id.yahoo_logo_layout);
-        yahooLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                yahooMainRedirectDialog.show();
-            }
-        });
     }
 
     private void setWeatherClickable(){
@@ -596,101 +900,6 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    private void setSearchClickable(){
-        ImageView searchImageView =(ImageView)findViewById(R.id.search_image);
-        LinearLayout searchLayout=(LinearLayout) findViewById(R.id.search_layout);
-        Picasso.with(getApplicationContext()).load(R.drawable.search_icon).transform(new UsefulFunctions().new setDrawableColor(ContextCompat.getColor(this,R.color.white))).into(searchImageView);
-        searchLayout.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        searchDialog.show();
-                        UsefulFunctions.showKeyboard(MainActivity.this);
-                    }
-                });
-    }
-
-    private void setLocationClickable(){
-        LinearLayout locactionLayout=(LinearLayout) findViewById(R.id.bottom_layout);
-        locactionLayout.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mapsDialog= dialogInitializer.initializeMapsDialog(MainActivity.this);
-                        mapsDialog.show();
-                    }
-                });
-    }
-
-    private void setFloatingActionButton(){
-        favouritesFloatingActionButton =(FloatingActionButton)findViewById(R.id.main_fab);
-        UsefulFunctions.setfloatingActionButtonOnClickIndicator(this,0);
-        favouritesFloatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(floatingActionButtonOnClickIndicator ==0){
-                    //if location is not in favourites
-                    addToFavouritesDialog = dialogInitializer.initializeAddToFavouritesDialog();
-                    addToFavouritesDialog.show();
-                }
-                else if(floatingActionButtonOnClickIndicator ==1){
-                    //if location is in favourites
-                    editFavouritesDialog=dialogInitializer.initializeEditFavouritesDialog();
-                    editFavouritesDialog.show();
-                }
-            }
-        });
-    }
-
-    public static void setFloatingActionButtonOnClickIndicator(int floatingActionButtonOnClickIndicator) {
-        MainActivity.floatingActionButtonOnClickIndicator = floatingActionButtonOnClickIndicator;
-    }
-
-    private void setSwipeRefreshLayout(){
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
-        swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
-        int swipeRefrehLayoutOffset = UsefulFunctions.dpToPixels(56,this);
-        int progressViewStart = toolbarExpandedHeight-swipeRefrehLayoutOffset;
-        int progressViewEnd = (int)(progressViewStart+swipeRefrehLayoutOffset*1.5f);
-        swipeRefreshLayout.setProgressViewOffset(true, progressViewStart, progressViewEnd);
-
-        swipeRefreshLayout.setOnTouchListener(new View.OnTouchListener() {
-            //dynamically set transparency depending on the pull
-            boolean isTouched=false;
-            float movedWidth;
-            float movedHeight;
-            float startWidth;
-            float startHeight;
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_MOVE){
-                    if(isTouched==false){
-                        UsefulFunctions.setViewVisible(refreshImageView);
-                        UsefulFunctions.setViewVisible(refreshMessageTextView);
-                        refreshMessageTextView.setText(getString(R.string.refresh_message_pull_to_refresh));
-                        isTouched=true;
-                        startWidth = event.getRawX();
-                        startHeight = event.getRawY();
-
-                    }
-                    movedWidth = event.getRawX() - startWidth;
-                    movedHeight = event.getRawY() - startHeight;
-                    double alpha=UsefulFunctions.getPullTransparency(0.2,movedHeight,MainActivity.this,true);
-                    refreshMessageTextView.setTextColor(Color.argb((int)alpha, 255, 255, 255));
-                    refreshMessageTextView.setText(getString(R.string.refresh_message_pull_to_refresh));
-                    refreshImageView.setAlpha((float)(alpha/255));
-                }
-                if(event.getAction()==MotionEvent.ACTION_UP){
-                    isTouched=false;
-                    UsefulFunctions.setViewGone(refreshImageView);
-                    UsefulFunctions.setViewInvisible(refreshMessageTextView);
-                }
-                return false;
-            }
-        });
-    }
-
     @Override
     public void onBackPressed() {
         //closing drawer on back pressed
@@ -708,16 +917,95 @@ public class MainActivity extends AppCompatActivity
         //refreshing weather
         downloadMode=1;
         swipeRefreshLayout.setRefreshing(true);
-        refreshMessageTextView.setTextColor(Color.argb(255, 255, 255, 255));
-        refreshMessageTextView.setText(getString(R.string.refreshing_progress_message));
-        UsefulFunctions.setViewVisible(refreshMessageTextView);
-        UsefulFunctions.hideWeatherSublayouts(this);
+        fadeOutWeatherLayout();
+        fadeInOnRefreshMessageLayout();
+    }
+
+    private void onWeatherSuccessAfterRefresh(){
+        fadeOutOnRefreshMessageLayout();
+        swipeRefreshLayout.setRefreshing(false);
+        UsefulFunctions.updateLayoutData(this,weatherDataInitializer,false,false);
+    }
+
+    private void setWeatherLayoutVisibleAfterRefreshFailure(){
+        fadeOutOnRefreshMessageLayout();
+        fadeInWeatherLayout();
+    }
+
+    Runnable setWeatherLayoutVisibleAfterRefreshFailureRunnable = new Runnable() {
+        public void run() {
+            setWeatherLayoutVisibleAfterRefreshFailure();
+        }
+    };
+
+    private void fadeInWeatherLayout(){
+        final LinearLayout weatherLayout=(LinearLayout)findViewById(R.id.weather_layout);
+        long transitionTime=200;
+        weatherLayout.setAlpha(0f);
+        weatherLayout.setVisibility(View.VISIBLE);
+        weatherLayout.animate()
+                .alpha(1f)
+                .setDuration(transitionTime)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        UsefulFunctions.setNestedScrollViewScrollingEnabled(MainActivity.this);
+                    }
+                });
+    }
+
+    private void fadeOutWeatherLayout(){
+        final LinearLayout weatherLayout=(LinearLayout)findViewById(R.id.weather_layout);
+        long transitionTime=100;
+        if(weatherLayout.getVisibility()==View.VISIBLE){
+            weatherLayout.animate()
+                    .alpha(0f)
+                    .setDuration(transitionTime)
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            weatherLayout.setVisibility(View.INVISIBLE);
+                            UsefulFunctions.setNestedScrollViewScrollingDisabled(MainActivity.this);
+                        }
+                    });
+        }
+    }
+
+    private void fadeInOnRefreshMessageLayout(){
+        onRefreshMessageLayout.setAlpha(0f);
+        onRefreshMessageLayout.setVisibility(View.VISIBLE);
+        long transitionTime=100;
+        onRefreshMessageLayout.animate()
+                .alpha(1f)
+                .setDuration(transitionTime)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        refreshWeatherData();
+                    }
+                });
+    }
+
+    private void fadeOutOnRefreshMessageLayout(){
+        long transitionTime=100;
+        onRefreshMessageLayout.animate()
+                .alpha(0f)
+                .setDuration(transitionTime)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        onRefreshMessageLayout.setVisibility(View.GONE);
+                    }
+                });
+    }
+
+    private void refreshWeatherData(){
         String currentLocation[]=UsefulFunctions.getCurrentLocationAddress();
         downloadWeatherData(currentLocation[0]+", "+currentLocation[1]);
     }
 
     private void refreshLayoutAfterUnitsPreferencesChange(){
-        new WeatherDataSetter(this,weatherDataInitializer,true,false);
+        UsefulFunctions.updateLayoutData(this,weatherDataInitializer,true,false);
     }
 
     @Override

@@ -69,13 +69,13 @@
 
     <style name="TextAppearance.CollapsedTitle"
         parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:textSize">24sp</item>
+        <item name="android:textSize">@dimen/collapsing_toolbar_title_collapsed_size</item>
         <item name="android:textColor">@color/textPrimaryDarkBackground</item>
         <item name="android:ellipsize">end</item>
     </style>
     <style name="TextAppearance.ExpandedTitle"
         parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:textSize">45sp</item>
+        <item name="android:textSize">@dimen/collapsing_toolbar_title_expanded_size</item>
         <item name="android:textColor">@color/textPrimaryDarkBackground</item>
     </style>
 

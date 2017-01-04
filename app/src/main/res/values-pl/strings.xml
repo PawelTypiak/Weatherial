@@ -153,7 +153,7 @@
     <string name="looking_for_address_progress_message">Wyszukiwanie adresu...</string>
     <string name="downloading_weather_data_progress_message">Pobieranie informacji pogodowych...</string>
     <string name="loading_content_progress_message">Ładowanie zawartości...</string>
-    <string name="refreshing_progress_message">Odświeżanie...</string>
+    <string name="refreshing_progress_message">ODŚWIEŻANIE...</string>
     <string name="refresh_message_pull_to_refresh">Pociągnij, żeby odświeżyć</string>
 
     <!-- Clipboard texts-->

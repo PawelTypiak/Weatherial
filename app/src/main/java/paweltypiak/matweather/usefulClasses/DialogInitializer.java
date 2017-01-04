@@ -21,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import java.util.List;
+
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDataDownloader;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDownloadCallback;
@@ -52,6 +53,7 @@ public class DialogInitializer  {
     private AlertDialog favouritesDialog;
     private AlertDialog emptyLocationListDialog;
     private AlertDialog localizationOptionsDialog;
+    private boolean wasDialogClickedOutside=true;
     private Activity activity;
 
     public DialogInitializer(Activity activity) {
@@ -320,7 +322,7 @@ public class DialogInitializer  {
         @Override
         public void weatherServiceSuccess(Channel channel) {
             dataInitializer=new WeatherDataInitializer(channel);
-            new WeatherDataSetter(activity,dataInitializer,true,false);
+            UsefulFunctions.updateLayoutData(activity,dataInitializer,true,false);
             progressDialog.dismiss();
         }
 
@@ -349,25 +351,40 @@ public class DialogInitializer  {
         if(positiveButtonText!=null) {
             alertBuilder.setPositiveButton(positiveButtonText, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-                    if(positiveButtonFunction!=null) positiveButtonFunction.run();
+                    if(positiveButtonFunction!=null) {
+                        positiveButtonFunction.run();
+                        wasDialogClickedOutside =false;
+                    }
                 }
             });
         }
         if(neutralButtonText!=null) {
             alertBuilder.setNeutralButton(neutralButtonText, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-                    if(neutralButtonFunction!=null) neutralButtonFunction.run();
+                    if(neutralButtonFunction!=null) {
+                        neutralButtonFunction.run();
+                        wasDialogClickedOutside =false;
+                    }
                 }
             });
         }
         if(negativeButtonText!=null) {
             alertBuilder.setNegativeButton(negativeButtonText, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-                    if(negativeButtonFunction!=null) negativeButtonFunction.run();
+                    if(negativeButtonFunction!=null) {
+                        negativeButtonFunction.run();
+                        wasDialogClickedOutside =false;
+                    }
                 }
             });
         }
         AlertDialog dialog = alertBuilder.create();
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                wasDialogClickedOutside =true;
+            }
+        });
         return dialog;
     }
 
@@ -417,6 +434,7 @@ public class DialogInitializer  {
         searchDialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialogInterface) {
+                Log.d("on_show", "search: ");
                 UsefulFunctions.customizeEditText(activity,searchDialog,locationEditText);
             }
         });
@@ -623,7 +641,7 @@ public class DialogInitializer  {
         return noEmailApplicationDialog;
     }
 
-    public AlertDialog initializeServiceFailureDialog(int type,Runnable positiveButtonRunnable,Runnable negativeButtonRunnable){
+    public AlertDialog initializeServiceFailureDialog(int type,Runnable positiveButtonRunnable,final Runnable negativeButtonRunnable){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.one_line_text_dialog,null);
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
@@ -653,6 +671,14 @@ public class DialogInitializer  {
                 negativeButtonString,
                 negativeButtonRunnable
         );
+        serviceFailureDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                if(negativeButtonRunnable!=null && wasDialogClickedOutside==true){
+                    negativeButtonRunnable.run();
+                }
+            }
+        });
         return serviceFailureDialog;
     }
 
@@ -679,7 +705,7 @@ public class DialogInitializer  {
         return emptyLocationListDialog;
     }
 
-    public AlertDialog initializeInternetFailureDialog(int type,Runnable positiveButtonRunnable,Runnable negativeButtonRunnable){
+    public AlertDialog initializeInternetFailureDialog(int type,Runnable positiveButtonRunnable,final Runnable negativeButtonRunnable){
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.one_line_text_dialog,null);
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
@@ -709,6 +735,16 @@ public class DialogInitializer  {
                 negativeButtonString,
                 negativeButtonRunnable
         );
+        if(type==1){
+            internetFailureDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialogInterface) {
+                    if(negativeButtonRunnable!=null && wasDialogClickedOutside==true){
+                        negativeButtonRunnable.run();
+                    }
+                }
+            });
+        }
         return internetFailureDialog;
     }
 

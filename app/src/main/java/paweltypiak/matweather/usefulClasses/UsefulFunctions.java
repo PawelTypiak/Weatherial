@@ -1,5 +1,7 @@
 package paweltypiak.matweather.usefulClasses;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ClipData;
@@ -50,6 +52,8 @@ import net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout;
 import java.util.Locale;
 import paweltypiak.matweather.MainActivity;
 import paweltypiak.matweather.R;
+import paweltypiak.matweather.customViews.LockableSmoothNestedScrollView;
+import paweltypiak.matweather.weatherDataDownloading.WeatherDataInitializer;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDataSetter;
 
 public class UsefulFunctions {
@@ -100,14 +104,15 @@ public class UsefulFunctions {
         //set custom location name in AppBar
         CollapsingToolbarLayout collapsingToolbarLayout=(CollapsingToolbarLayout)activity.findViewById(R.id.collapsing_toolbar_layout);
         collapsingToolbarLayout.setTitle(primaryText);
-        //TextView primaryLocationTextView=(TextView)activity.findViewById(R.id.app_bar_primary_location_name_text);
         TextView secondaryLocationTextView=(TextView)activity.findViewById(R.id.app_bar_secondary_location_name_text);
-        //primaryLocationTextView.setText(primaryText);
-        //setViewGone(primaryLocationTextView);
-        //setViewVisible(primaryLocationTextView);
         secondaryLocationTextView.setText(secondaryText);
         setViewGone(secondaryLocationTextView);
         if(!secondaryText.equals("")) setViewVisible(secondaryLocationTextView);
+        ((MainActivity) activity).getOnAppBarStringsChangeListener().onAppBarStringsChanged();
+    }
+
+    public interface OnAppBarStringsChangeListener {
+        void onAppBarStringsChanged();
     }
 
     public static void initializeWebIntent(Context context, String url){
@@ -325,46 +330,6 @@ public class UsefulFunctions {
         view.setVisibility(View.GONE);
     }
 
-    public static void hideWeatherSublayouts(Activity activity){
-        //hide weather layout when refreshing
-        LinearLayout currentLayout=(LinearLayout)activity.findViewById(R.id.current_layout);
-        LinearLayout detailsLayout=(LinearLayout)activity.findViewById(R.id.details_layout);
-        LinearLayout forecastLayout=(LinearLayout)activity.findViewById(R.id.forecast_layout);
-        View currentDetailsDivider=activity.findViewById(R.id.current_details_divider);
-        View detailsForecastDivider=activity.findViewById(R.id.details_forecast_divider);
-        setViewInvisible(currentLayout);
-        setViewInvisible(detailsLayout);
-        setViewInvisible(forecastLayout);
-        setViewInvisible(currentDetailsDivider);
-        setViewInvisible(detailsForecastDivider);
-    }
-
-    public static void showWeatherSublayouts(Activity activity){
-        //show weather layout after refreshing
-        LinearLayout currentLayout=(LinearLayout)activity.findViewById(R.id.current_layout);
-        LinearLayout detailsLayout=(LinearLayout)activity.findViewById(R.id.details_layout);
-        LinearLayout forecastLayout=(LinearLayout)activity.findViewById(R.id.forecast_layout);
-        View currentDetailsDivider=activity.findViewById(R.id.current_details_divider);
-        View detailsForecastDivider=activity.findViewById(R.id.details_forecast_divider);
-        setViewVisible(currentLayout);
-        setViewVisible(detailsLayout);
-        setViewVisible(forecastLayout);
-        setViewVisible(currentDetailsDivider);
-        setViewVisible(detailsForecastDivider);
-    }
-
-    public static double getPullTransparency(double screenPercentage, float movedDistance, Context context, boolean isVertical){
-        int screenWidth=getScreenResolution(context)[0];
-        int screenHeight=getScreenResolution(context)[1];
-        double alpha;
-        if(movedDistance<0) movedDistance=0;
-        if(isVertical==true){alpha=(movedDistance*255)/(screenPercentage*screenHeight);}
-        else {alpha=(movedDistance*255)/(screenPercentage*screenWidth);}
-        if(alpha>255) alpha=255;
-        else if(alpha<100) alpha=100;
-        return alpha;
-    }
-
     public static Thread initializeUiThread(final Activity activity, final Runnable runnable) {
         //initialize new thead for updating UI every second
         Thread uiThread = new Thread() {
@@ -386,18 +351,6 @@ public class UsefulFunctions {
         };
         Log.d("uithread", "start");
         return uiThread;
-    }
-
-    public static int[] getScreenResolution(Context context)
-    {
-        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();
-        DisplayMetrics metrics = new DisplayMetrics();
-        display.getMetrics(metrics);
-        int width = metrics.widthPixels;
-        int height = metrics.heightPixels;
-        int resolution[]={width,height};
-        return resolution;
     }
 
     public static int pixelsToDp(int pixels,Activity activity){
@@ -573,6 +526,13 @@ public class UsefulFunctions {
         return screenHeight;
     }
 
+    public static int getScreenWidth(Activity activity){
+        DisplayMetrics metrics = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int screenWidth = metrics.widthPixels;
+        return screenWidth;
+    }
+
     public static int getStatusBarHeight(Activity activity){
         int statusBarHeight = 0;
         int resourceId = activity.getResources().getIdentifier("status_bar_height", "dimen", "android");
@@ -595,5 +555,85 @@ public class UsefulFunctions {
         int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         textView.measure(widthMeasureSpec, heightMeasureSpec);
         return textView.getMeasuredHeight();
+    }
+    public static int getTextViewWidth(Activity activity, String text, int textSize, Typeface typeface,
+                                        int paddingLeft, int paddingTop, int paddingRight, int paddingBottom) {
+        TextView textView = new TextView(activity);
+        textView.setPadding(paddingLeft,paddingTop,paddingRight,paddingBottom);
+        textView.setTypeface(typeface);
+        textView.setText(text, TextView.BufferType.SPANNABLE);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
+        DisplayMetrics displayMetrics = activity.getResources().getDisplayMetrics();
+        int deviceWidth = displayMetrics.widthPixels;
+        int widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(deviceWidth, View.MeasureSpec.AT_MOST);
+        int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        textView.measure(widthMeasureSpec, heightMeasureSpec);
+        return textView.getMeasuredWidth();
+    }
+
+    public static void crossFade(Context context, final View viewIn, final View viewOut, int animationDurationType) {
+        int animationDuration=0;
+        if(animationDurationType==0){
+            animationDuration = context.getResources().getInteger(android.R.integer.config_shortAnimTime);
+        }
+        else if(animationDurationType==1){
+            animationDuration = context.getResources().getInteger(android.R.integer.config_mediumAnimTime);
+        }
+        else if(animationDurationType==2){
+            animationDuration = context.getResources().getInteger(android.R.integer.config_longAnimTime);
+        }
+
+        if(viewIn!=null){
+            viewIn.setAlpha(0f);
+            viewIn.setVisibility(View.VISIBLE);
+            viewIn.animate()
+                    .alpha(1f)
+                    .setDuration(animationDuration)
+                    .setListener(null);
+        }
+        if(viewOut!=null){
+            viewOut.setAlpha(1f);
+            viewOut.animate()
+                    .alpha(0f)
+                    .setDuration(animationDuration)
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            viewOut.setVisibility(View.INVISIBLE);
+                            // TODO: add types of visibility
+                        }
+                    });
+        }
+    }
+
+    public static void updateLayoutData(final Activity activity, final WeatherDataInitializer weatherDataInitializer,final boolean doSetAppBar, final boolean isGeolocalizationMode){
+        final LinearLayout weatherLayout=(LinearLayout)activity.findViewById(R.id.weather_layout);
+        if(weatherLayout.getVisibility()==View.VISIBLE){
+            long transitionTime=100;
+            weatherLayout.animate()
+                    .alpha(0f)
+                    .setDuration(transitionTime)
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            setNestedScrollViewScrollingDisabled(activity);
+                            weatherLayout.setVisibility(View.INVISIBLE);
+                            new WeatherDataSetter(activity, weatherDataInitializer,doSetAppBar,isGeolocalizationMode);
+                        }
+                    });
+        }
+        else{
+            new WeatherDataSetter(activity, weatherDataInitializer,doSetAppBar,isGeolocalizationMode);
+        }
+    }
+
+    public static void setNestedScrollViewScrollingDisabled(Activity activity){
+        LockableSmoothNestedScrollView nestedScrollView=(LockableSmoothNestedScrollView)activity.findViewById(R.id.nested_scroll_view);
+        nestedScrollView.setScrollingEnabled(false);
+    }
+
+    public static void setNestedScrollViewScrollingEnabled(Activity activity){
+        LockableSmoothNestedScrollView nestedScrollView=(LockableSmoothNestedScrollView)activity.findViewById(R.id.nested_scroll_view);
+        nestedScrollView.setScrollingEnabled(true);
     }
 }

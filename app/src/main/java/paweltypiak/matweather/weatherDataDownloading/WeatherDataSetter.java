@@ -1,6 +1,9 @@
 package paweltypiak.matweather.weatherDataDownloading;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.text.format.DateFormat;
@@ -11,11 +14,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
+
 import static paweltypiak.matweather.usefulClasses.UsefulFunctions.initializeUiThread;
 import static paweltypiak.matweather.usefulClasses.UsefulFunctions.setfloatingActionButtonOnClickIndicator;
+
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.usefulClasses.FavouritesEditor;
 import paweltypiak.matweather.usefulClasses.SharedPreferencesModifier;
@@ -45,7 +55,8 @@ public class WeatherDataSetter {
     private double longitude;
     private String[] dayDate;
     private String[] dayName;
-    private LinearLayout contentLayout;
+    private RelativeLayout mainContentLayout;
+    private TextView onRefreshMessageTextView;
     private View currentDetailsDividerView;
     private View detailsSubdividerView;
     private View detailsForecastDividerView;
@@ -87,11 +98,14 @@ public class WeatherDataSetter {
     private ImageView refreshIconImageView;
     private int[] forecastConditionsDrawableId;
     private int[] forecastConditionsStringId;
+    private LinearLayout forecastLayout;
     private LinearLayout[] forecastDayLayout;
+    private RelativeLayout[] forecastDateLayout;
     private TextView[] forecastDayDateTextView;
     private TextView[] forecastDayNameTextView;
     private ImageView[] forecastDayConditionsImageView;
     private TextView[] forecastDayConditionsTextView;
+    private LinearLayout[] forecastTemperatureLayout;
     private ImageView[] forecastHighTemperatureImageView;
     private ImageView[] forecastLowTemperatureImageView;
     private TextView[] forecastHighTemperatureTextView;
@@ -119,7 +133,6 @@ public class WeatherDataSetter {
     private static int units[];
     private boolean isGeolocalizationMode;
     private static WeatherDataInitializer currentWeatherDataInitializer;
-
 
     public WeatherDataSetter(Activity activity,
                              WeatherDataInitializer dataInitializer,
@@ -230,12 +243,8 @@ public class WeatherDataSetter {
         }
     }
 
-
-
     private void setAppBarLayout(){
         getAppBarResources();
-
-
         if(FavouritesEditor.isAddressEqual(activity)){
             FavouritesEditor.setLayoutForFavourites(activity);
             Log.d("data setter", "location in favourites");
@@ -254,19 +263,25 @@ public class WeatherDataSetter {
         UsefulFunctions.setViewGone(timezoneTextView);
         timezoneTextView.setText(timezone);
         UsefulFunctions.setViewVisible(timezoneTextView);
-        Picasso.with(activity.getApplicationContext()).load(R.drawable.arrow).transform(new UsefulFunctions().new setDrawableColor(ContextCompat.getColor(activity,R.color.textPrimaryDarkBackground))).rotate(180).fit().centerInside().into(refreshIconImageView);
+
         Picasso.with(activity.getApplicationContext()).load(R.drawable.yahoo_logo).fit().centerInside().into(yahooImageView);
     }
 
     private void setWeatherLayout(){
+        setContentLayout();
         setCurrentLayout();
         setDetailsLayout();
         setForecastLayout();
     }
 
+    private void setContentLayout(){
+        getMainContentLayoutResources();
+        mainContentLayout.setBackgroundColor(backgroundColor);
+        onRefreshMessageTextView.setTextColor(textPrimaryColor);
+    }
+
     private void setCurrentLayout(){
-        getCurrentResources();
-        contentLayout.setBackgroundColor(backgroundColor);
+        getGeneralWeatherLayoutResources();
         conditionTextView.setText(conditionStringId);
         conditionTextView.setTextColor(textPrimaryColor);
         temperatureTextView.setText(temperature);
@@ -274,17 +289,43 @@ public class WeatherDataSetter {
         temperatureDagreeSignTextView.setTextColor(textPrimaryColor);
         temperatureUnitTextView.setText(temperatureUnit);
         temperatureUnitTextView.setTextColor(textDisabledColor);
-        Picasso.with(activity.getApplicationContext()).load(conditionDrawableId).into(conditionImageView);
+        Picasso.with(activity.getApplicationContext()).load(conditionDrawableId).into(conditionImageView, new Callback() {
+            @Override
+            public void onSuccess() {
+                fadeInWeatherLayout();
+                Log.d("success", "onSuccess: ");
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
         Drawable arrowIconDrawable = UsefulFunctions.getColoredDrawable(activity,R.drawable.empty_arrow_icon,dividerColor);
         ImageView seeMoreImageView=(ImageView)activity.findViewById(R.id.current_weather_layout_see_more_image);
         seeMoreImageView.setRotation(180);
         seeMoreImageView.setImageDrawable(arrowIconDrawable);
-
         currentDetailsDividerView.setBackgroundColor(dividerColor);
     }
 
+    private void fadeInWeatherLayout(){
+        final LinearLayout weatherLayout=(LinearLayout)activity.findViewById(R.id.weather_layout);
+        long transitionTime=200;
+        weatherLayout.setAlpha(0f);
+        weatherLayout.setVisibility(View.VISIBLE);
+        weatherLayout.animate()
+                .alpha(1f)
+                .setDuration(transitionTime)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animator) {
+                        UsefulFunctions.setNestedScrollViewScrollingEnabled(activity);
+                    }
+                });
+    }
+
     private void setDetailsLayout(){
-        getDetailsResources();
+        getWeatherDetailsResources();
         setAdditionalConditionsLayout();
         setSunPathLayout();
     }
@@ -309,18 +350,13 @@ public class WeatherDataSetter {
 
     private void setSunPathLayout(){
         setSunPathLayoutChildOrder();
-        setVerticalMargins();
         if(isDay ==true){
             sunPathLeftTimeTextView.setText(sunrise);
             sunPathRightTimeTextView.setText(sunset);
-            sunPathLeftArrowImageView.setRotation(0);
-            sunPathRightArrowImageView.setRotation(180);
         }
         else {
             sunPathLeftTimeTextView.setText(sunset);
             sunPathRightTimeTextView.setText(sunrise);
-            sunPathRightTimeTextView.setRotation(0);
-            sunPathLeftArrowImageView.setRotation(180);
 
         }
         Drawable fullArrowIconDrawable = UsefulFunctions.getColoredDrawable(activity,R.drawable.full_arrow_icon,iconColor);
@@ -339,6 +375,12 @@ public class WeatherDataSetter {
     }
 
     private void setSunPathLayoutChildOrder(){
+        addSunPathLayoutViews();
+        rotateSunPathArrowLayout();
+        setVerticalMargins();
+    }
+
+    private void addSunPathLayoutViews(){
         sunPathLayout.removeAllViews();
         if(isDay==true){
             sunPathLayout.addView(sunPathProgressIconLayout);
@@ -351,6 +393,15 @@ public class WeatherDataSetter {
             sunPathLayout.addView(sunPathArrowLayout);
             sunPathLayout.addView(sunPathProgressBarLayout);
             sunPathLayout.addView(sunPathProgressIconLayout);
+        }
+    }
+
+    private void rotateSunPathArrowLayout(){
+        if(isDay==true){
+            sunPathArrowLayout.setRotationY(0);
+        }
+        else{
+            sunPathArrowLayout.setRotationY(180);
         }
     }
 
@@ -378,7 +429,6 @@ public class WeatherDataSetter {
 
     private void setInitialSunPathLayoutDimensions(){
         //set layout for sun path
-        Log.d("jestem", "setSunPathLayoutDimensions: ");
         ViewTreeObserver treeObserver = sunPathLayout.getViewTreeObserver();
         treeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -426,7 +476,6 @@ public class WeatherDataSetter {
     }
 
     private void setSunPathProgress(){
-        Log.d("progress", "setSunPathProgress: ");
         int progressBoundarySize=(int)activity.getResources().getDimension(R.dimen.sun_path_progress_bar_boundary_size);
         int sunPathLength= sunPathLayoutWidth-sunPathTextViewWidth;
         int iconProgress=(int)(currentDiffMinutes*sunPathLength/sunsetSunriseDiffMinutes);
@@ -438,12 +487,11 @@ public class WeatherDataSetter {
     }
 
     private void setForecastLayout() {
-        getForecastResouces();
+        getWeatherForecastLayoutResources();
         forecastStepperView.setBackgroundColor(dividerColor);
         dayName = new String[5];
         dayDate = new String[5];
         for (int i = 0; i < 5; i++) {
-
             Calendar calendar = Calendar.getInstance();
             if(i!=0){
                 calendar.add(Calendar.DATE, i);
@@ -470,6 +518,43 @@ public class WeatherDataSetter {
             Picasso.with(activity.getApplicationContext()).load(R.drawable.full_arrow_icon).transform(new UsefulFunctions().new setDrawableColor(iconColor)).into(forecastHighTemperatureImageView[i]);
             Picasso.with(activity.getApplicationContext()).load(R.drawable.full_arrow_icon).transform(new UsefulFunctions().new setDrawableColor(iconColor)).rotate(180f).into(forecastLowTemperatureImageView[i]);
         }
+        setForecastLayoutDimensions();
+    }
+
+    private void setForecastLayoutDimensions(){
+        setTemperatureLayoutWidth();
+    }
+
+    private void setTemperatureLayoutWidth(){
+        List<Integer> temperatureTextViewWidthList = new ArrayList<>();
+        for(int i=0;i<5;i++){
+            temperatureTextViewWidthList.add(getTemperatureTextViewWidth(forecastHighTemperature[i]));
+            temperatureTextViewWidthList.add(getTemperatureTextViewWidth(forecastLowTemperature[i]));
+        }
+        int maxWidth= Collections.max(temperatureTextViewWidthList);
+        Log.d("temperature_width", "setTemperatureLayoutWidth: "+maxWidth);
+        for(int i=0;i<5;i++){
+            LinearLayout.LayoutParams highTemperatureTextViewParams=(LinearLayout.LayoutParams)forecastHighTemperatureTextView[i].getLayoutParams();
+            highTemperatureTextViewParams.width=maxWidth+2;
+            forecastHighTemperatureTextView[i].setLayoutParams(highTemperatureTextViewParams);
+            LinearLayout.LayoutParams lowTemperatureTextViewParams=(LinearLayout.LayoutParams)forecastLowTemperatureTextView[i].getLayoutParams();
+            lowTemperatureTextViewParams.width=maxWidth+2;
+            forecastLowTemperatureTextView[i].setLayoutParams(lowTemperatureTextViewParams);
+        }
+    }
+
+    private int getTemperatureTextViewWidth(String temperatureString){
+        int temperatureTextViewWidth=UsefulFunctions.getTextViewWidth(
+                activity,
+                temperatureString,
+                (int)activity.getResources().getDimension(R.dimen.forecast_max_min_temperature_text_size),
+                Typeface.DEFAULT,
+                0,
+                0,
+                0,
+                0
+        );
+        return temperatureTextViewWidth;
     }
 
     private void getData(){
@@ -527,16 +612,20 @@ public class WeatherDataSetter {
         Log.d("formatted_data", "sunsetSunriseDiffMinutes: "+sunsetSunriseDiffMinutes);
     }
 
+    private void getMainContentLayoutResources(){
+        mainContentLayout =(RelativeLayout)activity.findViewById(R.id.main_content_layout);
+        onRefreshMessageTextView=(TextView)activity.findViewById(R.id.on_refresh_message_text);
+    }
+
     private void getAppBarResources(){
-        contentLayout =(LinearLayout)activity.findViewById(R.id.main_activity_content_layout);
         timeTextView=(TextView)activity.findViewById(R.id.app_bar_time_text);
         timezoneTextView =(TextView)activity.findViewById(R.id.app_bar_timezone_text);
-        refreshIconImageView=(ImageView)activity.findViewById(R.id.app_bar_refresh_image);
+
         yahooImageView=(ImageView)activity.findViewById(R.id.yahoo_image);
     }
 
-    private void getCurrentResources(){
-        if(contentLayout==null) contentLayout =(LinearLayout)activity.findViewById(R.id.main_activity_content_layout);
+    private void getGeneralWeatherLayoutResources(){
+
         conditionStringId=activity.getResources().getIdentifier("condition_" + code, "string", activity.getPackageName());
         conditionDrawableId=activity.getResources().getIdentifier("drawable/conditions_icon_" + code, null, activity.getPackageName());
         conditionTextView =(TextView)activity.findViewById(R.id.current_conditions_text);
@@ -547,11 +636,11 @@ public class WeatherDataSetter {
         currentDetailsDividerView =activity.findViewById(R.id.current_details_divider);
     }
 
-    private void getDetailsResources(){
+    private void getWeatherDetailsResources(){
         sunPathLayout =(LinearLayout)activity.findViewById(R.id.sun_path_layout);
         sunPathTimeLayout=(RelativeLayout)activity.findViewById(R.id.sun_path_time_layout);
         sunPathLeftTimeTextView =(TextView)activity.findViewById(R.id.sun_path_left_time_text);
-        sunPathRightTimeTextView =(TextView)activity.findViewById(R.id.sunrise_sunset_right_time_text);
+        sunPathRightTimeTextView =(TextView)activity.findViewById(R.id.sun_path_right_time_text);
         sunPathArrowLayout=(RelativeLayout)activity.findViewById(R.id.sun_path_arrow_layout);
         sunPathLeftArrowImageView =(ImageView)activity.findViewById(R.id.sunpath_left_arrow_image);
         sunPathRightArrowImageView =(ImageView)activity.findViewById(R.id.sunpath_right_arrow_image);
@@ -575,16 +664,19 @@ public class WeatherDataSetter {
         detailsForecastDividerView =activity.findViewById(R.id.details_forecast_divider);
     }
 
-    private void getForecastResouces(){
+    private void getWeatherForecastLayoutResources(){
+        forecastLayout=(LinearLayout)activity.findViewById(R.id.forecast_layout);
         forecastStepperView=activity.findViewById(R.id.forecast_stepper_view);
         forecastConditionsDrawableId =new int [5];
         forecastConditionsStringId=new int[5];
         forecastDayLayout=new LinearLayout[5];
+        forecastDateLayout=new RelativeLayout[5];
         forecastDayDateTextView=new TextView[5];
         forecastDayNameTextView=new TextView[5];
         forecastDayConditionsImageView =new ImageView[5];
         forecastDayConditionsTextView=new TextView[5];
         forecastDividerView=new View[5];
+        forecastTemperatureLayout=new LinearLayout[5];
         forecastHighTemperatureTextView=new TextView[5];
         forecastLowTemperatureTextView=new TextView[5];
         forecastHighTemperatureImageView=new ImageView[5];
@@ -593,11 +685,13 @@ public class WeatherDataSetter {
             forecastConditionsDrawableId[i]=activity.getResources().getIdentifier("drawable/forecast_conditions_icon_" + forecastCode[i], null, activity.getPackageName());
             forecastConditionsStringId[i]=activity.getResources().getIdentifier("condition_" + forecastCode[i], "string",activity.getPackageName());
             forecastDayLayout[i] =(LinearLayout) activity.findViewById(activity.getResources().getIdentifier("forecast_day"+(i)+"_layout", "id", activity.getPackageName()));
+            forecastDateLayout[i]=(RelativeLayout) activity.findViewById(activity.getResources().getIdentifier("forecast_day"+(i)+"_date_layout", "id", activity.getPackageName()));
             forecastDayDateTextView[i] =(TextView)activity.findViewById(activity.getResources().getIdentifier("forecast_day"+(i)+"_date_text", "id", activity.getPackageName()));
             forecastDayNameTextView[i] =(TextView)activity.findViewById(activity.getResources().getIdentifier("forecast_day"+(i)+"_name_text", "id", activity.getPackageName()));
             forecastDayConditionsImageView[i] =(ImageView)activity.findViewById(activity.getResources().getIdentifier("forecast_day"+(i)+"_conditions_image", "id",activity.getPackageName()));
             forecastDayConditionsTextView[i]=(TextView)activity.findViewById(activity.getResources().getIdentifier("forecast_day"+(i)+"_conditions_text", "id",activity.getPackageName()));
             forecastDividerView[i]=activity.findViewById(activity.getResources().getIdentifier("forecast_day"+(i)+"_divider", "id",activity.getPackageName()));
+            forecastTemperatureLayout[i]=(LinearLayout) activity.findViewById(activity.getResources().getIdentifier("forecast_day"+(i)+"_temperature_layout", "id", activity.getPackageName()));
             forecastHighTemperatureTextView[i]=(TextView)activity.findViewById(activity.getResources().getIdentifier("forecast_day"+(i)+"_high_temperature_text", "id",activity.getPackageName()));
             forecastLowTemperatureTextView[i]=(TextView)activity.findViewById(activity.getResources().getIdentifier("forecast_day"+(i)+"_low_temperature_text","id", activity.getPackageName()));
             forecastHighTemperatureImageView[i]=(ImageView)activity.findViewById(activity.getResources().getIdentifier("forecast_day"+(i)+"_high_temperature_image","id", activity.getPackageName()));
