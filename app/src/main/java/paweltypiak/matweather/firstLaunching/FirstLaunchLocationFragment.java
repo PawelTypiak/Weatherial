@@ -24,7 +24,7 @@ public class FirstLaunchLocationFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.first_launch_location_fragment, parent, false);
+        return inflater.inflate(R.layout.fragment_first_launch_defeault_location, parent, false);
     }
 
     @Override

@@ -6,7 +6,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.preference.DialogPreference;
 import android.support.v4.content.ContextCompat;
-import android.text.Html;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
@@ -41,7 +40,7 @@ public abstract class CustomDialogPreference extends DialogPreference{
 
     @Override
     protected View onCreateDialogView() {
-        View view = View.inflate(getContext(),R.layout.radiogroup_dialog,null);
+        View view = View.inflate(getContext(),R.layout.dialog_radiogroup,null);
         final RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.radiogroup_dialog_radiogroup);
         buildRadioGroup(radioGroup);
         return view;

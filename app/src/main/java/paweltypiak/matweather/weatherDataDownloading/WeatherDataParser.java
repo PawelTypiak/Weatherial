@@ -5,7 +5,7 @@ import android.os.Parcelable;
 import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 import paweltypiak.matweather.jsonHandling.Channel;
 
-public class WeatherDataInitializer implements Parcelable {
+public class WeatherDataParser implements Parcelable {
 
     private Channel channel;
     private String link;
@@ -29,7 +29,7 @@ public class WeatherDataInitializer implements Parcelable {
     private double latitude;
     private double longitude;
 
-    public WeatherDataInitializer(Channel channel){
+    public WeatherDataParser(Channel channel){
         this.channel=channel;
         initializeLink();
         initializeLastBuildDate();
@@ -136,7 +136,7 @@ public class WeatherDataInitializer implements Parcelable {
     }
 
     //create parcelable
-    public WeatherDataInitializer(Parcel in){
+    public WeatherDataParser(Parcel in){
         String[] stringData = new String[17];
         in.readStringArray(stringData);
         this.link=stringData[0];
@@ -195,12 +195,12 @@ public class WeatherDataInitializer implements Parcelable {
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
-        public WeatherDataInitializer createFromParcel(Parcel in) {
-            return new WeatherDataInitializer(in);
+        public WeatherDataParser createFromParcel(Parcel in) {
+            return new WeatherDataParser(in);
         }
 
-        public WeatherDataInitializer[] newArray(int size) {
-            return new WeatherDataInitializer[size];
+        public WeatherDataParser[] newArray(int size) {
+            return new WeatherDataParser[size];
         }
     };
 }

@@ -3,7 +3,6 @@ package paweltypiak.matweather.firstLaunching;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -32,7 +31,7 @@ public class FirstLaunchUnitsFragment extends Fragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.first_launch_units_fragment, parent, false);
+        return inflater.inflate(R.layout.fragment_first_launch_units, parent, false);
     }
 
     @Override
@@ -56,9 +55,9 @@ public class FirstLaunchUnitsFragment extends Fragment{
         //initialize custom spinner
         FirstLaunchSpinner spinner = (FirstLaunchSpinner) getActivity().findViewById(getActivity().getResources().getIdentifier("first_launch_units_fragment_spinner_"+id, "id", getActivity().getPackageName()));
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity().getApplicationContext(),
-                R.layout.first_launch_spinner_item,
+                R.layout.spinner_item,
                 getActivity().getResources().getStringArray(getActivity().getResources().getIdentifier("units_array_"+id, "array", getActivity().getPackageName())));
-        arrayAdapter.setDropDownViewResource(R.layout.first_launch_spinner_dropdown_item);
+        arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         spinner.setAdapter(arrayAdapter);
         return spinner;
     }

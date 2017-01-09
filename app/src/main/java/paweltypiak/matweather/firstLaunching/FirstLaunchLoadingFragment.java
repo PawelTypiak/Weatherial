@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -28,7 +27,7 @@ import paweltypiak.matweather.localizationDataDownloading.GeocodingDownloader;
 import paweltypiak.matweather.localizationDataDownloading.CurrentCoordinatesDownloader;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDataDownloader;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDownloadCallback;
-import paweltypiak.matweather.weatherDataDownloading.WeatherDataInitializer;
+import paweltypiak.matweather.weatherDataDownloading.WeatherDataParser;
 import paweltypiak.matweather.jsonHandling.Channel;
 
 public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownloadCallback,GeocodingCallback{
@@ -45,7 +44,7 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
     private AlertDialog permissionDeniedDialog;
     private AlertDialog geolocalizationMethodsDialog;
     private AlertDialog changeLocationAfterFailureDialog;
-    private WeatherDataInitializer dataInitializer;
+    private WeatherDataParser dataInitializer;
     private String location;
     private ProgressBar loadingBar;
     private TextView messageTextView;
@@ -73,7 +72,7 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getExtras();
-        return inflater.inflate(R.layout.first_launch_loading_fragment, parent, false);
+        return inflater.inflate(R.layout.fragment_first_launch_loading, parent, false);
     }
 
     @Override
@@ -227,7 +226,7 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
 
     @Override
     public void weatherServiceSuccess(Channel channel) {
-        dataInitializer = new WeatherDataInitializer(channel);
+        dataInitializer = new WeatherDataParser(channel);
         if(isFirstLaunch && selectedDefeaultLocationOption ==1){
             weatherResultsForLocationDialog =dialogInitializer.initializeWeatherResultsForLocationDialog(0,dataInitializer,loadMainActivityRunnable,showLocationFragmentRunnable,new showExitDialogRunnable(showWeatherResultsForLocationDialogRunnable));
             showDialog(weatherResultsForLocationDialog);

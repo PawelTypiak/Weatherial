@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/navigation_drawer_header_logo_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="30dp"

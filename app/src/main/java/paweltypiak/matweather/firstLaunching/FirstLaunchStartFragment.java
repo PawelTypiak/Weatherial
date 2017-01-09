@@ -16,7 +16,7 @@ public class FirstLaunchStartFragment extends Fragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.first_launch_start_fragment, parent, false);
+        return inflater.inflate(R.layout.fragment_first_launch_start, parent, false);
     }
 
     @Override

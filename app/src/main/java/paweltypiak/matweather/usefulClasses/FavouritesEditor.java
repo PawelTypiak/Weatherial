@@ -9,6 +9,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import paweltypiak.matweather.MainActivity;
+
 public class FavouritesEditor {
 
     private static int selectedFavouriteLocationId;
@@ -174,8 +176,16 @@ public class FavouritesEditor {
         int id=getCurrentFavouriteLocationId(activity);
         getFavouriteLocationsNamesList(activity);
         setAppBarForFavouriteLocation(activity,id);
-        UsefulFunctions.setfloatingActionButtonOnClickIndicator(activity,1);
-        UsefulFunctions.checkNavigationDrawerMenuItem(activity,1);
+        ((MainActivity)activity).getLayoutInitializer()
+                .getAppBarLayoutInitializer()
+                .getAppBarLayoutButtonsInitializer()
+                .getFloatingActionButtonInitializer()
+                .setFloatingActionButtonOnClickIndicator(1);
+        ((MainActivity)activity).getLayoutInitializer()
+                .getAppBarLayoutInitializer()
+                .getAppBarLayoutButtonsInitializer()
+                .getNavigationDrawerInitializer()
+                .checkNavigationDrawerMenuItem(1);
     }
 
     public static boolean isAddressEqual(Context context){

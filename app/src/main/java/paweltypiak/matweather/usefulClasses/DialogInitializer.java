@@ -22,11 +22,11 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import java.util.List;
 
+import paweltypiak.matweather.MainActivity;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDataDownloader;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDownloadCallback;
-import paweltypiak.matweather.weatherDataDownloading.WeatherDataInitializer;
-import paweltypiak.matweather.weatherDataDownloading.WeatherDataSetter;
+import paweltypiak.matweather.weatherDataDownloading.WeatherDataParser;
 import paweltypiak.matweather.jsonHandling.Channel;
 
 public class DialogInitializer  {
@@ -132,15 +132,16 @@ public class DialogInitializer  {
 
     private class setMainLayoutRunnable implements Runnable {
 
-        WeatherDataInitializer dataInitializer;
-        WeatherDataSetter dataSetter;
+        WeatherDataParser dataInitializer;
 
-        public setMainLayoutRunnable(WeatherDataInitializer dataInitializer) {
+        public setMainLayoutRunnable(WeatherDataParser dataInitializer) {
             this.dataInitializer = dataInitializer;
         }
 
         public void run() {
-            dataSetter = new WeatherDataSetter(activity, dataInitializer,true,false);
+            //UsefulFunctions.updateLayoutData(activity,dataInitializer,true,false);
+            ((MainActivity)activity).getLayoutInitializer().
+                    updateLayoutOnWeatherDataChange(activity,dataInitializer,true,false);
         }
     }
 
@@ -185,7 +186,7 @@ public class DialogInitializer  {
 
         private String location;
         private WeatherDataDownloader downloader;
-        private WeatherDataInitializer dataInitializer;
+        private WeatherDataParser dataInitializer;
         private EditText locationEditText;
         private boolean isReused;
 
@@ -214,7 +215,7 @@ public class DialogInitializer  {
 
         @Override
         public void weatherServiceSuccess(Channel channel) {
-            dataInitializer=new WeatherDataInitializer(channel);
+            dataInitializer=new WeatherDataParser(channel);
             localizationResultsDialog = initializeWeatherResultsForLocationDialog(1,dataInitializer,new setMainLayoutRunnable(dataInitializer),showSearchDialogRunnable,null);
             localizationResultsDialog.show();
             progressDialog.dismiss();
@@ -262,8 +263,19 @@ public class DialogInitializer  {
     private Runnable deleteFromFavouritesRunnable = new Runnable() {
         public void run() {
             FavouritesEditor.deleteFavouritesItem(activity);
-            UsefulFunctions.setfloatingActionButtonOnClickIndicator(activity,0);
-            UsefulFunctions.uncheckNavigationDrawerMenuItem(activity,1);
+            ((MainActivity)activity).getLayoutInitializer()
+                    .getAppBarLayoutInitializer()
+                    .getAppBarLayoutButtonsInitializer()
+                    .getFloatingActionButtonInitializer()
+                    .setFloatingActionButtonOnClickIndicator(0);
+            //UsefulFunctions.setfloatingActionButtonOnClickIndicator(activity,0);
+            //UsefulFunctions.uncheckNavigationDrawerMenuItem(activity,1);
+            ((MainActivity)activity).getLayoutInitializer()
+                    .getAppBarLayoutInitializer()
+                    .getAppBarLayoutButtonsInitializer()
+                    .getNavigationDrawerInitializer()
+                    .uncheckNavigationDrawerMenuItem(1);
+            ;
             String currentLocationHeaderString=UsefulFunctions.getCurrentLocationAddress()[0];
             String currentLocationSubheaderString=UsefulFunctions.getCurrentLocationAddress()[1];
             UsefulFunctions.setAppBarStrings(activity,currentLocationHeaderString,currentLocationSubheaderString);
@@ -307,7 +319,7 @@ public class DialogInitializer  {
 
     private class favouritesDialogRunnable implements Runnable,WeatherDownloadCallback {
 
-        private WeatherDataInitializer dataInitializer;
+        private WeatherDataParser dataInitializer;
 
         public favouritesDialogRunnable() {}
 
@@ -321,8 +333,10 @@ public class DialogInitializer  {
 
         @Override
         public void weatherServiceSuccess(Channel channel) {
-            dataInitializer=new WeatherDataInitializer(channel);
-            UsefulFunctions.updateLayoutData(activity,dataInitializer,true,false);
+            dataInitializer=new WeatherDataParser(channel);
+            //UsefulFunctions.updateLayoutData(activity,dataInitializer,true,false);
+            ((MainActivity)activity).getLayoutInitializer().
+                    updateLayoutOnWeatherDataChange(activity,dataInitializer,true,false);
             progressDialog.dismiss();
         }
 
@@ -390,7 +404,7 @@ public class DialogInitializer  {
 
     public AlertDialog initializeSearchDialog(int type,RadioButton radioButton){
         LayoutInflater inflater = activity.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.search_dialog,null);
+        View dialogView = inflater.inflate(R.layout.dialog_search,null);
         dialogView.setFocusableInTouchMode(true);
         dialogView.setClickable(true);
         final EditText locationEditText=(EditText)dialogView.findViewById(R.id.search_edit_text);
@@ -450,7 +464,7 @@ public class DialogInitializer  {
 
     public AlertDialog initializeGeolocalizationFailureDialog(int type, Runnable positiveButtonRunnable, Runnable negativeButtonRunnable){
         LayoutInflater inflater = activity.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.one_line_text_dialog,null);
+        View dialogView = inflater.inflate(R.layout.dialog_one_line_text,null);
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
         messageTextView.setText(activity.getString(R.string.geolocalization_failure_dialog_message));
         boolean isUncancelable=false;
@@ -486,7 +500,7 @@ public class DialogInitializer  {
 
     public AlertDialog initializeProviderUnavailableDialog(int type,Runnable positiveButtonRunnable){
         LayoutInflater inflater = activity.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.one_line_text_dialog,null);
+        View dialogView = inflater.inflate(R.layout.dialog_one_line_text,null);
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
         String message=null;
         String title=null;
@@ -522,7 +536,7 @@ public class DialogInitializer  {
 
     public AlertDialog initializePermissionDeniedDialog(int type,Runnable positiveButtonRunnable, Runnable negativeButtonRunnable){
         LayoutInflater inflater = activity.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.one_line_text_dialog,null);
+        View dialogView = inflater.inflate(R.layout.dialog_one_line_text,null);
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
         messageTextView.setText(activity.getString(R.string.permission_denied_dialog_message));
         boolean isUncancelable=false;
@@ -558,7 +572,7 @@ public class DialogInitializer  {
 
     public AlertDialog initializeNoDifferentLocationSelectedDialog(){
         LayoutInflater inflater = activity.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.one_line_text_dialog,null);
+        View dialogView = inflater.inflate(R.layout.dialog_one_line_text,null);
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
         messageTextView.setText(activity.getString(R.string.no_different_location_selected_dialog_message));
         noDifferentLocationSelectedDialog =buildDialog(
@@ -581,7 +595,7 @@ public class DialogInitializer  {
 
     public AlertDialog initializeNoWeatherResultsForLocationDialog(int type, Runnable positiveButtonRunnable, Runnable negativeButtonRunnable){
         LayoutInflater inflater = activity.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.one_line_text_dialog,null);
+        View dialogView = inflater.inflate(R.layout.dialog_one_line_text,null);
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
         messageTextView.setText(activity.getString(R.string.no_weather_results_for_location_dialog_message));
         boolean isUncancelable=false;
@@ -622,7 +636,7 @@ public class DialogInitializer  {
 
     private AlertDialog initializeNoEmailApplicationDialog(){
         LayoutInflater inflater = activity.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.one_line_text_dialog,null);
+        View dialogView = inflater.inflate(R.layout.dialog_one_line_text,null);
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
         messageTextView.setText(activity.getString(R.string.no_email_application_dialog_message));
         noEmailApplicationDialog = buildDialog(
@@ -643,7 +657,7 @@ public class DialogInitializer  {
 
     public AlertDialog initializeServiceFailureDialog(int type,Runnable positiveButtonRunnable,final Runnable negativeButtonRunnable){
         LayoutInflater inflater = activity.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.one_line_text_dialog,null);
+        View dialogView = inflater.inflate(R.layout.dialog_one_line_text,null);
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
         messageTextView.setText(activity.getString(R.string.service_failure_dialog_message));
         String negativeButtonString=null;
@@ -684,7 +698,7 @@ public class DialogInitializer  {
 
     public AlertDialog initializeNoFavouritesDialog(){
         LayoutInflater inflater = activity.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.one_line_text_dialog,null);
+        View dialogView = inflater.inflate(R.layout.dialog_one_line_text,null);
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
         messageTextView.setText(activity.getString(R.string.no_favourites_dialog_message));
         emptyLocationListDialog = buildDialog(
@@ -707,7 +721,7 @@ public class DialogInitializer  {
 
     public AlertDialog initializeInternetFailureDialog(int type,Runnable positiveButtonRunnable,final Runnable negativeButtonRunnable){
         LayoutInflater inflater = activity.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.one_line_text_dialog,null);
+        View dialogView = inflater.inflate(R.layout.dialog_one_line_text,null);
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
         messageTextView.setText(activity.getString(R.string.internet_failure_dialog_message));
         boolean isUncancelable=false;
@@ -750,7 +764,7 @@ public class DialogInitializer  {
 
     public AlertDialog initializeExitDialog(int type, Runnable negativeButtonRunnable){
         LayoutInflater inflater = activity.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.one_line_text_dialog,null);
+        View dialogView = inflater.inflate(R.layout.dialog_one_line_text,null);
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
         messageTextView.setText(activity.getText(R.string.exit_dialog_message));
         boolean isUncancelable=false;
@@ -776,7 +790,7 @@ public class DialogInitializer  {
 
     public AlertDialog initializeYahooRedirectDialog(int type, String link){
         LayoutInflater inflater = activity.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.two_line_text_dialog,null);
+        View dialogView = inflater.inflate(R.layout.dialog_two_line_text,null);
         TextView message1TextView=(TextView)dialogView.findViewById(R.id.two_line_text_dialog_message1_text);
         message1TextView.setText(activity.getString(R.string.yahoo_redirect_dialog_message));
         TextView message2TextView=(TextView)dialogView.findViewById(R.id.two_line_text_dialog_message2_text);
@@ -811,7 +825,7 @@ public class DialogInitializer  {
 
     public AlertDialog initializeFeedbackDialog(){
         LayoutInflater inflater = activity.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.two_line_text_dialog,null);
+        View dialogView = inflater.inflate(R.layout.dialog_two_line_text,null);
         TextView message1TextView=(TextView)dialogView.findViewById(R.id.two_line_text_dialog_message1_text);
         message1TextView.setText(activity.getString(R.string.feedback_dialog_message));
         TextView message2TextView=(TextView)dialogView.findViewById(R.id.two_line_text_dialog_message2_text);
@@ -848,7 +862,7 @@ public class DialogInitializer  {
 
     public AlertDialog initializeAddToFavouritesDialog(){
         LayoutInflater inflater = activity.getLayoutInflater();
-        final View dialogView = inflater.inflate(R.layout.edit_location_dialog,null);
+        final View dialogView = inflater.inflate(R.layout.dialog_edit_location,null);
         dialogView.setFocusableInTouchMode(true);
         dialogView.setClickable(true);
         String [] location=UsefulFunctions.getAppBarStrings(activity);
@@ -889,7 +903,7 @@ public class DialogInitializer  {
 
     public AlertDialog initializeEditFavouritesDialog(){
         LayoutInflater inflater = activity.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.edit_location_dialog,null);
+        View dialogView = inflater.inflate(R.layout.dialog_edit_location,null);
         dialogView.setFocusableInTouchMode(true);
         dialogView.setClickable(true);
         String [] location=UsefulFunctions.getAppBarStrings(activity);
@@ -932,7 +946,7 @@ public class DialogInitializer  {
 
     public AlertDialog initializeProgressDialog(String message){
         LayoutInflater inflater = activity.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.progress_dialog,null);
+        View dialogView = inflater.inflate(R.layout.dialog_progress,null);
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.progress_dialog_message_text);
         messageTextView.setText(message);
         progressDialog =buildDialog(
@@ -954,9 +968,9 @@ public class DialogInitializer  {
         return progressDialog;
     }
 
-    public AlertDialog initializeWeatherResultsForLocationDialog(int type, WeatherDataInitializer dataInitializer, Runnable positiveButtonRunnable, Runnable neutralButtonRunnable, Runnable negativeButtonRunnable) {
+    public AlertDialog initializeWeatherResultsForLocationDialog(int type, WeatherDataParser dataInitializer, Runnable positiveButtonRunnable, Runnable neutralButtonRunnable, Runnable negativeButtonRunnable) {
         LayoutInflater inflater = activity.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.location_dialog, null);
+        View dialogView = inflater.inflate(R.layout.map_intent_dialog, null);
         String city=dataInitializer.getCity();
         String region=dataInitializer.getRegion();
         String country=dataInitializer.getCountry();
@@ -995,7 +1009,7 @@ public class DialogInitializer  {
 
     public AlertDialog initializeMapsDialog(Activity activity) {
         LayoutInflater inflater = activity.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.location_dialog, null);
+        View dialogView = inflater.inflate(R.layout.map_intent_dialog, null);
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.location_dialog_message_text);
         messageTextView.setText(activity.getString(R.string.maps_dialog_message));
         TextView cityTextView=(TextView)dialogView.findViewById(R.id.location_dialog_city_text);
@@ -1024,8 +1038,8 @@ public class DialogInitializer  {
 
     public AlertDialog initializeGeolocalizationMethodsDialog(int type, Runnable positiveButtonRunnable){
         LayoutInflater inflater = activity.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.localization_options_dialog,null);
-        RadioGroup radioGroup=(RadioGroup)dialogView.findViewById(R.id.localization_options_dialog_radio_group);
+        View dialogView = inflater.inflate(R.layout.dialog_geolocalization_options,null);
+        RadioGroup radioGroup=(RadioGroup)dialogView.findViewById(R.id.geolocalization_options_dialog_radio_group);
         RadioButton gpsRadioButton=new RadioButton(activity);
         gpsRadioButton.setText(activity.getString(R.string.geolocalization_method_gps));
         gpsRadioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX,activity.getResources().getDimensionPixelSize(R.dimen.dialog_text_size));
@@ -1083,7 +1097,7 @@ public class DialogInitializer  {
 
     public AlertDialog initializeAuthorDialog(){
         LayoutInflater inflater = activity.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.author_dialog,null);
+        View dialogView = inflater.inflate(R.layout.dialog_author,null);
         ImageView emailImageView=(ImageView)dialogView.findViewById(R.id.author_dialog_mail_image);
         ImageView githubImageView=(ImageView)dialogView.findViewById(R.id.author_dialog_github_image);
         Picasso.with(activity.getApplicationContext()).load(R.drawable.email_icon).transform(new UsefulFunctions().new setDrawableColor(activity.getResources().getColor(R.color.white))).fit().centerInside().into(emailImageView);
@@ -1121,7 +1135,7 @@ public class DialogInitializer  {
 
     public AlertDialog initializeAboutDialog(){
         LayoutInflater inflater = activity.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.about_dialog,null);
+        View dialogView = inflater.inflate(R.layout.dialog_about,null);
         TextView aboutDesctiptionPart1=(TextView)dialogView.findViewById(R.id.about_dialog_text_part1);
         TextView aboutDesctiptionPart2=(TextView)dialogView.findViewById(R.id.about_dialog_text_part2);
         TextView aboutDesctiptionPart3=(TextView)dialogView.findViewById(R.id.about_dialog_text_part3);
@@ -1152,7 +1166,7 @@ public class DialogInitializer  {
 
     public AlertDialog initializeFavouritesDialog(final int type, Runnable positiveButtonRunnable, Runnable negativeButtonRunnable){
         LayoutInflater inflater = activity.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.radiogroup_dialog,null);
+        View dialogView = inflater.inflate(R.layout.dialog_radiogroup,null);
         final RadioGroup radioGroup = (RadioGroup) dialogView.findViewById(R.id.radiogroup_dialog_radiogroup);
         final List<String> favouritesList = FavouritesEditor.getFavouriteLocationsNamesDialogList(activity);
         String locationName=null;

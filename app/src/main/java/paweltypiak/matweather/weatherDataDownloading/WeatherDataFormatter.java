@@ -46,10 +46,10 @@ public class WeatherDataFormatter {
     private boolean isDay;
     private long currentDiffMinutes;
     private long sunsetSunriseDiffMinutes;
-    private WeatherDataInitializer dataInitializer;
+    private WeatherDataParser dataInitializer;
     private int hourDifference;
 
-    public WeatherDataFormatter(Activity activity, WeatherDataInitializer dataInitializer){
+    public WeatherDataFormatter(Activity activity, WeatherDataParser dataInitializer){
         this.units= SharedPreferencesModifier.getUnits(activity);
         this.activity=activity;
         this.dataInitializer=dataInitializer;

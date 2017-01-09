@@ -12,7 +12,6 @@
             android:icon="@drawable/favourites_icon"
             android:checkable="false"
             android:title="@string/nav_drawer_favourites" />
-
     </menu>
     </item>
     <item android:title="@string/nav_drawer_others_group_item">

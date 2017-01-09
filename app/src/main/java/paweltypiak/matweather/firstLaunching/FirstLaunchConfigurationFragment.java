@@ -29,7 +29,7 @@ public class FirstLaunchConfigurationFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getExtras();
-        return inflater.inflate(R.layout.first_launch_configuraion_fragment, parent, false);
+        return inflater.inflate(R.layout.fragment_first_launch_configuration, parent, false);
     }
 
     @Override

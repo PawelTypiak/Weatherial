@@ -3,7 +3,7 @@
     <dimen name="nav_header_height">160dp</dimen>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
+
     <dimen name="dialog_text_size">16dp</dimen>
     <dimen name="dialog_margin_size">24dp</dimen>
     <dimen name="dialog_margin_top_size">24dp</dimen>
@@ -24,14 +24,15 @@
     <dimen name="activity_big_margin">24dp</dimen>
     <dimen name="activity_very_big_margin">32dp</dimen>
     <dimen name="activity_huge_margin">72dp</dimen>
+    <dimen name="toolbar_subtitle_bottom_margin">16dp</dimen>
+    <dimen name="yahoo_logo_padding">4dp</dimen>
     <dimen name="toolbar_icons_padding">16dp</dimen>
-    <dimen name="expanded_toolbar_top_padding">40dp</dimen>
-    <dimen name="toolbar_right_margin">78dp</dimen>
-    <dimen name="current_weather_layout_bottom_padding">16dp</dimen>
-    <dimen name="current_weather_layout_top_padding">48dp</dimen>
-    <dimen name="current_Weather_layout_temperature_layout_bottom_padding">48dp</dimen>
+    <dimen name="floating_action_button_margin">16dp</dimen>
+
+    <dimen name="toolbar_expanded_title_top_padding">40dp</dimen>
+    <dimen name="collapsed_toolbar_right_margin">78dp</dimen>
     <dimen name="additional_conditions_icons_bottom_margin">8dp</dimen>
-    <dimen name="forecast_days_margin">32dp</dimen>
+    <dimen name="forecast_days_vertical_margin">32dp</dimen>
     <dimen name="forecast_condition_icon_horizontal_margin">8dp</dimen>
     <dimen name="forecast_days_stepper_padding">8dp</dimen>
     <dimen name="sun_path_time_arrow_margin">8dp</dimen>
@@ -41,42 +42,42 @@
     <dimen name="on_refresh_message_layout_top_margin">32dp</dimen>
 
     <!-- other sizes -->
-    <dimen name="dialog_loading_progress_bar_size">48dp</dimen>
-    <dimen name="intro_loading_progress_bar_size">56dp</dimen>
+    <dimen name="toolbar_collapsed_height">56dp</dimen>
     <dimen name="bar_elevation">4dp</dimen>
     <dimen name="floating_action_bar_elevation">6dp</dimen>
-    <dimen name="subheader_height">48dp</dimen>
-    <dimen name="toolbar_height">56dp</dimen>
+    <dimen name="divider_size">1dp</dimen>
     <dimen name="scrollbar_size">3dp</dimen>
     <dimen name="forecast_stepper_size">2dp</dimen>
-    <dimen name="divider_size">1dp</dimen>
+    <dimen name="dialog_loading_progress_bar_size">48dp</dimen>
+    <dimen name="intro_loading_progress_bar_size">56dp</dimen>
     <dimen name="sun_path_progress_bar_view_size">2dp</dimen>
     <dimen name="swipe_refresh_layout_offset">56dp</dimen>
-    <dimen name="swipe_refresh_layout_pull_range">96dp</dimen>
 
     <!-- image sizes -->
-    <dimen name="refresh_message_icon_size">12dp</dimen>
+    <dimen name="yahoo_logo_image_width">134px</dimen>
+    <dimen name="yahoo_logo_image_height">29px</dimen>
+    <dimen name="toolbar_icons_size">56dp</dimen>
     <dimen name="see_more_icon_size">24dp</dimen>
-    <dimen name="additional_conditions_icon_size">56dp</dimen>
+    <dimen name="additional_conditions_icons_size">56dp</dimen>
     <dimen name="sun_path_arrow_icon_size">18dp</dimen>
     <dimen name="sun_path_progress_bar_boundary_size">8dp</dimen>
     <dimen name="sun_path_progress_icon_size">32dp</dimen>
     <dimen name="forecast_condition_icon_size">64dp</dimen>
     <dimen name="forecast_max_min_temperature_image_size">12dp</dimen>
 
-
     <!-- text sizes -->
-    <dimen name="collapsing_toolbar_title_expanded_size">45dp</dimen>
-    <dimen name="collapsing_toolbar_title_collapsed_size">26dp</dimen>
-    <dimen name="secondary_location_text_size">20dp</dimen>
-    <dimen name="current_conditions_text_size">34dp</dimen>
-    <dimen name="refresh_message_text_size">14dp</dimen>
+    <dimen name="toolbar_expanded_title_text_size">45dp</dimen>
+    <dimen name="toolbar_collapsed_title_text_size">26dp</dimen>
+    <dimen name="toolbar_time_layout_current_time_text_size">14dp</dimen>
+    <dimen name="toolbar_time_layout_timezone_text_size">12dp</dimen>
+    <dimen name="toolbar_subtitle_text_size">20dp</dimen>
+    <dimen name="general_info_condition_text_size">34dp</dimen>
+    <dimen name="additional_conditions_text_size">14dp</dimen>
     <dimen name="header_text_size">16dp</dimen>
-    <dimen name="forecast_date_text_size">14dp</dimen>
+    <dimen name="forecast_day_date_text_size">14dp</dimen>
     <dimen name="forecast_day_name_text_size">14dp</dimen>
-    <dimen name="forecast_condition_text_size">20dp</dimen>
+    <dimen name="forecast_day_condition_text_size">20dp</dimen>
     <dimen name="forecast_max_min_temperature_text_size">14dp</dimen>
     <dimen name="on_refresh_message_text_size">16dp</dimen>
-
 
 </resources>

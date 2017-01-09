@@ -14,18 +14,12 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
-import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.Html;
 import android.text.Spanned;
@@ -33,11 +27,8 @@ import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.Display;
 import android.view.KeyEvent;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -50,70 +41,62 @@ import com.squareup.picasso.Transformation;
 import net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout;
 
 import java.util.Locale;
+
 import paweltypiak.matweather.MainActivity;
 import paweltypiak.matweather.R;
-import paweltypiak.matweather.customViews.LockableSmoothNestedScrollView;
-import paweltypiak.matweather.weatherDataDownloading.WeatherDataInitializer;
-import paweltypiak.matweather.weatherDataDownloading.WeatherDataSetter;
+import paweltypiak.matweather.layoutInitializing.appBarInitializing.appBarOnOffsetChangeListenerAdding.ToolbarTitleClickableViewSizeUpdater;
+import paweltypiak.matweather.layoutInitializing.LayoutUpdating.OnWeatherDataChangeLayoutUpdater;
+import paweltypiak.matweather.weatherDataDownloading.WeatherDataParser;
 
 public class UsefulFunctions {
     //information about first weather downloading, after application launch
-    private static boolean isFirstWeatherDownloading;
 
-    public static boolean getIsFirstWeatherDownloading() {
-        return isFirstWeatherDownloading;
-    }
-
-    public static void setIsFirstWeatherDownloading(boolean bool) {
-        isFirstWeatherDownloading = bool;
-    }
-
-    public static void setfloatingActionButtonOnClickIndicator(Activity activity, int  fabIndicator) {
-        //floating button layout for adding or editing favourite location
-        FloatingActionButton floatingActionButton=(FloatingActionButton)activity.findViewById(R.id.main_fab);
-        MainActivity.setFloatingActionButtonOnClickIndicator(fabIndicator);
-        if(fabIndicator==0) floatingActionButton.setImageResource(R.drawable.fab_favourites_icon);
-        else if (fabIndicator==1) floatingActionButton.setImageResource(R.drawable.fab_edit_icon);
-    }
+    // TODO: move to dataFormatter
 
     public static String[] getCurrentLocationAddress(){
         String[] location=new String[2];
-        location[0]= WeatherDataSetter.getCurrentDataFormatter().getCity();
-        location[1]=WeatherDataSetter.getCurrentDataFormatter().getRegion()+", "+WeatherDataSetter.getCurrentDataFormatter().getCountry();
+        location[0]= OnWeatherDataChangeLayoutUpdater.getCurrentDataFormatter().getCity();
+        location[1]= OnWeatherDataChangeLayoutUpdater.getCurrentDataFormatter().getRegion()+", "+ OnWeatherDataChangeLayoutUpdater.getCurrentDataFormatter().getCountry();
         return location;
     }
 
     public static String[] getCurrentLocationCoordinates(){
         String[] coordinates=new String[2];
-        coordinates[0]= Double.toString(WeatherDataSetter.getCurrentDataFormatter().getLatitude());
-        coordinates[1]=Double.toString(WeatherDataSetter.getCurrentDataFormatter().getLongitude());
+        coordinates[0]= Double.toString(OnWeatherDataChangeLayoutUpdater.getCurrentDataFormatter().getLatitude());
+        coordinates[1]=Double.toString(OnWeatherDataChangeLayoutUpdater.getCurrentDataFormatter().getLongitude());
         return coordinates;
     }
+
+    //// TODO: move to AppBarLayoutDataInitializer
 
     public static String[] getAppBarStrings(Activity activity){
         //get location name from AppBar
         String[] location=new String[2];
         CollapsingToolbarLayout collapsingToolbarLayout=(CollapsingToolbarLayout)activity.findViewById(R.id.collapsing_toolbar_layout);
-        TextView secondaryLocationTextView=(TextView)activity.findViewById(R.id.app_bar_secondary_location_name_text);
+        TextView secondaryLocationTextView=(TextView)activity.findViewById(R.id.toolbar_layout_subtitle_text);
         location[0]=collapsingToolbarLayout.getTitle().toString();
         location[1]=secondaryLocationTextView.getText().toString();
         return location;
     }
 
-    public static void setAppBarStrings(Activity activity, String primaryText, String secondaryText){
+    public static void setAppBarStrings(Activity activity, String toolbarTitle, String toolbarSubtitle){
         //set custom location name in AppBar
         CollapsingToolbarLayout collapsingToolbarLayout=(CollapsingToolbarLayout)activity.findViewById(R.id.collapsing_toolbar_layout);
-        collapsingToolbarLayout.setTitle(primaryText);
-        TextView secondaryLocationTextView=(TextView)activity.findViewById(R.id.app_bar_secondary_location_name_text);
-        secondaryLocationTextView.setText(secondaryText);
+        String formattedToolbarTitle=getFormattedString(toolbarTitle);
+        collapsingToolbarLayout.setTitle(formattedToolbarTitle);
+        TextView secondaryLocationTextView=(TextView)activity.findViewById(R.id.toolbar_layout_subtitle_text);
+        secondaryLocationTextView.setText(toolbarSubtitle);
         setViewGone(secondaryLocationTextView);
-        if(!secondaryText.equals("")) setViewVisible(secondaryLocationTextView);
-        ((MainActivity) activity).getOnAppBarStringsChangeListener().onAppBarStringsChanged();
+        if(!toolbarSubtitle.equals("")) setViewVisible(secondaryLocationTextView);
+        //((MainActivity) activity).getOnAppBarStringsChangeListener().onAppBarStringsChanged(activity,toolbarTitle);
+        ToolbarTitleClickableViewSizeUpdater.getOnAppBarStringsChangeListener().onAppBarStringsChanged(activity,formattedToolbarTitle);
     }
 
     public interface OnAppBarStringsChangeListener {
-        void onAppBarStringsChanged();
+        void onAppBarStringsChanged(Activity activity,String toolbarTitle);
     }
+
+    // TODO: usefulFunctions
 
     public static void initializeWebIntent(Context context, String url){
         Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -196,6 +179,8 @@ public class UsefulFunctions {
         return string;
     }
 
+    // TODO: move to DialogInitializer
+
     public static void customizeEditText(final Activity activity,final AlertDialog dialog, final EditText editText){
         //custom edit text in dialogs with string validation and edition
         final String hint=editText.getHint().toString();
@@ -261,49 +246,7 @@ public class UsefulFunctions {
         });
     }
 
-    public static void uncheckAllNavigationDrawerMenuItems(Activity activity){
-        //uncheck all items in navigation drawer
-        NavigationView navigationView = (NavigationView)activity. findViewById(R.id.nav_view);
-        MenuItem geolocalizationItem=navigationView.getMenu().findItem(R.id.nav_button_geolocalization);;
-        MenuItem favouritesItem=navigationView.getMenu().findItem(R.id.nav_button_favourites);
-        favouritesItem.setChecked(false);
-        geolocalizationItem.setChecked(false);
-        favouritesItem.setCheckable(false);
-        geolocalizationItem.setCheckable(false);
-    }
-
-    public static void uncheckNavigationDrawerMenuItem(Activity activity, int itemId){
-        //uncheck one item in navigation drawer
-        NavigationView navigationView = (NavigationView)activity. findViewById(R.id.nav_view);
-        MenuItem geolocalizationItem=navigationView.getMenu().findItem(R.id.nav_button_geolocalization);;
-        MenuItem favouritesItem=navigationView.getMenu().findItem(R.id.nav_button_favourites);
-        if(itemId==0) {
-            geolocalizationItem.setChecked(false);
-        }
-        else if(itemId==1) {
-            favouritesItem.setChecked(false);
-        }
-    }
-
-    public static void checkNavigationDrawerMenuItem(Activity activity, int itemId){
-        //check one item in navigation drawer
-        NavigationView navigationView = (NavigationView)activity. findViewById(R.id.nav_view);
-        MenuItem geolocalizationItem=navigationView.getMenu().findItem(R.id.nav_button_geolocalization);;
-        MenuItem favouritesItem=navigationView.getMenu().findItem(R.id.nav_button_favourites);
-        if(itemId==0) {
-            geolocalizationItem.setCheckable(true);
-            geolocalizationItem.setChecked(true);
-            favouritesItem.setCheckable(false);
-            favouritesItem.setChecked(false);
-
-        }
-        else if(itemId==1) {
-            favouritesItem.setCheckable(true);
-            favouritesItem.setChecked(true);
-            geolocalizationItem.setCheckable(false);
-            geolocalizationItem.setChecked(false);
-        }
-    }
+    // TODO: usefulFunctions
 
     public static void showKeyboard(Activity activity){
         InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(activity.INPUT_METHOD_SERVICE);
@@ -318,6 +261,8 @@ public class UsefulFunctions {
         }
     }
 
+    // TODO: delete
+
     public static void setViewVisible(View view){
         view.setVisibility(View.VISIBLE);
     }
@@ -330,28 +275,7 @@ public class UsefulFunctions {
         view.setVisibility(View.GONE);
     }
 
-    public static Thread initializeUiThread(final Activity activity, final Runnable runnable) {
-        //initialize new thead for updating UI every second
-        Thread uiThread = new Thread() {
-            @Override
-            public void run() {
-                try {
-                    while (!isInterrupted()) {
-                        Thread.sleep(1000);
-                        activity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                runnable.run();
-                            }
-                        });
-                    }
-                } catch (InterruptedException e) {
-                }
-            }
-        };
-        Log.d("uithread", "start");
-        return uiThread;
-    }
+    // TODO: usefulFunctions
 
     public static int pixelsToDp(int pixels,Activity activity){
         DisplayMetrics metrics = new DisplayMetrics();
@@ -369,6 +293,8 @@ public class UsefulFunctions {
         return pixels;
     }
 
+    // TODO: move somewhere
+
     public static void setRadioButtonMargins(View view, Activity activity, int marginLeft, int marginTop, int marginRight, int marginBottom){
         int marginLeftPixels=dpToPixels(marginLeft,activity);
         int marginTopPixels=dpToPixels(marginTop,activity);
@@ -381,14 +307,7 @@ public class UsefulFunctions {
         view.setLayoutParams(layoutParams);
     }
 
-    public static void setPadding(View view,  Activity activity, int paddingLeft, int paddingTop, int paddingRight, int paddingBottom){
-        int paddingLeftPixels=dpToPixels(paddingLeft,activity);
-        int paddingTopPixels=dpToPixels(paddingTop,activity);
-        int paddingRightPixels=dpToPixels(paddingRight,activity);
-        int paddingBottomPixels=dpToPixels(paddingBottom,activity);
-
-        view.setPadding(paddingLeftPixels,paddingTopPixels,paddingRightPixels,paddingBottomPixels);
-    }
+    // TODO: move to dialogInitializer
 
     public static void setDialogButtonDisabled(AlertDialog alertDialog, Context context){
         //disable alert dialog positive button
@@ -401,6 +320,8 @@ public class UsefulFunctions {
         alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
         alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(context,R.color.colorPrimary));
     }
+
+    // TODO: usefulFunctions
 
     @SuppressWarnings("deprecation")
     public static void setLocale(Context context,int type){
@@ -485,40 +406,6 @@ public class UsefulFunctions {
         return drawable;
     }
 
-    public class SmoothActionBarDrawerToggle extends ActionBarDrawerToggle {
-        //smooth drawer toggle - action is called after drawer is hide
-        private Runnable runnable;
-        private Runnable invalidateOptionsMenuRunnable;
-
-        public SmoothActionBarDrawerToggle(Activity activity, DrawerLayout drawerLayout, Toolbar toolbar, int openDrawerContentDescRes, int closeDrawerContentDescRes, Runnable invalidateOptionsMenuRunnable) {
-            super(activity, drawerLayout, toolbar, openDrawerContentDescRes, closeDrawerContentDescRes);
-            this.invalidateOptionsMenuRunnable=invalidateOptionsMenuRunnable;
-        }
-
-        @Override
-        public void onDrawerOpened(View drawerView) {
-            super.onDrawerOpened(drawerView);
-            invalidateOptionsMenuRunnable.run();
-        }
-        @Override
-        public void onDrawerClosed(View view) {
-            super.onDrawerClosed(view);
-            invalidateOptionsMenuRunnable.run();
-        }
-        @Override
-        public void onDrawerStateChanged(int newState) {
-            super.onDrawerStateChanged(newState);
-            if (runnable != null && newState == DrawerLayout.STATE_IDLE) {
-                runnable.run();
-                runnable = null;
-            }
-        }
-
-        public void runWhenIdle(Runnable runnable) {
-            this.runnable = runnable;
-        }
-    }
-
     public static int getScreenHeight(Activity activity){
         DisplayMetrics metrics = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -542,22 +429,53 @@ public class UsefulFunctions {
         return statusBarHeight;
     }
 
-    public static int getTextViewHeight(Activity activity, String text, int textSize, Typeface typeface,
-                                        int paddingLeft, int paddingTop, int paddingRight, int paddingBottom) {
-        TextView textView = new TextView(activity);
-        textView.setPadding(paddingLeft,paddingTop,paddingRight,paddingBottom);
-        textView.setTypeface(typeface);
-        textView.setText(text, TextView.BufferType.SPANNABLE);
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
-        DisplayMetrics displayMetrics = activity.getResources().getDisplayMetrics();
-        int deviceWidth = displayMetrics.widthPixels;
-        int widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(deviceWidth, View.MeasureSpec.AT_MOST);
-        int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-        textView.measure(widthMeasureSpec, heightMeasureSpec);
-        return textView.getMeasuredHeight();
+    public static int getTextViewHeight(Activity activity,
+                                        String text,
+                                        Typeface typeface,
+                                        float textSize,
+                                        int paddingLeft,
+                                        int paddingTop,
+                                        int paddingRight,
+                                        int paddingBottom) {
+        int textViewHeight=getTextViewSize(
+                activity,
+                text,
+                typeface,
+                textSize,
+                paddingLeft,
+                paddingTop,
+                paddingRight,
+                paddingBottom)[1];
+        return textViewHeight;
     }
-    public static int getTextViewWidth(Activity activity, String text, int textSize, Typeface typeface,
-                                        int paddingLeft, int paddingTop, int paddingRight, int paddingBottom) {
+    public static int getTextViewWidth(Activity activity,
+                                       String text,
+                                       Typeface typeface,
+                                       float textSize,
+                                       int paddingLeft,
+                                       int paddingTop,
+                                       int paddingRight,
+                                       int paddingBottom) {
+        int textViewWidth=getTextViewSize(
+                activity,
+                text,
+                typeface,
+                textSize,
+                paddingLeft,
+                paddingTop,
+                paddingRight,
+                paddingBottom)[0];
+        return textViewWidth;
+    }
+
+    public static int[] getTextViewSize(Activity activity,
+                                        String text,
+                                        Typeface typeface,
+                                        float textSize,
+                                        int paddingLeft,
+                                        int paddingTop,
+                                        int paddingRight,
+                                        int paddingBottom){
         TextView textView = new TextView(activity);
         textView.setPadding(paddingLeft,paddingTop,paddingRight,paddingBottom);
         textView.setTypeface(typeface);
@@ -568,7 +486,8 @@ public class UsefulFunctions {
         int widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(deviceWidth, View.MeasureSpec.AT_MOST);
         int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         textView.measure(widthMeasureSpec, heightMeasureSpec);
-        return textView.getMeasuredWidth();
+        int [] textViewSize={textView.getMeasuredWidth(),textView.getMeasuredHeight()};
+        return textViewSize;
     }
 
     public static void crossFade(Context context, final View viewIn, final View viewOut, int animationDurationType) {
@@ -604,36 +523,5 @@ public class UsefulFunctions {
                         }
                     });
         }
-    }
-
-    public static void updateLayoutData(final Activity activity, final WeatherDataInitializer weatherDataInitializer,final boolean doSetAppBar, final boolean isGeolocalizationMode){
-        final LinearLayout weatherLayout=(LinearLayout)activity.findViewById(R.id.weather_layout);
-        if(weatherLayout.getVisibility()==View.VISIBLE){
-            long transitionTime=100;
-            weatherLayout.animate()
-                    .alpha(0f)
-                    .setDuration(transitionTime)
-                    .setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            setNestedScrollViewScrollingDisabled(activity);
-                            weatherLayout.setVisibility(View.INVISIBLE);
-                            new WeatherDataSetter(activity, weatherDataInitializer,doSetAppBar,isGeolocalizationMode);
-                        }
-                    });
-        }
-        else{
-            new WeatherDataSetter(activity, weatherDataInitializer,doSetAppBar,isGeolocalizationMode);
-        }
-    }
-
-    public static void setNestedScrollViewScrollingDisabled(Activity activity){
-        LockableSmoothNestedScrollView nestedScrollView=(LockableSmoothNestedScrollView)activity.findViewById(R.id.nested_scroll_view);
-        nestedScrollView.setScrollingEnabled(false);
-    }
-
-    public static void setNestedScrollViewScrollingEnabled(Activity activity){
-        LockableSmoothNestedScrollView nestedScrollView=(LockableSmoothNestedScrollView)activity.findViewById(R.id.nested_scroll_view);
-        nestedScrollView.setScrollingEnabled(true);
     }
 }
