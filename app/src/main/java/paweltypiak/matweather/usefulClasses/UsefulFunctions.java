@@ -42,14 +42,11 @@ import net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout;
 
 import java.util.Locale;
 
-import paweltypiak.matweather.MainActivity;
 import paweltypiak.matweather.R;
-import paweltypiak.matweather.layoutInitializing.appBarInitializing.appBarOnOffsetChangeListenerAdding.ToolbarTitleClickableViewSizeUpdater;
-import paweltypiak.matweather.layoutInitializing.LayoutUpdating.OnWeatherDataChangeLayoutUpdater;
-import paweltypiak.matweather.weatherDataDownloading.WeatherDataParser;
+import paweltypiak.matweather.mainActivityLayoutInitializing.appBarInitializing.appBarOnOffsetChangeListenerAdding.ToolbarTitleClickableViewSizeUpdater;
+import paweltypiak.matweather.mainActivityLayoutInitializing.LayoutUpdating.OnWeatherDataChangeLayoutUpdater;
 
 public class UsefulFunctions {
-    //information about first weather downloading, after application launch
 
     // TODO: move to dataFormatter
 
@@ -65,35 +62,6 @@ public class UsefulFunctions {
         coordinates[0]= Double.toString(OnWeatherDataChangeLayoutUpdater.getCurrentDataFormatter().getLatitude());
         coordinates[1]=Double.toString(OnWeatherDataChangeLayoutUpdater.getCurrentDataFormatter().getLongitude());
         return coordinates;
-    }
-
-    //// TODO: move to AppBarLayoutDataInitializer
-
-    public static String[] getAppBarStrings(Activity activity){
-        //get location name from AppBar
-        String[] location=new String[2];
-        CollapsingToolbarLayout collapsingToolbarLayout=(CollapsingToolbarLayout)activity.findViewById(R.id.collapsing_toolbar_layout);
-        TextView secondaryLocationTextView=(TextView)activity.findViewById(R.id.toolbar_layout_subtitle_text);
-        location[0]=collapsingToolbarLayout.getTitle().toString();
-        location[1]=secondaryLocationTextView.getText().toString();
-        return location;
-    }
-
-    public static void setAppBarStrings(Activity activity, String toolbarTitle, String toolbarSubtitle){
-        //set custom location name in AppBar
-        CollapsingToolbarLayout collapsingToolbarLayout=(CollapsingToolbarLayout)activity.findViewById(R.id.collapsing_toolbar_layout);
-        String formattedToolbarTitle=getFormattedString(toolbarTitle);
-        collapsingToolbarLayout.setTitle(formattedToolbarTitle);
-        TextView secondaryLocationTextView=(TextView)activity.findViewById(R.id.toolbar_layout_subtitle_text);
-        secondaryLocationTextView.setText(toolbarSubtitle);
-        setViewGone(secondaryLocationTextView);
-        if(!toolbarSubtitle.equals("")) setViewVisible(secondaryLocationTextView);
-        //((MainActivity) activity).getOnAppBarStringsChangeListener().onAppBarStringsChanged(activity,toolbarTitle);
-        ToolbarTitleClickableViewSizeUpdater.getOnAppBarStringsChangeListener().onAppBarStringsChanged(activity,formattedToolbarTitle);
-    }
-
-    public interface OnAppBarStringsChangeListener {
-        void onAppBarStringsChanged(Activity activity,String toolbarTitle);
     }
 
     // TODO: usefulFunctions

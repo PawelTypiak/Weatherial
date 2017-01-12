@@ -57,10 +57,6 @@ public class FavouritesEditor {
         return name;
     }
 
-    public static void setAppBarForFavouriteLocation(Activity activity, int currentId){
-        UsefulFunctions.setAppBarStrings(activity,favouritesHeaderNames[currentId],favouritesSubheaderNames[currentId]);
-    }
-
     private static void getFavouriteLocationsNamesList(Context context){
         String[] favourites=SharedPreferencesModifier.getFavouriteLocationsNames(context);
         int favouritesSize=favourites.length;
@@ -171,21 +167,12 @@ public class FavouritesEditor {
         return  newFavouritesString;
     }
 
-    public static void setLayoutForFavourites(Activity activity){
+    public static String[] getFavouriteLocationNameForAppbar(Activity activity){
         //layout when current location is in favourites
         int id=getCurrentFavouriteLocationId(activity);
         getFavouriteLocationsNamesList(activity);
-        setAppBarForFavouriteLocation(activity,id);
-        ((MainActivity)activity).getLayoutInitializer()
-                .getAppBarLayoutInitializer()
-                .getAppBarLayoutButtonsInitializer()
-                .getFloatingActionButtonInitializer()
-                .setFloatingActionButtonOnClickIndicator(1);
-        ((MainActivity)activity).getLayoutInitializer()
-                .getAppBarLayoutInitializer()
-                .getAppBarLayoutButtonsInitializer()
-                .getNavigationDrawerInitializer()
-                .checkNavigationDrawerMenuItem(1);
+        String locationName[] = {favouritesHeaderNames[id],favouritesSubheaderNames[id]};
+        return locationName;
     }
 
     public static boolean isAddressEqual(Context context){

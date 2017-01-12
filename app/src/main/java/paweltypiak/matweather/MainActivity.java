@@ -11,10 +11,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.TextView;
-import paweltypiak.matweather.layoutInitializing.LayoutInitializer;
-import paweltypiak.matweather.layoutInitializing.LayoutUpdating.OnTimeChangeLayoutUpdater;
-import paweltypiak.matweather.layoutInitializing.WeatherLayoutInitializing.swipeRefreshLayoutInitializing.onRefreshInitializing.OnRefreshInitializer;
-import paweltypiak.matweather.layoutInitializing.appBarInitializing.appBarButtonsInitializing.NavigationDrawerInitializer;
+import paweltypiak.matweather.mainActivityLayoutInitializing.MainActivityLayoutInitializer;
+import paweltypiak.matweather.mainActivityLayoutInitializing.LayoutUpdating.OnTimeChangeLayoutUpdater;
+import paweltypiak.matweather.mainActivityLayoutInitializing.WeatherLayoutInitializing.swipeRefreshLayoutInitializing.onRefreshInitializing.OnRefreshInitializer;
+import paweltypiak.matweather.mainActivityLayoutInitializing.appBarInitializing.appBarButtonsInitializing.NavigationDrawerInitializer;
 import paweltypiak.matweather.localizationDataDownloading.GeocodingCallback;
 import paweltypiak.matweather.localizationDataDownloading.GeocodingDownloader;
 import paweltypiak.matweather.localizationDataDownloading.CurrentCoordinatesDownloader;
@@ -22,7 +22,7 @@ import paweltypiak.matweather.settings.Settings;
 import paweltypiak.matweather.usefulClasses.DialogInitializer;
 import paweltypiak.matweather.usefulClasses.SharedPreferencesModifier;
 import paweltypiak.matweather.usefulClasses.UsefulFunctions;
-import paweltypiak.matweather.layoutInitializing.LayoutUpdating.OnWeatherDataChangeLayoutUpdater;
+import paweltypiak.matweather.mainActivityLayoutInitializing.LayoutUpdating.OnWeatherDataChangeLayoutUpdater;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDataDownloader;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDownloadCallback;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDataParser;
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements
     private TextView geolocalizationProgressMessageTextView;
     private int downloadMode;
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION=1;
-    private LayoutInitializer layoutInitializer;
+    private MainActivityLayoutInitializer mainActivityLayoutInitializer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements
     private void initializeLayout(){
         setContentView(R.layout.activity_main);
         initializeDialogs();
-        layoutInitializer=new LayoutInitializer(this,dialogInitializer);
+        mainActivityLayoutInitializer =new MainActivityLayoutInitializer(this,dialogInitializer);
     }
 
     private void initializeDialogs(){
@@ -77,8 +77,8 @@ public class MainActivity extends AppCompatActivity implements
         coordinatesDownloadFailureDialog =dialogInitializer.initializeGeolocalizationFailureDialog(1,startGeolocalizationRunnable,null);
     }
 
-    public LayoutInitializer getLayoutInitializer() {
-        return layoutInitializer;
+    public MainActivityLayoutInitializer getMainActivityLayoutInitializer() {
+        return mainActivityLayoutInitializer;
     }
 
     private void loadInitialWeatherData(Bundle savedInstanceState){
@@ -102,12 +102,10 @@ public class MainActivity extends AppCompatActivity implements
         //delivering information if defeault location is constant, or is from geolocalization
         boolean isDefeaultLocationConstant=SharedPreferencesModifier.isDefeaultLocationConstant(this);
         if(isDefeaultLocationConstant) {
-            //UsefulFunctions.updateLayoutData(this, weatherDataParser,true,false);
-            layoutInitializer.updateLayoutOnWeatherDataChange(this,weatherDataParser,true,false);
+            mainActivityLayoutInitializer.updateLayoutOnWeatherDataChange(this,weatherDataParser,true,false);
         }
         else{
-            //UsefulFunctions.updateLayoutData(this, weatherDataParser,true,true);
-            layoutInitializer.updateLayoutOnWeatherDataChange(this,weatherDataParser,true,true);
+            mainActivityLayoutInitializer.updateLayoutOnWeatherDataChange(this,weatherDataParser,true,true);
         }
     }
 
@@ -129,8 +127,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void onWeatherServiceSuccessAfterGeolocalization(){
-        //UsefulFunctions.updateLayoutData(this, weatherDataParser,true,true);
-        layoutInitializer.updateLayoutOnWeatherDataChange(this, weatherDataParser,true,true);
+        mainActivityLayoutInitializer.updateLayoutOnWeatherDataChange(this, weatherDataParser,true,true);
         geolocalizationProgressDialog.dismiss();
     }
 
@@ -258,14 +255,14 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void onWeatherSuccessAfterRefresh(WeatherDataParser weatherDataParser){
-        layoutInitializer.getWeatherLayoutInitializer()
+        mainActivityLayoutInitializer.getWeatherLayoutInitializer()
                 .getSwipeRefreshLayoutInitializer()
                 .getOnRefreshInitializer()
                 .onWeatherSuccessAfterRefresh(this, weatherDataParser);
     }
 
     private void onWeatherFailureAfterRefresh(int errorCode){
-        layoutInitializer.getWeatherLayoutInitializer()
+        mainActivityLayoutInitializer.getWeatherLayoutInitializer()
                 .getSwipeRefreshLayoutInitializer()
                 .getOnRefreshInitializer()
                 .onWeatherFailureAfterRefresh(errorCode);
@@ -273,7 +270,7 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onBackPressed() {
-        boolean isDrawerLayoutOpened=layoutInitializer.getAppBarLayoutInitializer()
+        boolean isDrawerLayoutOpened= mainActivityLayoutInitializer.getAppBarLayoutInitializer()
                 .getAppBarLayoutButtonsInitializer()
                 .getNavigationDrawerInitializer()
                 .closeDrawerLayout();
@@ -285,7 +282,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent e) {
         if (keyCode == KeyEvent.KEYCODE_MENU) {
-            layoutInitializer.getAppBarLayoutInitializer()
+            mainActivityLayoutInitializer.getAppBarLayoutInitializer()
                     .getAppBarLayoutButtonsInitializer()
                     .getNavigationDrawerInitializer()
                     .openDrawerLayout();
@@ -328,11 +325,11 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void refreshLayoutAfterUnitsPreferencesChange(){
-        layoutInitializer.updateLayoutOnWeatherDataChange(this, weatherDataParser,true,false);
+        mainActivityLayoutInitializer.updateLayoutOnWeatherDataChange(this, weatherDataParser,true,false);
     }
 
     private OnTimeChangeLayoutUpdater getOnTimeChangeLayoutUpdater(){
-        return layoutInitializer.getOnTimeChangeLayoutUpdater();
+        return mainActivityLayoutInitializer.getOnTimeChangeLayoutUpdater();
     }
 
     @Override
