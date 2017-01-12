@@ -140,7 +140,7 @@ public class DialogInitializer  {
 
         public void run() {
             //UsefulFunctions.updateLayoutData(activity,dataInitializer,true,false);
-            ((MainActivity)activity).getLayoutInitializer().
+            ((MainActivity)activity).getMainActivityLayoutInitializer().
                     updateLayoutOnWeatherDataChange(activity,dataInitializer,true,false);
         }
     }
@@ -256,29 +256,41 @@ public class DialogInitializer  {
                 String currentLocationName=currentLocationHeaderString+", "+currentLocationSubheaderString;
                 SharedPreferencesModifier.setDefeaultLocationConstant(activity,currentLocationName);
             }
-            FavouritesEditor.setLayoutForFavourites(activity);
+            String [] locationName=FavouritesEditor.getFavouriteLocationNameForAppbar(activity);
+            ((MainActivity)activity).getMainActivityLayoutInitializer().getAppBarLayoutInitializer().
+                    getAppBarLayoutDataInitializer().
+                    updateLocationName(locationName[0],locationName[1]);
+            ((MainActivity)activity).getMainActivityLayoutInitializer()
+                    .getAppBarLayoutInitializer()
+                    .getAppBarLayoutButtonsInitializer()
+                    .getFloatingActionButtonInitializer()
+                    .setFloatingActionButtonOnClickIndicator(1);
+            ((MainActivity)activity).getMainActivityLayoutInitializer()
+                    .getAppBarLayoutInitializer()
+                    .getAppBarLayoutButtonsInitializer()
+                    .getNavigationDrawerInitializer()
+                    .checkNavigationDrawerMenuItem(1);
         }
     }
 
     private Runnable deleteFromFavouritesRunnable = new Runnable() {
         public void run() {
             FavouritesEditor.deleteFavouritesItem(activity);
-            ((MainActivity)activity).getLayoutInitializer()
+            ((MainActivity)activity).getMainActivityLayoutInitializer()
                     .getAppBarLayoutInitializer()
                     .getAppBarLayoutButtonsInitializer()
                     .getFloatingActionButtonInitializer()
                     .setFloatingActionButtonOnClickIndicator(0);
-            //UsefulFunctions.setfloatingActionButtonOnClickIndicator(activity,0);
-            //UsefulFunctions.uncheckNavigationDrawerMenuItem(activity,1);
-            ((MainActivity)activity).getLayoutInitializer()
+            ((MainActivity)activity).getMainActivityLayoutInitializer()
                     .getAppBarLayoutInitializer()
                     .getAppBarLayoutButtonsInitializer()
                     .getNavigationDrawerInitializer()
                     .uncheckNavigationDrawerMenuItem(1);
-            ;
             String currentLocationHeaderString=UsefulFunctions.getCurrentLocationAddress()[0];
             String currentLocationSubheaderString=UsefulFunctions.getCurrentLocationAddress()[1];
-            UsefulFunctions.setAppBarStrings(activity,currentLocationHeaderString,currentLocationSubheaderString);
+            ((MainActivity)activity).getMainActivityLayoutInitializer().getAppBarLayoutInitializer().
+                    getAppBarLayoutDataInitializer().
+                    updateLocationName(currentLocationHeaderString,currentLocationSubheaderString);
             if(FavouritesEditor.isDefeaultLocationEqual(activity,null)) {
                 SharedPreferencesModifier.setDefeaultLocationGeolocalization(activity);
             }
@@ -301,7 +313,9 @@ public class DialogInitializer  {
             String customSubheaderString=subheaderEditText.getText().toString();
             customSubheaderString=UsefulFunctions.getFormattedString(customSubheaderString);
             FavouritesEditor.editFavouriteLocationName(activity,customHeaderString,customSubheaderString);
-            UsefulFunctions.setAppBarStrings(activity,customHeaderString,customSubheaderString);
+            ((MainActivity)activity).getMainActivityLayoutInitializer().getAppBarLayoutInitializer().
+                    getAppBarLayoutDataInitializer().
+                    updateLocationName(customHeaderString,customSubheaderString);
             CheckBox checkBox=(CheckBox)dialogView.findViewById(R.id.edit_location_dialog_checkbox);
             if(checkBox.isChecked()){
                 String currentLocationHeaderString=UsefulFunctions.getCurrentLocationAddress()[0];
@@ -334,8 +348,7 @@ public class DialogInitializer  {
         @Override
         public void weatherServiceSuccess(Channel channel) {
             dataInitializer=new WeatherDataParser(channel);
-            //UsefulFunctions.updateLayoutData(activity,dataInitializer,true,false);
-            ((MainActivity)activity).getLayoutInitializer().
+            ((MainActivity)activity).getMainActivityLayoutInitializer().
                     updateLayoutOnWeatherDataChange(activity,dataInitializer,true,false);
             progressDialog.dismiss();
         }
@@ -865,7 +878,12 @@ public class DialogInitializer  {
         final View dialogView = inflater.inflate(R.layout.dialog_edit_location,null);
         dialogView.setFocusableInTouchMode(true);
         dialogView.setClickable(true);
-        String [] location=UsefulFunctions.getAppBarStrings(activity);
+        //String [] location=UsefulFunctions.getAppBarStrings(activity);
+        String [] location=((MainActivity)activity).
+                getMainActivityLayoutInitializer().
+                getAppBarLayoutInitializer().
+                getAppBarLayoutDataInitializer().
+                getAppBarLocationName();
         final EditText headerEditText=(EditText)dialogView.findViewById(R.id.edit_location_dialog_header_edittext);
         headerEditText.setText(location[0]);
         final EditText subheaderEditText=(EditText)dialogView.findViewById(R.id.edit_location_dialog_subheader_edittext);
@@ -906,7 +924,12 @@ public class DialogInitializer  {
         View dialogView = inflater.inflate(R.layout.dialog_edit_location,null);
         dialogView.setFocusableInTouchMode(true);
         dialogView.setClickable(true);
-        String [] location=UsefulFunctions.getAppBarStrings(activity);
+        //String [] location=UsefulFunctions.getAppBarStrings(activity);
+        String [] location=((MainActivity)activity).
+                getMainActivityLayoutInitializer().
+                getAppBarLayoutInitializer().
+                getAppBarLayoutDataInitializer().
+                getAppBarLocationName();
         final EditText headerEditText=(EditText)dialogView.findViewById(R.id.edit_location_dialog_header_edittext);
         headerEditText.setText(location[0]);
         final EditText subheaderEditText=(EditText)dialogView.findViewById(R.id.edit_location_dialog_subheader_edittext);
@@ -1013,7 +1036,12 @@ public class DialogInitializer  {
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.location_dialog_message_text);
         messageTextView.setText(activity.getString(R.string.maps_dialog_message));
         TextView cityTextView=(TextView)dialogView.findViewById(R.id.location_dialog_city_text);
-        String [] locationName=UsefulFunctions.getAppBarStrings(activity);
+        //String [] locationName=UsefulFunctions.getAppBarStrings(activity);
+        String [] locationName=((MainActivity)activity).
+                getMainActivityLayoutInitializer().
+                getAppBarLayoutInitializer().
+                getAppBarLayoutDataInitializer().
+                getAppBarLocationName();
         cityTextView.setText(locationName[0]);
         TextView regionCountryTextView=(TextView)dialogView.findViewById(R.id.location_dialog_region_county_text);
         regionCountryTextView.setText(locationName[1]);
