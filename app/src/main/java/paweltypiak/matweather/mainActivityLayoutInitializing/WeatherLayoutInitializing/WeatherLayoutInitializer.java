@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.mainActivityLayoutInitializing.MainActivityLayoutInitializer;
 import paweltypiak.matweather.mainActivityLayoutInitializing.WeatherLayoutInitializing.swipeRefreshLayoutInitializing.SwipeRefreshLayoutInitializer;
@@ -15,8 +15,9 @@ import paweltypiak.matweather.weatherDataDownloading.WeatherDataFormatter;
 public class WeatherLayoutInitializer {
 
     private Activity activity;
+    private GeneralWeatherLayoutInitializer generalWeatherLayoutInitializer;
     private SwipeRefreshLayoutInitializer swipeRefreshLayoutInitializer;
-    private WeatherGeneralInfoLayoutInitializer weatherGeneralInfoLayoutInitializer;
+    private WeatherBasicInfoLayoutInitializer weatherBasicInfoLayoutInitializer;
     private WeatherDetailsLayoutInitializer weatherDetailsLayoutInitializer;
     private WeatherForecastLayoutInitializer weatherForecastLayoutInitializer;
 
@@ -24,11 +25,20 @@ public class WeatherLayoutInitializer {
                                     DialogInitializer dialogInitializer,
                                     MainActivityLayoutInitializer mainActivityLayoutInitializer){
         this.activity = activity;
-        setWeatherLayoutOnClickListener(dialogInitializer);
+        initializeGeneralWeatherLayout(activity,dialogInitializer,mainActivityLayoutInitializer);
         initializeSwipeRefreshLayout(activity, dialogInitializer, mainActivityLayoutInitializer);
         initializeWeatherGeneralInfoLayout(activity, mainActivityLayoutInitializer);
         initializeWeatherDetailsLayout(activity);
         initializeWeatherForecastLayout(activity);
+    }
+
+    private void initializeGeneralWeatherLayout(Activity activity,
+                                                DialogInitializer dialogInitializer,
+                                                MainActivityLayoutInitializer mainActivityLayoutInitializer){
+        generalWeatherLayoutInitializer=new GeneralWeatherLayoutInitializer(
+                activity,
+                dialogInitializer,
+                mainActivityLayoutInitializer);
     }
 
     private void initializeSwipeRefreshLayout(Activity activity,
@@ -40,22 +50,9 @@ public class WeatherLayoutInitializer {
                 mainActivityLayoutInitializer);
     }
 
-    private void setWeatherLayoutOnClickListener(final DialogInitializer dialogInitializer) {
-        LinearLayout weatherLayout = (LinearLayout) activity.findViewById(R.id.weather_inner_layout);
-        weatherLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String yahooWeatherLink = OnWeatherDataChangeLayoutUpdater.getCurrentDataFormatter().getLink();
-                AlertDialog yahooWeatherRedirectDialog = dialogInitializer.initializeYahooRedirectDialog(1,
-                        yahooWeatherLink);
-                yahooWeatherRedirectDialog.show();
-            }
-        });
-    }
-
     private void initializeWeatherGeneralInfoLayout(Activity activity, MainActivityLayoutInitializer
             mainActivityLayoutInitializer) {
-        weatherGeneralInfoLayoutInitializer = new WeatherGeneralInfoLayoutInitializer(activity,
+        weatherBasicInfoLayoutInitializer = new WeatherBasicInfoLayoutInitializer(activity,
                 mainActivityLayoutInitializer);
     }
 
@@ -74,7 +71,7 @@ public class WeatherLayoutInitializer {
     }
 
     private void updateWeatherGeneralInfoLayoutData(WeatherDataFormatter weatherDataFormatter) {
-        weatherGeneralInfoLayoutInitializer.updateWeatherGeneralInfoLayoutData(activity, weatherDataFormatter, this);
+        weatherBasicInfoLayoutInitializer.updateWeatherBasicInfoLayoutData(activity, weatherDataFormatter, this);
     }
 
     private void updateWeatherDetailsLayoutData(WeatherDataFormatter weatherDataFormatter) {
@@ -93,7 +90,7 @@ public class WeatherLayoutInitializer {
     }
 
     private void updateWeatherGeneralInfoLayoutTheme(WeatherLayoutThemeColorsUpdater themeColorsUpdater) {
-        weatherGeneralInfoLayoutInitializer.updateWeatherGeneralInfoLayoutTheme(activity, themeColorsUpdater);
+        weatherBasicInfoLayoutInitializer.updateWeatherBasicInfoLayoutTheme(activity, themeColorsUpdater);
     }
 
     private void updateWeatherDetailsLayoutTheme(Activity activity, WeatherLayoutThemeColorsUpdater
@@ -104,6 +101,10 @@ public class WeatherLayoutInitializer {
     private void updateWeatherForecastLayoutTheme(Activity activity, WeatherLayoutThemeColorsUpdater
             themeColorsUpdater) {
         weatherForecastLayoutInitializer.updateWeatherForecastLayoutTheme(activity, themeColorsUpdater);
+    }
+
+    public GeneralWeatherLayoutInitializer getGeneralWeatherLayoutInitializer() {
+        return generalWeatherLayoutInitializer;
     }
 
     public WeatherDetailsLayoutInitializer getWeatherDetailsLayoutInitializer() {

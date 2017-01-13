@@ -6,7 +6,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.mainActivityLayoutInitializing.MainActivityLayoutInitializer;
-import paweltypiak.matweather.mainActivityLayoutInitializing.WeatherLayoutInitializing.swipeRefreshLayoutInitializing.onRefreshInitializing.OnRefreshInitializer;
 import paweltypiak.matweather.usefulClasses.DialogInitializer;
 
 public class SwipeRefreshLayoutInitializer {

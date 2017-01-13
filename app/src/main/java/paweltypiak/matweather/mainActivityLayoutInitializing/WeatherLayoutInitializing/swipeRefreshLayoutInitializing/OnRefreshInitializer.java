@@ -1,9 +1,12 @@
-package paweltypiak.matweather.mainActivityLayoutInitializing.WeatherLayoutInitializing.swipeRefreshLayoutInitializing.onRefreshInitializing;
+package paweltypiak.matweather.mainActivityLayoutInitializing.WeatherLayoutInitializing.swipeRefreshLayoutInitializing;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
+import android.view.View;
 import android.widget.LinearLayout;
 import paweltypiak.matweather.MainActivity;
 import paweltypiak.matweather.mainActivityLayoutInitializing.MainActivityLayoutInitializer;
@@ -15,11 +18,10 @@ public class OnRefreshInitializer implements SwipeRefreshLayout.OnRefreshListene
     private DialogInitializer dialogInitializer;
     private MainActivityLayoutInitializer mainActivityLayoutInitializer;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private LinearLayout onRefreshMessageLayout;
     private OnRefreshListener onRefreshListener;
     private AlertDialog onRefreshWeatherInternetFailureDialog;
     private AlertDialog onRefreshWeatherServiceFailureDialog;
-    private OnRefreshLayoutAnimator layoutAnimator;
-
 
     public OnRefreshInitializer(Activity activity,
                                 DialogInitializer dialogInitializer,
@@ -29,24 +31,19 @@ public class OnRefreshInitializer implements SwipeRefreshLayout.OnRefreshListene
                                 ){
         this.activity=activity;
         this.dialogInitializer=dialogInitializer;
-        this.swipeRefreshLayout=swipeRefreshLayout;
         this.mainActivityLayoutInitializer=mainActivityLayoutInitializer;
+        this.swipeRefreshLayout=swipeRefreshLayout;
+        this.onRefreshMessageLayout=onRefreshMessageLayout;
         swipeRefreshLayout.setOnRefreshListener(this);
-        layoutAnimator=new OnRefreshLayoutAnimator(activity,onRefreshMessageLayout,mainActivityLayoutInitializer);
     }
 
     @Override
     public void onRefresh() {
         Log.d("refresh", "refresh ");
         //refreshing weather
-        mainActivityLayoutInitializer.
-                getWeatherLayoutInitializer().
-                getSwipeRefreshLayoutInitializer().
-                getPullListenersInitializer().
-                setNestedScrollViewScrollingDisabled();
         swipeRefreshLayout.setRefreshing(true);
-        layoutAnimator.fadeOutWeatherLayout();
-        layoutAnimator.fadeInOnRefreshMessageLayout();
+        fadeOutWeatherLayout();
+        fadeInOnRefreshMessageLayout();
         callOnRefreshListener();
     }
 
@@ -63,13 +60,13 @@ public class OnRefreshInitializer implements SwipeRefreshLayout.OnRefreshListene
 
     public void onWeatherSuccessAfterRefresh(Activity activity,WeatherDataParser weatherDataParser){
         swipeRefreshLayout.setRefreshing(false);
-        layoutAnimator.fadeOutOnRefreshMessageLayout();
+        fadeOutOnRefreshMessageLayout();
         mainActivityLayoutInitializer.updateLayoutOnWeatherDataChange(activity, weatherDataParser,false,false);
     }
 
     public void onWeatherFailureAfterRefresh(int errorCode){
         swipeRefreshLayout.setRefreshing(false);
-        layoutAnimator.fadeOutOnRefreshMessageLayout();
+        fadeOutOnRefreshMessageLayout();
         if(errorCode==0) {
             showOnRefreshWeatherInternetFailureDialog();
         }
@@ -100,13 +97,41 @@ public class OnRefreshInitializer implements SwipeRefreshLayout.OnRefreshListene
 
     private Runnable setWeatherLayoutVisibleAfterRefreshFailureRunnable = new Runnable() {
         public void run() {
-            setWeatherLayoutVisibleAfterRefreshFailure();
+            fadeOutOnRefreshMessageLayout();
+            fadeInWeatherLayout();
         }
     };
 
-    private void setWeatherLayoutVisibleAfterRefreshFailure(){
-        layoutAnimator.fadeOutOnRefreshMessageLayout();
-        layoutAnimator.fadeInWeatherLayout();
+    private void fadeInOnRefreshMessageLayout(){
+        onRefreshMessageLayout.setVisibility(View.VISIBLE);
+        long transitionTime=100;
+        onRefreshMessageLayout.animate()
+                .alpha(1f)
+                .setDuration(transitionTime)
+                .setListener(null);
+    }
+
+    private void fadeOutOnRefreshMessageLayout(){
+        long transitionTime=100;
+        onRefreshMessageLayout.animate()
+                .alpha(0f)
+                .setDuration(transitionTime)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        onRefreshMessageLayout.setVisibility(View.GONE);
+                    }
+                });
+    }
+
+    private void fadeInWeatherLayout(){
+        mainActivityLayoutInitializer.getWeatherLayoutInitializer().
+                getGeneralWeatherLayoutInitializer().fadeInWeatherLayout(null);
+    }
+
+    private void fadeOutWeatherLayout(){
+        mainActivityLayoutInitializer.getWeatherLayoutInitializer().
+                getGeneralWeatherLayoutInitializer().fadeOutWeatherLayout(null);
     }
 }
 

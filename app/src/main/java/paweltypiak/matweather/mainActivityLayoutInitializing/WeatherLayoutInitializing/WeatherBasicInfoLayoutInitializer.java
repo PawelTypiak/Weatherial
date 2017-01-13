@@ -21,7 +21,7 @@ import paweltypiak.matweather.mainActivityLayoutInitializing.MainActivityLayoutI
 import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDataFormatter;
 
-public class WeatherGeneralInfoLayoutInitializer {
+public class WeatherBasicInfoLayoutInitializer {
 
     private CoordinatorLayout mainLayout;
     private LinearLayout weatherInnerLayout;
@@ -34,68 +34,68 @@ public class WeatherGeneralInfoLayoutInitializer {
     private ImageView seeMoreImageView;
     private View currentDetailsDividerView;
 
-    public WeatherGeneralInfoLayoutInitializer(Activity activity,
-                                               MainActivityLayoutInitializer mainActivityLayoutInitializer){
-        findWeatherGeneralInfoLayoutViews(activity);
+    public WeatherBasicInfoLayoutInitializer(Activity activity,
+                                             MainActivityLayoutInitializer mainActivityLayoutInitializer){
+        findLayoutViews(activity);
         rotateSeeMoreImageView();
-        setWeatherGeneralInfoLayoutSizes(activity,mainActivityLayoutInitializer);
-        initializeSeeMoreArrowAnimation(activity);
+        setWeatherBasicInfoLayoutSizes(activity,mainActivityLayoutInitializer);
+       // initializeSeeMoreArrowAnimation(activity);
     }
 
-    private void findWeatherGeneralInfoLayoutViews(Activity activity){
+    private void findLayoutViews(Activity activity){
         mainLayout =(CoordinatorLayout) activity.findViewById(R.id.coordinator_layout);
         weatherInnerLayout=(LinearLayout)activity.findViewById(R.id.weather_inner_layout);
         onRefreshMessageTextView=(TextView)activity.findViewById(R.id.main_content_layout_on_refresh_message_text);
-        conditionTextView =(TextView)activity.findViewById(R.id.weather_general_info_layout_conditions_text);
-        conditionImageView =(ImageView)activity.findViewById(R.id.weather_general_info_layout_conditions_image);
-        temperatureTextView =(TextView)activity.findViewById(R.id.weather_general_info_layout_temperature_text);
-        temperatureUnitTextView=(TextView)activity.findViewById(R.id.weather_general_info_temperature_unit_text);
-        temperatureDagreeSignTextView=(TextView)activity.findViewById(R.id.weather_general_info_layout_temperature_dagree_sign_text);
-        currentDetailsDividerView =activity.findViewById(R.id.weather_general_info_layout_bottom_divider_divider);
-        seeMoreImageView=(ImageView)activity.findViewById(R.id.weather_general_info_layout_see_more_image);
+        conditionTextView =(TextView)activity.findViewById(R.id.weather_basic_info_layout_conditions_text);
+        conditionImageView =(ImageView)activity.findViewById(R.id.weather_basic_info_layout_conditions_image);
+        temperatureTextView =(TextView)activity.findViewById(R.id.weather_basic_info_layout_temperature_text);
+        temperatureUnitTextView=(TextView)activity.findViewById(R.id.weather_basic_info_temperature_unit_text);
+        temperatureDagreeSignTextView=(TextView)activity.findViewById(R.id.weather_basic_info_layout_temperature_dagree_sign_text);
+        currentDetailsDividerView =activity.findViewById(R.id.weather_basic_info_layout_bottom_divider_divider);
+        seeMoreImageView=(ImageView)activity.findViewById(R.id.weather_basic_info_layout_see_more_image);
     }
 
     private void rotateSeeMoreImageView(){
         seeMoreImageView.setRotation(180);
     }
 
-    private void setWeatherGeneralInfoLayoutSizes(Activity activity,
-                                                  MainActivityLayoutInitializer mainActivityLayoutInitializer){
+    private void setWeatherBasicInfoLayoutSizes(Activity activity,
+                                                MainActivityLayoutInitializer mainActivityLayoutInitializer){
         int screenHeight=UsefulFunctions.getScreenHeight(activity);
         int statusBarHeight=UsefulFunctions.getStatusBarHeight(activity);
         int toolbarExpandedHeight= mainActivityLayoutInitializer.
                 getAppBarLayoutInitializer().
                 getAppBarLayoutDimensionsSetter().
                 getToolbarExpandedHeight();
-        int generalWeatherLayoutHeight=screenHeight-toolbarExpandedHeight-statusBarHeight;
-        LinearLayout generalWeatherLayout=(LinearLayout)activity.findViewById(R.id.weather_general_info_layout);
-        LinearLayout.LayoutParams generalWeatherLayoutParams=(LinearLayout.LayoutParams)generalWeatherLayout.getLayoutParams();
-        generalWeatherLayoutParams.height=generalWeatherLayoutHeight;
-        generalWeatherLayout.setLayoutParams(generalWeatherLayoutParams);
-        setCurrentTemperatureTextViewHeight(activity,generalWeatherLayoutHeight);
+        int basicWeatherLayoutHeight=screenHeight-toolbarExpandedHeight-statusBarHeight;
+        LinearLayout basicWeatherLayout=(LinearLayout)activity.findViewById(R.id.weather_basic_info_layout);
+        LinearLayout.LayoutParams basicWeatherLayoutParams=(LinearLayout.LayoutParams)basicWeatherLayout.getLayoutParams();
+        basicWeatherLayoutParams.height=basicWeatherLayoutHeight;
+        basicWeatherLayout.setLayoutParams(basicWeatherLayoutParams);
+        setCurrentTemperatureTextViewHeight(activity,basicWeatherLayoutHeight);
     }
 
     private void setCurrentTemperatureTextViewHeight(final Activity activity,
-                                                     final int generalWeatherLayoutHeight){
-        final LinearLayout generalWeatherLayout=(LinearLayout)activity.findViewById(R.id.weather_general_info_layout);
-        ViewTreeObserver observer = generalWeatherLayout.getViewTreeObserver();
+                                                     final int basicWeatherLayoutHeight){
+        final LinearLayout basicWeatherLayout=(LinearLayout)activity.findViewById(R.id.weather_basic_info_layout);
+        ViewTreeObserver observer = basicWeatherLayout.getViewTreeObserver();
         observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                RelativeLayout currentTemperatureLayout=(RelativeLayout)activity.findViewById(R.id.weather_general_info_layout_temperature_layout);
-                int currentTemperatureLayoutVerticalTranslation=(int)(generalWeatherLayoutHeight*0.02f);
+                RelativeLayout currentTemperatureLayout=(RelativeLayout)activity.findViewById(R.id.weather_basic_info_layout_temperature_layout);
+                int currentTemperatureLayoutVerticalTranslation=(int)(basicWeatherLayoutHeight*0.02f);
                 currentTemperatureLayout.setTranslationY(-currentTemperatureLayoutVerticalTranslation);
                 int currentTemperatureTextViewHeight=currentTemperatureLayout.getHeight();
-                TextView currentTemperatureTextView=(TextView)activity.findViewById(R.id.weather_general_info_layout_temperature_text);
+                TextView currentTemperatureTextView=(TextView)activity.findViewById(R.id.weather_basic_info_layout_temperature_text);
                 currentTemperatureTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, currentTemperatureTextViewHeight);
-                TextView currentTemperatureDagreeSignTextView=(TextView)activity.findViewById(R.id.weather_general_info_layout_temperature_dagree_sign_text);
+                TextView currentTemperatureDagreeSignTextView=(TextView)activity.findViewById(R.id.weather_basic_info_layout_temperature_dagree_sign_text);
                 currentTemperatureDagreeSignTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, currentTemperatureTextViewHeight);
-                TextView currentTemperatureUnitTextView=(TextView)activity.findViewById(R.id.weather_general_info_temperature_unit_text);
+                TextView currentTemperatureUnitTextView=(TextView)activity.findViewById(R.id.weather_basic_info_temperature_unit_text);
                 int currentTemperatureUnitTextViewHeight=(int)(currentTemperatureTextViewHeight/2.5f);
                 currentTemperatureUnitTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, currentTemperatureUnitTextViewHeight);
                 int currentTemperatureUnitTextViewTranslationY=(int)(currentTemperatureTextViewHeight/35);
                 currentTemperatureUnitTextView.setTranslationY(currentTemperatureUnitTextViewTranslationY);
-                generalWeatherLayout.getViewTreeObserver().removeOnGlobalLayoutListener(
+                basicWeatherLayout.getViewTreeObserver().removeOnGlobalLayoutListener(
                         this);
             }
         });
@@ -123,9 +123,9 @@ public class WeatherGeneralInfoLayoutInitializer {
         });
     }
 
-    public void updateWeatherGeneralInfoLayoutData(Activity activity,
-                                                   WeatherDataFormatter weatherDataFormatter,
-                                                   WeatherLayoutInitializer weatherLayoutInitializer){
+    public void updateWeatherBasicInfoLayoutData(Activity activity,
+                                                 WeatherDataFormatter weatherDataFormatter,
+                                                 WeatherLayoutInitializer weatherLayoutInitializer){
         setConditionData(activity,weatherDataFormatter,weatherLayoutInitializer);
         setTemperatureData(weatherDataFormatter);
     }
@@ -177,8 +177,8 @@ public class WeatherGeneralInfoLayoutInitializer {
                 });
     }
 
-    public void updateWeatherGeneralInfoLayoutTheme(Activity activity,
-                                                    WeatherLayoutThemeColorsUpdater themeColorsUpdater){
+    public void updateWeatherBasicInfoLayoutTheme(Activity activity,
+                                                  WeatherLayoutThemeColorsUpdater themeColorsUpdater){
         int backgroundColor=themeColorsUpdater.getBackgroundColor();
         mainLayout.setBackgroundColor(backgroundColor);
         int textPrimaryColor=themeColorsUpdater.getTextPrimaryColor();

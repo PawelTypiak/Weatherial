@@ -1,7 +1,5 @@
 package paweltypiak.matweather.mainActivityLayoutInitializing.LayoutUpdating;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -19,52 +17,64 @@ public class OnWeatherDataChangeLayoutUpdater {
     public OnWeatherDataChangeLayoutUpdater(Activity activity,
                                             MainActivityLayoutInitializer mainActivityLayoutInitializer,
                                             WeatherDataParser weatherDataParser,
-                                            boolean doSetAppBar,
+                                            boolean doUpdateAppBarData,
                                             boolean isGeolocalizationMode) {
         currentWeatherDataParser =weatherDataParser;
         currentDataFormatter=new WeatherDataFormatter(activity, weatherDataParser);
         final LinearLayout weatherLayout=(LinearLayout)activity.findViewById(R.id.weather_inner_layout);
         if(weatherLayout.getVisibility()== View.VISIBLE) {
-            updateLayoutWithWeatherLayoutFadeOut(activity, mainActivityLayoutInitializer,doSetAppBar,isGeolocalizationMode,weatherLayout);
+            updateLayoutWithWeatherLayoutFadeOut(activity, mainActivityLayoutInitializer,doUpdateAppBarData,isGeolocalizationMode);
         }
         else {
-            updateLayout(activity, mainActivityLayoutInitializer,doSetAppBar,isGeolocalizationMode);
+            updateLayout(activity, mainActivityLayoutInitializer,doUpdateAppBarData,isGeolocalizationMode);
         }
     }
 
     private void updateLayoutWithWeatherLayoutFadeOut(final Activity activity,
                                                       final MainActivityLayoutInitializer mainActivityLayoutInitializer,
-                                                      final boolean doSetAppBar,
-                                                      final boolean isGeolocalizationMode,
-                                                      final LinearLayout weatherLayout){
-        long transitionTime=100;
-        weatherLayout.animate()
-                .alpha(0f)
-                .setDuration(transitionTime)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        mainActivityLayoutInitializer
-                                .getWeatherLayoutInitializer()
-                                .getSwipeRefreshLayoutInitializer()
-                                .getPullListenersInitializer()
-                                .setNestedScrollViewScrollingDisabled();
-                            weatherLayout.setVisibility(View.INVISIBLE);
-                            updateLayout(activity, mainActivityLayoutInitializer,doSetAppBar,isGeolocalizationMode);
-                        }
-                    });
+                                                      final boolean doUpdateAppBarData,
+                                                      final boolean isGeolocalizationMode){
+        mainActivityLayoutInitializer.
+                getWeatherLayoutInitializer().
+                getGeneralWeatherLayoutInitializer().
+                fadeOutWeatherLayout(new updateLayoutRunnable(activity,
+                        mainActivityLayoutInitializer,
+                        doUpdateAppBarData,
+                        isGeolocalizationMode));
     }
 
     private void updateLayout(Activity activity,
                               MainActivityLayoutInitializer mainActivityLayoutInitializer,
-                              boolean doSetAppBar,
+                              boolean doUpdateAppBarData,
                               boolean isGeolocalizationMode){
         updateOnTimeChangeLayoutUpdater(mainActivityLayoutInitializer);
-        if(doSetAppBar==true) {
+        if(doUpdateAppBarData==true) {
             updateAppBarLayoutData(activity,mainActivityLayoutInitializer,currentDataFormatter,isGeolocalizationMode);
         }
         updateWeatherLayoutData(mainActivityLayoutInitializer);
         updateWeatherLayoutTheme(mainActivityLayoutInitializer);
+    }
+
+    private class updateLayoutRunnable implements Runnable{
+
+        private Activity activity;
+        private MainActivityLayoutInitializer mainActivityLayoutInitializer;
+        private boolean doSetAppBar;
+        private boolean isGeolocalizationMode;
+
+        public updateLayoutRunnable(Activity activity,
+                                    MainActivityLayoutInitializer mainActivityLayoutInitializer,
+                                    boolean doSetAppBar,
+                                    boolean isGeolocalizationMode){
+            this.activity=activity;
+            this.mainActivityLayoutInitializer=mainActivityLayoutInitializer;
+            this.doSetAppBar=doSetAppBar;
+            this.isGeolocalizationMode=isGeolocalizationMode;
+        }
+
+        public void run() {
+            updateLayout(activity, mainActivityLayoutInitializer,doSetAppBar,isGeolocalizationMode);
+        }
     }
 
     public void updateAppBarLayoutData(Activity activity,
@@ -132,7 +142,6 @@ public class OnWeatherDataChangeLayoutUpdater {
 
     private void updateOnTimeChangeLayoutUpdater( MainActivityLayoutInitializer mainActivityLayoutInitializer){
         mainActivityLayoutInitializer.getOnTimeChangeLayoutUpdater().onWeatherDataChangeUpdate(currentDataFormatter);
-
     }
 
     public static WeatherDataParser getCurrentWeatherDataParser() {
