@@ -21,7 +21,6 @@ import paweltypiak.matweather.localizationDataDownloading.CurrentCoordinatesDown
 import paweltypiak.matweather.settings.Settings;
 import paweltypiak.matweather.usefulClasses.DialogInitializer;
 import paweltypiak.matweather.usefulClasses.SharedPreferencesModifier;
-import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 import paweltypiak.matweather.mainActivityLayoutInitializing.LayoutUpdating.OnWeatherDataChangeLayoutUpdater;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDataDownloader;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDownloadCallback;
@@ -250,8 +249,11 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void downloadWeatherDataOnRefresh(){
         downloadMode=1;
-        String currentLocation[]=UsefulFunctions.getCurrentLocationAddress();
-        downloadWeatherData(currentLocation[0]+", "+currentLocation[1]);
+        String city=OnWeatherDataChangeLayoutUpdater.getCurrentWeatherDataParser().getCity();
+        String region=OnWeatherDataChangeLayoutUpdater.getCurrentWeatherDataParser().getRegion();
+        String country=OnWeatherDataChangeLayoutUpdater.getCurrentWeatherDataParser().getCountry();
+        String currentLocationAddressString=city+", "+region+", "+ country;
+        downloadWeatherData(currentLocationAddressString);
     }
 
     private void onWeatherSuccessAfterRefresh(WeatherDataParser weatherDataParser){

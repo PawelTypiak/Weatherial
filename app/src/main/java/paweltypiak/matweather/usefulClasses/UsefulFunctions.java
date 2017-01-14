@@ -48,22 +48,6 @@ import paweltypiak.matweather.mainActivityLayoutInitializing.LayoutUpdating.OnWe
 
 public class UsefulFunctions {
 
-    // TODO: move to dataFormatter
-
-    public static String[] getCurrentLocationAddress(){
-        String[] location=new String[2];
-        location[0]= OnWeatherDataChangeLayoutUpdater.getCurrentDataFormatter().getCity();
-        location[1]= OnWeatherDataChangeLayoutUpdater.getCurrentDataFormatter().getRegion()+", "+ OnWeatherDataChangeLayoutUpdater.getCurrentDataFormatter().getCountry();
-        return location;
-    }
-
-    public static String[] getCurrentLocationCoordinates(){
-        String[] coordinates=new String[2];
-        coordinates[0]= Double.toString(OnWeatherDataChangeLayoutUpdater.getCurrentDataFormatter().getLatitude());
-        coordinates[1]=Double.toString(OnWeatherDataChangeLayoutUpdater.getCurrentDataFormatter().getLongitude());
-        return coordinates;
-    }
-
     // TODO: usefulFunctions
 
     public static void initializeWebIntent(Context context, String url){

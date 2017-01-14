@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import paweltypiak.matweather.MainActivity;
 import paweltypiak.matweather.mainActivityLayoutInitializing.MainActivityLayoutInitializer;
+import paweltypiak.matweather.mainActivityLayoutInitializing.WeatherLayoutInitializing.WeatherLayoutInitializer;
 import paweltypiak.matweather.usefulClasses.DialogInitializer;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDataParser;
 public class OnRefreshInitializer implements SwipeRefreshLayout.OnRefreshListener{
@@ -17,6 +18,7 @@ public class OnRefreshInitializer implements SwipeRefreshLayout.OnRefreshListene
     private Activity activity;
     private DialogInitializer dialogInitializer;
     private MainActivityLayoutInitializer mainActivityLayoutInitializer;
+    private WeatherLayoutInitializer weatherLayoutInitializer;
     private SwipeRefreshLayout swipeRefreshLayout;
     private LinearLayout onRefreshMessageLayout;
     private OnRefreshListener onRefreshListener;
@@ -26,12 +28,14 @@ public class OnRefreshInitializer implements SwipeRefreshLayout.OnRefreshListene
     public OnRefreshInitializer(Activity activity,
                                 DialogInitializer dialogInitializer,
                                 MainActivityLayoutInitializer mainActivityLayoutInitializer,
+                                WeatherLayoutInitializer weatherLayoutInitializer,
                                 SwipeRefreshLayout swipeRefreshLayout,
                                 LinearLayout onRefreshMessageLayout
                                 ){
         this.activity=activity;
         this.dialogInitializer=dialogInitializer;
         this.mainActivityLayoutInitializer=mainActivityLayoutInitializer;
+        this.weatherLayoutInitializer=weatherLayoutInitializer;
         this.swipeRefreshLayout=swipeRefreshLayout;
         this.onRefreshMessageLayout=onRefreshMessageLayout;
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -125,13 +129,11 @@ public class OnRefreshInitializer implements SwipeRefreshLayout.OnRefreshListene
     }
 
     private void fadeInWeatherLayout(){
-        mainActivityLayoutInitializer.getWeatherLayoutInitializer().
-                getGeneralWeatherLayoutInitializer().fadeInWeatherLayout(null);
+        weatherLayoutInitializer.getGeneralWeatherLayoutInitializer().fadeInWeatherLayout(null);
     }
 
     private void fadeOutWeatherLayout(){
-        mainActivityLayoutInitializer.getWeatherLayoutInitializer().
-                getGeneralWeatherLayoutInitializer().fadeOutWeatherLayout(null);
+        weatherLayoutInitializer.getGeneralWeatherLayoutInitializer().fadeOutWeatherLayout(null);
     }
 }
 

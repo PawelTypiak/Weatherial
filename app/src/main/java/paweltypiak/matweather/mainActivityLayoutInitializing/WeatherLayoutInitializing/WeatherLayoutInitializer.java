@@ -2,6 +2,7 @@ package paweltypiak.matweather.mainActivityLayoutInitializing.WeatherLayoutIniti
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -47,13 +48,13 @@ public class WeatherLayoutInitializer {
         swipeRefreshLayoutInitializer = new SwipeRefreshLayoutInitializer(
                 activity,
                 dialogInitializer,
-                mainActivityLayoutInitializer);
+                mainActivityLayoutInitializer,this);
     }
 
     private void initializeWeatherGeneralInfoLayout(Activity activity, MainActivityLayoutInitializer
             mainActivityLayoutInitializer) {
         weatherBasicInfoLayoutInitializer = new WeatherBasicInfoLayoutInitializer(activity,
-                mainActivityLayoutInitializer);
+                mainActivityLayoutInitializer,this);
     }
 
     private void initializeWeatherDetailsLayout(Activity activity) {

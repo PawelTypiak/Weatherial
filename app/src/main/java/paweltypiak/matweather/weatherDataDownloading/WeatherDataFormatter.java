@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import paweltypiak.matweather.R;
+import paweltypiak.matweather.mainActivityLayoutInitializing.LayoutUpdating.OnWeatherDataChangeLayoutUpdater;
 import paweltypiak.matweather.usefulClasses.SharedPreferencesModifier;
 
 public class WeatherDataFormatter {

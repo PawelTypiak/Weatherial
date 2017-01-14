@@ -24,7 +24,6 @@ import paweltypiak.matweather.weatherDataDownloading.WeatherDataFormatter;
 public class WeatherBasicInfoLayoutInitializer {
 
     private CoordinatorLayout mainLayout;
-    private LinearLayout weatherInnerLayout;
     private TextView onRefreshMessageTextView;
     private TextView conditionTextView;
     private ImageView conditionImageView;
@@ -35,16 +34,16 @@ public class WeatherBasicInfoLayoutInitializer {
     private View currentDetailsDividerView;
 
     public WeatherBasicInfoLayoutInitializer(Activity activity,
-                                             MainActivityLayoutInitializer mainActivityLayoutInitializer){
+                                             MainActivityLayoutInitializer mainActivityLayoutInitializer,
+                                             WeatherLayoutInitializer weatherLayoutInitializer){
         findLayoutViews(activity);
         rotateSeeMoreImageView();
         setWeatherBasicInfoLayoutSizes(activity,mainActivityLayoutInitializer);
-       // initializeSeeMoreArrowAnimation(activity);
+        initializeSeeMoreArrowAnimation(activity,weatherLayoutInitializer);
     }
 
     private void findLayoutViews(Activity activity){
         mainLayout =(CoordinatorLayout) activity.findViewById(R.id.coordinator_layout);
-        weatherInnerLayout=(LinearLayout)activity.findViewById(R.id.weather_inner_layout);
         onRefreshMessageTextView=(TextView)activity.findViewById(R.id.main_content_layout_on_refresh_message_text);
         conditionTextView =(TextView)activity.findViewById(R.id.weather_basic_info_layout_conditions_text);
         conditionImageView =(ImageView)activity.findViewById(R.id.weather_basic_info_layout_conditions_image);
@@ -101,9 +100,9 @@ public class WeatherBasicInfoLayoutInitializer {
         });
     }
 
-    private void initializeSeeMoreArrowAnimation(final Activity activity){
+    private void initializeSeeMoreArrowAnimation(final Activity activity, final WeatherLayoutInitializer weatherLayoutInitializer){
         LockableSmoothNestedScrollView nestedScrollView
-                =(LockableSmoothNestedScrollView)activity.findViewById(R.id.nested_scroll_view);
+                =weatherLayoutInitializer.getGeneralWeatherLayoutInitializer().getNestedScrollView();
         nestedScrollView.addOnScrollListener(new android.support.v4.widget.NestedScrollView.OnScrollChangeListener() {
             boolean isTransparent=true;
             int normalMargin=(int)activity.getResources().getDimension(R.dimen.activity_normal_margin);
@@ -147,9 +146,7 @@ public class WeatherBasicInfoLayoutInitializer {
         Picasso.with(activity.getApplicationContext()).load(conditionDrawableId).into(conditionImageView, new Callback() {
             @Override
             public void onSuccess() {
-                //fadeInWeatherLayout();
-                fadeInWeatherLayout(weatherLayoutInitializer);
-                Log.d("success", "onSuccess: ");
+                weatherLayoutInitializer.getGeneralWeatherLayoutInitializer().fadeInWeatherLayout(null);
             }
 
             @Override
@@ -157,24 +154,6 @@ public class WeatherBasicInfoLayoutInitializer {
 
             }
         });
-    }
-
-    private void fadeInWeatherLayout(final WeatherLayoutInitializer weatherLayoutInitializer){
-        long transitionTime=200;
-        weatherInnerLayout.setAlpha(0f);
-        weatherInnerLayout.setVisibility(View.VISIBLE);
-        weatherInnerLayout.animate()
-                .alpha(1f)
-                .setDuration(transitionTime)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animator) {
-                        weatherLayoutInitializer.
-                        getSwipeRefreshLayoutInitializer().
-                                getPullListenersInitializer().
-                                setNestedScrollViewScrollingEnabled();
-                    }
-                });
     }
 
     public void updateWeatherBasicInfoLayoutTheme(Activity activity,

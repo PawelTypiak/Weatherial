@@ -6,6 +6,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.mainActivityLayoutInitializing.MainActivityLayoutInitializer;
+import paweltypiak.matweather.mainActivityLayoutInitializing.WeatherLayoutInitializing.WeatherLayoutInitializer;
 import paweltypiak.matweather.usefulClasses.DialogInitializer;
 
 public class SwipeRefreshLayoutInitializer {
@@ -15,13 +16,14 @@ public class SwipeRefreshLayoutInitializer {
     private OnSwipeRefreshLayoutPullListenersInitializer pullListenersInitializer;
     private OnRefreshInitializer onRefreshInitializer;
 
-    public SwipeRefreshLayoutInitializer (Activity activity, DialogInitializer dialogInitializer, MainActivityLayoutInitializer mainActivityLayoutInitializer){
+    public SwipeRefreshLayoutInitializer (Activity activity, DialogInitializer dialogInitializer, MainActivityLayoutInitializer mainActivityLayoutInitializer,
+                                          WeatherLayoutInitializer weatherLayoutInitializer){
         swipeRefreshLayout = (SwipeRefreshLayout) activity.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
         setSwipeRefreshLayoutOffset(activity,mainActivityLayoutInitializer);
         initializeOnRefreshMessage(activity);
-        initializeOnSwipeRefreshPullListeners(activity);
-        initializeOnRefresh(activity,dialogInitializer,mainActivityLayoutInitializer);
+        initializeOnSwipeRefreshPullListeners(activity,weatherLayoutInitializer);
+        initializeOnRefresh(activity,dialogInitializer,mainActivityLayoutInitializer,weatherLayoutInitializer);
     }
 
     private void setSwipeRefreshLayoutOffset(Activity activity, MainActivityLayoutInitializer mainActivityLayoutInitializer){
@@ -46,22 +48,20 @@ public class SwipeRefreshLayoutInitializer {
         onRefreshMessageLayout.setLayoutParams(onRefreshMessageLayoutParams);
     }
 
-    private void initializeOnSwipeRefreshPullListeners(Activity activity){
-        pullListenersInitializer=new OnSwipeRefreshLayoutPullListenersInitializer(activity,swipeRefreshLayout);
+    private void initializeOnSwipeRefreshPullListeners(Activity activity, WeatherLayoutInitializer weatherLayoutInitializer){
+        pullListenersInitializer=new OnSwipeRefreshLayoutPullListenersInitializer(activity,weatherLayoutInitializer,swipeRefreshLayout);
     }
 
-    private void initializeOnRefresh(Activity activity,DialogInitializer dialogInitializer,MainActivityLayoutInitializer mainActivityLayoutInitializer){
+    private void initializeOnRefresh(Activity activity,DialogInitializer dialogInitializer,MainActivityLayoutInitializer mainActivityLayoutInitializer,
+                                     WeatherLayoutInitializer weatherLayoutInitializer){
         onRefreshInitializer=new OnRefreshInitializer(
                 activity,
                 dialogInitializer,
                 mainActivityLayoutInitializer,
+                weatherLayoutInitializer,
                 swipeRefreshLayout,
                 onRefreshMessageLayout
                 );
-    }
-
-    public OnSwipeRefreshLayoutPullListenersInitializer getPullListenersInitializer() {
-        return pullListenersInitializer;
     }
 
     public OnRefreshInitializer getOnRefreshInitializer() {

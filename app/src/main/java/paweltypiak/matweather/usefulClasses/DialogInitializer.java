@@ -21,9 +21,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import java.util.List;
-
 import paweltypiak.matweather.MainActivity;
 import paweltypiak.matweather.R;
+import paweltypiak.matweather.mainActivityLayoutInitializing.LayoutUpdating.OnWeatherDataChangeLayoutUpdater;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDataDownloader;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDownloadCallback;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDataParser;
@@ -250,10 +250,11 @@ public class DialogInitializer  {
             CheckBox checkBox=(CheckBox)dialogView.findViewById(R.id.edit_location_dialog_checkbox);
             if(checkBox.isChecked()){
                 Log.d("checkbox", "checked");
-                String currentLocationHeaderString=UsefulFunctions.getCurrentLocationAddress()[0];
-                String currentLocationSubheaderString=UsefulFunctions.getCurrentLocationAddress()[1];
-                String currentLocationName=currentLocationHeaderString+", "+currentLocationSubheaderString;
-                SharedPreferencesModifier.setDefeaultLocationConstant(activity,currentLocationName);
+                String city= OnWeatherDataChangeLayoutUpdater.getCurrentWeatherDataParser().getCity();
+                String region=OnWeatherDataChangeLayoutUpdater.getCurrentWeatherDataParser().getRegion();
+                String country=OnWeatherDataChangeLayoutUpdater.getCurrentWeatherDataParser().getCountry();
+                String currentLocationAddressString=city+", "+region+", "+ country;
+                SharedPreferencesModifier.setDefeaultLocationConstant(activity,currentLocationAddressString);
             }
             String [] locationName=FavouritesEditor.getFavouriteLocationNameForAppbar(activity);
             ((MainActivity)activity).getMainActivityLayoutInitializer().getAppBarLayoutInitializer().
@@ -285,11 +286,12 @@ public class DialogInitializer  {
                     .getAppBarLayoutButtonsInitializer()
                     .getNavigationDrawerInitializer()
                     .uncheckNavigationDrawerMenuItem(1);
-            String currentLocationHeaderString=UsefulFunctions.getCurrentLocationAddress()[0];
-            String currentLocationSubheaderString=UsefulFunctions.getCurrentLocationAddress()[1];
+            String city=OnWeatherDataChangeLayoutUpdater.getCurrentWeatherDataParser().getCity();
+            String region=OnWeatherDataChangeLayoutUpdater.getCurrentWeatherDataParser().getRegion();
+            String country=OnWeatherDataChangeLayoutUpdater.getCurrentWeatherDataParser().getCountry();
             ((MainActivity)activity).getMainActivityLayoutInitializer().getAppBarLayoutInitializer().
                     getAppBarLayoutDataInitializer().
-                    updateLocationName(currentLocationHeaderString,currentLocationSubheaderString);
+                    updateLocationName(city,region+", "+ country);
             if(FavouritesEditor.isDefeaultLocationEqual(activity,null)) {
                 SharedPreferencesModifier.setDefeaultLocationGeolocalization(activity);
             }
@@ -317,10 +319,14 @@ public class DialogInitializer  {
                     updateLocationName(customHeaderString,customSubheaderString);
             CheckBox checkBox=(CheckBox)dialogView.findViewById(R.id.edit_location_dialog_checkbox);
             if(checkBox.isChecked()){
-                String currentLocationHeaderString=UsefulFunctions.getCurrentLocationAddress()[0];
-                String currentLocationSubheaderString=UsefulFunctions.getCurrentLocationAddress()[1];
-                String currentLocationAddress=currentLocationHeaderString+", "+currentLocationSubheaderString;
-                SharedPreferencesModifier.setDefeaultLocationConstant(activity,currentLocationAddress);
+                String city=OnWeatherDataChangeLayoutUpdater.getCurrentWeatherDataParser().getCity();
+                String region=OnWeatherDataChangeLayoutUpdater.getCurrentWeatherDataParser().getRegion();
+                String country=OnWeatherDataChangeLayoutUpdater.getCurrentWeatherDataParser().getCountry();
+                ((MainActivity)activity).getMainActivityLayoutInitializer().getAppBarLayoutInitializer().
+                        getAppBarLayoutDataInitializer().
+                        updateLocationName(city,region+", "+ country);
+                String currentLocationAddressString=city+", "+region+", "+ country;
+                SharedPreferencesModifier.setDefeaultLocationConstant(activity,currentLocationAddressString);
             }
             else{
                 if(FavouritesEditor.isDefeaultLocationEqual(activity,null)) {
@@ -877,7 +883,6 @@ public class DialogInitializer  {
         final View dialogView = inflater.inflate(R.layout.dialog_edit_location,null);
         dialogView.setFocusableInTouchMode(true);
         dialogView.setClickable(true);
-        //String [] location=UsefulFunctions.getAppBarStrings(activity);
         String [] location=((MainActivity)activity).
                 getMainActivityLayoutInitializer().
                 getAppBarLayoutInitializer().
@@ -923,7 +928,6 @@ public class DialogInitializer  {
         View dialogView = inflater.inflate(R.layout.dialog_edit_location,null);
         dialogView.setFocusableInTouchMode(true);
         dialogView.setClickable(true);
-        //String [] location=UsefulFunctions.getAppBarStrings(activity);
         String [] location=((MainActivity)activity).
                 getMainActivityLayoutInitializer().
                 getAppBarLayoutInitializer().
@@ -1035,7 +1039,6 @@ public class DialogInitializer  {
         TextView messageTextView=(TextView)dialogView.findViewById(R.id.location_dialog_message_text);
         messageTextView.setText(activity.getString(R.string.maps_dialog_message));
         TextView cityTextView=(TextView)dialogView.findViewById(R.id.location_dialog_city_text);
-        //String [] locationName=UsefulFunctions.getAppBarStrings(activity);
         String [] locationName=((MainActivity)activity).
                 getMainActivityLayoutInitializer().
                 getAppBarLayoutInitializer().
@@ -1044,8 +1047,9 @@ public class DialogInitializer  {
         cityTextView.setText(locationName[0]);
         TextView regionCountryTextView=(TextView)dialogView.findViewById(R.id.location_dialog_region_county_text);
         regionCountryTextView.setText(locationName[1]);
-        double [] locationCoordinates={Double.valueOf(UsefulFunctions.getCurrentLocationCoordinates()[0]),
-                Double.valueOf(UsefulFunctions.getCurrentLocationCoordinates()[1])};
+        double currentLatitude=OnWeatherDataChangeLayoutUpdater.getCurrentWeatherDataParser().getLatitude();
+        double currentLongitude=OnWeatherDataChangeLayoutUpdater.getCurrentWeatherDataParser().getLongitude();
+        double [] currentLocationCoordinates={currentLatitude,currentLongitude};
         mapsDialog = buildDialog(
                 activity,
                 dialogView,
@@ -1055,7 +1059,7 @@ public class DialogInitializer  {
                 null,
                 false,
                 activity.getString(R.string.maps_dialog_positive_button),
-                new initializeMapsIntentRunnable(locationName[0],locationCoordinates[0], locationCoordinates[1]),
+                new initializeMapsIntentRunnable(locationName[0],currentLocationCoordinates[0], currentLocationCoordinates[1]),
                 null,
                 null,
                 activity.getString(R.string.maps_dialog_negative_button),

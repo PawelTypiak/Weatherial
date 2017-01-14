@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import paweltypiak.matweather.MainActivity;
+import paweltypiak.matweather.mainActivityLayoutInitializing.LayoutUpdating.OnWeatherDataChangeLayoutUpdater;
 
 public class FavouritesEditor {
 
@@ -98,9 +99,7 @@ public class FavouritesEditor {
 
     public static void saveNewFavouriteLocationAddress(Context context,String currentLocationAddressString){
         if(currentLocationAddressString==null){
-            String currentLocationHeaderString=UsefulFunctions.getCurrentLocationAddress()[0];
-            String currentLocationSubheaderString=UsefulFunctions.getCurrentLocationAddress()[1];
-            currentLocationAddressString=currentLocationHeaderString+", "+currentLocationSubheaderString;
+            currentLocationAddressString=getCurrentLocationAddressString();
         }
         String favourites[]= SharedPreferencesModifier.getFavouriteLocationsAddresses(context);
         StringBuilder stringBuilder=UsefulFunctions.buildStringFromStringArray(favourites);
@@ -110,9 +109,9 @@ public class FavouritesEditor {
         SharedPreferencesModifier.setFavouriteLocationAddresses(context,favouritesAddressesString);
     }
 
-    public static void saveNewFavouritesItem(Context context,String headerString, String subheaderString, String currentLocationNameString){
-        FavouritesEditor.saveNewFavouriteLocationName(context,headerString,subheaderString);
-        FavouritesEditor.saveNewFavouriteLocationAddress(context,currentLocationNameString);
+    public static void saveNewFavouritesItem(Activity activity,String headerString, String subheaderString, String currentLocationNameString){
+        FavouritesEditor.saveNewFavouriteLocationName(activity,headerString,subheaderString);
+        FavouritesEditor.saveNewFavouriteLocationAddress(activity,currentLocationNameString);
     }
 
 
@@ -178,27 +177,23 @@ public class FavouritesEditor {
     public static boolean isAddressEqual(Context context){
         //check if current location is in favourites by address
         String favouritesAddresses[]= SharedPreferencesModifier.getFavouriteLocationsAddresses(context);
-        String currentLocationHeaderString=UsefulFunctions.getCurrentLocationAddress()[0];
-        String currentLocationSubheaderString=UsefulFunctions.getCurrentLocationAddress()[1];
-        String currentLocationAddress=currentLocationHeaderString+", "+currentLocationSubheaderString;
+        String currentLocationAddressString=getCurrentLocationAddressString();
         boolean isEqual=false;
         for(int i=0;i<favouritesAddresses.length;i++){
-            if(favouritesAddresses[i].equals(currentLocationAddress)) isEqual=true;
+            if(favouritesAddresses[i].equals(currentLocationAddressString)) isEqual=true;
         }
         return isEqual;
     }
 
-    public static boolean isDefeaultLocationEqual(Context context, String locationAddress){
+    public static boolean isDefeaultLocationEqual(Context context, String currentLocationAddressString){
         //check if current location is defeault
-        if(locationAddress==null){
-            String currentLocationHeaderString=UsefulFunctions.getCurrentLocationAddress()[0];
-            String currentLocationSubheaderString=UsefulFunctions.getCurrentLocationAddress()[1];
-            locationAddress=currentLocationHeaderString+", "+currentLocationSubheaderString;
+        if(currentLocationAddressString==null){
+            currentLocationAddressString=getCurrentLocationAddressString();
         }
         boolean isEqual=false;
         String defeaultLocation=SharedPreferencesModifier.getDefeaultLocation(context);
         if(defeaultLocation!=null){
-            if(defeaultLocation.equals(locationAddress)) {
+            if(defeaultLocation.equals(currentLocationAddressString)) {
                 isEqual= true;
             }
         }
@@ -208,14 +203,11 @@ public class FavouritesEditor {
     private static int getCurrentFavouriteLocationId(Context context){
         //get id of current location in favourites list by location address
         String[] addresses=SharedPreferencesModifier.getFavouriteLocationsAddresses(context);
-        String currentLocationHeaderString=UsefulFunctions.getCurrentLocationAddress()[0];
-        String currentLocationSubheaderString=UsefulFunctions.getCurrentLocationAddress()[1];
-        String currentLocationAddress=currentLocationHeaderString+", "+currentLocationSubheaderString;
+        String currentLocationAddressString=getCurrentLocationAddressString();
         int id=-1;
         int size=addresses.length;
         for(int i=0;i<size;i++){
-
-            if(addresses[i].equals(currentLocationAddress))id=i;
+            if(addresses[i].equals(currentLocationAddressString))id=i;
         }
         return id;
     }
@@ -228,5 +220,13 @@ public class FavouritesEditor {
             if(isDefeaultLocationEqual(context,addresses[i]))id=i;
         }
         return id;
+    }
+
+    private static String getCurrentLocationAddressString(){
+        String city=OnWeatherDataChangeLayoutUpdater.getCurrentWeatherDataParser().getCity();
+        String region=OnWeatherDataChangeLayoutUpdater.getCurrentWeatherDataParser().getRegion();
+        String country=OnWeatherDataChangeLayoutUpdater.getCurrentWeatherDataParser().getCountry();
+        String currentLocationAddressString=city+", "+region+", "+ country;
+        return currentLocationAddressString;
     }
 }

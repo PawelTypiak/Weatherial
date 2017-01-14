@@ -2,42 +2,46 @@ package paweltypiak.matweather.mainActivityLayoutInitializing.WeatherLayoutIniti
 
 import android.app.Activity;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.customViews.LockableSmoothNestedScrollView;
+import paweltypiak.matweather.mainActivityLayoutInitializing.MainActivityLayoutInitializer;
+import paweltypiak.matweather.mainActivityLayoutInitializing.WeatherLayoutInitializing.WeatherLayoutInitializer;
 import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
 public class OnSwipeRefreshLayoutPullListenersInitializer {
 
     private LockableSmoothNestedScrollView nestedScrollView;
     private LinearLayout weatherLayout;
-    private LinearLayout onRefreshMessageLayout;
     private boolean isFingerOnScreen;
     private boolean isToolbarExpanded =true;
     private float movedHeight;
     private float startHeight;
     private float fadeOutOffset;
     private float fadeOutRange;
-    private Activity activity;
 
-    public OnSwipeRefreshLayoutPullListenersInitializer(Activity activity, SwipeRefreshLayout swipeRefreshLayout){
-        this.activity=activity;
-        findResources(activity);
+    public OnSwipeRefreshLayoutPullListenersInitializer(Activity activity, WeatherLayoutInitializer weatherLayoutInitializer, SwipeRefreshLayout swipeRefreshLayout){
+        findResources(activity,weatherLayoutInitializer);
         addNestedScrollViewOnScrollListener(swipeRefreshLayout);
         setNestedScrollViewOnTouchListener(swipeRefreshLayout);
     }
 
-    private void findResources(Activity activity){
-        findViews(activity);
+    private void findResources(Activity activity,WeatherLayoutInitializer weatherLayoutInitializer){
+        findViews(weatherLayoutInitializer);
         findDimensions(activity);
     }
 
-    private void findViews(Activity activity){
-        nestedScrollView=(LockableSmoothNestedScrollView)activity.findViewById(R.id.nested_scroll_view);
-        weatherLayout=(LinearLayout)activity.findViewById(R.id.weather_inner_layout);
-        onRefreshMessageLayout =(LinearLayout)activity.findViewById(R.id.main_content_layout_on_refresh_message_layout);
+    private void findViews(WeatherLayoutInitializer weatherLayoutInitializer){
+
+        nestedScrollView=weatherLayoutInitializer.
+                getGeneralWeatherLayoutInitializer().
+                getNestedScrollView();
+        weatherLayout=weatherLayoutInitializer.
+                getGeneralWeatherLayoutInitializer().
+                getWeatherLayout();
     }
 
     private void findDimensions(Activity activity){
@@ -135,13 +139,5 @@ public class OnSwipeRefreshLayoutPullListenersInitializer {
                 swipeRefreshLayout.setEnabled(true);
             }
         }
-    }
-
-    public void setNestedScrollViewScrollingDisabled(){
-        nestedScrollView.setScrollingEnabled(false);
-    }
-
-    public void setNestedScrollViewScrollingEnabled(){
-        nestedScrollView.setScrollingEnabled(true);
     }
 }

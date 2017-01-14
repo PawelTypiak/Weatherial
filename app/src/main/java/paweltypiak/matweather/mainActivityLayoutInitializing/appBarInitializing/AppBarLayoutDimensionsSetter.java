@@ -18,7 +18,6 @@ public class AppBarLayoutDimensionsSetter {
         int bottomLayoutHeight= getToolbarBelowTitleLayoutHeight(activity);
         toolbarExpandedHeight = getComputedToolbarExpandedHeight(activity,bottomLayoutHeight);
         setComputedToolbarExpandedHeight(activity,bottomLayoutHeight,toolbarExpandedHeight);
-        setWeatherLayoutTopPadding(activity,toolbarExpandedHeight);
     }
 
     private int getToolbarBelowTitleLayoutHeight(Activity activity){
@@ -63,12 +62,6 @@ public class AppBarLayoutDimensionsSetter {
         AppBarLayout.LayoutParams collapsingToolbarParams = (AppBarLayout.LayoutParams)collapsingToolbarLayout.getLayoutParams();
         collapsingToolbarParams.height = toolbarExpandedHeight;
         collapsingToolbarLayout.setExpandedTitleMarginBottom(bottomLayoutHeight);
-    }
-
-    private void setWeatherLayoutTopPadding(Activity activity, int toolbarExpandedHeight){
-        //// TODO: move to weatherlayoutinitializer
-        RelativeLayout weatherLayout=(RelativeLayout)activity.findViewById(R.id.weather_layout);
-        weatherLayout.setPadding(0,toolbarExpandedHeight,0,0);
     }
 
     public int getToolbarExpandedHeight() {

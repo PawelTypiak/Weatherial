@@ -4,10 +4,12 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import paweltypiak.matweather.R;
+import paweltypiak.matweather.customViews.LockableSmoothNestedScrollView;
 import paweltypiak.matweather.mainActivityLayoutInitializing.LayoutUpdating.OnWeatherDataChangeLayoutUpdater;
 import paweltypiak.matweather.mainActivityLayoutInitializing.MainActivityLayoutInitializer;
 import paweltypiak.matweather.usefulClasses.DialogInitializer;
@@ -15,13 +17,18 @@ import paweltypiak.matweather.usefulClasses.DialogInitializer;
 public class GeneralWeatherLayoutInitializer {
 
     private LinearLayout weatherLayout;
-    private MainActivityLayoutInitializer mainActivityLayoutInitializer;
+    private LockableSmoothNestedScrollView nestedScrollView;
 
     public GeneralWeatherLayoutInitializer(Activity activity, DialogInitializer dialogInitializer, MainActivityLayoutInitializer mainActivityLayoutInitializer){
-        this.mainActivityLayoutInitializer=mainActivityLayoutInitializer;
+        findViews(activity);
         setWeatherLayoutTopPadding(activity,mainActivityLayoutInitializer);
-        setWeatherLayoutOnClickListener(activity,dialogInitializer);
-        findWeatherLayoutView(activity);
+        setWeatherLayoutOnClickListener(dialogInitializer,mainActivityLayoutInitializer);
+    }
+
+    private void findViews(Activity activity){
+        nestedScrollView=(LockableSmoothNestedScrollView)activity.findViewById(R.id.nested_scroll_view);
+        weatherLayout=(LinearLayout)activity.findViewById(R.id.weather_inner_layout);
+        Log.d("nested", "findViews: ");
     }
 
     private void setWeatherLayoutTopPadding(Activity activity,  MainActivityLayoutInitializer mainActivityLayoutInitializer){
@@ -33,21 +40,17 @@ public class GeneralWeatherLayoutInitializer {
         weatherLayout.setPadding(0,toolbarExpandedHeight,0,0);
     }
 
-    private void setWeatherLayoutOnClickListener(Activity activity,final DialogInitializer dialogInitializer) {
-        LinearLayout weatherLayout = (LinearLayout) activity.findViewById(R.id.weather_inner_layout);
+    private void setWeatherLayoutOnClickListener(final DialogInitializer dialogInitializer,
+                                                 final MainActivityLayoutInitializer mainActivityLayoutInitializer) {
         weatherLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String yahooWeatherLink = OnWeatherDataChangeLayoutUpdater.getCurrentDataFormatter().getLink();
+                String yahooWeatherLink = mainActivityLayoutInitializer.getOnWeatherDataChangeLayoutUpdater().getCurrentDataFormatter().getLink();
                 AlertDialog yahooWeatherRedirectDialog = dialogInitializer.initializeYahooRedirectDialog(1,
                         yahooWeatherLink);
                 yahooWeatherRedirectDialog.show();
             }
         });
-    }
-
-    private void findWeatherLayoutView(Activity activity){
-        weatherLayout=(LinearLayout)activity.findViewById(R.id.weather_inner_layout);
     }
 
     public void fadeInWeatherLayout(final Runnable runnable){
@@ -59,11 +62,12 @@ public class GeneralWeatherLayoutInitializer {
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
-                        mainActivityLayoutInitializer.
+                       /* mainActivityLayoutInitializer.
                                 getWeatherLayoutInitializer().
                                 getSwipeRefreshLayoutInitializer().
                                 getPullListenersInitializer().
-                                setNestedScrollViewScrollingEnabled();
+                                setNestedScrollViewScrollingEnabled();*/
+                        setNestedScrollViewEnabled();
                         if(runnable!=null){
                             runnable.run();
                         }
@@ -72,11 +76,13 @@ public class GeneralWeatherLayoutInitializer {
     }
 
     public void fadeOutWeatherLayout(final Runnable runnable){
-        mainActivityLayoutInitializer.
+        /*mainActivityLayoutInitializer.
                 getWeatherLayoutInitializer().
                 getSwipeRefreshLayoutInitializer().
                 getPullListenersInitializer().
-                setNestedScrollViewScrollingDisabled();
+                setNestedScrollViewScrollingDisabled()*/;
+        setNestedScrollViewDisabled();
+
         long transitionTime=100;
         if(weatherLayout.getVisibility()==View.VISIBLE){
             weatherLayout.animate()
@@ -92,5 +98,21 @@ public class GeneralWeatherLayoutInitializer {
                         }
                     });
         }
+    }
+
+    public LinearLayout getWeatherLayout() {
+        return weatherLayout;
+    }
+
+    public LockableSmoothNestedScrollView getNestedScrollView() {
+        return nestedScrollView;
+    }
+
+    public void setNestedScrollViewEnabled(){
+        nestedScrollView.setScrollingEnabled(true);
+    }
+
+    public void setNestedScrollViewDisabled(){
+        nestedScrollView.setScrollingEnabled(false);
     }
 }

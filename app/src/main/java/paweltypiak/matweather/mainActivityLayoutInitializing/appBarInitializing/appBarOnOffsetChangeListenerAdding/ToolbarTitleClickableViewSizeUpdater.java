@@ -43,7 +43,6 @@ public class ToolbarTitleClickableViewSizeUpdater implements  AppBarLayoutDataIn
         toolbarCollapsedTitleTextViewMaxWidth = getToolbarCollapsedTitleTextViewMaxWidth(activity);
         toolbarExpandedTitleTextViewHeight=getToolbarExpandedTitleTextViewHeight(activity);
         toolbarTitleTextViewHeightDifference = getToolbarTitleTextViewHeightDifference(activity);
-
     }
 
     private int getToolbarExpandedTitleTextViewMaxWidth(Activity activity){

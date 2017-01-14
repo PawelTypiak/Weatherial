@@ -11,7 +11,7 @@ import paweltypiak.matweather.weatherDataDownloading.WeatherDataParser;
 
 public class OnWeatherDataChangeLayoutUpdater {
 
-    private static WeatherDataFormatter currentDataFormatter;
+    private WeatherDataFormatter currentDataFormatter;
     private static WeatherDataParser currentWeatherDataParser;
 
     public OnWeatherDataChangeLayoutUpdater(Activity activity,
@@ -148,6 +148,5 @@ public class OnWeatherDataChangeLayoutUpdater {
         return currentWeatherDataParser;
     }
 
-    // TODO: change from static to activity.get
-    public static WeatherDataFormatter getCurrentDataFormatter() {return currentDataFormatter;}
+    public WeatherDataFormatter getCurrentDataFormatter() {return currentDataFormatter;}
 }
