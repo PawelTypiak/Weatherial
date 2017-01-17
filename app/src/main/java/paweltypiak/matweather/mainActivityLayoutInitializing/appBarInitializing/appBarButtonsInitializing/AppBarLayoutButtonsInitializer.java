@@ -2,51 +2,40 @@ package paweltypiak.matweather.mainActivityLayoutInitializing.appBarInitializing
 
 import android.app.Activity;
 
-import paweltypiak.matweather.usefulClasses.DialogInitializer;
-
 public class AppBarLayoutButtonsInitializer {
 
     private NavigationDrawerInitializer navigationDrawerInitializer;
     private FloatingActionButtonInitializer floatingActionButtonInitializer;
 
-    public AppBarLayoutButtonsInitializer(Activity activity,
-                                          DialogInitializer dialogInitializer){
-        initializeNavigationDrawer(activity, dialogInitializer);
-        initializeSearchButton(activity, dialogInitializer);
-        initializeToolbarTitleButton(activity, dialogInitializer);
-        initializeYahooLogoButton(activity, dialogInitializer);
-        initializeFloatingActionButtonOnClickListener(activity, dialogInitializer);
+    public AppBarLayoutButtonsInitializer(Activity activity){
+        initializeNavigationDrawer(activity);
+        initializeSearchButton(activity);
+        initializeToolbarTitleButton(activity);
+        initializeYahooLogoButton(activity);
+        initializeFloatingActionButtonOnClickListener(activity);
     }
 
-    private void initializeNavigationDrawer(Activity activity,
-                                            DialogInitializer dialogInitializer){
+    private void initializeNavigationDrawer(Activity activity){
         navigationDrawerInitializer=new NavigationDrawerInitializer(
-                activity,
-                dialogInitializer);
+                activity);
     }
 
-    private void initializeSearchButton(Activity activity,
-                                        DialogInitializer dialogInitializer){
+    private void initializeSearchButton(Activity activity){
         new SearchButtonInitializer(
-                activity,
-                dialogInitializer);
+                activity);
     }
 
-    private void initializeToolbarTitleButton(Activity activity,
-                                              DialogInitializer dialogInitializer){
+    private void initializeToolbarTitleButton(Activity activity){
         new ToolbarTitleButtonInitializer(
-                activity,
-                dialogInitializer);
+                activity);
     }
 
-    private void initializeYahooLogoButton(Activity activity,
-                                           DialogInitializer dialogInitializer){
-        new YahooLogoButtonInitializer(activity,dialogInitializer);
+    private void initializeYahooLogoButton(Activity activity){
+        new YahooLogoButtonInitializer(activity);
     }
 
-    private void initializeFloatingActionButtonOnClickListener(Activity activity,
-                                                               DialogInitializer dialogInitializer){
-        floatingActionButtonInitializer=new FloatingActionButtonInitializer(activity,dialogInitializer);
+    private void initializeFloatingActionButtonOnClickListener(Activity activity){
+        floatingActionButtonInitializer=new FloatingActionButtonInitializer(activity);
     }
 
     public NavigationDrawerInitializer getNavigationDrawerInitializer() {

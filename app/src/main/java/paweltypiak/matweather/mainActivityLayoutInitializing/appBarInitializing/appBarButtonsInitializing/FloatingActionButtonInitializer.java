@@ -5,34 +5,33 @@ import android.app.AlertDialog;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import paweltypiak.matweather.R;
-import paweltypiak.matweather.usefulClasses.DialogInitializer;
+import paweltypiak.matweather.dialogsInitializing.AddToFavouritesDialogInitializer;
+import paweltypiak.matweather.dialogsInitializing.EditFavouritesDialogInitializer;
 
 public class FloatingActionButtonInitializer {
 
     private FloatingActionButton floatingActionButton;
     private int floatingActionButtonOnClickIndicator=0;
 
-    public FloatingActionButtonInitializer(Activity activity,
-                                           DialogInitializer dialogInitializer){
+    public FloatingActionButtonInitializer(Activity activity){
         setFloatingActionButtonOnClickListener(
-                activity,
-                dialogInitializer);
+                activity);
     }
 
-    private void setFloatingActionButtonOnClickListener(Activity activity,
-                                                        final DialogInitializer dialogInitializer){
+    private void setFloatingActionButtonOnClickListener(final Activity activity){
         floatingActionButton =(FloatingActionButton) activity.findViewById(R.id.floating_action_button);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(floatingActionButtonOnClickIndicator ==0){
                     //if location is not in favourites
-                    AlertDialog addToFavouritesDialog = dialogInitializer.initializeAddToFavouritesDialog();
+                    AlertDialog addToFavouritesDialog = AddToFavouritesDialogInitializer.initializeAddToFavouritesDialog(activity);
                     addToFavouritesDialog.show();
                 }
                 else if(floatingActionButtonOnClickIndicator ==1){
                     //if location is in favourites
-                    AlertDialog editFavouritesDialog=dialogInitializer.initializeEditFavouritesDialog();
+                    AlertDialog editFavouritesDialog= EditFavouritesDialogInitializer.initializeEditFavouritesDialog(activity);
+                    //AlertDialog editFavouritesDialog=dialogInitializer.initializeEditFavouritesDialog();
                     editFavouritesDialog.show();
                 }
             }

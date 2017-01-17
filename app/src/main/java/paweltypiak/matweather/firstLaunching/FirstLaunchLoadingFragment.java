@@ -16,7 +16,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import paweltypiak.matweather.usefulClasses.DialogInitializer;
+
+import paweltypiak.matweather.dialogsInitializing.ExitDialogInitializer;
+import paweltypiak.matweather.dialogsInitializing.FavouritesDialogInitializer;
+import paweltypiak.matweather.dialogsInitializing.GeolocalizationFailureDialogInitializer;
+import paweltypiak.matweather.dialogsInitializing.GeolocalizationMethodsDialogInitializer;
+import paweltypiak.matweather.dialogsInitializing.GeolocalizationPermissionsDeniedDialogInitializer;
+import paweltypiak.matweather.dialogsInitializing.InternetFailureDialogInitializer;
+import paweltypiak.matweather.dialogsInitializing.NoWeatherResultsForLocationDialogInitializer;
+import paweltypiak.matweather.dialogsInitializing.ServiceFailureDialogInitializer;
+import paweltypiak.matweather.dialogsInitializing.WeatherResultsForLocationDialogInitializer;
 import paweltypiak.matweather.MainActivity;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.usefulClasses.FavouritesEditor;
@@ -34,7 +43,6 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
 
     private int selectedDefeaultLocationOption;
     private String differentLocationName;
-    private DialogInitializer dialogInitializer;
     private AlertDialog noWeatherResultsForLocationDialog;
     private AlertDialog weatherResultsForLocationDialog;
     private AlertDialog weatherInternetFailureDialog;
@@ -228,7 +236,8 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
     public void weatherServiceSuccess(Channel channel) {
         dataInitializer = new WeatherDataParser(channel);
         if(isFirstLaunch && selectedDefeaultLocationOption ==1){
-            weatherResultsForLocationDialog =dialogInitializer.initializeWeatherResultsForLocationDialog(0,dataInitializer,loadMainActivityRunnable,showLocationFragmentRunnable,new showExitDialogRunnable(showWeatherResultsForLocationDialogRunnable));
+            weatherResultsForLocationDialog= WeatherResultsForLocationDialogInitializer.initializeWeatherResultsForLocationDialog(getActivity(),0,dataInitializer,loadMainActivityRunnable,showLocationFragmentRunnable,new showExitDialogRunnable(showWeatherResultsForLocationDialogRunnable));
+            //weatherResultsForLocationDialog =dialogInitializer.initializeWeatherResultsForLocationDialog();
             showDialog(weatherResultsForLocationDialog);
         }
         else loadMainActivityRunnable.run();
@@ -269,7 +278,7 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
     }
 
     private void initializeDialogs(){
-        dialogInitializer=new DialogInitializer(getActivity());
+        /*dialogInitializer=new DialogInitializer(getActivity());
         weatherInternetFailureDialog =dialogInitializer.initializeInternetFailureDialog(0, downloadWeatherRunnable, new showExitDialogRunnable(showWeatherInternetFailureDialogRunnable));
         geocodingInternetFailureDialog =dialogInitializer.initializeInternetFailureDialog(0, startGeolocalizationRunnable, new showExitDialogRunnable(showGeocodingInternetFailureDialogRunnable));
         serviceFailureDialog=dialogInitializer.initializeServiceFailureDialog(0,downloadWeatherRunnable,new showExitDialogRunnable(showServiceFailureDialogRunnable));
@@ -283,6 +292,76 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
             noWeatherResultsForLocationDialog =dialogInitializer.initializeNoWeatherResultsForLocationDialog(0, showChangeLocationAfterFailureDialogRunnable,new showExitDialogRunnable(showNoWeatherResultsForLocationRunnable));
             geolocalizationFailureDialog =dialogInitializer.initializeGeolocalizationFailureDialog(0,showChangeLocationAfterFailureDialogRunnable, new showExitDialogRunnable(showGeolocalizationFailureDialogRunnable));
             permissionDeniedDialog =dialogInitializer.initializePermissionDeniedDialog(0,showChangeLocationAfterFailureDialogRunnable, new showExitDialogRunnable(showPermissionDeniedDialogRunnable));
+        }*/
+        InternetFailureDialogInitializer weatherInternetFailureDialogInitializer
+                =new InternetFailureDialogInitializer(
+                getActivity(),
+                0,
+                downloadWeatherRunnable,
+                new showExitDialogRunnable(showWeatherInternetFailureDialogRunnable)
+        );
+        weatherInternetFailureDialog= weatherInternetFailureDialogInitializer.getInternetFailureDialog();
+        InternetFailureDialogInitializer geocodingInternetFailureDialogInitializer
+                =new InternetFailureDialogInitializer(
+                getActivity(),
+                0,
+                startGeolocalizationRunnable,
+                new showExitDialogRunnable(showGeocodingInternetFailureDialogRunnable)
+        );
+        geocodingInternetFailureDialog= geocodingInternetFailureDialogInitializer.getInternetFailureDialog();
+        ServiceFailureDialogInitializer serviceFailureDialogInitializer
+                =new ServiceFailureDialogInitializer(
+                getActivity(),
+                0,
+                downloadWeatherRunnable,
+                new showExitDialogRunnable(showServiceFailureDialogRunnable)
+        );
+        serviceFailureDialog=serviceFailureDialogInitializer.getServiceFailureDialog();
+        if(isFirstLaunch){
+            noWeatherResultsForLocationDialog
+                    = NoWeatherResultsForLocationDialogInitializer.initializeNoWeatherResultsForLocationDialog(
+                    getActivity(),
+                    0,
+                    showLocationFragmentRunnable,
+                    new showExitDialogRunnable(showNoWeatherResultsForLocationRunnable));
+            geolocalizationFailureDialog
+                    =GeolocalizationFailureDialogInitializer.initializeGeolocalizationFailureDialog(
+                    getActivity(),
+                    0,
+                    showLocationFragmentRunnable,
+                    new showExitDialogRunnable(showGeolocalizationFailureDialogRunnable));
+            permissionDeniedDialog
+                    = GeolocalizationPermissionsDeniedDialogInitializer.initializeGeolocalizationPermissionsDeniedDialog(
+                    getActivity(),
+                    0,
+                    showLocationFragmentRunnable,
+                    new showExitDialogRunnable(showPermissionDeniedDialogRunnable));
+        }
+        else{
+            GeolocalizationMethodsDialogInitializer geolocalizationMethodsDialogInitializer=new GeolocalizationMethodsDialogInitializer(getActivity(),0,geolocalizationMethodsDialogRunnable);
+            geolocalizationMethodsDialog= geolocalizationMethodsDialogInitializer.getGeolocalizationMethodsDialog();
+            //geolocalizationMethodsDialog =dialogInitializer.initializeGeolocalizationMethodsDialog(0,geolocalizationMethodsDialogRunnable);
+            noWeatherResultsForLocationDialog
+                    = NoWeatherResultsForLocationDialogInitializer.initializeNoWeatherResultsForLocationDialog(
+                    getActivity(),
+                    0,
+                    showChangeLocationAfterFailureDialogRunnable,
+                    new showExitDialogRunnable(showNoWeatherResultsForLocationRunnable));
+            geolocalizationFailureDialog
+                    =GeolocalizationFailureDialogInitializer.initializeGeolocalizationFailureDialog(getActivity(),
+                    0,
+                    showChangeLocationAfterFailureDialogRunnable,
+                    new showExitDialogRunnable(showGeolocalizationFailureDialogRunnable));
+            permissionDeniedDialog= GeolocalizationPermissionsDeniedDialogInitializer.initializeGeolocalizationPermissionsDeniedDialog(
+                    getActivity(),
+                    0,
+                    showChangeLocationAfterFailureDialogRunnable,
+                    new showExitDialogRunnable(showPermissionDeniedDialogRunnable));
+
+
+            //noWeatherResultsForLocationDialog =dialogInitializer.initializeNoWeatherResultsForLocationDialog(0, showChangeLocationAfterFailureDialogRunnable,new showExitDialogRunnable(showNoWeatherResultsForLocationRunnable));
+            //geolocalizationFailureDialog =dialogInitializer.initializeGeolocalizationFailureDialog(0,showChangeLocationAfterFailureDialogRunnable, new showExitDialogRunnable(showGeolocalizationFailureDialogRunnable));
+            //permissionDeniedDialog =dialogInitializer.initializePermissionDeniedDialog(0,showChangeLocationAfterFailureDialogRunnable, new showExitDialogRunnable(showPermissionDeniedDialogRunnable));
         }
     }
 
@@ -293,7 +372,14 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
     private Runnable showChangeLocationAfterFailureDialogRunnable =new Runnable() {
         @Override
         public void run() {
-            changeLocationAfterFailureDialog =dialogInitializer.initializeFavouritesDialog(0, changeLocationAfterFailureRunnable,new showExitDialogRunnable(showChangeLocationAfterFailureDialogRunnable));
+            FavouritesDialogInitializer favouritesDialogInitializer
+                    = new FavouritesDialogInitializer(
+                    getActivity(),
+                    0,
+                    changeLocationAfterFailureRunnable,
+                    new showExitDialogRunnable(showChangeLocationAfterFailureDialogRunnable));
+            changeLocationAfterFailureDialog= favouritesDialogInitializer.getFavouritesDialog();
+            //changeLocationAfterFailureDialog =dialogInitializer.initializeFavouritesDialog(0, changeLocationAfterFailureRunnable,new showExitDialogRunnable(showChangeLocationAfterFailureDialogRunnable));
             showDialog(changeLocationAfterFailureDialog);
         }
 
@@ -335,7 +421,8 @@ public class FirstLaunchLoadingFragment extends Fragment implements WeatherDownl
             this.showDialogRunnable = showDialogRunnable;
         }
         public void run() {
-            AlertDialog exitDialog=dialogInitializer.initializeExitDialog(0, showDialogRunnable);
+            AlertDialog exitDialog= ExitDialogInitializer.initializeExitDialog(getActivity(),0, showDialogRunnable);
+            //AlertDialog exitDialog=dialogInitializer.initializeExitDialog(0, showDialogRunnable);
             exitDialog.show();
         }
     }

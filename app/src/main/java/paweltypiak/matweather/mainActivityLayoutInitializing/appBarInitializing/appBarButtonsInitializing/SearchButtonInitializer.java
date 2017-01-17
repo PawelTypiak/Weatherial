@@ -7,15 +7,15 @@ import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageView;
 import paweltypiak.matweather.R;
-import paweltypiak.matweather.usefulClasses.DialogInitializer;
+import paweltypiak.matweather.dialogsInitializing.SearchDialogInitializer;
 import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
 public class SearchButtonInitializer {
 
-    public SearchButtonInitializer(Activity activity, DialogInitializer dialogInitializer){
+    public SearchButtonInitializer(Activity activity){
         ImageView searchImageView =(ImageView) activity.findViewById(R.id.toolbar_layout_search_button_image);
         setSearchButtonIcon(activity, searchImageView);
-        setSearchButtonOnClickListener(activity, searchImageView, dialogInitializer);
+        setSearchButtonOnClickListener(activity, searchImageView);
     }
 
     private void setSearchButtonIcon(Activity activity, ImageView searchImageView){
@@ -24,11 +24,13 @@ public class SearchButtonInitializer {
     }
 
     private void setSearchButtonOnClickListener(final Activity activity,
-                                                ImageView searchImageView,
-                                                DialogInitializer dialogInitializer){
-        final AlertDialog searchDialog=dialogInitializer.initializeSearchDialog(
+                                                ImageView searchImageView){
+        SearchDialogInitializer searchDialogInitializer
+                =new SearchDialogInitializer(
+                activity,
                 1,
                 null);
+        final AlertDialog searchDialog=searchDialogInitializer.getSearchDialog();
         searchImageView.setOnClickListener(
                 new View.OnClickListener() {
                     @Override

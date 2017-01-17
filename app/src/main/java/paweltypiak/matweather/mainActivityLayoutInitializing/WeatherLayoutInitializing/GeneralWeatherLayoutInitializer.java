@@ -10,19 +10,18 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.customViews.LockableSmoothNestedScrollView;
-import paweltypiak.matweather.mainActivityLayoutInitializing.LayoutUpdating.OnWeatherDataChangeLayoutUpdater;
+import paweltypiak.matweather.dialogsInitializing.YahooRedirectDialogInitializer;
 import paweltypiak.matweather.mainActivityLayoutInitializing.MainActivityLayoutInitializer;
-import paweltypiak.matweather.usefulClasses.DialogInitializer;
 
 public class GeneralWeatherLayoutInitializer {
 
     private LinearLayout weatherLayout;
     private LockableSmoothNestedScrollView nestedScrollView;
 
-    public GeneralWeatherLayoutInitializer(Activity activity, DialogInitializer dialogInitializer, MainActivityLayoutInitializer mainActivityLayoutInitializer){
+    public GeneralWeatherLayoutInitializer(Activity activity, MainActivityLayoutInitializer mainActivityLayoutInitializer){
         findViews(activity);
         setWeatherLayoutTopPadding(activity,mainActivityLayoutInitializer);
-        setWeatherLayoutOnClickListener(dialogInitializer,mainActivityLayoutInitializer);
+        setWeatherLayoutOnClickListener(activity,mainActivityLayoutInitializer);
     }
 
     private void findViews(Activity activity){
@@ -40,13 +39,15 @@ public class GeneralWeatherLayoutInitializer {
         weatherLayout.setPadding(0,toolbarExpandedHeight,0,0);
     }
 
-    private void setWeatherLayoutOnClickListener(final DialogInitializer dialogInitializer,
+    private void setWeatherLayoutOnClickListener(final Activity activity,
                                                  final MainActivityLayoutInitializer mainActivityLayoutInitializer) {
         weatherLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String yahooWeatherLink = mainActivityLayoutInitializer.getOnWeatherDataChangeLayoutUpdater().getCurrentDataFormatter().getLink();
-                AlertDialog yahooWeatherRedirectDialog = dialogInitializer.initializeYahooRedirectDialog(1,
+                AlertDialog yahooWeatherRedirectDialog= YahooRedirectDialogInitializer.buildYahooRedirectDialog(
+                        activity,
+                        1,
                         yahooWeatherLink);
                 yahooWeatherRedirectDialog.show();
             }

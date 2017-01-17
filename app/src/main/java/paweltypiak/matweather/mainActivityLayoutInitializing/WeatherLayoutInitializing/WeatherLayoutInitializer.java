@@ -1,16 +1,9 @@
 package paweltypiak.matweather.mainActivityLayoutInitializing.WeatherLayoutInitializing;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.util.Log;
-import android.view.View;
-import android.widget.LinearLayout;
 
-import paweltypiak.matweather.R;
 import paweltypiak.matweather.mainActivityLayoutInitializing.MainActivityLayoutInitializer;
 import paweltypiak.matweather.mainActivityLayoutInitializing.WeatherLayoutInitializing.swipeRefreshLayoutInitializing.SwipeRefreshLayoutInitializer;
-import paweltypiak.matweather.usefulClasses.DialogInitializer;
-import paweltypiak.matweather.mainActivityLayoutInitializing.LayoutUpdating.OnWeatherDataChangeLayoutUpdater;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDataFormatter;
 
 public class WeatherLayoutInitializer {
@@ -23,31 +16,26 @@ public class WeatherLayoutInitializer {
     private WeatherForecastLayoutInitializer weatherForecastLayoutInitializer;
 
     public WeatherLayoutInitializer(Activity activity,
-                                    DialogInitializer dialogInitializer,
                                     MainActivityLayoutInitializer mainActivityLayoutInitializer){
         this.activity = activity;
-        initializeGeneralWeatherLayout(activity,dialogInitializer,mainActivityLayoutInitializer);
-        initializeSwipeRefreshLayout(activity, dialogInitializer, mainActivityLayoutInitializer);
+        initializeGeneralWeatherLayout(activity,mainActivityLayoutInitializer);
+        initializeSwipeRefreshLayout(activity, mainActivityLayoutInitializer);
         initializeWeatherGeneralInfoLayout(activity, mainActivityLayoutInitializer);
         initializeWeatherDetailsLayout(activity);
         initializeWeatherForecastLayout(activity);
     }
 
     private void initializeGeneralWeatherLayout(Activity activity,
-                                                DialogInitializer dialogInitializer,
                                                 MainActivityLayoutInitializer mainActivityLayoutInitializer){
         generalWeatherLayoutInitializer=new GeneralWeatherLayoutInitializer(
                 activity,
-                dialogInitializer,
                 mainActivityLayoutInitializer);
     }
 
     private void initializeSwipeRefreshLayout(Activity activity,
-                                              DialogInitializer dialogInitializer,
                                               MainActivityLayoutInitializer mainActivityLayoutInitializer) {
         swipeRefreshLayoutInitializer = new SwipeRefreshLayoutInitializer(
                 activity,
-                dialogInitializer,
                 mainActivityLayoutInitializer,this);
     }
 

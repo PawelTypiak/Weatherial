@@ -11,6 +11,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.TextView;
+
+import paweltypiak.matweather.dialogsInitializing.ExitDialogInitializer;
+import paweltypiak.matweather.dialogsInitializing.GeolocalizationFailureDialogInitializer;
+import paweltypiak.matweather.dialogsInitializing.GeolocalizationPermissionsDeniedDialogInitializer;
+import paweltypiak.matweather.dialogsInitializing.InternetFailureDialogInitializer;
+import paweltypiak.matweather.dialogsInitializing.NoWeatherResultsForLocationDialogInitializer;
+import paweltypiak.matweather.dialogsInitializing.ProgressDialogInitializer;
+import paweltypiak.matweather.dialogsInitializing.ServiceFailureDialogInitializer;
 import paweltypiak.matweather.mainActivityLayoutInitializing.MainActivityLayoutInitializer;
 import paweltypiak.matweather.mainActivityLayoutInitializing.LayoutUpdating.OnTimeChangeLayoutUpdater;
 import paweltypiak.matweather.mainActivityLayoutInitializing.WeatherLayoutInitializing.swipeRefreshLayoutInitializing.OnRefreshInitializer;
@@ -19,7 +27,6 @@ import paweltypiak.matweather.localizationDataDownloading.GeocodingCallback;
 import paweltypiak.matweather.localizationDataDownloading.GeocodingDownloader;
 import paweltypiak.matweather.localizationDataDownloading.CurrentCoordinatesDownloader;
 import paweltypiak.matweather.settings.Settings;
-import paweltypiak.matweather.usefulClasses.DialogInitializer;
 import paweltypiak.matweather.usefulClasses.SharedPreferencesModifier;
 import paweltypiak.matweather.mainActivityLayoutInitializing.LayoutUpdating.OnWeatherDataChangeLayoutUpdater;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDataDownloader;
@@ -42,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements
     private AlertDialog permissionDeniedDialog;
     private AlertDialog noWeatherResultsForLocation;
     private AlertDialog geocodingServiceFailureDialog;
-    private DialogInitializer dialogInitializer;
+    //private DialogInitializer dialogInitializer;
     private String geocodingLocation;
     private CurrentCoordinatesDownloader currentCoordinatesDownloader;
     private TextView geolocalizationProgressMessageTextView;
@@ -61,19 +68,41 @@ public class MainActivity extends AppCompatActivity implements
     private void initializeLayout(){
         setContentView(R.layout.activity_main);
         initializeDialogs();
-        mainActivityLayoutInitializer =new MainActivityLayoutInitializer(this,dialogInitializer);
+        mainActivityLayoutInitializer =new MainActivityLayoutInitializer(this);
     }
 
     private void initializeDialogs(){
-        dialogInitializer=new DialogInitializer(this);
-        exitDialog=dialogInitializer.initializeExitDialog(1,null);
-        geolocalizationProgressDialog=dialogInitializer.initializeProgressDialog(getString(R.string.waiting_for_localization_progress_message));
-        noWeatherResultsForLocation =dialogInitializer.initializeNoWeatherResultsForLocationDialog(2,startGeolocalizationRunnable,null);
-        geocodingInternetFailureDialog=dialogInitializer.initializeInternetFailureDialog(1,geocodingRunnable,null);
-        weatherGeolocalizationInternetFailureDialog=dialogInitializer.initializeInternetFailureDialog(1, downloadWeatherDataAfterGeocodingFailureRunnable,null);
-        geocodingServiceFailureDialog=dialogInitializer.initializeServiceFailureDialog(1,startGeolocalizationRunnable,null);
-        permissionDeniedDialog=dialogInitializer.initializePermissionDeniedDialog(1,startGeolocalizationRunnable,null);
-        coordinatesDownloadFailureDialog =dialogInitializer.initializeGeolocalizationFailureDialog(1,startGeolocalizationRunnable,null);
+        //dialogInitializer=new DialogInitializer(this);
+        exitDialog= ExitDialogInitializer.initializeExitDialog(this,1,null);
+        //exitDialog=dialogInitializer.initializeExitDialog(1,null);
+        geolocalizationProgressDialog= ProgressDialogInitializer.initializeProgressDialog(this,getString(R.string.waiting_for_localization_progress_message));
+        //geolocalizationProgressDialog=dialogInitializer.initializeProgressDialog(getString(R.string.waiting_for_localization_progress_message));
+        noWeatherResultsForLocation= NoWeatherResultsForLocationDialogInitializer.initializeNoWeatherResultsForLocationDialog(this,2,startGeolocalizationRunnable,null);
+        //noWeatherResultsForLocation =dialogInitializer.initializeNoWeatherResultsForLocationDialog(2,startGeolocalizationRunnable,null);
+        InternetFailureDialogInitializer geocodingInternetFailureDialogInitializer=new InternetFailureDialogInitializer(this,1,geocodingRunnable,null);
+        geocodingInternetFailureDialog=geocodingInternetFailureDialogInitializer.getInternetFailureDialog();
+        //geocodingInternetFailureDialog=dialogInitializer.initializeInternetFailureDialog(1,geocodingRunnable,null);
+        InternetFailureDialogInitializer weatherGeolocalizationInternetFailureDailogInitializer
+                =new InternetFailureDialogInitializer(this,1, downloadWeatherDataAfterGeocodingFailureRunnable,null);
+        weatherGeolocalizationInternetFailureDailogInitializer.getInternetFailureDialog();
+        //weatherGeolocalizationInternetFailureDialog=dialogInitializer.initializeInternetFailureDialog(1, downloadWeatherDataAfterGeocodingFailureRunnable,null);
+        ServiceFailureDialogInitializer geocodingServiceFailureDialogInitializer=new ServiceFailureDialogInitializer(this,1,startGeolocalizationRunnable,null);
+        geocodingServiceFailureDialog=geocodingServiceFailureDialogInitializer.getServiceFailureDialog();
+        // geocodingServiceFailureDialog=dialogInitializer.initializeServiceFailureDialog(1,startGeolocalizationRunnable,null);
+        permissionDeniedDialog
+                = GeolocalizationPermissionsDeniedDialogInitializer.initializeGeolocalizationPermissionsDeniedDialog(
+                this,
+                1,
+                startGeolocalizationRunnable,
+                null);
+        //permissionDeniedDialog=dialogInitializer.initializePermissionDeniedDialog(1,startGeolocalizationRunnable,null);
+        coordinatesDownloadFailureDialog=
+                GeolocalizationFailureDialogInitializer.initializeGeolocalizationFailureDialog(
+                this,
+                1,
+                startGeolocalizationRunnable,
+                null);
+        //coordinatesDownloadFailureDialog =dialogInitializer.initializeGeolocalizationFailureDialog(1,startGeolocalizationRunnable,null);
     }
 
     public MainActivityLayoutInitializer getMainActivityLayoutInitializer() {

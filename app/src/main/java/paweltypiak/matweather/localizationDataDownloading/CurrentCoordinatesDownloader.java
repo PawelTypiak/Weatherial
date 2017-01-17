@@ -11,7 +11,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import paweltypiak.matweather.usefulClasses.DialogInitializer;
+
+import paweltypiak.matweather.dialogsInitializing.GeolocalizationProviderUnavailableDialogInitializer;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
@@ -79,8 +80,12 @@ public class CurrentCoordinatesDownloader {
                 }
                 else{
                     Log.d("provider", "gps unavailable");
-                    DialogInitializer dialogInitializer=new DialogInitializer(activity);
-                    providerUnavailableDialog=dialogInitializer.initializeProviderUnavailableDialog(0,gpsUnavailableRunnable);
+                    /*DialogInitializer dialogInitializer=new DialogInitializer(activity);
+                    providerUnavailableDialog=dialogInitializer.initializeProviderUnavailableDialog(0,gpsUnavailableRunnable);*/
+                    providerUnavailableDialog
+                            = GeolocalizationProviderUnavailableDialogInitializer.initializeGolocalizationProviderUnavailableDialog(
+                            activity,0,gpsUnavailableRunnable
+                    );
                     showDialog(providerUnavailableDialog);
                 }
             }
@@ -96,8 +101,13 @@ public class CurrentCoordinatesDownloader {
                     }
                 } else{
                     Log.d("provider:", "network unavailable");
-                    DialogInitializer dialogInitializer=new DialogInitializer(activity);
-                    providerUnavailableDialog=dialogInitializer.initializeProviderUnavailableDialog(1,networkUnavailableRunnable);
+                   /* DialogInitializer dialogInitializer=new DialogInitializer(activity);
+                    providerUnavailableDialog=dialogInitializer.initializeProviderUnavailableDialog(1,networkUnavailableRunnable);*/
+                    providerUnavailableDialog
+                            = GeolocalizationProviderUnavailableDialogInitializer.initializeGolocalizationProviderUnavailableDialog(
+                            activity,1,networkUnavailableRunnable
+                    );
+
                     showDialog(providerUnavailableDialog);
                 }
             }

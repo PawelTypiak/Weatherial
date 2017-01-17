@@ -5,7 +5,6 @@ import paweltypiak.matweather.mainActivityLayoutInitializing.LayoutUpdating.OnTi
 import paweltypiak.matweather.mainActivityLayoutInitializing.LayoutUpdating.OnWeatherDataChangeLayoutUpdater;
 import paweltypiak.matweather.mainActivityLayoutInitializing.WeatherLayoutInitializing.WeatherLayoutInitializer;
 import paweltypiak.matweather.mainActivityLayoutInitializing.appBarInitializing.AppBarLayoutInitializer;
-import paweltypiak.matweather.usefulClasses.DialogInitializer;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDataParser;
 
 public class MainActivityLayoutInitializer {
@@ -15,25 +14,19 @@ public class MainActivityLayoutInitializer {
     private WeatherLayoutInitializer weatherLayoutInitializer;
     private OnWeatherDataChangeLayoutUpdater onWeatherDataChangeLayoutUpdater;
 
-    public MainActivityLayoutInitializer(Activity activity,
-                                         DialogInitializer dialogInitializer){
-        initializeAppBarLayout(activity,dialogInitializer);
-        initializeWeatherLayout(activity,dialogInitializer);
+    public MainActivityLayoutInitializer(Activity activity){
+        initializeAppBarLayout(activity);
+        initializeWeatherLayout(activity);
         initializeOnTimeChangeLayoutUpdater(activity);
     }
 
-    private void initializeAppBarLayout(Activity activity,
-                                        DialogInitializer dialogInitializer){
-        appBarLayoutInitializer=new AppBarLayoutInitializer(
-                activity,
-                dialogInitializer);
+    private void initializeAppBarLayout(Activity activity){
+        appBarLayoutInitializer=new AppBarLayoutInitializer(activity);
     }
 
-    private void initializeWeatherLayout(Activity activity,
-                                         DialogInitializer dialogInitializer){
+    private void initializeWeatherLayout(Activity activity){
         weatherLayoutInitializer=new WeatherLayoutInitializer(
                 activity,
-                dialogInitializer,
                 this);
     }
 

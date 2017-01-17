@@ -9,14 +9,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import paweltypiak.matweather.MainActivity;
+import paweltypiak.matweather.dialogsInitializing.InternetFailureDialogInitializer;
+import paweltypiak.matweather.dialogsInitializing.ServiceFailureDialogInitializer;
 import paweltypiak.matweather.mainActivityLayoutInitializing.MainActivityLayoutInitializer;
 import paweltypiak.matweather.mainActivityLayoutInitializing.WeatherLayoutInitializing.WeatherLayoutInitializer;
-import paweltypiak.matweather.usefulClasses.DialogInitializer;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDataParser;
 public class OnRefreshInitializer implements SwipeRefreshLayout.OnRefreshListener{
 
     private Activity activity;
-    private DialogInitializer dialogInitializer;
     private MainActivityLayoutInitializer mainActivityLayoutInitializer;
     private WeatherLayoutInitializer weatherLayoutInitializer;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -26,14 +26,12 @@ public class OnRefreshInitializer implements SwipeRefreshLayout.OnRefreshListene
     private AlertDialog onRefreshWeatherServiceFailureDialog;
 
     public OnRefreshInitializer(Activity activity,
-                                DialogInitializer dialogInitializer,
                                 MainActivityLayoutInitializer mainActivityLayoutInitializer,
                                 WeatherLayoutInitializer weatherLayoutInitializer,
                                 SwipeRefreshLayout swipeRefreshLayout,
                                 LinearLayout onRefreshMessageLayout
                                 ){
         this.activity=activity;
-        this.dialogInitializer=dialogInitializer;
         this.mainActivityLayoutInitializer=mainActivityLayoutInitializer;
         this.weatherLayoutInitializer=weatherLayoutInitializer;
         this.swipeRefreshLayout=swipeRefreshLayout;
@@ -81,14 +79,27 @@ public class OnRefreshInitializer implements SwipeRefreshLayout.OnRefreshListene
 
     private void showOnRefreshWeatherInternetFailureDialog(){
         if(onRefreshWeatherInternetFailureDialog==null){
-            onRefreshWeatherInternetFailureDialog =dialogInitializer.initializeInternetFailureDialog(1,refreshWeatherRunnable,setWeatherLayoutVisibleAfterRefreshFailureRunnable);
+            InternetFailureDialogInitializer internetFailureDialogInitializer
+                    =new InternetFailureDialogInitializer(
+                    activity,
+                    1,
+                    refreshWeatherRunnable,
+                    setWeatherLayoutVisibleAfterRefreshFailureRunnable);
+            onRefreshWeatherInternetFailureDialog=internetFailureDialogInitializer.getInternetFailureDialog();
+            //onRefreshWeatherInternetFailureDialog =dialogInitializer.initializeInternetFailureDialog(1,refreshWeatherRunnable,setWeatherLayoutVisibleAfterRefreshFailureRunnable);
         }
         onRefreshWeatherInternetFailureDialog.show();
     }
 
     private void showOnRefreshWeatherServiceFailureDialog(){
         if(onRefreshWeatherServiceFailureDialog==null){
-            onRefreshWeatherServiceFailureDialog =dialogInitializer.initializeServiceFailureDialog(1,refreshWeatherRunnable,setWeatherLayoutVisibleAfterRefreshFailureRunnable);
+            ServiceFailureDialogInitializer serviceFailureDialogInitializer
+                    =new ServiceFailureDialogInitializer(activity,
+                    1,
+                    refreshWeatherRunnable,
+                    setWeatherLayoutVisibleAfterRefreshFailureRunnable);
+            onRefreshWeatherServiceFailureDialog=serviceFailureDialogInitializer.getServiceFailureDialog();
+            //onRefreshWeatherServiceFailureDialog =dialogInitializer.initializeServiceFailureDialog(1,refreshWeatherRunnable,setWeatherLayoutVisibleAfterRefreshFailureRunnable);
         }
         onRefreshWeatherServiceFailureDialog.show();
     }

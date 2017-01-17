@@ -10,7 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import paweltypiak.matweather.usefulClasses.DialogInitializer;
+
+import paweltypiak.matweather.dialogsInitializing.NoDifferentLocationSelectedDialogInitializer;
+import paweltypiak.matweather.dialogsInitializing.SearchDialogInitializer;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
@@ -18,7 +20,7 @@ public class FirstLaunchLocationFragment extends Fragment {
 
     private AlertDialog differentLocationDialog;
     private AlertDialog emptyLocationNameDialog;
-    private DialogInitializer dialogInitializer;
+    //private DialogInitializer dialogInitializer;
     private RadioButton differentLocationRadioButton;
     private int selectedDefeaultLocationOption;
 
@@ -30,7 +32,7 @@ public class FirstLaunchLocationFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        dialogInitializer=new DialogInitializer(getActivity());
+        //dialogInitializer=new DialogInitializer(getActivity());
         initializeRadioGroup();
     }
 
@@ -62,7 +64,13 @@ public class FirstLaunchLocationFragment extends Fragment {
 
             @Override
             public void onClick(View view) {
-                differentLocationDialog=dialogInitializer.initializeSearchDialog(0,radioButton);
+                SearchDialogInitializer searchDialogInitializer
+                        =new SearchDialogInitializer(
+                        getActivity(),
+                        0,
+                        radioButton);
+                //differentLocationDialog=dialogInitializer.initializeSearchDialog(0,radioButton);
+                differentLocationDialog=searchDialogInitializer.getSearchDialog();
                 differentLocationDialog.show();
                 UsefulFunctions.showKeyboard(getActivity());
             }
@@ -78,7 +86,11 @@ public class FirstLaunchLocationFragment extends Fragment {
     public int getSelectedDefeaultLocationOption() {return selectedDefeaultLocationOption;}
 
     public void showNoDifferentLocationSelectedDialog(){
-        if(emptyLocationNameDialog==null) emptyLocationNameDialog=dialogInitializer.initializeNoDifferentLocationSelectedDialog();
+        if(emptyLocationNameDialog==null) {
+
+            //emptyLocationNameDialog=dialogInitializer.initializeNoDifferentLocationSelectedDialog();
+            emptyLocationNameDialog= NoDifferentLocationSelectedDialogInitializer.initializeNoDifferentLocationSelectedDialog(getActivity(),differentLocationDialog);
+        }
         emptyLocationNameDialog.show();
     }
 }

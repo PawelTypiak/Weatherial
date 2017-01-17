@@ -6,18 +6,18 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import paweltypiak.matweather.R;
-import paweltypiak.matweather.usefulClasses.DialogInitializer;
+import paweltypiak.matweather.dialogsInitializing.YahooRedirectDialogInitializer;
 
 public class YahooLogoButtonInitializer {
 
-    public YahooLogoButtonInitializer(Activity activity, DialogInitializer dialogInitializer){
-        setYahooLogoButtonOnClickListener(activity,dialogInitializer);
+    public YahooLogoButtonInitializer(Activity activity){
+        setYahooLogoButtonOnClickListener(activity);
     }
 
-    private void setYahooLogoButtonOnClickListener(Activity activity, final DialogInitializer dialogInitializer){
+    private void setYahooLogoButtonOnClickListener(final Activity activity){
         LinearLayout yahooLayout=(LinearLayout) activity.findViewById(R.id.toolbar_layout_yahoo_logo_layout);
         yahooLayout.setOnClickListener(new View.OnClickListener() {
-            AlertDialog yahooMainRedirectDialog=dialogInitializer.initializeYahooRedirectDialog(0,null);
+            AlertDialog yahooMainRedirectDialog= YahooRedirectDialogInitializer.buildYahooRedirectDialog(activity,0,null);
             @Override
             public void onClick(View v) {
                 yahooMainRedirectDialog.show();

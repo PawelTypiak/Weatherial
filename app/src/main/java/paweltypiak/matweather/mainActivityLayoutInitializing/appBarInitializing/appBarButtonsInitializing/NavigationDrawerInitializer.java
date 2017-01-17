@@ -13,14 +13,18 @@ import android.view.MenuItem;
 import android.view.View;
 import paweltypiak.matweather.MainActivity;
 import paweltypiak.matweather.R;
+import paweltypiak.matweather.dialogsInitializing.AboutDialogInitializer;
+import paweltypiak.matweather.dialogsInitializing.AuthorDialogInitializer;
+import paweltypiak.matweather.dialogsInitializing.FavouritesDialogInitializer;
+import paweltypiak.matweather.dialogsInitializing.FeedbackDialogInitializer;
+import paweltypiak.matweather.dialogsInitializing.GeolocalizationMethodsDialogInitializer;
+import paweltypiak.matweather.dialogsInitializing.NoFavouritesDialogInitializer;
 import paweltypiak.matweather.settings.Settings;
-import paweltypiak.matweather.usefulClasses.DialogInitializer;
 import paweltypiak.matweather.usefulClasses.SharedPreferencesModifier;
 
 public class NavigationDrawerInitializer implements NavigationView.OnNavigationItemSelectedListener {
 
     private Activity activity;
-    private DialogInitializer dialogInitializer;
     private SmoothActionBarDrawerToggle actionBarDrawerToggle;
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
@@ -32,10 +36,8 @@ public class NavigationDrawerInitializer implements NavigationView.OnNavigationI
     private AlertDialog authorDialog;
 
 
-    public NavigationDrawerInitializer(Activity activity,
-                                       DialogInitializer dialogInitializer){
+    public NavigationDrawerInitializer(Activity activity){
         this.activity=activity;
-        this.dialogInitializer=dialogInitializer;
         initializeToolbar();
         initializeActionBarDrawerToggle();
         setNavigationViewItemSelectedListener();
@@ -103,9 +105,15 @@ public class NavigationDrawerInitializer implements NavigationView.OnNavigationI
         int localizationOption= SharedPreferencesModifier.getGeolocalizationMethod(activity);
         if(localizationOption==-1){
             if(geolocalizationMethodsDialog==null){
-                geolocalizationMethodsDialog=dialogInitializer.initializeGeolocalizationMethodsDialog(
+                GeolocalizationMethodsDialogInitializer geolocalizationMethodsDialogInitializer
+                        =new GeolocalizationMethodsDialogInitializer(
+                        activity,
                         1,
                         startGeolocalizationRunnable);
+                geolocalizationMethodsDialog= geolocalizationMethodsDialogInitializer.getGeolocalizationMethodsDialog();
+               /* geolocalizationMethodsDialog=dialogInitializer.initializeGeolocalizationMethodsDialog(
+                        1,
+                        startGeolocalizationRunnable);*/
             }
             geolocalizationMethodsDialog.show();
         }
@@ -128,15 +136,23 @@ public class NavigationDrawerInitializer implements NavigationView.OnNavigationI
     private void onFavouritesButtonClick(){
         if(SharedPreferencesModifier.getFavouriteLocationsAddresses(activity).length==0) {
             if(noFavouritesDialog==null){
-                noFavouritesDialog=dialogInitializer.initializeNoFavouritesDialog();
+                //noFavouritesDialog=dialogInitializer.initializeNoFavouritesDialog();
+                noFavouritesDialog= NoFavouritesDialogInitializer.initializeNoFavouritesDialog(activity);
             }
             noFavouritesDialog.show();
         }
         else{
-            AlertDialog favouritesDialog=dialogInitializer.initializeFavouritesDialog(
+            FavouritesDialogInitializer favouritesDialogInitializer
+                    =new FavouritesDialogInitializer(
+                    activity,
                     1,
                     null,
                     null);
+            AlertDialog favouritesDialog= favouritesDialogInitializer.getFavouritesDialog();
+            /*AlertDialog favouritesDialog=dialogInitializer.initializeFavouritesDialog(
+                    1,
+                    null,
+                    null);*/
             favouritesDialog.show();
         }
     }
@@ -150,21 +166,24 @@ public class NavigationDrawerInitializer implements NavigationView.OnNavigationI
 
     private void onAboutButtonClick(){
         if (aboutDialog == null) {
-            aboutDialog=dialogInitializer.initializeAboutDialog();
+            aboutDialog= AboutDialogInitializer.initializeAboutDialog(activity);
+            //aboutDialog=dialogInitializer.initializeAboutDialog();
         }
         aboutDialog.show();
     }
 
     private void onFeedbackButtonClick(){
         if (feedbackDialog == null) {
-            feedbackDialog=dialogInitializer.initializeFeedbackDialog();
+            feedbackDialog= FeedbackDialogInitializer.initializeFeedbackDialog(activity);
+            //feedbackDialog=dialogInitializer.initializeFeedbackDialog();
         }
         feedbackDialog.show();
     }
 
     private void onAuthorButtonClick(){
         if (authorDialog == null) {
-            authorDialog=dialogInitializer.initializeAuthorDialog();
+            //authorDialog=dialogInitializer.initializeAuthorDialog();
+            authorDialog= AuthorDialogInitializer.initializeAuthorDialog(activity);
         }
         authorDialog.show();
     }

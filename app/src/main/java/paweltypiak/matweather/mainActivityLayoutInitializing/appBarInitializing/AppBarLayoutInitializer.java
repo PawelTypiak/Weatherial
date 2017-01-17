@@ -4,7 +4,6 @@ import android.app.Activity;
 
 import paweltypiak.matweather.mainActivityLayoutInitializing.appBarInitializing.appBarButtonsInitializing.AppBarLayoutButtonsInitializer;
 import paweltypiak.matweather.mainActivityLayoutInitializing.appBarInitializing.appBarOnOffsetChangeListenerAdding.AppBarOnOffsetChangeListenerAdder;
-import paweltypiak.matweather.usefulClasses.DialogInitializer;
 
 public class AppBarLayoutInitializer {
 
@@ -14,9 +13,9 @@ public class AppBarLayoutInitializer {
     private AppBarLayoutDataInitializer appBarLayoutDataInitializer;
 
 
-    public AppBarLayoutInitializer(Activity activity, DialogInitializer dialogInitializer){
+    public AppBarLayoutInitializer(Activity activity){
         setAppBarDimensions(activity);
-        initializeAppBarButtons(activity,dialogInitializer);
+        initializeAppBarButtons(activity);
         addAppBarOnOffsetChangeListener(activity);
         initializeAppBarLayoutData(activity);
     }
@@ -25,8 +24,8 @@ public class AppBarLayoutInitializer {
         appBarLayoutDimensionsSetter=new AppBarLayoutDimensionsSetter(activity);
     }
 
-    private void initializeAppBarButtons(Activity activity,DialogInitializer dialogInitializer){
-        appBarLayoutButtonsInitializer=new AppBarLayoutButtonsInitializer(activity,dialogInitializer);
+    private void initializeAppBarButtons(Activity activity){
+        appBarLayoutButtonsInitializer=new AppBarLayoutButtonsInitializer(activity);
     }
 
     private void addAppBarOnOffsetChangeListener(Activity activity){
