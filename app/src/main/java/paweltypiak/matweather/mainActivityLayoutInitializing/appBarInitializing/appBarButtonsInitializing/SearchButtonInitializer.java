@@ -7,7 +7,7 @@ import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageView;
 import paweltypiak.matweather.R;
-import paweltypiak.matweather.dialogsInitializing.SearchDialogInitializer;
+import paweltypiak.matweather.dialogsInitializing.dialogInitializers.searchDialogInitializing.SearchDialogInitializer;
 import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
 public class SearchButtonInitializer {
@@ -36,7 +36,7 @@ public class SearchButtonInitializer {
                     @Override
                     public void onClick(View v) {
                         searchDialog.show();
-                        UsefulFunctions.showKeyboard(activity);
+                        //UsefulFunctions.showKeyboard(activity);
                     }
                 });
     }

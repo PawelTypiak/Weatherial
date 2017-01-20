@@ -13,12 +13,12 @@ import android.view.MenuItem;
 import android.view.View;
 import paweltypiak.matweather.MainActivity;
 import paweltypiak.matweather.R;
-import paweltypiak.matweather.dialogsInitializing.AboutDialogInitializer;
-import paweltypiak.matweather.dialogsInitializing.AuthorDialogInitializer;
-import paweltypiak.matweather.dialogsInitializing.FavouritesDialogInitializer;
-import paweltypiak.matweather.dialogsInitializing.FeedbackDialogInitializer;
-import paweltypiak.matweather.dialogsInitializing.GeolocalizationMethodsDialogInitializer;
-import paweltypiak.matweather.dialogsInitializing.NoFavouritesDialogInitializer;
+import paweltypiak.matweather.dialogsInitializing.dialogInitializers.AboutDialogInitializer;
+import paweltypiak.matweather.dialogsInitializing.dialogInitializers.AuthorDialogInitializer;
+import paweltypiak.matweather.dialogsInitializing.dialogInitializers.favouritesDialogInitializing.FavouritesDialogInitializer;
+import paweltypiak.matweather.dialogsInitializing.dialogInitializers.feedbackDialogInitializing.FeedbackDialogInitializer;
+import paweltypiak.matweather.dialogsInitializing.dialogInitializers.GeolocalizationMethodsDialogInitializer;
+import paweltypiak.matweather.dialogsInitializing.dialogInitializers.NoFavouritesDialogInitializer;
 import paweltypiak.matweather.settings.Settings;
 import paweltypiak.matweather.usefulClasses.SharedPreferencesModifier;
 
@@ -136,8 +136,7 @@ public class NavigationDrawerInitializer implements NavigationView.OnNavigationI
     private void onFavouritesButtonClick(){
         if(SharedPreferencesModifier.getFavouriteLocationsAddresses(activity).length==0) {
             if(noFavouritesDialog==null){
-                //noFavouritesDialog=dialogInitializer.initializeNoFavouritesDialog();
-                noFavouritesDialog= NoFavouritesDialogInitializer.initializeNoFavouritesDialog(activity);
+                noFavouritesDialog= NoFavouritesDialogInitializer.getNoFavouritesDialog(activity);
             }
             noFavouritesDialog.show();
         }
@@ -149,10 +148,6 @@ public class NavigationDrawerInitializer implements NavigationView.OnNavigationI
                     null,
                     null);
             AlertDialog favouritesDialog= favouritesDialogInitializer.getFavouritesDialog();
-            /*AlertDialog favouritesDialog=dialogInitializer.initializeFavouritesDialog(
-                    1,
-                    null,
-                    null);*/
             favouritesDialog.show();
         }
     }
@@ -166,24 +161,21 @@ public class NavigationDrawerInitializer implements NavigationView.OnNavigationI
 
     private void onAboutButtonClick(){
         if (aboutDialog == null) {
-            aboutDialog= AboutDialogInitializer.initializeAboutDialog(activity);
-            //aboutDialog=dialogInitializer.initializeAboutDialog();
+            aboutDialog= AboutDialogInitializer.getAboutDialog(activity);
         }
         aboutDialog.show();
     }
 
     private void onFeedbackButtonClick(){
         if (feedbackDialog == null) {
-            feedbackDialog= FeedbackDialogInitializer.initializeFeedbackDialog(activity);
-            //feedbackDialog=dialogInitializer.initializeFeedbackDialog();
+            feedbackDialog= FeedbackDialogInitializer.getFeedbackDialog(activity);
         }
         feedbackDialog.show();
     }
 
     private void onAuthorButtonClick(){
         if (authorDialog == null) {
-            //authorDialog=dialogInitializer.initializeAuthorDialog();
-            authorDialog= AuthorDialogInitializer.initializeAuthorDialog(activity);
+            authorDialog= AuthorDialogInitializer.getAuthorDialog(activity);
         }
         authorDialog.show();
     }

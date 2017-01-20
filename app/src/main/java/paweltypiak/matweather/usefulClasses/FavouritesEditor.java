@@ -89,7 +89,7 @@ public class FavouritesEditor {
 
     public static void saveNewFavouriteLocationName(Context context,String headerString,String subheaderString){
         String favourites[]= SharedPreferencesModifier.getFavouriteLocationsNames(context);
-        StringBuilder stringBuilder=UsefulFunctions.buildStringFromStringArray(favourites);
+        StringBuilder stringBuilder=buildStringFromStringArray(favourites);
         String locationName=headerString+"%"+subheaderString;
         stringBuilder.append(locationName).append("|");
         String favouritesNamesString=stringBuilder.toString();
@@ -102,7 +102,7 @@ public class FavouritesEditor {
             currentLocationAddressString=getCurrentLocationAddressString();
         }
         String favourites[]= SharedPreferencesModifier.getFavouriteLocationsAddresses(context);
-        StringBuilder stringBuilder=UsefulFunctions.buildStringFromStringArray(favourites);
+        StringBuilder stringBuilder=buildStringFromStringArray(favourites);
         stringBuilder.append(currentLocationAddressString).append("|");
         String favouritesAddressesString=stringBuilder.toString();
         Log.d("favourites", "location address saved to favourites: "+favouritesAddressesString);
@@ -113,7 +113,6 @@ public class FavouritesEditor {
         FavouritesEditor.saveNewFavouriteLocationName(activity,headerString,subheaderString);
         FavouritesEditor.saveNewFavouriteLocationAddress(activity,currentLocationNameString);
     }
-
 
     public static void editFavouriteLocationName(Context context,String headerString, String subheaderString){
         Log.d("favourites", "name edited: "+headerString+", "+subheaderString);
@@ -127,7 +126,7 @@ public class FavouritesEditor {
         int id= getCurrentFavouriteLocationId(context);
         String locationName=headerString+"%"+subheaderString;
         favouritesNames[id]=locationName;
-        StringBuilder stringBuilder=UsefulFunctions.buildStringFromStringArray(favouritesNames);
+        StringBuilder stringBuilder=buildStringFromStringArray(favouritesNames);
         String newFavouritesString=stringBuilder.toString();
         return  newFavouritesString;
     }
@@ -161,7 +160,7 @@ public class FavouritesEditor {
             favourites[i]=locationItem;
             i++;
         }
-        StringBuilder stringBuilder=UsefulFunctions.buildStringFromStringArray(favourites);
+        StringBuilder stringBuilder=buildStringFromStringArray(favourites);
         String newFavouritesString=stringBuilder.toString();
         return  newFavouritesString;
     }
@@ -228,5 +227,15 @@ public class FavouritesEditor {
         String country=OnWeatherDataChangeLayoutUpdater.getCurrentWeatherDataParser().getCountry();
         String currentLocationAddressString=city+", "+region+", "+ country;
         return currentLocationAddressString;
+    }
+
+    public static StringBuilder buildStringFromStringArray(String[] stringArray){
+        //build string from array of strings  for SharedPreferences
+        int numberOfLocations=stringArray.length;
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < numberOfLocations; i++) {
+            stringBuilder.append(stringArray[i]).append("|");
+        }
+        return stringBuilder;
     }
 }

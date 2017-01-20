@@ -28,6 +28,7 @@
     <dimen name="yahoo_logo_padding">4dp</dimen>
     <dimen name="toolbar_icons_padding">16dp</dimen>
     <dimen name="floating_action_button_margin">16dp</dimen>
+    <dimen name="radio_button_bottom_margin">16dp</dimen>
 
     <dimen name="toolbar_expanded_title_top_padding">40dp</dimen>
     <dimen name="collapsed_toolbar_right_margin">78dp</dimen>

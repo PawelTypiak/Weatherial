@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import paweltypiak.matweather.dialogsInitializing.NoDifferentLocationSelectedDialogInitializer;
-import paweltypiak.matweather.dialogsInitializing.SearchDialogInitializer;
+import paweltypiak.matweather.dialogsInitializing.dialogInitializers.NoDifferentLocationSelectedDialogInitializer;
+import paweltypiak.matweather.dialogsInitializing.dialogInitializers.searchDialogInitializing.SearchDialogInitializer;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
@@ -72,7 +72,7 @@ public class FirstLaunchLocationFragment extends Fragment {
                 //differentLocationDialog=dialogInitializer.initializeSearchDialog(0,radioButton);
                 differentLocationDialog=searchDialogInitializer.getSearchDialog();
                 differentLocationDialog.show();
-                UsefulFunctions.showKeyboard(getActivity());
+                //UsefulFunctions.showKeyboard(getActivity());
             }
         });
     }
@@ -89,7 +89,7 @@ public class FirstLaunchLocationFragment extends Fragment {
         if(emptyLocationNameDialog==null) {
 
             //emptyLocationNameDialog=dialogInitializer.initializeNoDifferentLocationSelectedDialog();
-            emptyLocationNameDialog= NoDifferentLocationSelectedDialogInitializer.initializeNoDifferentLocationSelectedDialog(getActivity(),differentLocationDialog);
+            emptyLocationNameDialog= NoDifferentLocationSelectedDialogInitializer.getNoDifferentLocationSelectedDialog(getActivity(),differentLocationDialog);
         }
         emptyLocationNameDialog.show();
     }

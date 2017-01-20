@@ -13,7 +13,7 @@
         android:layout_gravity="center"
         android:textSize="@dimen/dialog_text_size"
         android:textColor="@color/textSecondaryLightBackground"
-        android:id="@+id/two_line_text_dialog_message1_text"
+        android:id="@+id/two_line_text_dialog_message_text_1"
         />
     <TextView
         android:layout_width="wrap_content"
@@ -25,6 +25,6 @@
         android:layout_marginTop="10dp"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
-        android:id="@+id/two_line_text_dialog_message2_text"
+        android:id="@+id/two_line_text_dialog_message_text_2"
         />
 </LinearLayout>

@@ -30,7 +30,7 @@
             android:textSize="@dimen/dialog_text_size"
             android:textStyle="bold"
             android:textColor="@color/textSecondaryLightBackground"
-            android:id="@+id/location_dialog_city_text"
+            android:id="@+id/location_dialog_title_text"
             />
         <TextView
             android:layout_width="wrap_content"
@@ -39,7 +39,7 @@
             android:layout_marginTop="5dp"
             android:textSize="@dimen/dialog_text_size"
             android:textColor="@color/textSecondaryLightBackground"
-            android:id="@+id/location_dialog_region_county_text"
+            android:id="@+id/location_dialog_subtitle_text"
             />
     </LinearLayout>
 </LinearLayout>

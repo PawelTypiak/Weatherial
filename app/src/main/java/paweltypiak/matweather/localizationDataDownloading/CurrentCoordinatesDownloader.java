@@ -12,7 +12,7 @@ import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import paweltypiak.matweather.dialogsInitializing.GeolocalizationProviderUnavailableDialogInitializer;
+import paweltypiak.matweather.dialogsInitializing.dialogInitializers.GeolocalizationProviderUnavailableDialogInitializer;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
@@ -83,7 +83,7 @@ public class CurrentCoordinatesDownloader {
                     /*DialogInitializer dialogInitializer=new DialogInitializer(activity);
                     providerUnavailableDialog=dialogInitializer.initializeProviderUnavailableDialog(0,gpsUnavailableRunnable);*/
                     providerUnavailableDialog
-                            = GeolocalizationProviderUnavailableDialogInitializer.initializeGolocalizationProviderUnavailableDialog(
+                            = GeolocalizationProviderUnavailableDialogInitializer.getGeolocalizationProviderUnavailableDialog(
                             activity,0,gpsUnavailableRunnable
                     );
                     showDialog(providerUnavailableDialog);
@@ -104,7 +104,7 @@ public class CurrentCoordinatesDownloader {
                    /* DialogInitializer dialogInitializer=new DialogInitializer(activity);
                     providerUnavailableDialog=dialogInitializer.initializeProviderUnavailableDialog(1,networkUnavailableRunnable);*/
                     providerUnavailableDialog
-                            = GeolocalizationProviderUnavailableDialogInitializer.initializeGolocalizationProviderUnavailableDialog(
+                            = GeolocalizationProviderUnavailableDialogInitializer.getGeolocalizationProviderUnavailableDialog(
                             activity,1,networkUnavailableRunnable
                     );
 

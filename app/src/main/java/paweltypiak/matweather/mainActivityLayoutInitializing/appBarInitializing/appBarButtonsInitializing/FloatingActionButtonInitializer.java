@@ -5,8 +5,8 @@ import android.app.AlertDialog;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import paweltypiak.matweather.R;
-import paweltypiak.matweather.dialogsInitializing.AddToFavouritesDialogInitializer;
-import paweltypiak.matweather.dialogsInitializing.EditFavouritesDialogInitializer;
+import paweltypiak.matweather.dialogsInitializing.dialogInitializers.addToFavouritesDialogInitializing.AddToFavouritesDialogInitializer;
+import paweltypiak.matweather.dialogsInitializing.dialogInitializers.editFavouritesDialogInitializing.EditFavouritesDialogInitializer;
 
 public class FloatingActionButtonInitializer {
 
@@ -25,13 +25,12 @@ public class FloatingActionButtonInitializer {
             public void onClick(View v) {
                 if(floatingActionButtonOnClickIndicator ==0){
                     //if location is not in favourites
-                    AlertDialog addToFavouritesDialog = AddToFavouritesDialogInitializer.initializeAddToFavouritesDialog(activity);
+                    AlertDialog addToFavouritesDialog = AddToFavouritesDialogInitializer.getAddToFavouritesDialog(activity);
                     addToFavouritesDialog.show();
                 }
                 else if(floatingActionButtonOnClickIndicator ==1){
                     //if location is in favourites
-                    AlertDialog editFavouritesDialog= EditFavouritesDialogInitializer.initializeEditFavouritesDialog(activity);
-                    //AlertDialog editFavouritesDialog=dialogInitializer.initializeEditFavouritesDialog();
+                    AlertDialog editFavouritesDialog= EditFavouritesDialogInitializer.getEditFavouritesDialog(activity);
                     editFavouritesDialog.show();
                 }
             }

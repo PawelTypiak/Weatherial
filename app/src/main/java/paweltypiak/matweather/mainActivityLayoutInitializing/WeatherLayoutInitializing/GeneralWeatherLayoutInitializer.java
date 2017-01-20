@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.customViews.LockableSmoothNestedScrollView;
-import paweltypiak.matweather.dialogsInitializing.YahooRedirectDialogInitializer;
+import paweltypiak.matweather.dialogsInitializing.dialogInitializers.yahooRedirectDialogInitializing.YahooRedirectDialogInitializer;
 import paweltypiak.matweather.mainActivityLayoutInitializing.MainActivityLayoutInitializer;
 
 public class GeneralWeatherLayoutInitializer {
@@ -45,7 +45,7 @@ public class GeneralWeatherLayoutInitializer {
             @Override
             public void onClick(View view) {
                 String yahooWeatherLink = mainActivityLayoutInitializer.getOnWeatherDataChangeLayoutUpdater().getCurrentDataFormatter().getLink();
-                AlertDialog yahooWeatherRedirectDialog= YahooRedirectDialogInitializer.buildYahooRedirectDialog(
+                AlertDialog yahooWeatherRedirectDialog= YahooRedirectDialogInitializer.getYahooRedirectDialog(
                         activity,
                         1,
                         yahooWeatherLink);

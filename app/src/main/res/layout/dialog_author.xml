@@ -94,12 +94,12 @@
         android:layout_height="72dp"
         android:layout_marginTop="@dimen/dialog_margin_size"
         android:background="?selectableItemBackground"
-        android:id="@+id/author_dialog_mail_button_layout">
+        android:id="@+id/author_dialog_email_button_layout">
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="72dp"
-        android:layout_below="@+id/author_dialog_mail_button_layout"
+        android:layout_below="@+id/author_dialog_email_button_layout"
         android:background="?selectableItemBackground"
         android:id="@+id/author_dialog_github_button_layout">
     </RelativeLayout>

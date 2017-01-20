@@ -1,0 +1,71 @@
+package paweltypiak.matweather.dialogsInitializing.dialogInitializers.exitDialogInitializing;
+
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
+
+import paweltypiak.matweather.R;
+import paweltypiak.matweather.dialogsInitializing.AlertDialogBuilder;
+
+public class ExitDialogInitializer {
+
+    public static AlertDialog getExitDialog(Activity activity,
+                                             int type,
+                                             Runnable negativeButtonRunnable){
+        return initializeExitDialog(activity,type,negativeButtonRunnable);
+    }
+
+    private static AlertDialog initializeExitDialog(Activity activity,
+                                                    int type,
+                                                    Runnable negativeButtonRunnable){
+        View dialogView=initializeDialogView(activity);
+        initializeMessageTextView(activity,dialogView);
+        AlertDialog exitDialog = buildAlertDialog(
+                activity,
+                type,
+                negativeButtonRunnable,
+                dialogView);
+        return exitDialog;
+    }
+
+    private static View initializeDialogView(Activity activity){
+        LayoutInflater inflater = activity.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_one_line_text,null);
+        return dialogView;
+    }
+
+    private static void initializeMessageTextView(Activity activity, View dialogView){
+        TextView messageTextView=(TextView)dialogView.findViewById(R.id.one_line_text_dialog_message_text);
+        messageTextView.setText(activity.getText(R.string.exit_dialog_message));
+    }
+
+    private static AlertDialog buildAlertDialog(Activity activity,
+                                                int type,
+                                                Runnable negativeButtonRunnable,
+                                                View dialogView){
+        AlertDialogBuilder alertDialogBuilder=new AlertDialogBuilder(
+                activity,
+                dialogView,
+                R.style.DialogStyle,
+                activity.getString(R.string.exit_dialog_title),
+                R.drawable.dialog_warning_icon,
+                null,
+                isUncancelable(type),
+                activity.getString(R.string.exit_dialog_positive_button),
+                new FinishRunnable(activity),
+                null,
+                null,
+                activity.getString(R.string.exit_dialog_negative_button),
+                negativeButtonRunnable);
+        return alertDialogBuilder.getAlertDialog();
+    }
+
+    private static boolean isUncancelable(int type){
+        boolean isUncancelable=false;
+        if(type==0) isUncancelable=true;
+        else if(type==1) isUncancelable=false;
+        return isUncancelable;
+    }
+}

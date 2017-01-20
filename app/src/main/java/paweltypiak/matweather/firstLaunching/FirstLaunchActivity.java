@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
-import paweltypiak.matweather.dialogsInitializing.ExitDialogInitializer;
+import paweltypiak.matweather.dialogsInitializing.dialogInitializers.exitDialogInitializing.ExitDialogInitializer;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.usefulClasses.SharedPreferencesModifier;
 import paweltypiak.matweather.usefulClasses.UsefulFunctions;
@@ -78,7 +78,7 @@ public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaun
     private void initializeDialogs(){
         /*DialogInitializer dialogInitializer=new DialogInitializer(this);
         exitDialog=dialogInitializer.initializeExitDialog(1,null);*/
-        exitDialog= ExitDialogInitializer.initializeExitDialog(this,1,null);
+        exitDialog= ExitDialogInitializer.getExitDialog(this,1,null);
     }
 
     private void initializeFirstLaunch(){

@@ -48,57 +48,6 @@ import paweltypiak.matweather.mainActivityLayoutInitializing.LayoutUpdating.OnWe
 
 public class UsefulFunctions {
 
-    // TODO: usefulFunctions
-
-    public static void initializeWebIntent(Context context, String url){
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse(url));
-        context.startActivity(intent);
-    }
-
-    public static void initializeMapsIntent(Context context,double latitude,double longitude , String label){
-        String uriBegin = "geo:" + latitude + "," + longitude;
-        String query = latitude + "," + longitude + "(" + label + ")";
-        String encodedQuery = Uri.encode(query);
-        String uriString = uriBegin + "?q=" + encodedQuery + "&z=16";
-        Uri uri = Uri.parse(uriString);
-        Intent intent = new Intent(android.content.Intent.ACTION_VIEW, uri);
-        context.startActivity(intent);
-    }
-
-    public static void initializeEmailIntent(Context context, String address, String subject, String body, AlertDialog dialog){
-        Intent intent = new Intent(Intent.ACTION_SENDTO);
-        intent.setType("text/plain");
-        if(subject!=null) intent.putExtra(Intent.EXTRA_SUBJECT, subject);
-        if(body!=null)intent.putExtra(Intent.EXTRA_TEXT, body);
-        intent.setData(Uri.parse("mailto:"+address));
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        try {
-            context.startActivity(intent);
-        } catch (android.content.ActivityNotFoundException ex) {
-            dialog.show();
-        }
-    }
-
-    public static void copyToClipboard(Context context, String text){
-        ClipboardManager myClipboard;
-        ClipData myClip;
-        myClipboard = (ClipboardManager)context.getSystemService(Context.CLIPBOARD_SERVICE);
-        myClip = ClipData.newPlainText("text", text);
-        myClipboard.setPrimaryClip(myClip);
-        Toast.makeText(context.getApplicationContext(), context.getString(R.string.clipboard_toast_message),Toast.LENGTH_SHORT).show();
-    }
-
-    public static StringBuilder buildStringFromStringArray(String[] stringArray){
-        //build string from array of strings  for SharedPreferences
-        int numberOfLocations=stringArray.length;
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < numberOfLocations; i++) {
-            stringBuilder.append(stringArray[i]).append("|");
-        }
-        return stringBuilder;
-    }
-
     public static String getFormattedString(String string){
         //cut empty characters before and after string and set upper case
         if(string.length()!=0){
@@ -129,88 +78,6 @@ public class UsefulFunctions {
         string=getStringWithoutFirstSpace(string);
         if(string.length()!=0) string=string.substring(0, 1).toUpperCase() + string.substring(1);
         return string;
-    }
-
-    // TODO: move to DialogInitializer
-
-    public static void customizeEditText(final Activity activity,final AlertDialog dialog, final EditText editText){
-        //custom edit text in dialogs with string validation and edition
-        final String hint=editText.getHint().toString();
-        if(editText.getText().length()!=0) {
-            editText.getBackground().setColorFilter(ContextCompat.getColor(activity,R.color.transparent), PorterDuff.Mode.SRC_ATOP);
-            editText.setHint("");
-        }
-        else {
-            setDialogButtonDisabled(dialog,activity);
-        }
-        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            String previusEditTextString;
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if(editText.isFocused()) {
-                    editText.getBackground().setColorFilter(ContextCompat.getColor(activity,R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
-                    previusEditTextString=editText.getText().toString();
-                    showKeyboard(activity);
-                }
-                else {
-                    String editTextString=editText.getText().toString();
-                    editTextString=getFormattedString(editTextString);
-                    if(editTextString.length()==0) {
-                        editText.getBackground().setColorFilter(ContextCompat.getColor(activity,R.color.hintLightBackgroud), PorterDuff.Mode.SRC_ATOP);
-                    }
-                    else{
-                        editText.getBackground().setColorFilter(ContextCompat.getColor(activity,R.color.transparent), PorterDuff.Mode.SRC_ATOP);
-                        editText.setText(editTextString);
-                    }
-                    hideKeyboard(activity,editText);
-                }
-            }
-        });
-        editText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(editText.getText().length()==0) {
-                    editText.setHint(hint);
-                    setDialogButtonDisabled(dialog,activity);
-                }
-                else {
-                    editText.setHint("");
-                    setDialogButtonEnabled(dialog,activity);
-                }
-            }
-            @Override
-            public void afterTextChanged(Editable editable) {
-            }
-        });
-        editText.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View view, int i, KeyEvent keyEvent) {
-                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN
-                        && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-                    editText.clearFocus();
-                    return false;
-                }
-                return false;
-            }
-        });
-    }
-
-    // TODO: usefulFunctions
-
-    public static void showKeyboard(Activity activity){
-        InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
-
-    }
-    public static void hideKeyboard(final Activity activity, final EditText editText) {
-        if(editText==null)activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        else{
-            InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-        }
     }
 
     // TODO: delete
@@ -257,20 +124,6 @@ public class UsefulFunctions {
                 RadioGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.setMargins(marginLeftPixels, marginTopPixels, marginRightPixels, marginBottomPixels);
         view.setLayoutParams(layoutParams);
-    }
-
-    // TODO: move to dialogInitializer
-
-    public static void setDialogButtonDisabled(AlertDialog alertDialog, Context context){
-        //disable alert dialog positive button
-        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
-        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(context,R.color.colorPrimary));
-    }
-
-    public static void setDialogButtonEnabled(AlertDialog alertDialog, Context context){
-        //enable alert dialog positive button
-        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
-        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(context,R.color.colorPrimary));
     }
 
     // TODO: usefulFunctions

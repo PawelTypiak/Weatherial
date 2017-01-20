@@ -5,7 +5,7 @@ import android.app.AlertDialog;
 import android.view.View;
 
 import paweltypiak.matweather.R;
-import paweltypiak.matweather.dialogsInitializing.MapsDialogInitializer;
+import paweltypiak.matweather.dialogsInitializing.dialogInitializers.mapsDialogInitializing.MapsDialogInitializer;
 
 public class ToolbarTitleButtonInitializer {
 
@@ -19,7 +19,7 @@ public class ToolbarTitleButtonInitializer {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        AlertDialog mapsDialog= MapsDialogInitializer.initializeMapsDialog(activity);
+                        AlertDialog mapsDialog= MapsDialogInitializer.getMapsDialog(activity);
                         mapsDialog.show();
                     }
                 });

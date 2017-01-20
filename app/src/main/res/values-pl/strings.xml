@@ -157,7 +157,7 @@
     <string name="refresh_message_pull_to_refresh">Pociągnij, żeby odświeżyć</string>
 
     <!-- Clipboard texts-->
-    <string name="clipboard_mail_feedback_title">MatWeather - feedback</string>
+    <string name="clipboard_feedback_mail_subject">MatWeather - feedback</string>
 
     <!-- Addresses & URLs-->
     <string name="mail_address">pawel.p.typiak@gmail.com</string>
