@@ -41,6 +41,11 @@
     <dimen name="sun_path_progress_bar_progress_icon_margin">8dp</dimen>
     <dimen name="toolbar_clickable_view_horizontal_padding">16dp</dimen>
     <dimen name="on_refresh_message_layout_top_margin">32dp</dimen>
+    <dimen name="info_activity_logo_horizontal_margin">56dp</dimen>
+    <dimen name="info_activity_logo_top_margin">32dp</dimen>
+    <dimen name="divider_top_bottom_margin">8dp</dimen>
+    <dimen name="info_activity_web_links_left_margin">12dp</dimen>
+    <dimen name="info_activity_logo_vertical_margin">32dp</dimen>
 
     <!-- other sizes -->
     <dimen name="toolbar_collapsed_height">56dp</dimen>
@@ -53,6 +58,7 @@
     <dimen name="intro_loading_progress_bar_size">56dp</dimen>
     <dimen name="sun_path_progress_bar_view_size">2dp</dimen>
     <dimen name="swipe_refresh_layout_offset">56dp</dimen>
+    <dimen name="cardview_corner_radius">2dp</dimen>
 
     <!-- image sizes -->
     <dimen name="yahoo_logo_image_width">134px</dimen>
@@ -65,6 +71,7 @@
     <dimen name="sun_path_progress_icon_size">32dp</dimen>
     <dimen name="forecast_condition_icon_size">64dp</dimen>
     <dimen name="forecast_max_min_temperature_image_size">12dp</dimen>
+    <dimen name="info_activity_icons_size">24dp</dimen>
 
     <!-- text sizes -->
     <dimen name="toolbar_expanded_title_text_size">45dp</dimen>
@@ -80,5 +87,7 @@
     <dimen name="forecast_day_condition_text_size">20dp</dimen>
     <dimen name="forecast_max_min_temperature_text_size">14dp</dimen>
     <dimen name="on_refresh_message_text_size">16dp</dimen>
+    <dimen name="info_activity_description_text_size">14dp</dimen>
+    <dimen name="version_text_size">14dp</dimen>
 
 </resources>

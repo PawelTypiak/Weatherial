@@ -1,6 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Info Activity texts -->
+    <string name="bullet">&#8226; </string>
+    <string name="info_activity_api_header">API</string>
+    <string name="info_activity_external_libraries_header">Biblioteki zewnętrzne</string>
+    <string name="info_activity_application_source_header">Licencja aplikacji</string>
+    <string name="info_activity_application_description">Witaj w <i><b>MatWeather</b></i> - prostej aplikacji pogodowej zaprojektowanej zgodnie z filozofią <i>Material Design</i>.</string>
+    <string name="info_activity_applicaton_source_repository_description">Aplikacja <i>MatWeather</i> jest projektem typu <i>Open Source</i>, a kod źródłowy jest dostępny pod adresem:</string>
+    <string name="info_activity_application_source_repository_header">github.com/PawelTypiak/MatWeather</string>
+    <string name="info_activity_application_source_licence_description">Kod projektu jest dostępny na licencji <i>Apache 2.0</i>, której treść można przeczytać poniżej:</string>
+    <string name="info_activity_application_source_licence_header">apache.org/licenses/LICENSE-2.0</string>
+    <string name="info_activity_api_description">W aplikacji wykorzystano następujące API:</string>
+    <string name="info_activity_api_weather_header">Yahoo Weather API</string>
+    <string name="info_activity_api_weather_subheader">Informacje pogodowe</string>
+    <string name="info_activity_api_weather_address">https://developer.yahoo.com/weather/</string>
+    <string name="info_activity_api_geocoding_header">Google Maps Geocoding API</string>
+    <string name="info_activity_api_geocoding_subheader">Informacje geolokalizacyjne</string>
+    <string name="info_activity_api_geocoding_address">https://developers.google.com/maps/documentation/geocoding/intro</string>
+    <string name="info_activity_external_libraries_description">W aplikacji zostały wykorzystane następujące zewnętrzne biblioteki Open-Source:</string>
+    <string name="info_activity_external_libraries_licence_name"><u>Licencja <i>Apache 2.0</i> :</u></string>
+    <string name="info_activity_eexternal_libraries_picasso_name"><i>Picasso</i></string>
+    <string name="info_activity_external_libraries_smooth_app_bar_name"><i>smooth-app-bar-layout</i></string>
+    <string name="info_activity_external_libraries_multiline_collapsingtoolbar_name"><i>multiline-collapsingtoolbar</i></string>
+
+
+
+    <string name="info_activity_weahter_api_address">https://developer.yahoo.com/weather/</string>
+    <string name="info_activity_geocoding_api_address">https://developers.google.com/maps/documentation/geocoding/intro</string>
+    <string name="info_activity_picasso_library_address">http://square.github.io/picasso/</string>
+    <string name="info_activity_smooth_app_bar_layout_library_address">https://github.com/henrytao-me/smooth-app-bar-layout</string>
+    <string name="info_activity_multiline_collapsingtoolbar_library_address">https://github.com/opacapp/multiline-collapsingtoolbar</string>
+    <string name="info_activity_repository_address"></string>
+    <string name="info_activity_apache_license_address">https://www.apache.org/licenses/LICENSE-2.0</string>
+
+    <string name="info_activity_clipboard_toast_message">Skopiowano adres do schowka</string>
+
+    <string name="version">v. 1.0</string>
+
     <!-- Dialog strings -->
     <string name="failure_dialog_title">Niepowodzenie!</string>
     <string name="service_failure_dialog_message">Brak odpowiedzi z serwera, prawdopodobnie wywołany chwilowym błędem serwisu. Spróbuj ponownie póżniej.</string>

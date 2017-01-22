@@ -24,4 +24,7 @@
     <color name="iconDarkBackground">#80FFFFFF</color>
 
     <color name="startButton">#26FFFFFF</color>
+
+    <color name="ripple_effect_white">#26ffffff</color>
+    <color name="ripple_effect_black">#26000000</color>
 </resources>

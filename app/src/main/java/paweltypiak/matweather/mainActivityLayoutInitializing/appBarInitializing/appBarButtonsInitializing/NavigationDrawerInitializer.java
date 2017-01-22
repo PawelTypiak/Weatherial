@@ -11,9 +11,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import paweltypiak.matweather.infoActivityInitializing.InfoActivity;
 import paweltypiak.matweather.MainActivity;
 import paweltypiak.matweather.R;
-import paweltypiak.matweather.dialogsInitializing.dialogInitializers.AboutDialogInitializer;
 import paweltypiak.matweather.dialogsInitializing.dialogInitializers.AuthorDialogInitializer;
 import paweltypiak.matweather.dialogsInitializing.dialogInitializers.favouritesDialogInitializing.FavouritesDialogInitializer;
 import paweltypiak.matweather.dialogsInitializing.dialogInitializers.feedbackDialogInitializing.FeedbackDialogInitializer;
@@ -31,7 +31,6 @@ public class NavigationDrawerInitializer implements NavigationView.OnNavigationI
     private NavigationView navigationView;
     private AlertDialog geolocalizationMethodsDialog;
     private AlertDialog noFavouritesDialog;
-    private AlertDialog aboutDialog;
     private AlertDialog feedbackDialog;
     private AlertDialog authorDialog;
 
@@ -160,10 +159,10 @@ public class NavigationDrawerInitializer implements NavigationView.OnNavigationI
     }
 
     private void onAboutButtonClick(){
-        if (aboutDialog == null) {
-            aboutDialog= AboutDialogInitializer.getAboutDialog(activity);
-        }
-        aboutDialog.show();
+        Intent intent = new Intent(
+                activity,
+                InfoActivity.class);
+        activity.startActivity(intent);
     }
 
     private void onFeedbackButtonClick(){

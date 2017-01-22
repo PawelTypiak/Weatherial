@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
@@ -40,6 +41,8 @@ import com.squareup.picasso.Transformation;
 
 import net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.util.Locale;
 
 import paweltypiak.matweather.R;
@@ -327,6 +330,22 @@ public class UsefulFunctions {
                             // TODO: add types of visibility
                         }
                     });
+        }
+    }
+
+    public static void setTaskDescription(Activity activity){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            String title = activity.getString(R.string.app_name);
+            Bitmap icon = BitmapFactory.decodeResource(activity.getResources(), R.mipmap.app_icon);
+            int color = ContextCompat.getColor(activity,R.color.colorPrimaryDark);
+            try {
+                Class<?> taskDescriptionClass = Class.forName("android.app.ActivityManager$TaskDescription");
+                Constructor<?> taskDescriptionConstructor = taskDescriptionClass.getConstructor(String.class, Bitmap.class, int.class);
+                Object taskDescription = taskDescriptionConstructor.newInstance(title, icon, color);
+                Method method = ((Object) activity).getClass().getMethod("setTaskDescription", taskDescriptionClass);
+                method.invoke(activity, taskDescription);
+            } catch (Exception e) {
+            }
         }
     }
 }
