@@ -1,14 +1,14 @@
 package paweltypiak.matweather.dialogsInitializing.dialogInitializers.noEmailApplicationDialogInitializing;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.dialogsInitializing.AlertDialogBuilder;
-import paweltypiak.matweather.usefulClasses.UsefulFunctions;
+import paweltypiak.matweather.dialogsInitializing.alertDialogTools.AlertDialogButtonsCustomizer;
 
 public class NoEmailApplicationDialogInitializer {
 
@@ -20,6 +20,7 @@ public class NoEmailApplicationDialogInitializer {
         View dialogView=initializeDialogView(activity);
         initializeMessageTextView(activity,dialogView);
         AlertDialog noEmailApplicationDialog = buildDialogView(activity,dialogView);
+        setAlertDialogOnShowListener(activity,noEmailApplicationDialog);
         return noEmailApplicationDialog;
     }
 
@@ -39,7 +40,7 @@ public class NoEmailApplicationDialogInitializer {
                 activity,
                 dialogView,R.style.DialogStyle,
                 activity.getString(R.string.no_email_application_dialog_title),
-                R.drawable.dialog_error_icon,
+                R.drawable.error_icon,
                 null,
                 false,
                 activity.getString(R.string.no_email_application_dialog_positive_button),
@@ -51,6 +52,12 @@ public class NoEmailApplicationDialogInitializer {
         return alertDialogBuilder.getAlertDialog();
     }
 
-
-
+    private static void setAlertDialogOnShowListener(final Activity activity, final AlertDialog noEmailApplicationDialog){
+        noEmailApplicationDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                AlertDialogButtonsCustomizer.setDialogButtonsTextFont(activity,noEmailApplicationDialog);
+            }
+        });
+    }
 }

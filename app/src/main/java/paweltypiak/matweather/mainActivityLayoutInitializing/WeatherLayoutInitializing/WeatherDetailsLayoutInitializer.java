@@ -57,8 +57,8 @@ public class WeatherDetailsLayoutInitializer {
         sunPathLeftTimeTextView =(TextView)activity.findViewById(R.id.weather_details_layout_sun_path_left_time_text);
         sunPathRightTimeTextView =(TextView)activity.findViewById(R.id.weather_details_layout_sun_path_right_time_text);
         sunPathArrowLayout=(RelativeLayout)activity.findViewById(R.id.weather_details_layout_sun_path_arrow_layout);
-        sunPathLeftArrowImageView =(ImageView)activity.findViewById(R.id.weather_details_layout_sunpath_left_arrow_image);
-        sunPathRightArrowImageView =(ImageView)activity.findViewById(R.id.weather_details_layout_sunpath_right_arrow_image);
+        sunPathLeftArrowImageView =(ImageView)activity.findViewById(R.id.weather_details_layout_sun_path_left_arrow_image);
+        sunPathRightArrowImageView =(ImageView)activity.findViewById(R.id.weather_details_layout_sun_path_right_arrow_image);
         sunPathProgressBarLayout=(LinearLayout)activity.findViewById(R.id.weather_details_layout_sun_path_progress_bar_layout);
         sunPathProgressBarLeftBoundaryImageView=(ImageView)activity.findViewById(R.id.weather_details_layout_sun_path_progress_bar_left_boundary_image);
         sunPathProgressBarRightBoundaryImageView=(ImageView)activity.findViewById(R.id.weather_details_layout_sun_path_progress_bar_right_boundary_image);

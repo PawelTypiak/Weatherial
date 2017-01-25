@@ -5,8 +5,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <dimen name="dialog_text_size">16dp</dimen>
-    <dimen name="dialog_margin_size">24dp</dimen>
-    <dimen name="dialog_margin_top_size">24dp</dimen>
+
     <dimen name="first_activities_button_text_size">30dp</dimen>
     <dimen name="action_bar_icon_size">40dp</dimen>
     <dimen name="first_launch_configuration_title_text_size">20dp</dimen>
@@ -14,7 +13,6 @@
     <dimen name="first_launch_units_dropdown_item_width">80dp</dimen>
     <dimen name="first_launch_units_image_padding">24dp</dimen>
     <dimen name="locations_list_text_size">16dp</dimen>
-    <dimen name="dialog_icon_padding_size">24dp</dimen>
     <dimen name="units_icon_padding_size">48dp</dimen>
 
     <!-- margins & padding -->
@@ -27,7 +25,7 @@
     <dimen name="toolbar_subtitle_bottom_margin">16dp</dimen>
     <dimen name="yahoo_logo_padding">4dp</dimen>
     <dimen name="toolbar_icons_padding">16dp</dimen>
-    <dimen name="floating_action_button_margin">16dp</dimen>
+    <dimen name="floating_action_button_margin">4dp</dimen>
     <dimen name="radio_button_bottom_margin">16dp</dimen>
 
     <dimen name="toolbar_expanded_title_top_padding">40dp</dimen>
@@ -46,6 +44,12 @@
     <dimen name="divider_top_bottom_margin">8dp</dimen>
     <dimen name="info_activity_web_links_left_margin">12dp</dimen>
     <dimen name="info_activity_logo_vertical_margin">32dp</dimen>
+    <dimen name="dialog_margin_size">24dp</dimen>
+    <dimen name="dialog_margin_top_size">20dp</dimen>
+    <dimen name="progress_dialog_vertical_margin">32dp</dimen>
+    <dimen name="edit_location_dialog_location_title_bottom_margin">-4dp</dimen>
+    <dimen name="edit_location_dialog_location_subtitle_bottom_margin">4dp</dimen>
+
 
     <!-- other sizes -->
     <dimen name="toolbar_collapsed_height">56dp</dimen>
@@ -54,24 +58,27 @@
     <dimen name="divider_size">1dp</dimen>
     <dimen name="scrollbar_size">3dp</dimen>
     <dimen name="forecast_stepper_size">2dp</dimen>
-    <dimen name="dialog_loading_progress_bar_size">48dp</dimen>
+    <dimen name="progress_dialog_progress_bar_size">48dp</dimen>
     <dimen name="intro_loading_progress_bar_size">56dp</dimen>
     <dimen name="sun_path_progress_bar_view_size">2dp</dimen>
     <dimen name="swipe_refresh_layout_offset">56dp</dimen>
     <dimen name="cardview_corner_radius">2dp</dimen>
+    <dimen name="author_dialog_list_item_height">72dp</dimen>
 
     <!-- image sizes -->
     <dimen name="yahoo_logo_image_width">134px</dimen>
     <dimen name="yahoo_logo_image_height">29px</dimen>
     <dimen name="toolbar_icons_size">56dp</dimen>
     <dimen name="see_more_icon_size">24dp</dimen>
-    <dimen name="additional_conditions_icons_size">56dp</dimen>
+    <dimen name="additional_conditions_icons_size">40dp</dimen>
     <dimen name="sun_path_arrow_icon_size">18dp</dimen>
     <dimen name="sun_path_progress_bar_boundary_size">8dp</dimen>
     <dimen name="sun_path_progress_icon_size">32dp</dimen>
     <dimen name="forecast_condition_icon_size">64dp</dimen>
     <dimen name="forecast_max_min_temperature_image_size">12dp</dimen>
     <dimen name="info_activity_icons_size">24dp</dimen>
+    <dimen name="author_dialog_icons_size">24dp</dimen>
+    <dimen name="author_dialog_icons_background_size">40dp</dimen>
 
     <!-- text sizes -->
     <dimen name="toolbar_expanded_title_text_size">45dp</dimen>

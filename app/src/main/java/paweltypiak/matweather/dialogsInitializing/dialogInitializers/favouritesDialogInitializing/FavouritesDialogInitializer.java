@@ -1,7 +1,7 @@
 package paweltypiak.matweather.dialogsInitializing.dialogInitializers.favouritesDialogInitializing;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
@@ -12,12 +12,10 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-
 import java.util.List;
-
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.dialogsInitializing.AlertDialogBuilder;
-import paweltypiak.matweather.dialogsInitializing.AlertDialogTools.AlertDialogButtonsAvailabilitySetter;
+import paweltypiak.matweather.dialogsInitializing.alertDialogTools.AlertDialogButtonsCustomizer;
 import paweltypiak.matweather.usefulClasses.FavouritesEditor;
 import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
@@ -48,6 +46,7 @@ public class FavouritesDialogInitializer {
                 positiveButtonRunnable,
                 negativeButtonRunnable,
                 dialogView);
+        setAlertDialogOnShowListener(activity);
         setAlertDialogOnClickListener(activity,favouritesDialog);
         return favouritesDialog;
     }
@@ -59,12 +58,12 @@ public class FavouritesDialogInitializer {
     }
 
     private void initializeRadioGroup(final Activity activity, int type,View dialogView){
-        final RadioGroup radioGroup = (RadioGroup) dialogView.findViewById(R.id.radiogroup_dialog_radiogroup);
+        final RadioGroup radioGroup = (RadioGroup) dialogView.findViewById(R.id.radio_group_dialog_radiogroup);
         initializeFavouriteLocationsList(activity,type,radioGroup);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                AlertDialogButtonsAvailabilitySetter.setDialogButtonEnabled(favouritesDialog,activity);
+                AlertDialogButtonsCustomizer.setDialogButtonEnabled(favouritesDialog,activity);
                 FavouritesEditor.setSelectedFavouriteLocationID(i);
                 Log.d("wybrane id", ""+i);
             }
@@ -176,10 +175,10 @@ public class FavouritesDialogInitializer {
     private int getIconResourceId(int type){
         int iconResourceId=0;
         if(type==0) {
-            iconResourceId=R.drawable.dialog_localization_icon;
+            iconResourceId=R.drawable.location_icon;
         }
         else if(type==1){
-            iconResourceId=R.drawable.dialog_favourites_icon;
+            iconResourceId=R.drawable.favourites_icon;
         }
         return iconResourceId;
     }
@@ -215,12 +214,21 @@ public class FavouritesDialogInitializer {
         return negativeButtonText;
     }
 
+    private void setAlertDialogOnShowListener(final Activity activity){
+        favouritesDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                AlertDialogButtonsCustomizer.setDialogButtonsTextFont(activity,favouritesDialog);
+            }
+        });
+    }
+
     private void setAlertDialogOnClickListener(final Activity activity,
                                                final AlertDialog favouritesDialog){
         favouritesDialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialogInterface) {
-                AlertDialogButtonsAvailabilitySetter.setDialogButtonDisabled(favouritesDialog,activity);
+                AlertDialogButtonsCustomizer.setDialogButtonDisabled(favouritesDialog,activity);
             }
         });
     }

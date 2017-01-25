@@ -1,12 +1,14 @@
 package paweltypiak.matweather.dialogsInitializing.dialogInitializers;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.dialogsInitializing.AlertDialogBuilder;
+import paweltypiak.matweather.dialogsInitializing.alertDialogTools.AlertDialogButtonsCustomizer;
 
 public class GeolocalizationPermissionsDeniedDialogInitializer {
 
@@ -57,7 +59,7 @@ public class GeolocalizationPermissionsDeniedDialogInitializer {
                 dialogView,
                 R.style.DialogStyle,
                 activity.getString(R.string.permission_denied_dialog_title),
-                R.drawable.dialog_error_icon,
+                R.drawable.error_icon,
                 null,
                 isUncancelable(type),
                 getPositiveButtonText(activity,type),
@@ -66,6 +68,8 @@ public class GeolocalizationPermissionsDeniedDialogInitializer {
                 null,
                 getNegativeButtonText(activity,type),
                 negativeButtonRunnable);
+        AlertDialog geolocalizationPermissionsDeniedDialog=alertDialogBuilder.getAlertDialog();
+        setAlertDialogOnShowListener(activity,geolocalizationPermissionsDeniedDialog);
         return alertDialogBuilder.getAlertDialog();
     }
 
@@ -100,5 +104,15 @@ public class GeolocalizationPermissionsDeniedDialogInitializer {
             negativeButtonText=activity.getString(R.string.permission_denied_dialog_negative_button_type_1);
         }
         return negativeButtonText;
+    }
+
+    private static void setAlertDialogOnShowListener(final Activity activity,
+                                                     final AlertDialog geolocalizationPermissionsDeniedDialog){
+        geolocalizationPermissionsDeniedDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                AlertDialogButtonsCustomizer.setDialogButtonsTextFont(activity,geolocalizationPermissionsDeniedDialog);
+            }
+        });
     }
 }

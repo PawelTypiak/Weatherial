@@ -41,7 +41,7 @@ public abstract class CustomDialogPreference extends DialogPreference{
     @Override
     protected View onCreateDialogView() {
         View view = View.inflate(getContext(),R.layout.dialog_radiogroup,null);
-        final RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.radiogroup_dialog_radiogroup);
+        final RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.radio_group_dialog_radiogroup);
         buildRadioGroup(radioGroup);
         return view;
     }

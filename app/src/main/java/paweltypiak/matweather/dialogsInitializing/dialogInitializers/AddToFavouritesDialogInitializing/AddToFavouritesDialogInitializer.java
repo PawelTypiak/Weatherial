@@ -1,7 +1,7 @@
 package paweltypiak.matweather.dialogsInitializing.dialogInitializers.addToFavouritesDialogInitializing;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,9 +9,9 @@ import android.widget.EditText;
 import paweltypiak.matweather.MainActivity;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.dialogsInitializing.AlertDialogBuilder;
-import paweltypiak.matweather.dialogsInitializing.AlertDialogTools.EditTextCustomizer;
-import paweltypiak.matweather.dialogsInitializing.AlertDialogTools.KeyboardVisibilitySetter;
-import paweltypiak.matweather.usefulClasses.UsefulFunctions;
+import paweltypiak.matweather.dialogsInitializing.alertDialogTools.AlertDialogButtonsCustomizer;
+import paweltypiak.matweather.dialogsInitializing.alertDialogTools.EditTextCustomizer;
+import paweltypiak.matweather.dialogsInitializing.alertDialogTools.KeyboardVisibilitySetter;
 
 public class AddToFavouritesDialogInitializer {
 
@@ -60,7 +60,7 @@ public class AddToFavouritesDialogInitializer {
                 dialogView,
                 R.style.DialogStyle,
                 activity.getString(R.string.add_location_dialog_title),
-                R.drawable.dialog_favourites_icon,
+                R.drawable.favourites_icon,
                 null,
                 false,
                 activity.getString(R.string.add_location_dialog_positive_button),
@@ -79,6 +79,7 @@ public class AddToFavouritesDialogInitializer {
         addToFavouritesDialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialogInterface) {
+                AlertDialogButtonsCustomizer.setDialogButtonsTextFont(activity,addToFavouritesDialog);
                 EditTextCustomizer.customizeEditText(activity,addToFavouritesDialog,editTextArray[0]);
                 EditTextCustomizer.customizeEditText(activity,addToFavouritesDialog,editTextArray[1]);
             }

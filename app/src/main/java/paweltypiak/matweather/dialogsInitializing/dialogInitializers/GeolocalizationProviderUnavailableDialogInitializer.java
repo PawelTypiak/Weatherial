@@ -1,12 +1,14 @@
 package paweltypiak.matweather.dialogsInitializing.dialogInitializers;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.dialogsInitializing.AlertDialogBuilder;
+import paweltypiak.matweather.dialogsInitializing.alertDialogTools.AlertDialogButtonsCustomizer;
 
 public class GeolocalizationProviderUnavailableDialogInitializer {
 
@@ -31,6 +33,7 @@ public class GeolocalizationProviderUnavailableDialogInitializer {
                 positiveButtonRunnable,
                 dialogView
         );
+        setAlertDialogOnShowListener(activity,geolocalizationProviderUnavailableDialog);
         return geolocalizationProviderUnavailableDialog;
     }
 
@@ -61,7 +64,7 @@ public class GeolocalizationProviderUnavailableDialogInitializer {
                 dialogView,
                 R.style.DialogStyle,
                 getTitle(activity,type),
-                R.drawable.dialog_warning_icon,
+                R.drawable.warning_icon,
                 null,
                 true,
                 getPositiveButtonText(activity,type),
@@ -93,5 +96,15 @@ public class GeolocalizationProviderUnavailableDialogInitializer {
             positiveButtonText=activity.getString(R.string.network_unavailable_dialog_positive_button);
         }
         return positiveButtonText;
+    }
+
+    private static void setAlertDialogOnShowListener(final Activity activity,
+                                                     final AlertDialog geolocalizationProviderUnavailableDialog){
+        geolocalizationProviderUnavailableDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                AlertDialogButtonsCustomizer.setDialogButtonsTextFont(activity,geolocalizationProviderUnavailableDialog);
+            }
+        });
     }
 }

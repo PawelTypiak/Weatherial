@@ -1,7 +1,7 @@
 package paweltypiak.matweather.mainActivityLayoutInitializing.appBarInitializing.appBarButtonsInitializing;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import paweltypiak.matweather.R;
@@ -40,10 +40,10 @@ public class FloatingActionButtonInitializer {
     public void setFloatingActionButtonOnClickIndicator(int  floatingActionButtonIndicator) {
         floatingActionButtonOnClickIndicator=floatingActionButtonIndicator;
         if(floatingActionButtonIndicator==0) {
-            floatingActionButton.setImageResource(R.drawable.fab_favourites_icon);
+            floatingActionButton.setImageResource(R.drawable.favourites_icon);
         }
         else if (floatingActionButtonIndicator==1) {
-            floatingActionButton.setImageResource(R.drawable.fab_edit_icon);
+            floatingActionButton.setImageResource(R.drawable.edit_icon);
         }
     }
 }

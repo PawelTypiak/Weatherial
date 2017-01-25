@@ -1,6 +1,6 @@
 package paweltypiak.matweather.firstLaunching;
 
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,17 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-
-import paweltypiak.matweather.dialogsInitializing.dialogInitializers.NoDifferentLocationSelectedDialogInitializer;
+import paweltypiak.matweather.dialogsInitializing.dialogInitializers.noDifferentLocationSelectedDialogInitializing.NoDifferentLocationSelectedDialogInitializer;
 import paweltypiak.matweather.dialogsInitializing.dialogInitializers.searchDialogInitializing.SearchDialogInitializer;
 import paweltypiak.matweather.R;
-import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
 public class FirstLaunchLocationFragment extends Fragment {
 
     private AlertDialog differentLocationDialog;
     private AlertDialog emptyLocationNameDialog;
-    //private DialogInitializer dialogInitializer;
     private RadioButton differentLocationRadioButton;
     private int selectedDefeaultLocationOption;
 
@@ -69,10 +66,8 @@ public class FirstLaunchLocationFragment extends Fragment {
                         getActivity(),
                         0,
                         radioButton);
-                //differentLocationDialog=dialogInitializer.initializeSearchDialog(0,radioButton);
                 differentLocationDialog=searchDialogInitializer.getSearchDialog();
                 differentLocationDialog.show();
-                //UsefulFunctions.showKeyboard(getActivity());
             }
         });
     }

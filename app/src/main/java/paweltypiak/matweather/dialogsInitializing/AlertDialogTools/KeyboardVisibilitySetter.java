@@ -1,4 +1,4 @@
-package paweltypiak.matweather.dialogsInitializing.AlertDialogTools;
+package paweltypiak.matweather.dialogsInitializing.alertDialogTools;
 
 import android.app.Activity;
 import android.view.WindowManager;

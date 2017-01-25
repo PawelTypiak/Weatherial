@@ -1,16 +1,16 @@
 package paweltypiak.matweather.dialogsInitializing.dialogInitializers.mapsDialogInitializing;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-
 import paweltypiak.matweather.MainActivity;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.dialogsInitializing.AlertDialogBuilder;
+import paweltypiak.matweather.dialogsInitializing.alertDialogTools.AlertDialogButtonsCustomizer;
 import paweltypiak.matweather.mainActivityLayoutInitializing.LayoutUpdating.OnWeatherDataChangeLayoutUpdater;
-import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
 public class MapsDialogInitializer {
 
@@ -27,6 +27,7 @@ public class MapsDialogInitializer {
                 dialogView,
                 locationName
         );
+        setAlertDialogOnShowListener(activity,mapsDialog);
         return mapsDialog;
     }
 
@@ -62,7 +63,7 @@ public class MapsDialogInitializer {
                 dialogView,
                 R.style.DialogStyle,
                 activity.getString(R.string.maps_dialog_title),
-                R.drawable.dialog_maps_icon,
+                R.drawable.maps_icon,
                 null,
                 false,
                 activity.getString(R.string.maps_dialog_positive_button),
@@ -85,5 +86,14 @@ public class MapsDialogInitializer {
     private static double getCurrentLocationLongitude(){
         double currentLongitude=OnWeatherDataChangeLayoutUpdater.getCurrentWeatherDataParser().getLongitude();
         return currentLongitude;
+    }
+
+    private static void setAlertDialogOnShowListener(final Activity activity, final AlertDialog mapsDialog){
+        mapsDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                AlertDialogButtonsCustomizer.setDialogButtonsTextFont(activity,mapsDialog);
+            }
+        });
     }
 }

@@ -1,13 +1,14 @@
 package paweltypiak.matweather.dialogsInitializing.dialogInitializers;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.dialogsInitializing.AlertDialogBuilder;
+import paweltypiak.matweather.dialogsInitializing.alertDialogTools.AlertDialogButtonsCustomizer;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDataParser;
 
 public class WeatherResultsForLocationDialogInitializer {
@@ -45,6 +46,7 @@ public class WeatherResultsForLocationDialogInitializer {
                 negativeButtonRunnable,
                 dialogView
         );
+        setAlertDialogOnShowListener(activity,weatherResultsForLocationDialog);
         return weatherResultsForLocationDialog;
     }
 
@@ -80,7 +82,7 @@ public class WeatherResultsForLocationDialogInitializer {
                 dialogView,
                 R.style.DialogStyle,
                 activity.getString(R.string.weather_results_for_location_dialog_title),
-                R.drawable.dialog_localization_icon,
+                R.drawable.location_icon,
                 null,
                 isUncancelable(type),
                 activity.getString(R.string.weather_results_for_location_dialog_positive_button),
@@ -112,5 +114,15 @@ public class WeatherResultsForLocationDialogInitializer {
             negativeButtonString=activity.getString(R.string.weather_results_for_location_dialog_negative_button_type_1);
         }
         return negativeButtonString;
+    }
+
+    private static void setAlertDialogOnShowListener(final Activity activity,
+                                                     final AlertDialog weatherResultsForLocationDialog){
+        weatherResultsForLocationDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                AlertDialogButtonsCustomizer.setDialogButtonsTextFont(activity,weatherResultsForLocationDialog);
+            }
+        });
     }
 }

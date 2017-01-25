@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/search_dialog_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/dialog_margin_size"
     android:paddingRight="@dimen/dialog_margin_size"
     android:paddingTop="@dimen/dialog_margin_top_size"
-    android:id="@+id/search_dialog_layout">
+    android:orientation="vertical"
+    >
     <EditText
+        android:id="@+id/search_edit_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/search_edit_text"
         android:textColorHint="@color/textDisabledLightBackground"
         android:layout_gravity="center"
         android:inputType="text"

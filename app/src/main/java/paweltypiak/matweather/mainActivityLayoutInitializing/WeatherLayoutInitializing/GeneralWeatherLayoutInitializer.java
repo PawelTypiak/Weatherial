@@ -3,7 +3,7 @@ package paweltypiak.matweather.mainActivityLayoutInitializing.WeatherLayoutIniti
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;

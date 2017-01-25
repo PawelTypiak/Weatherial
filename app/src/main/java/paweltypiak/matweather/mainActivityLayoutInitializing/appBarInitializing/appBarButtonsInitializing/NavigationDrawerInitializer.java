@@ -1,7 +1,7 @@
 package paweltypiak.matweather.mainActivityLayoutInitializing.appBarInitializing.appBarButtonsInitializing;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,7 +18,7 @@ import paweltypiak.matweather.dialogsInitializing.dialogInitializers.AuthorDialo
 import paweltypiak.matweather.dialogsInitializing.dialogInitializers.favouritesDialogInitializing.FavouritesDialogInitializer;
 import paweltypiak.matweather.dialogsInitializing.dialogInitializers.feedbackDialogInitializing.FeedbackDialogInitializer;
 import paweltypiak.matweather.dialogsInitializing.dialogInitializers.GeolocalizationMethodsDialogInitializer;
-import paweltypiak.matweather.dialogsInitializing.dialogInitializers.NoFavouritesDialogInitializer;
+import paweltypiak.matweather.dialogsInitializing.dialogInitializers.NoFavouritesAvailableDialogInitializer;
 import paweltypiak.matweather.settings.Settings;
 import paweltypiak.matweather.usefulClasses.SharedPreferencesModifier;
 
@@ -135,7 +135,7 @@ public class NavigationDrawerInitializer implements NavigationView.OnNavigationI
     private void onFavouritesButtonClick(){
         if(SharedPreferencesModifier.getFavouriteLocationsAddresses(activity).length==0) {
             if(noFavouritesDialog==null){
-                noFavouritesDialog= NoFavouritesDialogInitializer.getNoFavouritesDialog(activity);
+                noFavouritesDialog= NoFavouritesAvailableDialogInitializer.getNoFavouritesAvailableDialog(activity);
             }
             noFavouritesDialog.show();
         }

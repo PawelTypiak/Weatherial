@@ -1,11 +1,11 @@
 package paweltypiak.matweather.dialogsInitializing.dialogInitializers.searchDialogInitializing;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.EditText;
 import paweltypiak.matweather.R;
-import paweltypiak.matweather.dialogsInitializing.AlertDialogTools.KeyboardVisibilitySetter;
+import paweltypiak.matweather.dialogsInitializing.alertDialogTools.KeyboardVisibilitySetter;
 import paweltypiak.matweather.dialogsInitializing.dialogInitializers.InternetFailureDialogInitializer;
 import paweltypiak.matweather.dialogsInitializing.dialogInitializers.NoWeatherResultsForLocationDialogInitializer;
 import paweltypiak.matweather.dialogsInitializing.dialogInitializers.ProgressDialogInitializer;

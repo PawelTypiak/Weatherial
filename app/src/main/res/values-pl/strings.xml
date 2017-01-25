@@ -2,41 +2,18 @@
 <resources>
 
     <!-- Info Activity texts -->
-    <string name="bullet">&#8226; </string>
     <string name="info_activity_api_header">API</string>
     <string name="info_activity_external_libraries_header">Biblioteki zewnętrzne</string>
     <string name="info_activity_application_source_header">Licencja aplikacji</string>
     <string name="info_activity_application_description">Witaj w <i><b>MatWeather</b></i> - prostej aplikacji pogodowej zaprojektowanej zgodnie z filozofią <i>Material Design</i>.</string>
     <string name="info_activity_applicaton_source_repository_description">Aplikacja <i>MatWeather</i> jest projektem typu <i>Open Source</i>, a kod źródłowy jest dostępny pod adresem:</string>
-    <string name="info_activity_application_source_repository_header">github.com/PawelTypiak/MatWeather</string>
     <string name="info_activity_application_source_licence_description">Kod projektu jest dostępny na licencji <i>Apache 2.0</i>, której treść można przeczytać poniżej:</string>
-    <string name="info_activity_application_source_licence_header">apache.org/licenses/LICENSE-2.0</string>
     <string name="info_activity_api_description">W aplikacji wykorzystano następujące API:</string>
-    <string name="info_activity_api_weather_header">Yahoo Weather API</string>
     <string name="info_activity_api_weather_subheader">Informacje pogodowe</string>
-    <string name="info_activity_api_weather_address">https://developer.yahoo.com/weather/</string>
-    <string name="info_activity_api_geocoding_header">Google Maps Geocoding API</string>
     <string name="info_activity_api_geocoding_subheader">Informacje geolokalizacyjne</string>
-    <string name="info_activity_api_geocoding_address">https://developers.google.com/maps/documentation/geocoding/intro</string>
     <string name="info_activity_external_libraries_description">W aplikacji zostały wykorzystane następujące zewnętrzne biblioteki Open-Source:</string>
     <string name="info_activity_external_libraries_licence_name"><u>Licencja <i>Apache 2.0</i> :</u></string>
-    <string name="info_activity_eexternal_libraries_picasso_name"><i>Picasso</i></string>
-    <string name="info_activity_external_libraries_smooth_app_bar_name"><i>smooth-app-bar-layout</i></string>
-    <string name="info_activity_external_libraries_multiline_collapsingtoolbar_name"><i>multiline-collapsingtoolbar</i></string>
-
-
-
-    <string name="info_activity_weahter_api_address">https://developer.yahoo.com/weather/</string>
-    <string name="info_activity_geocoding_api_address">https://developers.google.com/maps/documentation/geocoding/intro</string>
-    <string name="info_activity_picasso_library_address">http://square.github.io/picasso/</string>
-    <string name="info_activity_smooth_app_bar_layout_library_address">https://github.com/henrytao-me/smooth-app-bar-layout</string>
-    <string name="info_activity_multiline_collapsingtoolbar_library_address">https://github.com/opacapp/multiline-collapsingtoolbar</string>
-    <string name="info_activity_repository_address"></string>
-    <string name="info_activity_apache_license_address">https://www.apache.org/licenses/LICENSE-2.0</string>
-
     <string name="info_activity_clipboard_toast_message">Skopiowano adres do schowka</string>
-
-    <string name="version">v. 1.0</string>
 
     <!-- Dialog strings -->
     <string name="failure_dialog_title">Niepowodzenie!</string>
@@ -58,13 +35,6 @@
     <string name="exit_dialog_message">Czy na pewno chcesz wyjsć z <b>MatWeather</b>?</string>
     <string name="exit_dialog_positive_button">Wyjdź</string>
     <string name="exit_dialog_negative_button">Anuluj</string>
-    <string name="about_dialog_header">Witaj w <b>MatWeather</b> - prostej aplikacji pogodowej zaprojektowanej zgodnie z filozofią <i>Material Design</i>.</string>
-    <string name="about_dialog_description_additional_information">Informacje dodatkowe:</string>
-    <string name="about_dialog_description_part1">informacje pogodowe: <b><a href="https://developer.yahoo.com/weather/">Yahoo Weather API</a></b></string>
-    <string name="about_dialog_description_part2">informacje o lokalizacji: <b><a href="https://developers.google.com/maps/">Google Maps API</a></b></string>
-    <string name="about_dialog_description_part3">ikony: <b><a href="http://www.flaticon.com/">Flaticon</a></b></string>
-    <string name="about_dialog_description_part4">repozytorium: <b><a href="https://github.com/PawelTypiak/MatWeather">GitHub</a></b></string>
-    <string name="about_dialog_negative_button">Cofnij</string>
     <string name="feedback_dialog_title">Prześlij opinię</string>
     <string name="feedback_dialog_message">Jeśli masz jakieś pytanie, bądź chcesz wyrazić opinię, wyślij wiadomość na adres:</string>
     <string name="feedback_dialog_mail">pawel.p.typiak@gmail.com</string>
@@ -139,12 +109,16 @@
     <string name="favourites_dialog_negative_button_type_0">Wyjdź</string>
     <string name="favourites_dialog_negative_button_type_1">Anuluj</string>
     <string name="favourites_dialog_geolocalization_option">Bieżąca lokacja</string>
-    <string name="no_favourites_dialog_title">Brak ulubionych</string>
-    <string name="no_favourites_dialog_positive_button">Ok</string>
+    <string name="no_favourites_available_dialog_title">Brak ulubionych</string>
+    <string name="no_favourites_available_dialog_positive_button">Ok</string>
     <string name="no_favourites_dialog_message">Nie masz żadnych zapisanych lokacji.</string>
     <string name="geolocalization_methods_dialog_title">Metoda geolokalizacji</string>
     <string name="geolocalization_methods_dialog_message">Wybierz metodę geolokalizacji:</string>
     <string name="geolocalization_methods_dialog_positive_button">Kontynuuj</string>
+    <string name="rate_dialog_title">Oceń aplikację</string>
+    <string name="rate_dialog_message">Podoba ci się moja aplikacja? Oceń ją w <i>Google Play</i>, ponieważ twoja opinia ma dla mnie duże znaczenie. Nie zajmie ci to więcej niż kilka sekund. Dzięki za wsparcie!</string>
+    <string name="rate_dialog_positive_button">Oceń</string>
+    <string name="rate_dialog_negative_button">Anuluj</string>
 
     <!-- First launch layout strings-->
     <string name="first_launch_button_start_text">ROZPOCZNIJ</string>

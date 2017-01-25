@@ -1,14 +1,11 @@
 package paweltypiak.matweather.dialogsInitializing.dialogInitializers.feedbackDialogInitializing;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Context;
+import android.support.v7.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
-
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.dialogsInitializing.dialogInitializers.noEmailApplicationDialogInitializing.NoEmailApplicationDialogInitializer;
-import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
 class EmailIntentRunnable implements Runnable {
 
@@ -22,7 +19,7 @@ class EmailIntentRunnable implements Runnable {
         initializeEmailIntent(activity);
     }
 
-    public static void initializeEmailIntent(Activity activity){
+    static void initializeEmailIntent(Activity activity){
         Intent intent = new Intent(Intent.ACTION_SENDTO);
         intent.setType("text/plain");
         String subject=activity.getString(R.string.clipboard_feedback_mail_subject);

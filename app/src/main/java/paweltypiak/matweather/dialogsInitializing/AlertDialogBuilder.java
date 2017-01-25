@@ -1,9 +1,13 @@
 package paweltypiak.matweather.dialogsInitializing;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import  android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
+import paweltypiak.matweather.R;
+import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
 public class AlertDialogBuilder {
 
@@ -55,14 +59,13 @@ public class AlertDialogBuilder {
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(activity, theme);
         setDialogView(alertBuilder,dialogView);
         setDialogTitle(alertBuilder,title);
-        setDialogIcon(alertBuilder,iconResource);
+        setDialogIcon(activity,alertBuilder,iconResource);
         setDialogMessage(alertBuilder,message);
         setDialogCancelable(alertBuilder,ifUncancelable);
         setDialogPositiveButton(alertBuilder,positiveButtonText,positiveButtonRunnable);
         setDialogNeutralButton(alertBuilder,neutralButtonText,neutralButtonRunnable);
         setDialogNegativeButton(alertBuilder,negativeButtonText,negativeButtonRunnable);
         AlertDialog alertDialog = alertBuilder.create();
-        setDialogOnShowListener(alertDialog);
         return alertDialog;
     }
 
@@ -74,8 +77,13 @@ public class AlertDialogBuilder {
         if(title!=null) alertBuilder.setTitle(title);
     }
 
-    private void setDialogIcon(AlertDialog.Builder alertBuilder,int iconResource){
-        if(iconResource!=0)  alertBuilder.setIcon(iconResource);
+    private void setDialogIcon(Activity activity,AlertDialog.Builder alertBuilder,int iconResource){
+        if(iconResource!=0) {
+            int iconColor= R.color.colorPrimary;
+            Drawable drawable
+                    = UsefulFunctions.getColoredDrawable(activity,iconResource, ContextCompat.getColor(activity,iconColor));
+            alertBuilder.setIcon(drawable);
+        }
     }
 
     private void setDialogMessage(AlertDialog.Builder alertBuilder, String message){
@@ -131,16 +139,11 @@ public class AlertDialogBuilder {
         }
     }
 
-    private void setDialogOnShowListener(AlertDialog alertDialog){
-        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialogInterface) {
-                wasDialogClickedOutside =true;
-            }
-        });
+    public void setWasDialogClickedOutside(){
+        wasDialogClickedOutside =true;
     }
 
-    public boolean isWasDialogClickedOutside() {
+    public boolean getWasDialogClickedOutside() {
         return wasDialogClickedOutside;
     }
 

@@ -209,7 +209,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <ImageView
-                    android:id="@+id/weather_details_layout_sunpath_left_arrow_image"
+                    android:id="@+id/weather_details_layout_sun_path_left_arrow_image"
                     android:layout_width="@dimen/sun_path_arrow_icon_size"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
@@ -217,7 +217,7 @@
                     android:scaleType="centerInside"
                     />
                 <ImageView
-                    android:id="@+id/weather_details_layout_sunpath_right_arrow_image"
+                    android:id="@+id/weather_details_layout_sun_path_right_arrow_image"
                     android:layout_width="@dimen/sun_path_arrow_icon_size"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"

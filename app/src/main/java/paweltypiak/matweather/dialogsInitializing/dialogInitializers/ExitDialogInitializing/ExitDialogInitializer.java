@@ -1,13 +1,15 @@
 package paweltypiak.matweather.dialogsInitializing.dialogInitializers.exitDialogInitializing;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.dialogsInitializing.AlertDialogBuilder;
+import paweltypiak.matweather.dialogsInitializing.alertDialogTools.AlertDialogButtonsCustomizer;
 
 public class ExitDialogInitializer {
 
@@ -27,6 +29,7 @@ public class ExitDialogInitializer {
                 type,
                 negativeButtonRunnable,
                 dialogView);
+        setAlertDialogOnShowListener(activity,exitDialog);
         return exitDialog;
     }
 
@@ -50,7 +53,7 @@ public class ExitDialogInitializer {
                 dialogView,
                 R.style.DialogStyle,
                 activity.getString(R.string.exit_dialog_title),
-                R.drawable.dialog_warning_icon,
+                R.drawable.warning_icon,
                 null,
                 isUncancelable(type),
                 activity.getString(R.string.exit_dialog_positive_button),
@@ -67,5 +70,14 @@ public class ExitDialogInitializer {
         if(type==0) isUncancelable=true;
         else if(type==1) isUncancelable=false;
         return isUncancelable;
+    }
+
+    private static void setAlertDialogOnShowListener(final Activity activity, final AlertDialog exitDialog){
+        exitDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                AlertDialogButtonsCustomizer.setDialogButtonsTextFont(activity,exitDialog);
+            }
+        });
     }
 }

@@ -1,7 +1,7 @@
 package paweltypiak.matweather;
 
 import android.Manifest;
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,7 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.TextView;
-
 import paweltypiak.matweather.dialogsInitializing.dialogInitializers.exitDialogInitializing.ExitDialogInitializer;
 import paweltypiak.matweather.dialogsInitializing.dialogInitializers.GeolocalizationFailureDialogInitializer;
 import paweltypiak.matweather.dialogsInitializing.dialogInitializers.GeolocalizationPermissionsDeniedDialogInitializer;
@@ -72,19 +71,24 @@ public class MainActivity extends AppCompatActivity implements
 
     private void initializeDialogs(){
         exitDialog= ExitDialogInitializer.getExitDialog(this,1,null);
-        geolocalizationProgressDialog= ProgressDialogInitializer.getProgressDialog(this,getString(R.string.waiting_for_localization_progress_message));
+        geolocalizationProgressDialog
+                = ProgressDialogInitializer.getProgressDialog(
+                this,
+                getString(R.string.waiting_for_localization_progress_message));
         noWeatherResultsForLocation
                 = NoWeatherResultsForLocationDialogInitializer.getNoWeatherResultsForLocationDialog(
                 this,
                 2,
                 startGeolocalizationRunnable,
                 null);
-        geocodingInternetFailureDialog=InternetFailureDialogInitializer.getInternetFailureDialog(
+        geocodingInternetFailureDialog
+                =InternetFailureDialogInitializer.getInternetFailureDialog(
                 this,
                 1,
                 geocodingRunnable,
                 null);
-        weatherGeolocalizationInternetFailureDialog = InternetFailureDialogInitializer.getInternetFailureDialog(
+        weatherGeolocalizationInternetFailureDialog
+                = InternetFailureDialogInitializer.getInternetFailureDialog(
                 this,
                 1,
                 downloadWeatherDataAfterGeocodingFailureRunnable,

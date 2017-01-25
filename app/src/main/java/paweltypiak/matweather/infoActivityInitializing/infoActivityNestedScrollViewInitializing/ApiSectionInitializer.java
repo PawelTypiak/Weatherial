@@ -10,15 +10,8 @@ public class ApiSectionInitializer {
 
     public ApiSectionInitializer(Activity activity,
                                  InfoActivityNestedScrollViewInitializer nestedScrollViewInitializer){
-        initializeWeatherApiLayout(activity,nestedScrollViewInitializer);
-        initializeGeocodingApiLayout(activity,nestedScrollViewInitializer);
-    }
-
-    private void initializeWeatherApiLayout(Activity activity,
-                                            InfoActivityNestedScrollViewInitializer nestedScrollViewInitializer){
-
         setWeatherApiLayoutListeners(activity,nestedScrollViewInitializer);
-        setWeatherApiLayoutWebIcon(activity,nestedScrollViewInitializer);
+        setGeocodingApiLayoutListeners(activity,nestedScrollViewInitializer);
     }
 
     private void setWeatherApiLayoutListeners(final Activity activity,
@@ -55,24 +48,11 @@ public class ApiSectionInitializer {
         });
     }
 
-    private void setWeatherApiLayoutWebIcon(Activity activity,
-                                            final InfoActivityNestedScrollViewInitializer nestedScrollViewInitializer){
-        ImageView weatherApiImageView
-                =(ImageView)activity.findViewById(R.id.info_activity_api_weather_web_icon_image);
-        nestedScrollViewInitializer.setWebIcon(activity,weatherApiImageView);
-    }
-
-    private void initializeGeocodingApiLayout(Activity activity,
-                                              final InfoActivityNestedScrollViewInitializer nestedScrollViewInitializer){
-        setGeocodingApiLayoutListeners(activity,nestedScrollViewInitializer);
-        setGeocodingApiLayoutWebIcon(activity,nestedScrollViewInitializer);
-    }
-
     private void setGeocodingApiLayoutListeners(final Activity activity,
                                               final InfoActivityNestedScrollViewInitializer nestedScrollViewInitializer){
         LinearLayout geocodingApiLayout
                 =(LinearLayout)activity.findViewById(R.id.info_activity_api_geocoding_layout);
-        String geocodingApiAddress=activity.getString(R.string.info_activity_api_weather_address);
+        String geocodingApiAddress=activity.getString(R.string.info_activity_api_geocoding_address);
         setGeocodingApiLayoutOnClickListener(activity,nestedScrollViewInitializer,geocodingApiLayout,geocodingApiAddress);
         setGeocodingApiLayoutOnLongClickListener(activity,nestedScrollViewInitializer,geocodingApiLayout,geocodingApiAddress);
     }
@@ -100,12 +80,5 @@ public class ApiSectionInitializer {
                 return true;
             }
         });
-    }
-
-    private void setGeocodingApiLayoutWebIcon(Activity activity,
-                                              final InfoActivityNestedScrollViewInitializer nestedScrollViewInitializer){
-        ImageView geocodingApiImageView
-                =(ImageView)activity.findViewById(R.id.info_activity_api_geocoding_web_icon_image);
-        nestedScrollViewInitializer.setWebIcon(activity,geocodingApiImageView);
     }
 }

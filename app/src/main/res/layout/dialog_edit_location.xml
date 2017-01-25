@@ -1,49 +1,51 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/edit_location_dialog_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/dialog_margin_size"
     android:paddingRight="@dimen/dialog_margin_size"
     android:paddingTop="@dimen/dialog_margin_top_size"
-    android:id="@+id/edit_location_dialog_layout">
+    android:orientation="vertical"
+    >
     <LinearLayout
+        android:id="@+id/edit_location_dialog_inner_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_centerInParent="true"
-        android:id="@+id/edit_location_dialog_inner_layout"
         >
         <EditText
+            android:id="@+id/edit_location_dialog_title_edit_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/edit_location_dialog_location_title_bottom_margin"
             android:layout_gravity="center"
-            android:singleLine="true"
+            android:lines="1"
             android:textStyle="bold"
-            android:hint="@string/edit_location_dialog_header_edit_text_hint"
             android:textColorHint="@color/textDisabledLightBackground"
             android:textColor="@color/textSecondaryLightBackground"
-            android:id="@+id/edit_location_dialog_title_edit_text"
+            android:hint="@string/edit_location_dialog_header_edit_text_hint"
             />
         <EditText
+            android:id="@+id/edit_location_dialog_subtitle_edit_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:singleLine="true"
             android:paddingTop="0dp"
-            android:layout_marginTop="-5dp"
-            android:hint="@string/edit_location_dialog_subheader_edit_text_hint"
+            android:layout_marginBottom="@dimen/edit_location_dialog_location_subtitle_bottom_margin"
+            android:layout_gravity="center"
+            android:lines="1"
             android:textColorHint="@color/textDisabledLightBackground"
             android:textColor="@color/textSecondaryLightBackground"
-            android:id="@+id/edit_location_dialog_subtitle_edit_text"
+            android:hint="@string/edit_location_dialog_subheader_edit_text_hint"
             />
         <android.support.v7.widget.AppCompatCheckBox
-            android:theme="@style/CheckBoxStyle"
+            android:id="@+id/edit_location_dialog_checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:theme="@style/CheckBoxStyle"
             android:textColor="@color/textSecondaryLightBackground"
-            android:layout_marginTop="5dp"
             android:textSize="@dimen/dialog_text_size"
-            android:text="@string/add_location_dialog_checkbox_message"
-            android:id="@+id/edit_location_dialog_checkbox"/>
+            android:text="@string/add_location_dialog_checkbox_message"/>
     </LinearLayout>
 </RelativeLayout>

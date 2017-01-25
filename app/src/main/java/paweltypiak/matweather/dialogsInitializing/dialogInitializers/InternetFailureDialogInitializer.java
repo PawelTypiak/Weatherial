@@ -1,14 +1,14 @@
 package paweltypiak.matweather.dialogsInitializing.dialogInitializers;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.dialogsInitializing.AlertDialogBuilder;
+import paweltypiak.matweather.dialogsInitializing.alertDialogTools.AlertDialogButtonsCustomizer;
 
 public class InternetFailureDialogInitializer {
 
@@ -33,6 +33,10 @@ public class InternetFailureDialogInitializer {
                 dialogView
         );
         AlertDialog internetFailureDialog = alertDialogBuilder.getAlertDialog();
+        setAlertDialogOnShowListener(
+                activity,
+                alertDialogBuilder,
+                internetFailureDialog);
         setAlertDialogOnDismissListener(
                 type,
                 negativeButtonRunnable,
@@ -62,7 +66,7 @@ public class InternetFailureDialogInitializer {
                 dialogView,
                 R.style.DialogStyle,
                 activity.getString(R.string.failure_dialog_title),
-                R.drawable.dialog_error_icon,
+                R.drawable.error_icon,
                 null,
                 isUncancelable(type),
                 activity.getString(R.string.internet_failure_dialog_positive_button),
@@ -96,6 +100,18 @@ public class InternetFailureDialogInitializer {
         return negativeButtonText;
     }
 
+    private static void setAlertDialogOnShowListener(final Activity activity,
+                                                     final AlertDialogBuilder alertDialogBuilder,
+                                                     final AlertDialog internetFailureDialog){
+        internetFailureDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                AlertDialogButtonsCustomizer.setDialogButtonsTextFont(activity,internetFailureDialog);
+                alertDialogBuilder.setWasDialogClickedOutside();
+            }
+        });
+    }
+
     private static void setAlertDialogOnDismissListener(int type,
                                                  final Runnable negativeButtonRunnable,
                                                  final AlertDialogBuilder alertDialogBuilder,
@@ -104,7 +120,7 @@ public class InternetFailureDialogInitializer {
             internetFailureDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
                 public void onDismiss(DialogInterface dialogInterface) {
-                    if(negativeButtonRunnable!=null && alertDialogBuilder.isWasDialogClickedOutside()==true){
+                    if(negativeButtonRunnable!=null && alertDialogBuilder.getWasDialogClickedOutside()==true){
                         negativeButtonRunnable.run();
                     }
                 }

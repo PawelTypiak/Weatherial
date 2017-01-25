@@ -1,9 +1,8 @@
 package paweltypiak.matweather.dialogsInitializing.dialogInitializers.favouritesDialogInitializing;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
-
 import paweltypiak.matweather.MainActivity;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.dialogsInitializing.dialogInitializers.InternetFailureDialogInitializer;

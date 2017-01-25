@@ -1,7 +1,7 @@
 package paweltypiak.matweather.localizationDataDownloading;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.content.Context;
 import android.location.Criteria;
 import android.location.Location;
@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import paweltypiak.matweather.dialogsInitializing.dialogInitializers.GeolocalizationProviderUnavailableDialogInitializer;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.usefulClasses.UsefulFunctions;

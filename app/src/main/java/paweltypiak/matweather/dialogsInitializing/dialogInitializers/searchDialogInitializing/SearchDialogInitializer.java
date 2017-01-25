@@ -1,27 +1,17 @@
 package paweltypiak.matweather.dialogsInitializing.dialogInitializers.searchDialogInitializing;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import paweltypiak.matweather.MainActivity;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.dialogsInitializing.AlertDialogBuilder;
-import paweltypiak.matweather.dialogsInitializing.AlertDialogTools.EditTextCustomizer;
-import paweltypiak.matweather.dialogsInitializing.AlertDialogTools.KeyboardVisibilitySetter;
-import paweltypiak.matweather.dialogsInitializing.dialogInitializers.InternetFailureDialogInitializer;
-import paweltypiak.matweather.dialogsInitializing.dialogInitializers.NoWeatherResultsForLocationDialogInitializer;
-import paweltypiak.matweather.dialogsInitializing.dialogInitializers.ProgressDialogInitializer;
-import paweltypiak.matweather.dialogsInitializing.dialogInitializers.WeatherResultsForLocationDialogInitializer;
-import paweltypiak.matweather.jsonHandling.Channel;
-import paweltypiak.matweather.usefulClasses.UsefulFunctions;
-import paweltypiak.matweather.weatherDataDownloading.WeatherDataDownloader;
-import paweltypiak.matweather.weatherDataDownloading.WeatherDataParser;
-import paweltypiak.matweather.weatherDataDownloading.WeatherDownloadCallback;
+import paweltypiak.matweather.dialogsInitializing.alertDialogTools.AlertDialogButtonsCustomizer;
+import paweltypiak.matweather.dialogsInitializing.alertDialogTools.EditTextCustomizer;
+import paweltypiak.matweather.dialogsInitializing.alertDialogTools.KeyboardVisibilitySetter;
 
 public class SearchDialogInitializer {
 
@@ -42,8 +32,7 @@ public class SearchDialogInitializer {
         searchDialog=buildAlertDialog(activity,type,radioButton,dialogView);
         setAlertDialogOnShowListener(
                 activity,
-                locationEditText,
-                searchDialog);
+                locationEditText);
         setAlertDialogOnDismissListener(
                 activity,
                 locationEditText,
@@ -102,10 +91,10 @@ public class SearchDialogInitializer {
     private int getIconResourceId(int type){
         int iconResourceId=0;
         if(type==0){
-            iconResourceId=R.drawable.dialog_localization_icon;
+            iconResourceId=R.drawable.location_icon;
         }
         else if(type==1){
-            iconResourceId=R.drawable.dialog_search_icon;
+            iconResourceId=R.drawable.search_icon;
         }
         return iconResourceId;
     }
@@ -147,17 +136,12 @@ public class SearchDialogInitializer {
     }
 
     private void setAlertDialogOnShowListener(final Activity activity,
-                                              final EditText locationEditText,
-                                              final AlertDialog searchDialog){
+                                              final EditText locationEditText){
         searchDialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialogInterface) {
-                Log.d("on_show", "search: ");
-
-
+                AlertDialogButtonsCustomizer.setDialogButtonsTextFont(activity,searchDialog);
                 KeyboardVisibilitySetter.showKeyboard(activity);
-
-
                 EditTextCustomizer.customizeEditText(activity,searchDialog,locationEditText);
             }
         });

@@ -1,21 +1,22 @@
 package paweltypiak.matweather.infoActivityInitializing;
 
 import android.app.Activity;
-import android.graphics.drawable.Drawable;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-
 import com.squareup.picasso.Picasso;
-
 import paweltypiak.matweather.R;
-import paweltypiak.matweather.usefulClasses.UsefulFunctions;
+import paweltypiak.matweather.dialogsInitializing.dialogInitializers.rateDialogInitializing.RateDialogInitializer;
 
 public class InfoActivityAppBarInitializer {
+
+    private AlertDialog rateDialog;
 
     public InfoActivityAppBarInitializer(Activity activity){
         setLogo(activity);
         initializeBackButton(activity);
+        initializeRateButton(activity);
     }
 
     private void setLogo(Activity activity){
@@ -39,14 +40,24 @@ public class InfoActivityAppBarInitializer {
     }
 
     private void initializeBackButton(final Activity activity){
-        Drawable backIconDrawable
-                = UsefulFunctions.getColoredDrawable(activity,R.drawable.dialog_edit_icon,R.color.white);
         ImageView backButtonImageView=(ImageView)activity.findViewById(R.id.info_activity_back_button_image);
-        backButtonImageView.setImageDrawable(backIconDrawable);
         backButtonImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 activity.onBackPressed();
+            }
+        });
+    }
+
+    private void initializeRateButton(final Activity activity){
+        ImageView rateButtonImageView=(ImageView)activity.findViewById(R.id.info_activity_rate_button_image);
+        rateButtonImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(rateDialog==null){
+                    rateDialog= RateDialogInitializer.getRateDialog(activity);
+                }
+                rateDialog.show();
             }
         });
     }

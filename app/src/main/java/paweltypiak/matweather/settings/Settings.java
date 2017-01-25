@@ -1,9 +1,11 @@
 package paweltypiak.matweather.settings;
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +28,7 @@ public class Settings extends AppCompatPreferenceActivity  implements LanguageVe
         actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(getString(R.string.nav_drawer_settings));
+        actionBar.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this,R.color.colorPrimary)));
         refreshSettingsFragmentListener=this;
         fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()

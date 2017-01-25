@@ -1,9 +1,7 @@
 package paweltypiak.matweather.dialogsInitializing.dialogInitializers.searchDialogInitializing;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-
-import paweltypiak.matweather.usefulClasses.UsefulFunctions;
+import android.support.v7.app.AlertDialog;
 
 class ShowSearchDialogRunnable implements Runnable {
 
@@ -16,6 +14,5 @@ class ShowSearchDialogRunnable implements Runnable {
     public void run() {
         AlertDialog searchDialog=new SearchDialogInitializer(activity,1,null).getSearchDialog();
         searchDialog.show();
-        //UsefulFunctions.showKeyboard(activity);
     }
 }

@@ -1,13 +1,14 @@
 package paweltypiak.matweather.dialogsInitializing.dialogInitializers;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.dialogsInitializing.AlertDialogBuilder;
+import paweltypiak.matweather.dialogsInitializing.alertDialogTools.AlertDialogButtonsCustomizer;
 
 public class GeolocalizationFailureDialogInitializer {
 
@@ -35,6 +36,7 @@ public class GeolocalizationFailureDialogInitializer {
                 positiveButtonRunnable,
                 negativeButtonRunnable,
                 dialogView);
+        setAlertDialogOnShowListener(activity,geolocalizationFailureDialog);
         return geolocalizationFailureDialog;
     }
 
@@ -59,7 +61,7 @@ public class GeolocalizationFailureDialogInitializer {
                 dialogView,
                 R.style.DialogStyle,
                 activity.getString(R.string.failure_dialog_title),
-                R.drawable.dialog_error_icon,
+                R.drawable.error_icon,
                 null,
                 isUncancelable(type),
                 getPositiveButtonText(activity,type),
@@ -102,5 +104,15 @@ public class GeolocalizationFailureDialogInitializer {
             negativeButtonText=activity.getString(R.string.geolocalization_failure_dialog_negative_button_type_1);
         }
         return negativeButtonText;
+    }
+
+    private static void setAlertDialogOnShowListener(final Activity activity,
+                                                     final AlertDialog geolocalizationFailureDialog){
+        geolocalizationFailureDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                AlertDialogButtonsCustomizer.setDialogButtonsTextFont(activity,geolocalizationFailureDialog);
+            }
+        });
     }
 }

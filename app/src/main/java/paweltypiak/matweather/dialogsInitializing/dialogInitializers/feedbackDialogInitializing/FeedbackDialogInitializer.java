@@ -1,7 +1,8 @@
 package paweltypiak.matweather.dialogsInitializing.dialogInitializers.feedbackDialogInitializing;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -10,11 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.dialogsInitializing.AlertDialogBuilder;
-import paweltypiak.matweather.dialogsInitializing.dialogInitializers.noEmailApplicationDialogInitializing.NoEmailApplicationDialogInitializer;
-import paweltypiak.matweather.usefulClasses.UsefulFunctions;
+import paweltypiak.matweather.dialogsInitializing.alertDialogTools.AlertDialogButtonsCustomizer;
 
 public class FeedbackDialogInitializer {
 
@@ -27,6 +26,7 @@ public class FeedbackDialogInitializer {
         initializeMessageTextView(activity,dialogView);
         initializeEmailAddressTextView(activity,dialogView);
         AlertDialog feedbackDialog = buildAlertDialog(activity,dialogView);
+        setAlertDialogOnShowListener(activity,feedbackDialog);
         return feedbackDialog;
     }
 
@@ -84,7 +84,7 @@ public class FeedbackDialogInitializer {
                 dialogView,
                 R.style.DialogStyle,
                 activity.getString(R.string.feedback_dialog_title),
-                R.drawable.dialog_feedback_icon,
+                R.drawable.feedback_icon,
                 null,
                 false,
                 activity.getString(R.string.feedback_dialog_positive_button),
@@ -96,5 +96,12 @@ public class FeedbackDialogInitializer {
         return alertDialogBuilder.getAlertDialog();
     }
 
-
+    private static void setAlertDialogOnShowListener(final Activity activity, final AlertDialog feedbackDialog){
+        feedbackDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                AlertDialogButtonsCustomizer.setDialogButtonsTextFont(activity,feedbackDialog);
+            }
+        });
+    }
 }

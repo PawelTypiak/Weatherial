@@ -1,28 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/radio_group_dialog_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/dialog_margin_size"
     android:paddingRight="@dimen/dialog_margin_size"
     android:paddingTop="@dimen/dialog_margin_top_size"
-    android:id="@+id/radiogroup_dialog_layout">
+    android:orientation="vertical"
+    >
     <ScrollView
+        android:id="@+id/radio_group_dialog_scrollview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:scrollbarThumbVertical="@color/colorPrimary"
-        android:scrollbarSize="3dp"
-        android:fillViewport="true"
-        android:id="@+id/radiogroup_dialog_scrollview">
+        android:scrollbarSize="@dimen/scrollbar_size"
+        android:fillViewport="true">
         <RadioGroup
+            android:id="@+id/radio_group_dialog_radiogroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:orientation="vertical"
-            android:paddingRight="5dp"
-            android:paddingLeft="5dp"
-            android:id="@+id/radiogroup_dialog_radiogroup">
+            android:paddingRight="@dimen/activity_very_small_margin"
+            >
         </RadioGroup>
     </ScrollView>
 </LinearLayout>

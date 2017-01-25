@@ -10,14 +10,8 @@ public class ApplicationSourceSectionInitializer {
 
     public ApplicationSourceSectionInitializer(Activity activity,
                                                InfoActivityNestedScrollViewInitializer nestedScrollViewInitializer){
-        initializeRepositoryLayout(activity,nestedScrollViewInitializer);
-        initializeLicenseLayout(activity,nestedScrollViewInitializer);
-    }
-
-    private void initializeRepositoryLayout(Activity activity,
-                                            InfoActivityNestedScrollViewInitializer nestedScrollViewInitializer){
         setRepositoryLayoutListeners(activity,nestedScrollViewInitializer);
-        setRepositoryLayoutWebIcon(activity,nestedScrollViewInitializer);
+        setLicenseLayoutListeners(activity,nestedScrollViewInitializer);
     }
 
     private void setRepositoryLayoutListeners(final Activity activity,
@@ -54,18 +48,6 @@ public class ApplicationSourceSectionInitializer {
         });
     }
 
-    private void setRepositoryLayoutWebIcon(Activity activity,
-                                            InfoActivityNestedScrollViewInitializer nestedScrollViewInitializer){
-        ImageView repositoryImageView=(ImageView)activity.findViewById(R.id.info_activity_application_source_repository_web_icon_image);
-        nestedScrollViewInitializer.setWebIcon(activity,repositoryImageView);
-    }
-
-    private void initializeLicenseLayout(Activity activity,
-                                         InfoActivityNestedScrollViewInitializer nestedScrollViewInitializer){
-        setLicenseLayoutListeners(activity,nestedScrollViewInitializer);
-        setLicenseLayoutWebIcon(activity,nestedScrollViewInitializer);
-    }
-
     private void setLicenseLayoutListeners(Activity activity,
                                            InfoActivityNestedScrollViewInitializer nestedScrollViewInitializer){
         LinearLayout licenseLayout
@@ -98,12 +80,5 @@ public class ApplicationSourceSectionInitializer {
                 return true;
             }
         });
-    }
-
-    private void setLicenseLayoutWebIcon(Activity activity,
-                                         final InfoActivityNestedScrollViewInitializer nestedScrollViewInitializer){
-        ImageView repositoryImageView
-                =(ImageView)activity.findViewById(R.id.info_activity_application_source_license_web_icon_image);
-        nestedScrollViewInitializer.setWebIcon(activity,repositoryImageView);
     }
 }

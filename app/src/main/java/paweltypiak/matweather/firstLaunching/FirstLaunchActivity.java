@@ -1,6 +1,6 @@
 package paweltypiak.matweather.firstLaunching;
 
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
-
 import paweltypiak.matweather.dialogsInitializing.dialogInitializers.exitDialogInitializing.ExitDialogInitializer;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.usefulClasses.SharedPreferencesModifier;
@@ -76,8 +75,6 @@ public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaun
     }
 
     private void initializeDialogs(){
-        /*DialogInitializer dialogInitializer=new DialogInitializer(this);
-        exitDialog=dialogInitializer.initializeExitDialog(1,null);*/
         exitDialog= ExitDialogInitializer.getExitDialog(this,1,null);
     }
 

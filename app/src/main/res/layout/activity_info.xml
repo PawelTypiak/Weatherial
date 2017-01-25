@@ -8,21 +8,74 @@
     android:layout_height="match_parent"
     android:background="@color/backgroundLight"
     tools:context="paweltypiak.matweather.infoActivityInitializing.InfoActivity">
-    <me.henrytao.smoothappbarlayout.widget.NestedScrollView
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/info_activity_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="@dimen/bar_elevation"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/info_activity_back_button_image"
+                android:layout_width="@dimen/toolbar_icons_size"
+                android:layout_height="@dimen/toolbar_icons_size"
+                android:padding="@dimen/toolbar_icons_padding"
+                android:layout_alignParentLeft="true"
+                android:scaleType="centerInside"
+                android:background="?selectableItemBackgroundBorderless"
+                android:src="@drawable/back_icon"
+                android:tint="@color/white"
+                android:clickable="true"
+                />
+            <ImageView
+                android:id="@+id/info_activity_rate_button_image"
+                android:layout_width="@dimen/toolbar_icons_size"
+                android:layout_height="@dimen/toolbar_icons_size"
+                android:padding="@dimen/toolbar_icons_padding"
+                android:layout_alignParentRight="true"
+                android:scaleType="centerInside"
+                android:background="?selectableItemBackgroundBorderless"
+                android:src="@drawable/rate_icon"
+                android:tint="@color/white"
+                android:clickable="true"
+                />
+            <ImageView
+                android:id="@+id/info_activity_logo_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/info_activity_logo_vertical_margin"
+                android:layout_marginBottom="@dimen/info_activity_logo_vertical_margin"
+                android:layout_marginRight="@dimen/info_activity_logo_horizontal_margin"
+                android:layout_marginLeft="@dimen/info_activity_logo_horizontal_margin"
+                android:layout_centerHorizontal="true"
+                />
+            <paweltypiak.matweather.customViews.RobotoMediumFontTextView
+                android:id="@+id/info_activity_version_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_normal_margin"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/info_activity_logo_image"
+                android:textSize="@dimen/version_text_size"
+                android:textColor="@color/textPrimaryDarkBackground"
+                android:text="@string/app_version"
+                />
+        </RelativeLayout>
+    </android.support.design.widget.AppBarLayout>
+    <android.support.v4.widget.NestedScrollView
         android:id="@+id/info_activity_nested_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fillViewport="true"
         android:overScrollMode="never"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <android.support.v4.widget.Space
-                android:id="@+id/info_activity_nested_scrollview_top_padding_space"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -53,7 +106,7 @@
                         android:layout_height="wrap_content"
                         android:padding="@dimen/activity_normal_margin"
                         android:textSize="@dimen/header_text_size"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/textSecondaryLightBackground"
                         android:text="@string/info_activity_application_source_header"
                         />
                     <TextView
@@ -85,6 +138,8 @@
                                 android:layout_width="@dimen/info_activity_icons_size"
                                 android:layout_height="@dimen/info_activity_icons_size"
                                 android:layout_marginLeft="@dimen/activity_normal_margin"
+                                android:src="@drawable/web_icon"
+                                android:tint="@color/colorPrimary"
                                 android:scaleType="centerInside"
                                 />
                         </RelativeLayout>
@@ -130,6 +185,8 @@
                                 android:layout_width="@dimen/info_activity_icons_size"
                                 android:layout_height="@dimen/info_activity_icons_size"
                                 android:layout_marginLeft="@dimen/activity_normal_margin"
+                                android:src="@drawable/web_icon"
+                                android:tint="@color/colorPrimary"
                                 android:scaleType="centerInside"
                                 />
                         </RelativeLayout>
@@ -156,7 +213,7 @@
                     android:layout_height="wrap_content"
                     android:padding="@dimen/activity_normal_margin"
                     android:textSize="@dimen/header_text_size"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/textSecondaryLightBackground"
                     android:text="@string/info_activity_api_header"
                     />
                 <TextView
@@ -187,6 +244,8 @@
                             android:layout_width="@dimen/info_activity_icons_size"
                             android:layout_height="@dimen/info_activity_icons_size"
                             android:layout_marginLeft="@dimen/activity_normal_margin"
+                            android:src="@drawable/web_icon"
+                            android:tint="@color/colorPrimary"
                             android:scaleType="centerInside"
                             />
                     </RelativeLayout>
@@ -242,6 +301,8 @@
                             android:layout_width="@dimen/info_activity_icons_size"
                             android:layout_height="@dimen/info_activity_icons_size"
                             android:layout_marginLeft="@dimen/activity_normal_margin"
+                            android:src="@drawable/web_icon"
+                            android:tint="@color/colorPrimary"
                             android:scaleType="centerInside"
                             />
                     </RelativeLayout>
@@ -280,7 +341,7 @@
                     android:layout_height="wrap_content"
                     android:padding="@dimen/activity_normal_margin"
                     android:textSize="@dimen/header_text_size"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/textSecondaryLightBackground"
                     android:text="@string/info_activity_external_libraries_header"
                     />
                 <TextView
@@ -379,48 +440,6 @@
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-    </me.henrytao.smoothappbarlayout.widget.NestedScrollView>
-    <me.henrytao.smoothappbarlayout.SmoothAppBarLayout
-        android:id="@+id/info_activity_app_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:elevation="@dimen/bar_elevation"
-        android:stateListAnimator="@drawable/elevation_animator"
-        >
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:id="@+id/info_activity_back_button_image"
-                android:layout_width="@dimen/toolbar_icons_size"
-                android:layout_height="@dimen/toolbar_icons_size"
-                android:padding="@dimen/toolbar_icons_padding"
-                android:scaleType="centerInside"
-                android:background="?selectableItemBackgroundBorderless"
-                android:clickable="true"
-                />
-            <ImageView
-                android:id="@+id/info_activity_logo_image"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/info_activity_logo_vertical_margin"
-                android:layout_marginBottom="@dimen/info_activity_logo_vertical_margin"
-                android:layout_marginRight="@dimen/info_activity_logo_horizontal_margin"
-                android:layout_marginLeft="@dimen/info_activity_logo_horizontal_margin"
-                android:layout_centerHorizontal="true"
-                />
-            <paweltypiak.matweather.customViews.RobotoMediumFontTextView
-                android:id="@+id/info_activity_version_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/activity_normal_margin"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@+id/info_activity_logo_image"
-                android:textSize="@dimen/version_text_size"
-                android:textColor="@color/textPrimaryDarkBackground"
-                android:text="@string/version"
-                />
-        </RelativeLayout>
-    </me.henrytao.smoothappbarlayout.SmoothAppBarLayout>
+    </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>
 

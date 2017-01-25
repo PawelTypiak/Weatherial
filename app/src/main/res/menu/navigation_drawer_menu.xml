@@ -4,7 +4,7 @@
     <menu>
         <item
             android:id="@+id/nav_button_geolocalization"
-            android:icon="@drawable/localization_icon"
+            android:icon="@drawable/location_icon"
             android:checkable="false"
             android:title="@string/nav_drawer_geolocalization" />
         <item

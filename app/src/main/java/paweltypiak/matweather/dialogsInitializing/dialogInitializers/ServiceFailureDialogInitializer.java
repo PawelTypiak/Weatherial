@@ -1,14 +1,14 @@
 package paweltypiak.matweather.dialogsInitializing.dialogInitializers;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.dialogsInitializing.AlertDialogBuilder;
+import paweltypiak.matweather.dialogsInitializing.alertDialogTools.AlertDialogButtonsCustomizer;
 
 public class ServiceFailureDialogInitializer {
 
@@ -36,6 +36,7 @@ public class ServiceFailureDialogInitializer {
                 negativeButtonRunnable,
                 dialogView);
         AlertDialog serviceFailureDialog = alertDialogBuilder.getAlertDialog();
+        setAlertDialogOnShowListener(activity,alertDialogBuilder,serviceFailureDialog);
         setAlertDialogOnDismissListener(negativeButtonRunnable,alertDialogBuilder,serviceFailureDialog);
         return serviceFailureDialog;
     }
@@ -61,7 +62,7 @@ public class ServiceFailureDialogInitializer {
                 dialogView,
                 R.style.DialogStyle,
                 activity.getString(R.string.failure_dialog_title),
-                R.drawable.dialog_error_icon,
+                R.drawable.error_icon,
                 null,
                 isUncancelable(type),
                 activity.getString(R.string.service_failure_dialog_positive_button),
@@ -95,6 +96,18 @@ public class ServiceFailureDialogInitializer {
         return negativeButtonText;
     }
 
+    private static void setAlertDialogOnShowListener(final Activity activity,
+                                                     final AlertDialogBuilder alertDialogBuilder,
+                                                     final AlertDialog serviceFailureDialog){
+        serviceFailureDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                AlertDialogButtonsCustomizer.setDialogButtonsTextFont(activity,serviceFailureDialog);
+                alertDialogBuilder.setWasDialogClickedOutside();
+            }
+        });
+    }
+
     private static void setAlertDialogOnDismissListener(final Runnable negativeButtonRunnable,
                                                         final AlertDialogBuilder alertDialogBuilder,
                                                         AlertDialog serviceFailureDialog
@@ -102,7 +115,7 @@ public class ServiceFailureDialogInitializer {
         serviceFailureDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
-                if(negativeButtonRunnable!=null && alertDialogBuilder.isWasDialogClickedOutside()==true){
+                if(negativeButtonRunnable!=null && alertDialogBuilder.getWasDialogClickedOutside()==true){
                     negativeButtonRunnable.run();
                 }
             }

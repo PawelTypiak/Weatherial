@@ -1,17 +1,16 @@
 package paweltypiak.matweather.dialogsInitializing.dialogInitializers;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.dialogsInitializing.AlertDialogBuilder;
-import paweltypiak.matweather.dialogsInitializing.AlertDialogTools.AlertDialogButtonsAvailabilitySetter;
+import paweltypiak.matweather.dialogsInitializing.alertDialogTools.AlertDialogButtonsCustomizer;
 import paweltypiak.matweather.usefulClasses.SharedPreferencesModifier;
 import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
@@ -80,7 +79,7 @@ public class GeolocalizationMethodsDialogInitializer {
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                AlertDialogButtonsAvailabilitySetter.setDialogButtonEnabled(geolocalizationMethodsDialog,activity);
+                AlertDialogButtonsCustomizer.setDialogButtonEnabled(geolocalizationMethodsDialog,activity);
                 if (i == R.id.geolocalization_method_dialog_gps_radio_button_id) {
                     SharedPreferencesModifier.setGeolocalizationMethod(activity,0);
                 } else if (i == R.id.geolocalization_method_dialog_network_radio_button_id) {
@@ -99,7 +98,7 @@ public class GeolocalizationMethodsDialogInitializer {
                 dialogView,
                 R.style.LoadingDialogStyle,
                 activity.getString(R.string.geolocalization_methods_dialog_title),
-                R.drawable.dialog_geolocalization_method_icon,
+                R.drawable.localization_method_icon,
                 null,
                 isUncancelable(type),
                 activity.getString(R.string.geolocalization_methods_dialog_positive_button),
@@ -126,7 +125,9 @@ public class GeolocalizationMethodsDialogInitializer {
         geolocalizationMethodsDialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialogInterface) {
-                AlertDialogButtonsAvailabilitySetter.setDialogButtonDisabled(geolocalizationMethodsDialog,activity);
+                AlertDialogButtonsCustomizer.setDialogButtonsTextFont(activity,geolocalizationMethodsDialog);
+                AlertDialogButtonsCustomizer.setDialogButtonsTextFont(activity,geolocalizationMethodsDialog);
+                AlertDialogButtonsCustomizer.setDialogButtonDisabled(geolocalizationMethodsDialog,activity);
             }
         });
     }

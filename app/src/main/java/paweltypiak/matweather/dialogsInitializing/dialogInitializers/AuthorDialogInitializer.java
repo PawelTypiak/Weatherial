@@ -1,21 +1,18 @@
 package paweltypiak.matweather.dialogsInitializing.dialogInitializers;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
-
-import com.squareup.picasso.Picasso;
-
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.dialogsInitializing.AlertDialogBuilder;
+import paweltypiak.matweather.dialogsInitializing.alertDialogTools.AlertDialogButtonsCustomizer;
 import paweltypiak.matweather.dialogsInitializing.dialogInitializers.noEmailApplicationDialogInitializing.NoEmailApplicationDialogInitializer;
-import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
 public class AuthorDialogInitializer {
 
@@ -25,9 +22,10 @@ public class AuthorDialogInitializer {
 
     private static AlertDialog initializeAuthorDialog(Activity activity){
         View dialogView=initializeDialogView(activity);
-        initializeEmailLayout(activity,dialogView);
-        initializeGithubLayout(activity,dialogView);
+        setEmailLayoutOnClickListener(activity,dialogView);
+        setGithubLayoutOnClickListener(activity,dialogView);
         AlertDialog authorDialog = buildAlertDialog(activity,dialogView);
+        setAlertDialogOnShowListener(activity,authorDialog);
         return authorDialog;
     }
 
@@ -35,16 +33,6 @@ public class AuthorDialogInitializer {
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_author,null);
         return dialogView;
-    }
-
-    private static void initializeEmailLayout(Activity activity, View dialogView){
-        setEmailIcon(activity,dialogView);
-        setEmailLayoutOnClickListener(activity,dialogView);
-    }
-
-    private static void setEmailIcon(Activity activity, View dialogView){
-        ImageView emailImageView=(ImageView)dialogView.findViewById(R.id.author_dialog_mail_image);
-        Picasso.with(activity.getApplicationContext()).load(R.drawable.email_icon).transform(new UsefulFunctions().new setDrawableColor(activity.getResources().getColor(R.color.white))).fit().centerInside().into(emailImageView);
     }
 
     private static void setEmailLayoutOnClickListener(final Activity activity,View dialogView){
@@ -71,16 +59,6 @@ public class AuthorDialogInitializer {
         }
     }
 
-    private static void initializeGithubLayout(Activity activity,View dialogView){
-        setGithubIcon(activity,dialogView);
-        setGithubLayoutOnClickListener(activity,dialogView);
-    }
-
-    private static void setGithubIcon(Activity activity, View dialogView){
-        ImageView githubImageView=(ImageView)dialogView.findViewById(R.id.author_dialog_github_image);
-        Picasso.with(activity.getApplicationContext()).load(R.drawable.github_icon).transform(new UsefulFunctions().new setDrawableColor(activity.getResources().getColor(R.color.white))).fit().centerInside().into(githubImageView);
-    }
-
     private static void setGithubLayoutOnClickListener(final Activity activity,View dialogView){
         RelativeLayout githubLayout=(RelativeLayout)dialogView.findViewById(R.id.author_dialog_github_button_layout);
         githubLayout.setOnClickListener(new View.OnClickListener() {
@@ -103,7 +81,7 @@ public class AuthorDialogInitializer {
                 dialogView,
                 R.style.DialogStyle,
                 activity.getString(R.string.author_dialog_title),
-                R.drawable.dialog_author_icon,
+                R.drawable.author_icon,
                 null,
                 false,
                 null,
@@ -113,5 +91,14 @@ public class AuthorDialogInitializer {
                 activity.getString(R.string.author_dialog_negative_button),
                 null);
         return alertDialogBuilder.getAlertDialog();
+    }
+
+    private static void setAlertDialogOnShowListener(final Activity activity, final AlertDialog authorDialog){
+        authorDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                AlertDialogButtonsCustomizer.setDialogButtonsTextFont(activity,authorDialog);
+            }
+        });
     }
 }

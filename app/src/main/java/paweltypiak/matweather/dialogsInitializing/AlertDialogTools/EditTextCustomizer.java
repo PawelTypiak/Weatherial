@@ -1,7 +1,7 @@
-package paweltypiak.matweather.dialogsInitializing.AlertDialogTools;
+package paweltypiak.matweather.dialogsInitializing.alertDialogTools;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.graphics.PorterDuff;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
@@ -22,11 +22,11 @@ public class EditTextCustomizer {
     }
     private static void updateLayoutOnAlertDialogShow(Activity activity,AlertDialog alertDialog,EditText editText){
         if(editText.getText().length()!=0) {
-            editText.getBackground().setColorFilter(ContextCompat.getColor(activity, R.color.transparent), PorterDuff.Mode.SRC_ATOP);
+            editText.getBackground().mutate().setColorFilter(ContextCompat.getColor(activity, R.color.transparent), PorterDuff.Mode.SRC_ATOP);
             editText.setHint("");
         }
         else {
-            AlertDialogButtonsAvailabilitySetter.setDialogButtonDisabled(alertDialog,activity);
+            AlertDialogButtonsCustomizer.setDialogButtonDisabled(alertDialog,activity);
         }
     }
 
@@ -45,7 +45,7 @@ public class EditTextCustomizer {
     }
 
     private static void updateLayoutIfIsFocused(Activity activity,EditText editText){
-        editText.getBackground().setColorFilter(ContextCompat.getColor(activity,R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
+        editText.getBackground().mutate().setColorFilter(ContextCompat.getColor(activity,R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
         KeyboardVisibilitySetter.showKeyboard(activity);
     }
 
@@ -53,10 +53,10 @@ public class EditTextCustomizer {
         String editTextString=editText.getText().toString();
         editTextString=UsefulFunctions.getFormattedString(editTextString);
         if(editTextString.length()==0) {
-            editText.getBackground().setColorFilter(ContextCompat.getColor(activity,R.color.hintLightBackgroud), PorterDuff.Mode.SRC_ATOP);
+            editText.getBackground().mutate().setColorFilter(ContextCompat.getColor(activity,R.color.hintLightBackground), PorterDuff.Mode.SRC_ATOP);
         }
         else{
-            editText.getBackground().setColorFilter(ContextCompat.getColor(activity,R.color.transparent), PorterDuff.Mode.SRC_ATOP);
+            editText.getBackground().mutate().setColorFilter(ContextCompat.getColor(activity,R.color.transparent), PorterDuff.Mode.SRC_ATOP);
             editText.setText(editTextString);
         }
         KeyboardVisibilitySetter.hideKeyboard(activity,editText);
@@ -72,11 +72,11 @@ public class EditTextCustomizer {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if(editText.getText().length()==0) {
                     editText.setHint(hint);
-                    AlertDialogButtonsAvailabilitySetter.setDialogButtonDisabled(alertDialog,activity);
+                    AlertDialogButtonsCustomizer.setDialogButtonDisabled(alertDialog,activity);
                 }
                 else {
                     editText.setHint("");
-                    AlertDialogButtonsAvailabilitySetter.setDialogButtonEnabled(alertDialog,activity);
+                    AlertDialogButtonsCustomizer.setDialogButtonEnabled(alertDialog,activity);
                 }
             }
             @Override

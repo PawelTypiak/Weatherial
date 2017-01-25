@@ -30,7 +30,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="@dimen/bar_elevation"
-        android:stateListAnimator="@drawable/elevation_animator"
         >
         <net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar_layout"
@@ -118,6 +117,8 @@
                 android:padding="@dimen/toolbar_icons_padding"
                 android:layout_gravity="top|right"
                 android:background="?selectableItemBackgroundBorderless"
+                android:src="@drawable/search_icon"
+                android:tint="@color/white"
                 android:clickable="true"
                 app:layout_collapseMode="pin"/>
             <android.support.v7.widget.Toolbar
@@ -143,9 +144,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/floating_action_button_margin"
+        app:useCompatPadding="true"
         app:fabSize="normal"
         android:clickable="true"
         android:theme="@style/AppTheme.White"
+        android:tint="@color/textPrimaryLightBackground"
         app:layout_anchor="@id/app_bar_layout"
         app:layout_anchorGravity="bottom|right"
         />

@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">MatWeather</string>
+    <string name="app_version">v. 1.0</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -124,12 +125,46 @@
     <string name="favourites_dialog_negative_button_type_0">Exit</string>
     <string name="favourites_dialog_negative_button_type_1">Cancel</string>
     <string name="favourites_dialog_geolocalization_option">Current location</string>
-    <string name="no_favourites_dialog_title">No favourites</string>
-    <string name="no_favourites_dialog_positive_button">Ok</string>
+    <string name="no_favourites_available_dialog_title">No favourites</string>
+    <string name="no_favourites_available_dialog_positive_button">Ok</string>
     <string name="no_favourites_dialog_message">You don\'t have any saved locations.</string>
     <string name="geolocalization_methods_dialog_title">Geolocalization methods</string>
     <string name="geolocalization_methods_dialog_message">Select geolocalization method:</string>
     <string name="geolocalization_methods_dialog_positive_button">Continue</string>
+    <string name="rate_dialog_title">Rate application</string>
+    <string name="rate_dialog_message">Do you like my application? Rate it in <i>Google Play</i>, because your opinion matters to me. It won\'t take you more that a few seconds. Thanks for your support!</string>
+    <string name="rate_dialog_positive_button">Rate</string>
+    <string name="rate_dialog_negative_button">Cancel</string>
+
+    <!-- Info Activity texts -->
+    <string name="info_activity_api_header">API</string>
+    <string name="info_activity_external_libraries_header">External libraries</string>
+    <string name="info_activity_application_source_header">Application license</string>
+    <string name="info_activity_application_description">Welcome to <i><b>MatWeather</b></i> - simple weather application created according to <i>Material Design</i> philosophy.</string>
+    <string name="info_activity_applicaton_source_repository_description"><i>MatWeather</i> is an <i>Open Source</i> project. You can find its repository below:</string>
+    <string name="info_activity_application_source_repository_header">github.com/PawelTypiak/MatWeather</string>
+    <string name="info_activity_application_source_licence_description">Application is licensed under <i>Apache 2.0</i> license. You can read more about the terms of this license below:</string>
+    <string name="info_activity_application_source_licence_header">apache.org/licenses/LICENSE-2.0</string>
+    <string name="info_activity_api_description">APIs used in application:</string>
+    <string name="info_activity_api_weather_header">Yahoo Weather API</string>
+    <string name="info_activity_api_weather_subheader">Weather information</string>
+    <string name="info_activity_api_weather_address">https://developer.yahoo.com/weather/</string>
+    <string name="info_activity_api_geocoding_header">Google Maps Geocoding API</string>
+    <string name="info_activity_api_geocoding_subheader">Geocoding information</string>
+    <string name="info_activity_api_geocoding_address">https://developers.google.com/maps/documentation/geocoding/intro</string>
+    <string name="info_activity_external_libraries_description">Open Source external libraries used in project:</string>
+    <string name="info_activity_external_libraries_licence_name"><u>License <i>Apache 2.0</i> :</u></string>
+    <string name="info_activity_eexternal_libraries_picasso_name"><i>Picasso</i></string>
+    <string name="info_activity_external_libraries_smooth_app_bar_name"><i>smooth-app-bar-layout</i></string>
+    <string name="info_activity_external_libraries_multiline_collapsingtoolbar_name"><i>multiline-collapsingtoolbar</i></string>
+    <string name="info_activity_weahter_api_address">https://developer.yahoo.com/weather/</string>
+    <string name="info_activity_geocoding_api_address">https://developers.google.com/maps/documentation/geocoding/intro</string>
+    <string name="info_activity_picasso_library_address">http://square.github.io/picasso/</string>
+    <string name="info_activity_smooth_app_bar_layout_library_address">https://github.com/henrytao-me/smooth-app-bar-layout</string>
+    <string name="info_activity_multiline_collapsingtoolbar_library_address">https://github.com/opacapp/multiline-collapsingtoolbar</string>
+    <string name="info_activity_repository_address">https://github.com/PawelTypiak/MatWeather</string>
+    <string name="info_activity_apache_license_address">https://www.apache.org/licenses/LICENSE-2.0</string>
+    <string name="info_activity_clipboard_toast_message">Address copied to clipboard</string>
 
     <!-- First launch layout strings-->
     <string name="first_launch_button_start_text">GET STARTED</string>

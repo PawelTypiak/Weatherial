@@ -6,7 +6,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 
 import paweltypiak.matweather.R;
-import paweltypiak.matweather.dialogsInitializing.AlertDialogTools.KeyboardVisibilitySetter;
+import paweltypiak.matweather.dialogsInitializing.alertDialogTools.KeyboardVisibilitySetter;
 import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
 class DifferentLocationDialogRunnable implements  Runnable{

@@ -1,7 +1,7 @@
 package paweltypiak.matweather.dialogsInitializing.dialogInitializers.editFavouritesDialogInitializing;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,10 +10,10 @@ import android.widget.EditText;
 import paweltypiak.matweather.MainActivity;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.dialogsInitializing.AlertDialogBuilder;
-import paweltypiak.matweather.dialogsInitializing.AlertDialogTools.EditTextCustomizer;
-import paweltypiak.matweather.dialogsInitializing.AlertDialogTools.KeyboardVisibilitySetter;
+import paweltypiak.matweather.dialogsInitializing.alertDialogTools.AlertDialogButtonsCustomizer;
+import paweltypiak.matweather.dialogsInitializing.alertDialogTools.EditTextCustomizer;
+import paweltypiak.matweather.dialogsInitializing.alertDialogTools.KeyboardVisibilitySetter;
 import paweltypiak.matweather.usefulClasses.FavouritesEditor;
-import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
 public class EditFavouritesDialogInitializer {
 
@@ -68,7 +68,7 @@ public class EditFavouritesDialogInitializer {
                 dialogView,
                 R.style.DialogStyle,
                 activity.getString(R.string.edit_location_dialog_title),
-                R.drawable.dialog_edit_icon,
+                R.drawable.edit_icon,
                 null,
                 false,
                 activity.getString(R.string.edit_location_dialog_positive_button),
@@ -86,6 +86,7 @@ public class EditFavouritesDialogInitializer {
         editFavouritesDialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialogInterface) {
+                AlertDialogButtonsCustomizer.setDialogButtonsTextFont(activity,editFavouritesDialog);
                 EditTextCustomizer.customizeEditText(activity,editFavouritesDialog,editTextArray[0]);
                 EditTextCustomizer.customizeEditText(activity,editFavouritesDialog,editTextArray[1]);
             }
