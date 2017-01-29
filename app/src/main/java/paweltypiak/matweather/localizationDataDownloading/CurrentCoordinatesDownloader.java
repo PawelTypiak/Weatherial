@@ -121,9 +121,15 @@ public class CurrentCoordinatesDownloader {
             Log.d("coordinates", "latitude: "+location.getLatitude());
             new GeocodingDownloader(location,geocodingCallack,messageTextView,activity);
         }
-        public void onProviderDisabled(String provider) {}
-        public void onProviderEnabled(String provider) {}
-        public void onStatusChanged(String provider, int status, Bundle extras) {}
+        public void onProviderDisabled(String provider) {
+            Log.d("coordinates", "onProviderDisabled: ");
+        }
+        public void onProviderEnabled(String provider) {
+            Log.d("coordinates", "onProviderEnabled: ");
+        }
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+            Log.d("coordinates", "onStatusChanged: ");
+        }
     };
 
     private Runnable networkUnavailableRunnable=new Runnable() {

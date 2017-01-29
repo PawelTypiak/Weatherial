@@ -2,8 +2,8 @@ package paweltypiak.matweather.dialogsInitializing.dialogInitializers.editFavour
 
 import android.app.Activity;
 
-import paweltypiak.matweather.MainActivity;
-import paweltypiak.matweather.mainActivityLayoutInitializing.LayoutUpdating.OnWeatherDataChangeLayoutUpdater;
+import paweltypiak.matweather.mainActivityInitializing.MainActivity;
+import paweltypiak.matweather.mainActivityInitializing.mainActivityLayoutInitializing.layoutUpdating.OnWeatherDataChangeLayoutUpdater;
 import paweltypiak.matweather.usefulClasses.FavouritesEditor;
 import paweltypiak.matweather.usefulClasses.SharedPreferencesModifier;
 

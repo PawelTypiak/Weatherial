@@ -6,11 +6,11 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-import paweltypiak.matweather.MainActivity;
+import paweltypiak.matweather.mainActivityInitializing.MainActivity;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.dialogsInitializing.AlertDialogBuilder;
 import paweltypiak.matweather.dialogsInitializing.alertDialogTools.AlertDialogButtonsCustomizer;
-import paweltypiak.matweather.mainActivityLayoutInitializing.LayoutUpdating.OnWeatherDataChangeLayoutUpdater;
+import paweltypiak.matweather.mainActivityInitializing.mainActivityLayoutInitializing.layoutUpdating.OnWeatherDataChangeLayoutUpdater;
 
 public class MapsDialogInitializer {
 

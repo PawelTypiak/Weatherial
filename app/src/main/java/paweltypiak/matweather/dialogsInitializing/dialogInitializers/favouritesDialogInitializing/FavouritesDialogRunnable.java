@@ -3,7 +3,7 @@ package paweltypiak.matweather.dialogsInitializing.dialogInitializers.favourites
 import android.app.Activity;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import paweltypiak.matweather.MainActivity;
+import paweltypiak.matweather.mainActivityInitializing.MainActivity;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.dialogsInitializing.dialogInitializers.InternetFailureDialogInitializer;
 import paweltypiak.matweather.dialogsInitializing.dialogInitializers.ProgressDialogInitializer;

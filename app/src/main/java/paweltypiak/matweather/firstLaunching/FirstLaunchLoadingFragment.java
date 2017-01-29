@@ -25,7 +25,7 @@ import paweltypiak.matweather.dialogsInitializing.dialogInitializers.InternetFai
 import paweltypiak.matweather.dialogsInitializing.dialogInitializers.NoWeatherResultsForLocationDialogInitializer;
 import paweltypiak.matweather.dialogsInitializing.dialogInitializers.ServiceFailureDialogInitializer;
 import paweltypiak.matweather.dialogsInitializing.dialogInitializers.WeatherResultsForLocationDialogInitializer;
-import paweltypiak.matweather.MainActivity;
+import paweltypiak.matweather.mainActivityInitializing.MainActivity;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.usefulClasses.FavouritesEditor;
 import paweltypiak.matweather.usefulClasses.SharedPreferencesModifier;

@@ -6,7 +6,7 @@ import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import paweltypiak.matweather.MainActivity;
+import paweltypiak.matweather.mainActivityInitializing.MainActivity;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.dialogsInitializing.AlertDialogBuilder;
 import paweltypiak.matweather.dialogsInitializing.alertDialogTools.AlertDialogButtonsCustomizer;

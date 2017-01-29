@@ -2,7 +2,7 @@ package paweltypiak.matweather.dialogsInitializing.dialogInitializers.searchDial
 
 import android.app.Activity;
 
-import paweltypiak.matweather.MainActivity;
+import paweltypiak.matweather.mainActivityInitializing.MainActivity;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDataParser;
 
 class SetMainLayoutRunnable implements Runnable {

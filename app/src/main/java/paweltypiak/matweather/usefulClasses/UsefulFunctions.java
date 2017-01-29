@@ -3,11 +3,7 @@ package paweltypiak.matweather.usefulClasses;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -18,36 +14,25 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
-import android.text.Editable;
 import android.text.Html;
 import android.text.Spanned;
-import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
-import com.squareup.picasso.Transformation;
 
-import net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout;
+import com.squareup.picasso.Transformation;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.Locale;
 
 import paweltypiak.matweather.R;
-import paweltypiak.matweather.mainActivityLayoutInitializing.appBarInitializing.appBarOnOffsetChangeListenerAdding.ToolbarTitleClickableViewSizeUpdater;
-import paweltypiak.matweather.mainActivityLayoutInitializing.LayoutUpdating.OnWeatherDataChangeLayoutUpdater;
 
 public class UsefulFunctions {
 
