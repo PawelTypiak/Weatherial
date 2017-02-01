@@ -79,8 +79,6 @@ public class CurrentCoordinatesDownloader {
                 }
                 else{
                     Log.d("provider", "gps unavailable");
-                    /*DialogInitializer dialogInitializer=new DialogInitializer(activity);
-                    providerUnavailableDialog=dialogInitializer.initializeProviderUnavailableDialog(0,gpsUnavailableRunnable);*/
                     providerUnavailableDialog
                             = GeolocalizationProviderUnavailableDialogInitializer.getGeolocalizationProviderUnavailableDialog(
                             activity,0,gpsUnavailableRunnable
@@ -100,8 +98,6 @@ public class CurrentCoordinatesDownloader {
                     }
                 } else{
                     Log.d("provider:", "network unavailable");
-                   /* DialogInitializer dialogInitializer=new DialogInitializer(activity);
-                    providerUnavailableDialog=dialogInitializer.initializeProviderUnavailableDialog(1,networkUnavailableRunnable);*/
                     providerUnavailableDialog
                             = GeolocalizationProviderUnavailableDialogInitializer.getGeolocalizationProviderUnavailableDialog(
                             activity,1,networkUnavailableRunnable
@@ -121,15 +117,9 @@ public class CurrentCoordinatesDownloader {
             Log.d("coordinates", "latitude: "+location.getLatitude());
             new GeocodingDownloader(location,geocodingCallack,messageTextView,activity);
         }
-        public void onProviderDisabled(String provider) {
-            Log.d("coordinates", "onProviderDisabled: ");
-        }
-        public void onProviderEnabled(String provider) {
-            Log.d("coordinates", "onProviderEnabled: ");
-        }
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-            Log.d("coordinates", "onStatusChanged: ");
-        }
+        public void onProviderDisabled(String provider) {}
+        public void onProviderEnabled(String provider){}
+        public void onStatusChanged(String provider, int status, Bundle extras) {}
     };
 
     private Runnable networkUnavailableRunnable=new Runnable() {

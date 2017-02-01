@@ -49,6 +49,12 @@ public class Settings extends AppCompatPreferenceActivity  implements LanguageVe
         super.onBackPressed();
     }
 
+    @Override
+    protected void onResume() {
+        UsefulFunctions.setTaskDescription(this);
+        super.onResume();
+    }
+
     //get information about preferences changes which need to reload interface - units and language
     public static boolean isLanguagePreferencesChanged() {
         return languagePreferencesChanged;

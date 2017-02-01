@@ -29,7 +29,6 @@ public class FirstLaunchLocationFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //dialogInitializer=new DialogInitializer(getActivity());
         initializeRadioGroup();
     }
 
@@ -82,9 +81,9 @@ public class FirstLaunchLocationFragment extends Fragment {
 
     public void showNoDifferentLocationSelectedDialog(){
         if(emptyLocationNameDialog==null) {
-
-            //emptyLocationNameDialog=dialogInitializer.initializeNoDifferentLocationSelectedDialog();
-            emptyLocationNameDialog= NoDifferentLocationSelectedDialogInitializer.getNoDifferentLocationSelectedDialog(getActivity(),differentLocationDialog);
+            emptyLocationNameDialog
+                    = NoDifferentLocationSelectedDialogInitializer.
+                    getNoDifferentLocationSelectedDialog(getActivity(),differentLocationDialog);
         }
         emptyLocationNameDialog.show();
     }

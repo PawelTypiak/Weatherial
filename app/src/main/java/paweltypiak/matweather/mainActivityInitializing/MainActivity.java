@@ -13,6 +13,7 @@ import paweltypiak.matweather.mainActivityInitializing.mainActivityLayoutInitial
 import paweltypiak.matweather.mainActivityInitializing.mainActivityLayoutInitializing.layoutUpdating.OnTimeChangeLayoutUpdater;
 import paweltypiak.matweather.settings.Settings;
 import paweltypiak.matweather.mainActivityInitializing.mainActivityLayoutInitializing.layoutUpdating.OnWeatherDataChangeLayoutUpdater;
+import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 import paweltypiak.matweather.weatherDataDownloading.WeatherDataParser;
 
 public class MainActivity extends AppCompatActivity {
@@ -140,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
         if(onTimeChangeLayoutUpdater!=null){
             onTimeChangeLayoutUpdater.resumeUiThread();
         }
+        UsefulFunctions.setTaskDescription(this);
     }
 
     @Override

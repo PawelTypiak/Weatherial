@@ -13,10 +13,13 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import paweltypiak.matweather.dialogsInitializing.dialogInitializers.exitDialogInitializing.ExitDialogInitializer;
 import paweltypiak.matweather.R;
+import paweltypiak.matweather.firstLaunching.firstLaunchLoadingFragmentInitializing.FirstLaunchLoadingFragment;
 import paweltypiak.matweather.usefulClasses.SharedPreferencesModifier;
 import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
-public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaunchLoadingFragment.SelectLocationAgainListener {
+public class FirstLaunchActivity
+        extends AppCompatActivity
+        implements ShowLocationFragmentAgainListener {
 
     private CardView nextCardViewButton;
     private AlertDialog exitDialog;
@@ -34,27 +37,22 @@ public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaun
         else initializeNextLaunch();
     }
 
-    private void setLanguageVersion(){
-        //set saved language version
-        int languageVersion=SharedPreferencesModifier.getLanguageVersion(this);
-        if(languageVersion!=-1) UsefulFunctions.setLocale(this,languageVersion);
+    private void setNestedConfigurationFragment(android.support.v4.app.Fragment nestedFragment,String tag){
+        configurationFragment.insertNestedFragment(nestedFragment,tag);
     }
 
-    private void setButtonIcon(){
-        ImageView buttonImageView;
-        buttonImageView=(ImageView)findViewById(R.id.first_launch_button_image);
-        Picasso.with(getApplicationContext()).load(R.drawable.next_arrow_icon).transform(new UsefulFunctions().new setDrawableColor(ContextCompat.getColor(this,R.color.white))).fit().centerInside().into(buttonImageView);
-    }
-    private void setButtonText(){
-        TextView buttonTextView=(TextView)findViewById(R.id.first_launch_button_text);
-        buttonTextView.setText(getString(R.string.first_launch_button_continue_text));
+    @Override
+    public void showLocationFragmentAgain(){
+        UsefulFunctions.setViewVisible(nextCardViewButton);
+        setNestedConfigurationFragment(new FirstLaunchLocationFragment(),"LocationFragment");
+        step=3;
     }
 
-    private void initializeConfigurationFragment(boolean isFirstLaunch){
-        fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        configurationFragment=FirstLaunchConfigurationFragment.newInstance(isFirstLaunch,this);
-        fragmentTransaction.replace(R.id.first_launch_main_fragment_placeholder, configurationFragment, "ConfigurationFragment");
-        fragmentTransaction.commit();
+    private void initializeFirstLaunch(){
+        //first launch of application
+        Log.d("launch", "first launch");
+        initializeStartFragment();
+        setStartButton();
     }
 
     private void initializeStartFragment(){
@@ -64,34 +62,25 @@ public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaun
         fragmentTransaction.commit();
     }
 
-    private void setNestedConfigurationFragment(android.support.v4.app.Fragment nestedFragment,String tag){
-        configurationFragment.insertNestedFragment(nestedFragment,tag);
-    }
-
-    public void showLocationFragment(){
-        UsefulFunctions.setViewVisible(nextCardViewButton);
-        setNestedConfigurationFragment(new FirstLaunchLocationFragment(),"LocationFragment");
-        step=3;
-    }
-
-    private void initializeDialogs(){
-        exitDialog= ExitDialogInitializer.getExitDialog(this,1,null);
-    }
-
-    private void initializeFirstLaunch(){
-        //first launch of application
-        Log.d("launch", "first launch");
-        initializeStartFragment();
-        initializeDialogs();
-        setStartButton();
-    }
-
     private void initializeNextLaunch(){
         //every next launch of application
         Log.d("launch", "next launch");
         setLanguageVersion();
         initializeConfigurationFragment(isFirstLaunch);
         setStartButton();
+    }
+
+    private void setLanguageVersion(){
+        //set saved language version
+        int languageVersion=SharedPreferencesModifier.getLanguageVersion(this);
+        if(languageVersion!=-1) UsefulFunctions.setLocale(this,languageVersion);
+    }
+
+    private void initializeConfigurationFragment(boolean isFirstLaunch){
+        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        configurationFragment=FirstLaunchConfigurationFragment.newInstance(isFirstLaunch,this);
+        fragmentTransaction.replace(R.id.first_launch_main_fragment_placeholder, configurationFragment, "ConfigurationFragment");
+        fragmentTransaction.commit();
     }
 
     private void setStartButton(){
@@ -142,16 +131,28 @@ public class FirstLaunchActivity extends AppCompatActivity  implements FirstLaun
         });
     }
 
+    private void setButtonIcon(){
+        ImageView buttonImageView;
+        buttonImageView=(ImageView)findViewById(R.id.first_launch_button_image);
+        Picasso.with(getApplicationContext()).load(R.drawable.next_arrow_icon).transform(new UsefulFunctions().new setDrawableColor(ContextCompat.getColor(this,R.color.white))).fit().centerInside().into(buttonImageView);
+    }
+    private void setButtonText(){
+        TextView buttonTextView=(TextView)findViewById(R.id.first_launch_button_text);
+        buttonTextView.setText(getString(R.string.first_launch_button_continue_text));
+    }
+
     @Override
     public void onBackPressed() {
         //exit dialog availiblity depending on the current step
         if(isFirstLaunch ==true){
+            if(exitDialog==null){
+                exitDialog= ExitDialogInitializer.getExitDialog(this,1,null);
+            }
             if(step>3){
                 int locationOption=configurationFragment.getSelectedDefeaultLocationOption();
                 if(locationOption==1&&step==4) exitDialog.show();
             }
             else {
-                initializeDialogs();
                 exitDialog.show();
             }
         }
