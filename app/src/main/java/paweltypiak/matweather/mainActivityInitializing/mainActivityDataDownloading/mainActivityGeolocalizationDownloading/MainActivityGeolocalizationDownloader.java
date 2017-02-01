@@ -14,9 +14,9 @@ import paweltypiak.matweather.dialogsInitializing.dialogInitializers.Geolocaliza
 import paweltypiak.matweather.dialogsInitializing.dialogInitializers.InternetFailureDialogInitializer;
 import paweltypiak.matweather.dialogsInitializing.dialogInitializers.ProgressDialogInitializer;
 import paweltypiak.matweather.dialogsInitializing.dialogInitializers.ServiceFailureDialogInitializer;
-import paweltypiak.matweather.localizationDataDownloading.CurrentCoordinatesDownloader;
-import paweltypiak.matweather.localizationDataDownloading.GeocodingCallback;
-import paweltypiak.matweather.localizationDataDownloading.GeocodingDownloader;
+import paweltypiak.matweather.dataDownloading.currentLocationDataDownloading.CurrentLocationCoordinatesDownloader;
+import paweltypiak.matweather.dataDownloading.currentLocationDataDownloading.GeocodingCallback;
+import paweltypiak.matweather.dataDownloading.currentLocationDataDownloading.GeocodingDownloader;
 import paweltypiak.matweather.mainActivityInitializing.mainActivityDataDownloading.MainActivityDataDownloader;
 import paweltypiak.matweather.usefulClasses.SharedPreferencesModifier;
 
@@ -27,7 +27,7 @@ public class MainActivityGeolocalizationDownloader implements
     private Activity activity;
     private String geocodingLocation;
     private MainActivityDataDownloader dataDownloader;
-    private CurrentCoordinatesDownloader currentCoordinatesDownloader;
+    private CurrentLocationCoordinatesDownloader currentLocationCoordinatesDownloader;
     private AlertDialog geolocalizationProgressDialog;
     private TextView progressDialogMessageTextView;
     private AlertDialog geocodingInternetFailureDialog;
@@ -151,7 +151,7 @@ public class MainActivityGeolocalizationDownloader implements
                     =(TextView)geolocalizationProgressDialog.findViewById(R.id.progress_dialog_message_text);
         }
         int geolocalizationMethod= SharedPreferencesModifier.getGeolocalizationMethod(activity);
-        currentCoordinatesDownloader =new CurrentCoordinatesDownloader(
+        currentLocationCoordinatesDownloader =new CurrentLocationCoordinatesDownloader(
                 activity,
                 this,
                 coordinatesDownloadFailureDialog,
@@ -173,10 +173,10 @@ public class MainActivityGeolocalizationDownloader implements
             geolocalizationProgressDialog.show();
             progressDialogMessageTextView.setText(activity.getString(R.string.looking_for_address_progress_message));
             new GeocodingDownloader(
-                    currentCoordinatesDownloader.getLocation(),
+                    activity,
+                    currentLocationCoordinatesDownloader.getLocation(),
                     MainActivityGeolocalizationDownloader.this,
-                    progressDialogMessageTextView,
-                    activity);
+                    progressDialogMessageTextView);
         }
     };
 }

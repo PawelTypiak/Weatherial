@@ -2,7 +2,6 @@ package paweltypiak.matweather.infoActivityInitializing.infoActivityNestedScroll
 
 import android.app.Activity;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import paweltypiak.matweather.R;
 
@@ -18,7 +17,7 @@ public class ApplicationSourceSectionInitializer {
                                               final InfoActivityNestedScrollViewInitializer nestedScrollViewInitializer){
         LinearLayout repositoryLayout
                 =(LinearLayout)activity.findViewById(R.id.info_activity_application_source_repository_web_layout);
-        String repositoryAddress=activity.getString(R.string.info_activity_repository_address);
+        String repositoryAddress=activity.getString(R.string.project_repository_address);
         setRepositoryLayoutOnClickListener(activity,nestedScrollViewInitializer,repositoryLayout,repositoryAddress);
         setRepositoryLayoutOnLongClickListener(activity,nestedScrollViewInitializer,repositoryLayout,repositoryAddress);
     }
@@ -52,7 +51,7 @@ public class ApplicationSourceSectionInitializer {
                                            InfoActivityNestedScrollViewInitializer nestedScrollViewInitializer){
         LinearLayout licenseLayout
                 =(LinearLayout)activity.findViewById(R.id.info_activity_application_source_license_web_layout);
-        String apacheLicenceAddress=activity.getString(R.string.info_activity_apache_license_address);
+        String apacheLicenceAddress=activity.getString(R.string.apache_license_address);
         setLicenseLayoutOnClickListener(activity,nestedScrollViewInitializer,licenseLayout,apacheLicenceAddress);
         setLicenseLayoutOnLongClickListener(activity,nestedScrollViewInitializer,licenseLayout,apacheLicenceAddress);
     }

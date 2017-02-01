@@ -36,6 +36,8 @@ import paweltypiak.matweather.R;
 
 public class UsefulFunctions {
 
+    //// TODO: split to different classes
+
     public static String getFormattedString(String string){
         //cut empty characters before and after string and set upper case
         if(string.length()!=0){
@@ -82,8 +84,6 @@ public class UsefulFunctions {
         view.setVisibility(View.GONE);
     }
 
-    // TODO: usefulFunctions
-
     public static int pixelsToDp(int pixels,Activity activity){
         DisplayMetrics metrics = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -99,22 +99,6 @@ public class UsefulFunctions {
         int pixels = (int) Math.ceil(dp * logicalDensity);
         return pixels;
     }
-
-    // TODO: move somewhere
-
-    public static void setRadioButtonMargins(View view, Activity activity, int marginLeft, int marginTop, int marginRight, int marginBottom){
-        int marginLeftPixels=dpToPixels(marginLeft,activity);
-        int marginTopPixels=dpToPixels(marginTop,activity);
-        int marginRightPixels=dpToPixels(marginRight,activity);
-        int marginBottomPixels=dpToPixels(marginBottom,activity);
-        LinearLayout.LayoutParams layoutParams = new RadioGroup.LayoutParams(
-                RadioGroup.LayoutParams.WRAP_CONTENT,
-                RadioGroup.LayoutParams.WRAP_CONTENT);
-        layoutParams.setMargins(marginLeftPixels, marginTopPixels, marginRightPixels, marginBottomPixels);
-        view.setLayoutParams(layoutParams);
-    }
-
-    // TODO: usefulFunctions
 
     @SuppressWarnings("deprecation")
     public static void setLocale(Context context,int type){
@@ -159,6 +143,7 @@ public class UsefulFunctions {
         }
     }
 
+    //// TODO: delete
     public class setDrawableColor implements Transformation {
         //change drawable color in Picasso
         private int color = 0;
@@ -283,41 +268,6 @@ public class UsefulFunctions {
         return textViewSize;
     }
 
-    public static void crossFade(Context context, final View viewIn, final View viewOut, int animationDurationType) {
-        int animationDuration=0;
-        if(animationDurationType==0){
-            animationDuration = context.getResources().getInteger(android.R.integer.config_shortAnimTime);
-        }
-        else if(animationDurationType==1){
-            animationDuration = context.getResources().getInteger(android.R.integer.config_mediumAnimTime);
-        }
-        else if(animationDurationType==2){
-            animationDuration = context.getResources().getInteger(android.R.integer.config_longAnimTime);
-        }
-
-        if(viewIn!=null){
-            viewIn.setAlpha(0f);
-            viewIn.setVisibility(View.VISIBLE);
-            viewIn.animate()
-                    .alpha(1f)
-                    .setDuration(animationDuration)
-                    .setListener(null);
-        }
-        if(viewOut!=null){
-            viewOut.setAlpha(1f);
-            viewOut.animate()
-                    .alpha(0f)
-                    .setDuration(animationDuration)
-                    .setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            viewOut.setVisibility(View.INVISIBLE);
-                            // TODO: add types of visibility
-                        }
-                    });
-        }
-    }
-
     public static void setTaskDescription(Activity activity){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             String title = activity.getString(R.string.app_name);
@@ -330,6 +280,7 @@ public class UsefulFunctions {
                 Method method = ((Object) activity).getClass().getMethod("setTaskDescription", taskDescriptionClass);
                 method.invoke(activity, taskDescription);
             } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }

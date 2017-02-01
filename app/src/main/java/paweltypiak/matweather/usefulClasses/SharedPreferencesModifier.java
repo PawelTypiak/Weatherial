@@ -6,13 +6,15 @@ import android.util.Log;
 import java.util.StringTokenizer;
 import paweltypiak.matweather.R;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class SharedPreferencesModifier {
     private static SharedPreferences sharedPreferences;
 
     public static SharedPreferences getSharedPreferences(Context context){
         if(sharedPreferences==null) {
             sharedPreferences = context.getSharedPreferences(
-                    context.getString(R.string.shared_preferences_name_key), context.MODE_PRIVATE);
+                    context.getString(R.string.shared_preferences_name_key), MODE_PRIVATE);
         }
         return sharedPreferences;
     }
@@ -36,8 +38,8 @@ public class SharedPreferencesModifier {
     }
 
     public static int[] getUnits(Context context){
-        String unitsString = getSharedPreferences(context).getString(context.getString(R.string.shared_preferences_units_key), "-1,-1,-1,-1,-1");
-        int [] units=new int [5];
+        String unitsString = getSharedPreferences(context).getString(context.getString(R.string.shared_preferences_units_key), "-1,-1,-1,-1");
+        int [] units=new int [4];
         StringTokenizer stringTokenizer = new StringTokenizer(unitsString, ",");
         for (int i = 0; i < units.length; i++) {
             units[i] = Integer.parseInt(stringTokenizer.nextToken());

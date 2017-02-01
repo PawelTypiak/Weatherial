@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.usefulClasses.UsefulFunctions;
-import paweltypiak.matweather.weatherDataDownloading.WeatherDataFormatter;
+import paweltypiak.matweather.dataDownloading.weatherDataDownloading.WeatherDataFormatter;
 
 public class WeatherDetailsLayoutInitializer {
 

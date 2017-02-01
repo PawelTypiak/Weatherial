@@ -1,6 +1,9 @@
 package paweltypiak.matweather.mainActivityInitializing.mainActivityLayoutInitializing.weatherLayoutInitializing;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.design.widget.CoordinatorLayout;
 import android.util.TypedValue;
@@ -16,7 +19,7 @@ import paweltypiak.matweather.R;
 import paweltypiak.matweather.customViews.LockableSmoothNestedScrollView;
 import paweltypiak.matweather.mainActivityInitializing.mainActivityLayoutInitializing.MainActivityLayoutInitializer;
 import paweltypiak.matweather.usefulClasses.UsefulFunctions;
-import paweltypiak.matweather.weatherDataDownloading.WeatherDataFormatter;
+import paweltypiak.matweather.dataDownloading.weatherDataDownloading.WeatherDataFormatter;
 
 public class WeatherBasicInfoLayoutInitializer {
 
@@ -108,15 +111,39 @@ public class WeatherBasicInfoLayoutInitializer {
                 if(scrollY!=oldScrollY){
                     if(scrollY>normalMargin && isTransparent==false ){
                         isTransparent=true;
-                        UsefulFunctions.crossFade(activity,null,seeMoreImageView,1);
+                        crossFade(activity,null,seeMoreImageView);
                     }
                     else if(scrollY<=normalMargin && isTransparent==true){
                         isTransparent=false;
-                        UsefulFunctions.crossFade(activity,seeMoreImageView,null,1);
+                        crossFade(activity,seeMoreImageView,null);
                     }
                 }
             }
         });
+    }
+
+    public static void crossFade(Context context, final View viewIn, final View viewOut) {
+        int animationDuration = context.getResources().getInteger(android.R.integer.config_mediumAnimTime);
+        if(viewIn!=null){
+            viewIn.setAlpha(0f);
+            viewIn.setVisibility(View.VISIBLE);
+            viewIn.animate()
+                    .alpha(1f)
+                    .setDuration(animationDuration)
+                    .setListener(null);
+        }
+        if(viewOut!=null){
+            viewOut.setAlpha(1f);
+            viewOut.animate()
+                    .alpha(0f)
+                    .setDuration(animationDuration)
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            viewOut.setVisibility(View.INVISIBLE);
+                        }
+                    });
+        }
     }
 
     public void updateWeatherBasicInfoLayoutData(Activity activity,
@@ -169,4 +196,6 @@ public class WeatherBasicInfoLayoutInitializer {
         seeMoreImageView.setImageDrawable(arrowIconDrawable);
         currentDetailsDividerView.setBackgroundColor(dividerColor);
     }
+
+
 }

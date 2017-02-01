@@ -7,7 +7,7 @@ public class TimeUnitsDialogPreference extends UnitsDialogPreference{
 
     public TimeUnitsDialogPreference(Context context, AttributeSet attributeSet){
         super(context,attributeSet);
-        setUnitId(4);
+        setUnitId(3);
         setUnitDialogTitle();
         setPreferenceSummary();
     }

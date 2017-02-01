@@ -6,8 +6,8 @@ import android.widget.LinearLayout;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.mainActivityInitializing.mainActivityLayoutInitializing.MainActivityLayoutInitializer;
 import paweltypiak.matweather.usefulClasses.FavouritesEditor;
-import paweltypiak.matweather.weatherDataDownloading.WeatherDataFormatter;
-import paweltypiak.matweather.weatherDataDownloading.WeatherDataParser;
+import paweltypiak.matweather.dataDownloading.weatherDataDownloading.WeatherDataFormatter;
+import paweltypiak.matweather.dataDownloading.weatherDataDownloading.WeatherDataParser;
 
 public class OnWeatherDataChangeLayoutUpdater {
 

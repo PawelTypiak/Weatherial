@@ -10,9 +10,9 @@ import paweltypiak.matweather.dialogsInitializing.dialogInitializers.ProgressDia
 import paweltypiak.matweather.dialogsInitializing.dialogInitializers.ServiceFailureDialogInitializer;
 import paweltypiak.matweather.jsonHandling.Channel;
 import paweltypiak.matweather.usefulClasses.FavouritesEditor;
-import paweltypiak.matweather.weatherDataDownloading.WeatherDataDownloader;
-import paweltypiak.matweather.weatherDataDownloading.WeatherDataParser;
-import paweltypiak.matweather.weatherDataDownloading.WeatherDownloadCallback;
+import paweltypiak.matweather.dataDownloading.weatherDataDownloading.WeatherDataDownloader;
+import paweltypiak.matweather.dataDownloading.weatherDataDownloading.WeatherDataParser;
+import paweltypiak.matweather.dataDownloading.weatherDataDownloading.WeatherDownloadCallback;
 
 class FavouritesDialogRunnable implements Runnable,WeatherDownloadCallback {
 

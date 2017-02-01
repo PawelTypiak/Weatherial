@@ -16,21 +16,15 @@
         <item>@id/speed_units_dialog_kph_radio_button_id</item>
         <item>@id/speed_units_dialog_mph_radio_button_id</item>
     </array>
-    <item name="distance_units_dialog_km_radio_button_id" type="id" />
-    <item name="distance_units_dialog_mi_radio_button_id" type="id" />
-    <array name="units_ids_2">
-        <item>@id/distance_units_dialog_km_radio_button_id</item>
-        <item>@id/distance_units_dialog_mi_radio_button_id</item>
-    </array>
     <item name="pressure_units_dialog_hpa_radio_button_id" type="id" />
     <item name="pressure_units_dialog_mmhg_radio_button_id" type="id" />
-    <array name="units_ids_3">
+    <array name="units_ids_2">
         <item>@id/pressure_units_dialog_hpa_radio_button_id</item>
         <item>@id/pressure_units_dialog_mmhg_radio_button_id</item>
     </array>
     <item name="time_units_dialog_24h_radio_button_id" type="id" />
     <item name="time_units_dialog_12h_radio_button_id" type="id" />
-    <array name="units_ids_4">
+    <array name="units_ids_3">
         <item>@id/time_units_dialog_24h_radio_button_id</item>
         <item>@id/time_units_dialog_12h_radio_button_id</item>
     </array>

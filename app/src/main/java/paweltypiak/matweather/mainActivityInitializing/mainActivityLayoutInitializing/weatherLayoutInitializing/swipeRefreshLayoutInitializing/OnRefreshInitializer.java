@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.support.v7.app.AlertDialog;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import paweltypiak.matweather.mainActivityInitializing.MainActivity;
@@ -14,7 +13,7 @@ import paweltypiak.matweather.dialogsInitializing.dialogInitializers.ServiceFail
 import paweltypiak.matweather.mainActivityInitializing.mainActivityLayoutInitializing.layoutUpdating.OnWeatherDataChangeLayoutUpdater;
 import paweltypiak.matweather.mainActivityInitializing.mainActivityLayoutInitializing.MainActivityLayoutInitializer;
 import paweltypiak.matweather.mainActivityInitializing.mainActivityLayoutInitializing.weatherLayoutInitializing.WeatherLayoutInitializer;
-import paweltypiak.matweather.weatherDataDownloading.WeatherDataParser;
+import paweltypiak.matweather.dataDownloading.weatherDataDownloading.WeatherDataParser;
 
 public class OnRefreshInitializer implements SwipeRefreshLayout.OnRefreshListener{
 

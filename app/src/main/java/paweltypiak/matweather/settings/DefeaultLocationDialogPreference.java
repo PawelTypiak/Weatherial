@@ -29,7 +29,7 @@ public class DefeaultLocationDialogPreference extends CustomDialogPreference {
             int radioButtonId=i;
             int radioButtonBottomMargin;
             if(i!=size-1){
-                radioButtonBottomMargin=16;
+                radioButtonBottomMargin=(int)getContext().getResources().getDimension(R.dimen.radio_button_bottom_margin);
                 locationName=favouritesList.get(i);
             }
             else{

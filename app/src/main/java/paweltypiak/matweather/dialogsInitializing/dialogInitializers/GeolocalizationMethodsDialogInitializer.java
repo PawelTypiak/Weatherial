@@ -1,11 +1,13 @@
 package paweltypiak.matweather.dialogsInitializing.dialogInitializers;
 
 import android.app.Activity;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import paweltypiak.matweather.R;
@@ -60,17 +62,26 @@ public class GeolocalizationMethodsDialogInitializer {
         RadioButton gpsRadioButton=new RadioButton(activity);
         gpsRadioButton.setText(activity.getString(R.string.geolocalization_method_gps));
         gpsRadioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX,activity.getResources().getDimensionPixelSize(R.dimen.dialog_text_size));
-        gpsRadioButton.setTextColor(activity.getResources().getColor(R.color.textSecondaryLightBackground));
+        gpsRadioButton.setTextColor(ContextCompat.getColor(activity,R.color.textSecondaryLightBackground));
         gpsRadioButton.setId(R.id.geolocalization_method_dialog_gps_radio_button_id);
-        UsefulFunctions.setRadioButtonMargins(gpsRadioButton,activity,0,0,0,16);
+        setRadioButtonMargins(activity,gpsRadioButton);
         radioGroup.addView(gpsRadioButton);
+    }
+
+    public static void setRadioButtonMargins(Activity activity,RadioButton radioButton){
+        LinearLayout.LayoutParams layoutParams = new RadioGroup.LayoutParams(
+                RadioGroup.LayoutParams.WRAP_CONTENT,
+                RadioGroup.LayoutParams.WRAP_CONTENT);
+        int marginBottom=(int)activity.getResources().getDimension(R.dimen.radio_button_bottom_margin);
+        layoutParams.setMargins(0,0,0, marginBottom);
+        radioButton.setLayoutParams(layoutParams);
     }
 
     private void initializeNetworkRadioButton(Activity activity,RadioGroup radioGroup){
         RadioButton networkRadioButton=new RadioButton(activity);
         networkRadioButton.setText(activity.getString(R.string.geolocalization_method_network));
         networkRadioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX,activity.getResources().getDimensionPixelSize(R.dimen.dialog_text_size));
-        networkRadioButton.setTextColor(activity.getResources().getColor(R.color.textSecondaryLightBackground));
+        networkRadioButton.setTextColor(ContextCompat.getColor(activity,R.color.textSecondaryLightBackground));
         networkRadioButton.setId(R.id.geolocalization_method_dialog_network_radio_button_id);
         radioGroup.addView(networkRadioButton);
     }

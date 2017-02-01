@@ -20,7 +20,7 @@ import java.util.List;
 
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.usefulClasses.UsefulFunctions;
-import paweltypiak.matweather.weatherDataDownloading.WeatherDataFormatter;
+import paweltypiak.matweather.dataDownloading.weatherDataDownloading.WeatherDataFormatter;
 
 import static paweltypiak.matweather.usefulClasses.UsefulFunctions.getColoredDrawable;
 

@@ -21,7 +21,7 @@ public class GeolocalizationMethodDialogPreference extends CustomDialogPreferenc
     protected void buildRadioGroup(RadioGroup radioGroup){
         String gpsRadioButtonText=getContext().getString(R.string.geolocalization_method_gps);
         int gpsRadioButtonId=R.id.geolocalization_method_dialog_gps_radio_button_id;
-        int gpsRadioButtonBottomMargin=16;
+        int gpsRadioButtonBottomMargin=(int)getContext().getResources().getDimension(R.dimen.radio_button_bottom_margin);
         RadioButton gpsRadioButton=setRadioButtonLayout(gpsRadioButtonText,gpsRadioButtonId,gpsRadioButtonBottomMargin);
         radioGroup.addView(gpsRadioButton);
         String networkRadioButtonText=getContext().getString(R.string.geolocalization_method_network);

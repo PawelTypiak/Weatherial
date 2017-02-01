@@ -127,26 +127,6 @@
     <string name="language_version_english">Język angielski</string>
     <string name="language_version_polish">Język polski</string>
     <string name="first_launch_units_header">Wybierz system jednostek:</string>
-    <string-array name="units_array_0">
-        <item>\u2103</item>
-        <item>\u2109</item>
-    </string-array>
-    <string-array name="units_array_1">
-        <item>km/h</item>
-        <item>mi/h</item>
-    </string-array>
-    <string-array name="units_array_2">
-        <item>km</item>
-        <item>mi</item>
-    </string-array>
-    <string-array name="units_array_3">
-        <item>hPa</item>
-        <item>mmHg</item>
-    </string-array>
-    <string-array name="units_array_4">
-        <item>24h</item>
-        <item>12h</item>
-    </string-array>
     <string name="first_launch_location_header">Wybierz domyślną lokację:</string>
     <string name="first_launch_defeault_location_current">Bieżąca lokacja</string>
     <string name="first_launch_defeault_location_different">Inna lokacja</string>
@@ -168,13 +148,7 @@
     <string name="refresh_message_pull_to_refresh">Pociągnij, żeby odświeżyć</string>
 
     <!-- Clipboard texts-->
-    <string name="clipboard_feedback_mail_subject">MatWeather - feedback</string>
-
-    <!-- Addresses & URLs-->
-    <string name="mail_address">pawel.p.typiak@gmail.com</string>
-    <string name="github_address">https://github.com/PawelTypiak?tab=repositories</string>
-    <string name="yahoo_address">https://www.yahoo.com/?ilc=401</string>
-    <string name="yahoo_weather_address">https://www.yahoo.com/news/weather/poland/greater-poland/poznan-514048</string>
+    <string name="clipboard_feedback_mail_subject">MatWeather - opinia</string>
 
     <!-- Toast messages-->
     <string name="clipboard_toast_message">Skopiowano adres E-mail</string>

@@ -14,7 +14,7 @@ import paweltypiak.matweather.mainActivityInitializing.mainActivityLayoutInitial
 import paweltypiak.matweather.settings.Settings;
 import paweltypiak.matweather.mainActivityInitializing.mainActivityLayoutInitializing.layoutUpdating.OnWeatherDataChangeLayoutUpdater;
 import paweltypiak.matweather.usefulClasses.UsefulFunctions;
-import paweltypiak.matweather.weatherDataDownloading.WeatherDataParser;
+import paweltypiak.matweather.dataDownloading.weatherDataDownloading.WeatherDataParser;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -4,7 +4,7 @@ import android.app.Activity;
 
 import paweltypiak.matweather.mainActivityInitializing.mainActivityLayoutInitializing.MainActivityLayoutInitializer;
 import paweltypiak.matweather.mainActivityInitializing.mainActivityLayoutInitializing.weatherLayoutInitializing.swipeRefreshLayoutInitializing.SwipeRefreshLayoutInitializer;
-import paweltypiak.matweather.weatherDataDownloading.WeatherDataFormatter;
+import paweltypiak.matweather.dataDownloading.weatherDataDownloading.WeatherDataFormatter;
 
 public class WeatherLayoutInitializer {
 

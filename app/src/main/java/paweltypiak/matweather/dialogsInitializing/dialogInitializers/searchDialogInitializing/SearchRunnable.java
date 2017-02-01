@@ -12,9 +12,9 @@ import paweltypiak.matweather.dialogsInitializing.dialogInitializers.ProgressDia
 import paweltypiak.matweather.dialogsInitializing.dialogInitializers.WeatherResultsForLocationDialogInitializer;
 import paweltypiak.matweather.jsonHandling.Channel;
 import paweltypiak.matweather.usefulClasses.UsefulFunctions;
-import paweltypiak.matweather.weatherDataDownloading.WeatherDataDownloader;
-import paweltypiak.matweather.weatherDataDownloading.WeatherDataParser;
-import paweltypiak.matweather.weatherDataDownloading.WeatherDownloadCallback;
+import paweltypiak.matweather.dataDownloading.weatherDataDownloading.WeatherDataDownloader;
+import paweltypiak.matweather.dataDownloading.weatherDataDownloading.WeatherDataParser;
+import paweltypiak.matweather.dataDownloading.weatherDataDownloading.WeatherDownloadCallback;
 
 class SearchRunnable implements Runnable, WeatherDownloadCallback {
 

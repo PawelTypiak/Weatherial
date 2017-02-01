@@ -7,7 +7,7 @@ public class PressureUnitsDialogPreference extends UnitsDialogPreference {
 
     public PressureUnitsDialogPreference(Context context, AttributeSet attributeSet){
         super(context,attributeSet);
-        setUnitId(3);
+        setUnitId(2);
         setUnitDialogTitle();
         setPreferenceSummary();
     }

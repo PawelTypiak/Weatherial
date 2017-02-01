@@ -2,7 +2,6 @@ package paweltypiak.matweather.infoActivityInitializing.infoActivityNestedScroll
 
 import android.app.Activity;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import paweltypiak.matweather.R;
 
@@ -18,7 +17,7 @@ public class ApiSectionInitializer {
                                               final InfoActivityNestedScrollViewInitializer nestedScrollViewInitializer){
         LinearLayout weatherApiLayout
                 =(LinearLayout)activity.findViewById(R.id.info_activity_api_weather_layout);
-        String weatherApiAddress=activity.getString(R.string.info_activity_api_weather_address);
+        String weatherApiAddress=activity.getString(R.string.yahoo_weather_api_address);
         setWeatherApiLayoutOnClickListener(activity,nestedScrollViewInitializer,weatherApiLayout,weatherApiAddress);
         setWeatherApiLayoutOnLongClickListener(activity,nestedScrollViewInitializer,weatherApiLayout,weatherApiAddress);
     }
@@ -52,7 +51,7 @@ public class ApiSectionInitializer {
                                               final InfoActivityNestedScrollViewInitializer nestedScrollViewInitializer){
         LinearLayout geocodingApiLayout
                 =(LinearLayout)activity.findViewById(R.id.info_activity_api_geocoding_layout);
-        String geocodingApiAddress=activity.getString(R.string.info_activity_api_geocoding_address);
+        String geocodingApiAddress=activity.getString(R.string.google_geocoding_api_address);
         setGeocodingApiLayoutOnClickListener(activity,nestedScrollViewInitializer,geocodingApiLayout,geocodingApiAddress);
         setGeocodingApiLayoutOnLongClickListener(activity,nestedScrollViewInitializer,geocodingApiLayout,geocodingApiAddress);
     }

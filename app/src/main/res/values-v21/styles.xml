@@ -6,7 +6,7 @@
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
     </style>
 
-    <style name="FirstLaunchTheme" parent="@style/AppTheme">
+    <style name="IntroTheme" parent="@style/AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>

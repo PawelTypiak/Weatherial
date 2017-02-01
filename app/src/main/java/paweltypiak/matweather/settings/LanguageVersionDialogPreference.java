@@ -22,7 +22,7 @@ public class LanguageVersionDialogPreference extends CustomDialogPreference{
     protected void buildRadioGroup(RadioGroup radioGroup){
         String englishRadioButtonText=getContext().getString(R.string.language_version_english);
         final int englishRadioButtonId=R.id.language_version_dialog_english_radio_button_id;
-        int englishRadioButtonBottomMargin=16;
+        int englishRadioButtonBottomMargin=(int)getContext().getResources().getDimension(R.dimen.radio_button_bottom_margin);
         RadioButton englishRadioButton=setRadioButtonLayout(englishRadioButtonText,englishRadioButtonId,englishRadioButtonBottomMargin);
         radioGroup.addView(englishRadioButton);
         String polishRadioButtonText=getContext().getString(R.string.language_version_polish);

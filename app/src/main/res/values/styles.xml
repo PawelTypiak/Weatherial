@@ -11,7 +11,7 @@
 
     <style name="MainTheme" parent="@style/AppTheme"/>
 
-    <style name="FirstLaunchTheme" parent="@style/AppTheme">
+    <style name="IntroTheme" parent="@style/AppTheme">
 
     </style>
 

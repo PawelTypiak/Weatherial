@@ -6,7 +6,7 @@ import android.os.Bundle;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.mainActivityInitializing.mainActivityLayoutInitializing.MainActivityLayoutInitializer;
 import paweltypiak.matweather.usefulClasses.SharedPreferencesModifier;
-import paweltypiak.matweather.weatherDataDownloading.WeatherDataParser;
+import paweltypiak.matweather.dataDownloading.weatherDataDownloading.WeatherDataParser;
 
 public class MainActivityInitialWeatherDataSetter {
 

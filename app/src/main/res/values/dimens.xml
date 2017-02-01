@@ -8,8 +8,7 @@
 
     <dimen name="first_activities_button_text_size">30dp</dimen>
     <dimen name="action_bar_icon_size">40dp</dimen>
-    <dimen name="first_launch_configuration_title_text_size">20dp</dimen>
-    <dimen name="first_launch_configuration_text_size">18dp</dimen>
+
     <dimen name="first_launch_units_dropdown_item_width">80dp</dimen>
     <dimen name="first_launch_units_image_padding">24dp</dimen>
     <dimen name="locations_list_text_size">16dp</dimen>
@@ -27,6 +26,8 @@
     <dimen name="toolbar_icons_padding">16dp</dimen>
     <dimen name="floating_action_button_margin">4dp</dimen>
     <dimen name="radio_button_bottom_margin">16dp</dimen>
+    <dimen name="intro_activity_button_padding">16dp</dimen>
+    <dimen name="intro_activity_radiobutton_bottom_margin">8dp</dimen>
 
     <dimen name="toolbar_expanded_title_top_padding">40dp</dimen>
     <dimen name="collapsed_toolbar_right_margin">78dp</dimen>
@@ -79,6 +80,9 @@
     <dimen name="info_activity_icons_size">24dp</dimen>
     <dimen name="author_dialog_icons_size">24dp</dimen>
     <dimen name="author_dialog_icons_background_size">40dp</dimen>
+    <dimen name="intro_activity_button_arrow_icon_size">48dp</dimen>
+    <dimen name="intro_activity_units_fragment_icons_size">40dp</dimen>
+
 
     <!-- text sizes -->
     <dimen name="toolbar_expanded_title_text_size">45dp</dimen>
@@ -96,5 +100,8 @@
     <dimen name="on_refresh_message_text_size">16dp</dimen>
     <dimen name="info_activity_description_text_size">14dp</dimen>
     <dimen name="version_text_size">14dp</dimen>
+    <dimen name="intro_activity_button_text_size">24dp</dimen>
+    <dimen name="intro_activity_fragment_header_text_size">20dp</dimen>
+    <dimen name="intro_activity_fragment_text_size">18dp</dimen>
 
 </resources>

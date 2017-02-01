@@ -9,6 +9,7 @@ import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import paweltypiak.matweather.R;
@@ -28,14 +29,22 @@ public abstract class CustomDialogPreference extends DialogPreference{
         this.dialogTitle = dialogTitle;
     }
 
-    protected RadioButton setRadioButtonLayout(String radioButtonText,int radioButtonId,int bottomMargin){
+    protected RadioButton setRadioButtonLayout(String radioButtonText,int radioButtonId,int radioButtonBottomMargin){
         RadioButton radioButton=new RadioButton(getContext());
         radioButton.setText(UsefulFunctions.fromHtml(radioButtonText));
         radioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX,getContext().getResources().getDimensionPixelSize(R.dimen.dialog_text_size));
         radioButton.setTextColor(ContextCompat.getColor(getContext(),R.color.textSecondaryLightBackground));
         radioButton.setId(radioButtonId);
-        UsefulFunctions.setRadioButtonMargins(radioButton,(Activity)getContext(),0,0,0,bottomMargin);
+        setRadioButtonMargins(radioButton,radioButtonBottomMargin);
         return radioButton;
+    }
+
+    public void setRadioButtonMargins(RadioButton radioButton,int radioButtonBottomMargin){
+        LinearLayout.LayoutParams layoutParams = new RadioGroup.LayoutParams(
+                RadioGroup.LayoutParams.WRAP_CONTENT,
+                RadioGroup.LayoutParams.WRAP_CONTENT);
+        layoutParams.setMargins(0,0,0, radioButtonBottomMargin);
+        radioButton.setLayoutParams(layoutParams);
     }
 
     @Override

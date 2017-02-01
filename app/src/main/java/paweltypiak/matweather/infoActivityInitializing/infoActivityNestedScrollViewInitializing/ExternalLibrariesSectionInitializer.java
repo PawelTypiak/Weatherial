@@ -33,7 +33,7 @@ public class ExternalLibrariesSectionInitializer {
         licenseTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String webAddress=activity.getString(R.string.info_activity_apache_license_address);
+                String webAddress=activity.getString(R.string.apache_license_address);
                 nestedScrollViewInitializer.initializeWebIntent(activity,webAddress);
             }
         });
@@ -84,7 +84,7 @@ public class ExternalLibrariesSectionInitializer {
             public void onClick(View v) {
                 nestedScrollViewInitializer.initializeWebIntent(
                         activity,
-                        activity.getString(R.string.info_activity_picasso_library_address));
+                        activity.getString(R.string.picasso_library_address));
             }
         });
     }
@@ -98,7 +98,7 @@ public class ExternalLibrariesSectionInitializer {
             public void onClick(View v) {
                 nestedScrollViewInitializer.initializeWebIntent(
                         activity,
-                        activity.getString(R.string.info_activity_smooth_app_bar_layout_library_address));
+                        activity.getString(R.string.smooth_app_bar_layout_library_address));
             }
         });
     }
@@ -112,7 +112,7 @@ public class ExternalLibrariesSectionInitializer {
             public void onClick(View v) {
                 nestedScrollViewInitializer.initializeWebIntent(
                         activity,
-                        activity.getString(R.string.info_activity_multiline_collapsingtoolbar_library_address));
+                        activity.getString(R.string.multiline_collapsingtoolbar_library_address));
             }
         });
     }

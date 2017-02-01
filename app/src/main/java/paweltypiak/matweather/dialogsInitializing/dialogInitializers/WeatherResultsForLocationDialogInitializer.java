@@ -9,7 +9,7 @@ import android.widget.TextView;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.dialogsInitializing.AlertDialogBuilder;
 import paweltypiak.matweather.dialogsInitializing.alertDialogTools.AlertDialogButtonsCustomizer;
-import paweltypiak.matweather.weatherDataDownloading.WeatherDataParser;
+import paweltypiak.matweather.dataDownloading.weatherDataDownloading.WeatherDataParser;
 
 public class WeatherResultsForLocationDialogInitializer {
 

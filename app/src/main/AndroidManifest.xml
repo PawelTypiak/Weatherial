@@ -11,10 +11,10 @@
         android:label="@string/app_name"
         android:supportsRtl="true">
         <activity
-            android:name=".firstLaunching.FirstLaunchActivity"
+            android:name=".introActivityInitializing.IntroActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/FirstLaunchTheme">
+            android:theme="@style/IntroTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

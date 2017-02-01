@@ -41,7 +41,7 @@ public class UnitsDialogPreference extends CustomDialogPreference{
         }
         else if(selectedOption ==1){
             unitPreferences[unitId]=1;
-            for(int i=0;i<5;i++){
+            for(int i=0;i<4;i++){
             }
             SharedPreferencesModifier.setUnits(getContext(),unitPreferences);
             setSummary(unitsArray[1]);
@@ -74,7 +74,7 @@ public class UnitsDialogPreference extends CustomDialogPreference{
         final int unitRadioButtonIds[]=getRadioButtonIds();
         String unitRadioButtonTexts[]=unitsArray;
         int [] unitRadioButtonMargin=new int[2];
-        unitRadioButtonMargin[0]=16;
+        unitRadioButtonMargin[0]=(int)getContext().getResources().getDimension(R.dimen.radio_button_bottom_margin);
         unitRadioButtonMargin[1]=0;
         for(int i=0;i<2;i++){
             RadioButton unitRadioButton=setRadioButtonLayout(unitRadioButtonTexts[i],unitRadioButtonIds[i],unitRadioButtonMargin[i]);

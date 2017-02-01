@@ -6,7 +6,7 @@ import android.util.Log;
 import java.util.Calendar;
 import paweltypiak.matweather.mainActivityInitializing.mainActivityLayoutInitializing.MainActivityLayoutInitializer;
 import paweltypiak.matweather.usefulClasses.SharedPreferencesModifier;
-import paweltypiak.matweather.weatherDataDownloading.WeatherDataFormatter;
+import paweltypiak.matweather.dataDownloading.weatherDataDownloading.WeatherDataFormatter;
 
 public class OnTimeChangeLayoutUpdater {
 
@@ -85,7 +85,7 @@ public class OnTimeChangeLayoutUpdater {
         // TODO: unit in weatherInitializer, passing only calendar
         String outputFormat;
         int[] units= SharedPreferencesModifier.getUnits(activity);
-        if(units[4]==0) outputFormat="HH:mm:ss";
+        if(units[3]==0) outputFormat="HH:mm:ss";
         else outputFormat="hh:mm:ss a";
         return outputFormat;
     }
