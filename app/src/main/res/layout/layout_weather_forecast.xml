@@ -166,7 +166,8 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_marginBottom="@dimen/forecast_days_vertical_margin"
-                    android:paddingBottom="@dimen/forecast_days_stepper_padding">
+                    android:paddingBottom="@dimen/forecast_days_stepper_padding"
+                    android:paddingTop="@dimen/forecast_days_stepper_padding">
                     <RelativeLayout
                         android:id="@+id/weather_forecast_layout_day_date_layout_1"
                         android:layout_width="wrap_content"
@@ -291,7 +292,8 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_marginBottom="@dimen/forecast_days_vertical_margin"
-                    android:paddingBottom="@dimen/forecast_days_stepper_padding">
+                    android:paddingBottom="@dimen/forecast_days_stepper_padding"
+                    android:paddingTop="@dimen/forecast_days_stepper_padding">
                     <RelativeLayout
                         android:id="@+id/weather_forecast_layout_day_date_layout_2"
                         android:layout_width="wrap_content"
@@ -415,7 +417,8 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_marginBottom="@dimen/forecast_days_vertical_margin"
-                    android:paddingBottom="@dimen/forecast_days_stepper_padding">
+                    android:paddingBottom="@dimen/forecast_days_stepper_padding"
+                    android:paddingTop="@dimen/forecast_days_stepper_padding">
                     <RelativeLayout
                         android:id="@+id/weather_forecast_layout_day_date_layout_3"
                         android:layout_width="wrap_content"
