@@ -19,7 +19,7 @@ import paweltypiak.matweather.dialogsInitializing.dialogInitializers.favouritesD
 import paweltypiak.matweather.dialogsInitializing.dialogInitializers.feedbackDialogInitializing.FeedbackDialogInitializer;
 import paweltypiak.matweather.dialogsInitializing.dialogInitializers.GeolocalizationMethodsDialogInitializer;
 import paweltypiak.matweather.dialogsInitializing.dialogInitializers.NoFavouritesAvailableDialogInitializer;
-import paweltypiak.matweather.settings.Settings;
+import paweltypiak.matweather.settingsActivityInitializing.SettingsActivity;
 import paweltypiak.matweather.usefulClasses.SharedPreferencesModifier;
 
 public class NavigationDrawerInitializer implements NavigationView.OnNavigationItemSelectedListener {
@@ -149,7 +149,7 @@ public class NavigationDrawerInitializer implements NavigationView.OnNavigationI
     private void onSettingsButtonClick(){
         Intent intent = new Intent(
                 activity,
-                Settings.class);
+                SettingsActivity.class);
         activity.startActivity(intent);
     }
 

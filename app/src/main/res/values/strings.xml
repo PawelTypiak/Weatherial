@@ -23,7 +23,26 @@
     <string name="extras_selected_geolocalization_method_key">selected_geolocalization_method_key</string>
     <string name="extras_different_location_name_key">different_location_name_key</string>
     <string name="extras_data_initializer_key">data_initializer_key</string>
+    <string name="preferences_default_location_key">preferences_default_location_key</string>
+    <string name="preferences_geolocalization_method_key">preferences_geolocalization_method_key</string>
+    <string name="preferences_language_version_key">preferences_language_version_key</string>
+    <string name="preferences_units_key">preferences_units_key</string>
+    <string name="preferences_pressure_unit_key">preferences_pressure_units_key</string>
+    <string name="preferences_speed_unit_key">preferences_speed_units_key</string>
+    <string name="preferences_temperature_unit_key">preferences_temperature_unit_key</string>
+    <string name="preferences_time_unit_key">preferences_time_unit_key</string>
 
+    <!-- Fragment Tags -->
+    <string name="intro_activity_start_fragment_tag">intro_activity_start_fragment_tag</string>
+    <string name="intro_activity_configuration_fragment_tag">intro_activity_configuration_fragment_tag</string>
+    <string name="intro_activity_language_fragment_tag">intro_activity_language_fragment_tag</string>
+    <string name="intro_activity_units_fragment_tag">intro_activity_units_fragment_tag</string>
+    <string name="intro_activity_defeault_location_fragment_tag">intro_activity_defeault_location_tag</string>
+    <string name="intro_activity_geolocaliztion_methods_fragment_tag">intro_activity_geolocaliztion_methods_fragment_tag</string>
+    <string name="intro_activity_loading_fragment_tag">intro_activity_loading_fragment_tag</string>
+    <string name="settings_activity_main_preferences_fragment_tag">settings_activity_main_preferences_fragment_tag</string>
+    <string name="settings_activity_units_preferences_fragment_tag">settings_activity_units_preferences_fragment_tag</string>
+    
     <!-- Dialog strings -->
     <string name="failure_dialog_title">Failure</string>
     <string name="service_failure_dialog_message">Empty reply from server, probably caused by temporary service failure. Try again later.</string>

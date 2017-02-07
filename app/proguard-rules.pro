@@ -15,4 +15,4 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
--keepnames class paweltypiak.matweather.settings.Settings$unitsSettingsFragment
+-keepnames class paweltypiak.matweather.settings.SettingsActivity$unitsSettingsFragment

@@ -11,7 +11,7 @@ import paweltypiak.matweather.dialogsInitializing.dialogInitializers.exitDialogI
 import paweltypiak.matweather.mainActivityInitializing.mainActivityDataDownloading.MainActivityDataDownloader;
 import paweltypiak.matweather.mainActivityInitializing.mainActivityLayoutInitializing.MainActivityLayoutInitializer;
 import paweltypiak.matweather.mainActivityInitializing.mainActivityLayoutInitializing.layoutUpdating.OnTimeChangeLayoutUpdater;
-import paweltypiak.matweather.settings.Settings;
+import paweltypiak.matweather.settingsActivityInitializing.SettingsActivity;
 import paweltypiak.matweather.mainActivityInitializing.mainActivityLayoutInitializing.layoutUpdating.OnWeatherDataChangeLayoutUpdater;
 import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 import paweltypiak.matweather.dataDownloading.weatherDataDownloading.WeatherDataParser;
@@ -98,16 +98,16 @@ public class MainActivity extends AppCompatActivity {
             public void run()
             {
                 //postdelay to call recreate() after onResume()
-                if(Settings.isUnitsPreferencesChanged()) {
+                if(SettingsActivity.isUnitsPreferencesChanged()) {
                     //units change
                     refreshLayoutAfterUnitsPreferencesChange();
-                    Settings.setUnitsPreferencesChanged(false);
+                    SettingsActivity.setUnitsPreferencesChanged(false);
                     Log.d("preferences_changed", "units change");
                 }
-                if(Settings.isLanguagePreferencesChanged()){
+                if(SettingsActivity.isLanguagePreferencesChanged()){
                     //language change
                     recreate();
-                    Settings.setLanguagePreferencesChanged(false);
+                    SettingsActivity.setLanguagePreferencesChanged(false);
                     Log.d("preferences_changed", "language change");
                 }
             }
@@ -119,7 +119,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private OnTimeChangeLayoutUpdater getOnTimeChangeLayoutUpdater(){
-        return mainActivityLayoutInitializer.getOnTimeChangeLayoutUpdater();
+        if(mainActivityLayoutInitializer!=null){
+            return mainActivityLayoutInitializer.getOnTimeChangeLayoutUpdater();
+        }
+        else return null;
     }
 
     @Override

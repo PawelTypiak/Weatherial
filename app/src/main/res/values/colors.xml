@@ -6,7 +6,7 @@
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="grey">#727272</color>
-    <color name="transparent">#FFFFFFFF</color>
+    <color name="transparent">#00000000</color>
 
     <color name="backgroundLight">#FAFAFA</color>
     <color name="textPrimaryLightBackground">#DE000000</color>

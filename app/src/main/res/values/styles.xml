@@ -6,13 +6,15 @@
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+
+    </style>
+
+    <style name="MainTheme" parent="@style/AppTheme">
         <item name="android:windowBackground">@color/colorPrimary</item>
     </style>
 
-    <style name="MainTheme" parent="@style/AppTheme"/>
-
     <style name="IntroTheme" parent="@style/AppTheme">
-
+        <item name="android:windowBackground">@drawable/splash_screen</item>
     </style>
 
     <style name="SettingsTheme.base" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -81,5 +83,10 @@
 
     <style name="EditTextStyle">
         <item name="colorControlNormal">@color/transparent</item>
+    </style>
+
+    <style name="SpinnerStyle" parent="MainTheme">
+        <item name="colorControlActivated">@color/colorAccent</item>
+        <item name="colorControlHighlight">@color/ripple_effect_black</item>
     </style>
 </resources>

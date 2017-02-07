@@ -4,6 +4,7 @@
         <item name="windowNoTitle">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        <item name="android:windowBackground">@color/colorPrimary</item>
     </style>
 
     <style name="IntroTheme" parent="@style/AppTheme">
@@ -11,7 +12,7 @@
         <item name="windowNoTitle">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
-
+        <item name="android:windowBackground">@drawable/splash_screen</item>
     </style>
 
     <style name="SettingsTheme" parent="SettingsTheme.base">

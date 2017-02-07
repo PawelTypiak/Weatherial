@@ -10,7 +10,7 @@
         android:id="@+id/intro_activity_configuration_fragment_app_icon_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2"
+        android:layout_weight="1"
         >
         <ImageView
             android:id="@+id/intro_activity_configuration_fragment_app_icon_image"
@@ -21,8 +21,7 @@
     <FrameLayout
         android:id="@+id/intro_activity_configuration_fragment_placeholder"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="@dimen/intro_activity_settings_fragment_height"
         >
     </FrameLayout>
 </LinearLayout>

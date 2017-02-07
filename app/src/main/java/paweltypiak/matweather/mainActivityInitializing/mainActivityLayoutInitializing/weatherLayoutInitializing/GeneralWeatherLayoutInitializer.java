@@ -63,11 +63,6 @@ public class GeneralWeatherLayoutInitializer {
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
-                       /* mainActivityLayoutInitializer.
-                                getWeatherLayoutInitializer().
-                                getSwipeRefreshLayoutInitializer().
-                                getPullListenersInitializer().
-                                setNestedScrollViewScrollingEnabled();*/
                         setNestedScrollViewEnabled();
                         if(runnable!=null){
                             runnable.run();
@@ -77,14 +72,8 @@ public class GeneralWeatherLayoutInitializer {
     }
 
     public void fadeOutWeatherLayout(final Runnable runnable){
-        /*mainActivityLayoutInitializer.
-                getWeatherLayoutInitializer().
-                getSwipeRefreshLayoutInitializer().
-                getPullListenersInitializer().
-                setNestedScrollViewScrollingDisabled()*/;
         setNestedScrollViewDisabled();
-
-        long transitionTime=100;
+        long transitionTime=200;
         if(weatherLayout.getVisibility()==View.VISIBLE){
             weatherLayout.animate()
                     .alpha(0f)

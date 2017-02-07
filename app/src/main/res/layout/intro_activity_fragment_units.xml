@@ -10,18 +10,17 @@
         android:id="@+id/intro_activity_units_fragment_inner_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
         android:orientation="vertical"
         >
         <paweltypiak.matweather.customViews.RobotoMediumFontTextView
             android:id="@+id/intro_activity_units_fragment_header_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="invisible"
             android:textSize="@dimen/intro_activity_fragment_header_text_size"
             android:text="@string/first_launch_units_header"
             android:gravity="center"
-            android:layout_marginBottom="@dimen/activity_normal_margin"
+            android:layout_marginBottom="@dimen/intro_activity_fragment_header_bottom_margin"
             android:textColor="@color/textPrimaryDarkBackground"
             />
         <LinearLayout
@@ -30,153 +29,229 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             >
-            <LinearLayout
-                android:id="@+id/intro_activity_units_fragment_image_and_spinner_layout_0"
+            <RelativeLayout
+                android:id="@+id/intro_activity_units_fragment_image_and_spinner_clickable_layout_0"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                >
-                <ImageView
-                    android:id="@+id/intro_activity_units_fragment_spinner_image_0"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/intro_activity_units_fragment_icons_size"
-                    android:adjustViewBounds="true"
-                    android:background="?selectableItemBackgroundBorderless"
-                    />
-                <RelativeLayout
-                    android:id="@+id/intro_activity_units_fragment_spinner_layout_0"
-                    android:layout_width="match_parent"
+                android:layout_weight="1">
+                <LinearLayout
+                    android:id="@+id/intro_activity_units_fragment_image_and_spinner_layout_0"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:orientation="vertical"
                     >
-                    <view
-                        class="paweltypiak.matweather.introActivityInitializing.IntroActivityUnitsFragment$FirstLaunchSpinner"
-                        android:id="@+id/intro_activity_units_fragment_spinner_0"
+                    <ImageView
+                        android:id="@+id/intro_activity_units_fragment_spinner_image_0"
+                        android:layout_width="@dimen/intro_activity_units_fragment_icons_size"
+                        android:layout_height="@dimen/intro_activity_units_fragment_icons_size"
+                        android:layout_marginBottom="@dimen/intro_activity_units_fragment_icons_bottom_margin"
+                        android:src="@drawable/temperature_unit_icon"
+                        android:tint="@color/white"
+                        android:layout_gravity="center_horizontal"
+                        />
+                    <TextView
+                        android:id="@+id/intro_activity_units_fragment_spinner_text_view_0"
                         android:layout_width="wrap_content"
-                        android:layout_centerInParent="true"
                         android:layout_height="wrap_content"
-                        android:dropDownWidth="@dimen/first_launch_units_dropdown_item_width"
-                        android:visibility="invisible"
+                        android:layout_marginBottom="@dimen/intro_activity_units_fragment_unit_bottom_margin"
+                        android:textSize="@dimen/intro_activity_fragment_text_size"
+                        android:textColor="@color/white"
+                        android:layout_gravity="center_horizontal"
                         />
-                    <View
-                        android:id="@+id/intro_activity_units_fragment_spinner_selectable_view_0"
+                    <RelativeLayout
+                        android:id="@+id/intro_activity_units_fragment_spinner_layout_0"
                         android:layout_width="match_parent"
-                        android:layout_centerInParent="true"
-                        android:layout_height="0dp"
-                        android:background="?selectableItemBackgroundBorderless"
-                        />
-                </RelativeLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/intro_activity_units_fragment_image_and_spinner_layout_1"
+                        android:layout_height="wrap_content"
+                        >
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/intro_activity_units_fragment_spinner_arrow_icon_height"
+                            android:adjustViewBounds="true"
+                            android:layout_centerHorizontal="true"
+                            android:src="@drawable/full_arrow_icon"
+                            android:rotation="180"
+                            android:tint="@color/white"/>
+                        <view
+                            class="paweltypiak.matweather.introActivityInitializing.introActivityFragmentInitializing.IntroActivityUnitsFragment$FirstLaunchSpinner"
+                            android:id="@+id/intro_activity_units_fragment_spinner_0"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:popupBackground="@color/colorPrimary"
+                            android:background="@color/transparent"
+                            android:theme="@style/SpinnerStyle"
+                            />
+                    </RelativeLayout>
+                </LinearLayout>
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/intro_activity_units_fragment_image_and_spinner_clickable_layout_1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                >
-                <ImageView
-                    android:id="@+id/intro_activity_units_fragment_spinner_image_1"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/intro_activity_units_fragment_icons_size"
-                    android:adjustViewBounds="true"
-                    android:background="?selectableItemBackgroundBorderless"
-                    />
-                <RelativeLayout
-                    android:id="@+id/intro_activity_units_fragment_spinner_layout_1"
-                    android:layout_width="match_parent"
+                android:layout_weight="1">
+                <LinearLayout
+                    android:id="@+id/intro_activity_units_fragment_image_and_spinner_layout_1"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:orientation="vertical"
+                    android:background="?selectableItemBackgroundBorderless"
                     >
-                    <view
-                        class="paweltypiak.matweather.introActivityInitializing.IntroActivityUnitsFragment$FirstLaunchSpinner"
-                        android:id="@+id/intro_activity_units_fragment_spinner_1"
+                    <ImageView
+                        android:id="@+id/intro_activity_units_fragment_spinner_image_1"
+                        android:layout_width="@dimen/intro_activity_units_fragment_icons_size"
+                        android:layout_height="@dimen/intro_activity_units_fragment_icons_size"
+                        android:layout_marginBottom="@dimen/intro_activity_units_fragment_icons_bottom_margin"
+                        android:src="@drawable/speed_unit_icon"
+                        android:tint="@color/white"
+                        android:layout_gravity="center_horizontal"
+                        />
+                    <TextView
+                        android:id="@+id/intro_activity_units_fragment_spinner_text_view_1"
                         android:layout_width="wrap_content"
-                        android:layout_centerInParent="true"
                         android:layout_height="wrap_content"
-                        android:dropDownWidth="@dimen/first_launch_units_dropdown_item_width"
-                        android:visibility="invisible"
+                        android:layout_marginBottom="@dimen/intro_activity_units_fragment_unit_bottom_margin"
+                        android:textSize="@dimen/intro_activity_fragment_text_size"
+                        android:textColor="@color/white"
+                        android:layout_gravity="center_horizontal"
                         />
-                    <View
-                        android:id="@+id/intro_activity_units_fragment_spinner_selectable_view_1"
+                    <RelativeLayout
+                        android:id="@+id/intro_activity_units_fragment_spinner_layout_1"
                         android:layout_width="match_parent"
-                        android:layout_centerInParent="true"
-                        android:layout_height="0dp"
-                        android:background="?selectableItemBackgroundBorderless"
-                        />
-                </RelativeLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/intro_activity_units_fragment_image_and_spinner_layout_2"
+                        android:layout_height="wrap_content"
+                        >
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/intro_activity_units_fragment_spinner_arrow_icon_height"
+                            android:adjustViewBounds="true"
+                            android:layout_centerHorizontal="true"
+                            android:src="@drawable/full_arrow_icon"
+                            android:rotation="180"
+                            android:tint="@color/white"/>
+                        <view
+                            class="paweltypiak.matweather.introActivityInitializing.introActivityFragmentInitializing.IntroActivityUnitsFragment$FirstLaunchSpinner"
+                            android:id="@+id/intro_activity_units_fragment_spinner_1"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:popupBackground="@color/colorPrimary"
+                            android:background="@color/transparent"
+                            android:theme="@style/SpinnerStyle"
+                            />
+                    </RelativeLayout>
+                </LinearLayout>
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/intro_activity_units_fragment_image_and_spinner_clickable_layout_2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-                <ImageView
-                    android:id="@+id/intro_activity_units_fragment_spinner_image_2"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/intro_activity_units_fragment_icons_size"
-                    android:adjustViewBounds="true"
-                    android:background="?selectableItemBackgroundBorderless"
-                    />
-                <RelativeLayout
-                    android:id="@+id/intro_activity_units_fragment_spinner_layout_2"
-                    android:layout_width="match_parent"
+                android:layout_weight="1">
+                <LinearLayout
+                    android:id="@+id/intro_activity_units_fragment_image_and_spinner_layout_2"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:orientation="vertical"
+                    android:background="?selectableItemBackgroundBorderless"
                     >
-                    <view
-                        class="paweltypiak.matweather.introActivityInitializing.IntroActivityUnitsFragment$FirstLaunchSpinner"
-                        android:id="@+id/intro_activity_units_fragment_spinner_2"
+                    <ImageView
+                        android:id="@+id/intro_activity_units_fragment_spinner_image_2"
+                        android:layout_width="@dimen/intro_activity_units_fragment_icons_size"
+                        android:layout_height="@dimen/intro_activity_units_fragment_icons_size"
+                        android:layout_marginBottom="@dimen/intro_activity_units_fragment_icons_bottom_margin"
+                        android:src="@drawable/pressure_unit_icon"
+                        android:tint="@color/white"
+                        android:layout_gravity="center_horizontal"
+                        />
+                    <TextView
+                        android:id="@+id/intro_activity_units_fragment_spinner_text_view_2"
                         android:layout_width="wrap_content"
-                        android:layout_centerInParent="true"
                         android:layout_height="wrap_content"
-                        android:dropDownWidth="@dimen/first_launch_units_dropdown_item_width"
-                        android:visibility="invisible"
+                        android:layout_marginBottom="@dimen/intro_activity_units_fragment_unit_bottom_margin"
+                        android:textSize="@dimen/intro_activity_fragment_text_size"
+                        android:textColor="@color/white"
+                        android:layout_gravity="center_horizontal"
                         />
-                    <View
-                        android:id="@+id/intro_activity_units_fragment_spinner_selectable_view_2"
+                    <RelativeLayout
+                        android:id="@+id/intro_activity_units_fragment_spinner_layout_2"
                         android:layout_width="match_parent"
-                        android:layout_centerInParent="true"
-                        android:layout_height="0dp"
-                        android:background="?selectableItemBackgroundBorderless"
-                        />
-                </RelativeLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/intro_activity_units_fragment_image_and_spinner_layout_3"
+                        android:layout_height="wrap_content"
+                        >
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/intro_activity_units_fragment_spinner_arrow_icon_height"
+                            android:adjustViewBounds="true"
+                            android:layout_centerHorizontal="true"
+                            android:src="@drawable/full_arrow_icon"
+                            android:rotation="180"
+                            android:tint="@color/white"/>
+                        <view
+                            class="paweltypiak.matweather.introActivityInitializing.introActivityFragmentInitializing.IntroActivityUnitsFragment$FirstLaunchSpinner"
+                            android:id="@+id/intro_activity_units_fragment_spinner_2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:popupBackground="@color/colorPrimary"
+                            android:background="@color/transparent"
+                            android:theme="@style/SpinnerStyle"
+                            />
+                    </RelativeLayout>
+                </LinearLayout>
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/intro_activity_units_fragment_image_and_spinner_clickable_layout_3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                >
-                <ImageView
-                    android:id="@+id/intro_activity_units_fragment_spinner_image_3"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/intro_activity_units_fragment_icons_size"
-                    android:adjustViewBounds="true"
-                    android:background="?selectableItemBackgroundBorderless"
-                    />
-                <RelativeLayout
-                    android:id="@+id/intro_activity_units_fragment_spinner_layout_3"
-                    android:layout_width="match_parent"
+                android:layout_weight="1">
+                <LinearLayout
+                    android:id="@+id/intro_activity_units_fragment_image_and_spinner_layout_3"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:orientation="vertical"
+                    android:background="?selectableItemBackgroundBorderless"
                     >
-                    <view
-                        class="paweltypiak.matweather.introActivityInitializing.IntroActivityUnitsFragment$FirstLaunchSpinner"
-                        android:id="@+id/intro_activity_units_fragment_spinner_3"
+                    <ImageView
+                        android:id="@+id/intro_activity_units_fragment_spinner_image_3"
+                        android:layout_width="@dimen/intro_activity_units_fragment_icons_size"
+                        android:layout_height="@dimen/intro_activity_units_fragment_icons_size"
+                        android:layout_marginBottom="@dimen/intro_activity_units_fragment_icons_bottom_margin"
+                        android:src="@drawable/time_unit_icon"
+                        android:tint="@color/white"
+                        android:layout_gravity="center_horizontal"
+                        />
+                    <TextView
+                        android:id="@+id/intro_activity_units_fragment_spinner_text_view_3"
                         android:layout_width="wrap_content"
-                        android:layout_centerInParent="true"
                         android:layout_height="wrap_content"
-                        android:dropDownWidth="@dimen/first_launch_units_dropdown_item_width"
-                        android:visibility="invisible"
+                        android:layout_marginBottom="@dimen/intro_activity_units_fragment_unit_bottom_margin"
+                        android:textSize="@dimen/intro_activity_fragment_text_size"
+                        android:textColor="@color/white"
+                        android:layout_gravity="center_horizontal"
                         />
-                    <View
-                        android:id="@+id/intro_activity_units_fragment_spinner_selectable_view_3"
+                    <RelativeLayout
+                        android:id="@+id/intro_activity_units_fragment_spinner_layout_3"
                         android:layout_width="match_parent"
-                        android:layout_centerInParent="true"
-                        android:layout_height="0dp"
-                        android:background="?selectableItemBackgroundBorderless"
-                        />
-                </RelativeLayout>
-            </LinearLayout>
+                        android:layout_height="wrap_content"
+                        >
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/intro_activity_units_fragment_spinner_arrow_icon_height"
+                            android:adjustViewBounds="true"
+                            android:layout_centerHorizontal="true"
+                            android:src="@drawable/full_arrow_icon"
+                            android:rotation="180"
+                            android:tint="@color/white"/>
+                        <view
+                            class="paweltypiak.matweather.introActivityInitializing.introActivityFragmentInitializing.IntroActivityUnitsFragment$FirstLaunchSpinner"
+                            android:id="@+id/intro_activity_units_fragment_spinner_3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:popupBackground="@color/colorPrimary"
+                            android:background="@color/transparent"
+                            android:theme="@style/SpinnerStyle"
+                            />
+                    </RelativeLayout>
+                </LinearLayout>
+            </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

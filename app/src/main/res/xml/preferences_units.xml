@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    >
-        <paweltypiak.matweather.settings.TemperatureUnitsDialogPreference
-            android:title="@string/preferences_units_temperature_title"
-            android:icon="@drawable/preference_units_icon_0"/>
-        <paweltypiak.matweather.settings.SpeedUnitsDialogPreference
-            android:title="@string/preferences_units_speed_title"
-            android:icon="@drawable/preference_units_icon_1"/>
-        <paweltypiak.matweather.settings.PressureUnitsDialogPreference
-            android:title="@string/preferences_units_pressure_title"
-            android:icon="@drawable/preference_units_icon_2"/>
-        <paweltypiak.matweather.settings.TimeUnitsDialogPreference
-            android:title="@string/preferences_units_time_title"
-            android:icon="@drawable/preference_units_icon_3"/>
+    xmlns:android="http://schemas.android.com/apk/res/android">
+        <paweltypiak.matweather.settingsActivityInitializing.dialogPreferencesInitializing.unitsDialogPreferences.TemperatureUnitsDialogPreference
+            android:key="@string/preferences_temperature_unit_key"
+            android:title="@string/preferences_units_temperature_title"/>
+        <paweltypiak.matweather.settingsActivityInitializing.dialogPreferencesInitializing.unitsDialogPreferences.SpeedUnitsDialogPreference
+            android:key="@string/preferences_speed_unit_key"
+            android:title="@string/preferences_units_speed_title"/>
+        <paweltypiak.matweather.settingsActivityInitializing.dialogPreferencesInitializing.unitsDialogPreferences.PressureUnitsDialogPreference
+            android:key="@string/preferences_pressure_unit_key"
+            android:title="@string/preferences_units_pressure_title"/>
+        <paweltypiak.matweather.settingsActivityInitializing.dialogPreferencesInitializing.unitsDialogPreferences.TimeUnitsDialogPreference
+            android:key="@string/preferences_time_unit_key"
+            android:title="@string/preferences_units_time_title"/>
 </PreferenceScreen>

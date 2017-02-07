@@ -10,7 +10,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true">
         <paweltypiak.matweather.customViews.RobotoMediumFontTextView
             android:id="@+id/intro_activity_loading_fragment_message"

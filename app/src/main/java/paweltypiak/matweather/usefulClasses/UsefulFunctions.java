@@ -143,40 +143,6 @@ public class UsefulFunctions {
         }
     }
 
-    //// TODO: delete
-    public class setDrawableColor implements Transformation {
-        //change drawable color in Picasso
-        private int color = 0;
-
-        public setDrawableColor(int color ) {
-            this.color = color;
-        }
-
-        @Override
-        public Bitmap transform(Bitmap source) {
-            if( color == 0 ) {
-                return source;
-            }
-            BitmapDrawable drawable = new BitmapDrawable(Resources.getSystem(), source );
-            Bitmap result = Bitmap.createBitmap( drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888 );
-            Canvas canvas = new Canvas( result );
-            drawable.setBounds( 0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight() );
-            drawable.setColorFilter( color, PorterDuff.Mode.SRC_IN );
-            drawable.draw(canvas);
-            drawable.setColorFilter(null);
-            drawable.setCallback(null);
-            if( result != source ) {
-                source.recycle();
-            }
-            return result;
-        }
-
-        @Override
-        public String key() {
-            return "DrawableColor:" + color;
-        }
-    }
-
     public static Drawable getColoredDrawable(Activity activity, int drawableId, int color){
         Drawable drawable = ContextCompat.getDrawable(activity, drawableId).mutate();
         drawable.setColorFilter(new

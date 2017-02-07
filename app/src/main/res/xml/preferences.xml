@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    >
-    <paweltypiak.matweather.settings.DefeaultLocationDialogPreference
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <paweltypiak.matweather.settingsActivityInitializing.dialogPreferencesInitializing.DefaultLocationDialogPreference
+        android:key="@string/preferences_default_location_key"
         android:title="@string/preferences_defeault_location_title"
-        android:icon="@drawable/preference_defeault_location_icon"
         />
-    <paweltypiak.matweather.settings.GeolocalizationMethodDialogPreference
+    <paweltypiak.matweather.settingsActivityInitializing.dialogPreferencesInitializing.GeolocalizationMethodDialogPreference
+        android:key="@string/preferences_geolocalization_method_key"
         android:title="@string/preferences_geolocalization_method_title"
-        android:icon="@drawable/preference_geolocalization_method_icon"
         />
     <Preference
-        android:key="preferences_units"
+        android:key="@string/preferences_units_key"
         android:title="@string/preferences_units_title"
-        android:summary="@string/preferences_units_summary"
-        android:icon="@drawable/preference_units_icon"/>
-    <paweltypiak.matweather.settings.LanguageVersionDialogPreference
+        android:summary="@string/preferences_units_summary"/>
+    <paweltypiak.matweather.settingsActivityInitializing.dialogPreferencesInitializing.LanguageVersionDialogPreference
+        android:key="@string/preferences_language_version_key"
         android:title="@string/preferences_language_version_title"
-        android:icon="@drawable/preference_language_version_icon"
         />
 </PreferenceScreen>

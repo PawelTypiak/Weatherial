@@ -26,8 +26,15 @@
     <dimen name="toolbar_icons_padding">16dp</dimen>
     <dimen name="floating_action_button_margin">4dp</dimen>
     <dimen name="radio_button_bottom_margin">16dp</dimen>
-    <dimen name="intro_activity_button_padding">16dp</dimen>
-    <dimen name="intro_activity_radiobutton_bottom_margin">8dp</dimen>
+    <dimen name="intro_activity_button_vertical_padding">10dp</dimen>
+    <dimen name="intro_activity_button_left_padding">16dp</dimen>
+    <dimen name="intro_activity_button_right_padding">10dp</dimen>
+    <dimen name="intro_activity_button_textview_right_margin">12dp</dimen>
+    <dimen name="intro_activity_fragment_header_bottom_margin">16dp</dimen>
+    <dimen name="intro_activity_fragment_radio_button_bottom_margin">8dp</dimen>
+    <dimen name="intro_activity_units_fragment_icons_bottom_margin">8dp</dimen>
+    <dimen name="intro_activity_units_fragment_unit_bottom_margin">4dp</dimen>
+    <dimen name="intro_activity_button_vertical_margin">48dp</dimen>
 
     <dimen name="toolbar_expanded_title_top_padding">40dp</dimen>
     <dimen name="collapsed_toolbar_right_margin">78dp</dimen>
@@ -50,6 +57,8 @@
     <dimen name="progress_dialog_vertical_margin">32dp</dimen>
     <dimen name="edit_location_dialog_location_title_bottom_margin">-4dp</dimen>
     <dimen name="edit_location_dialog_location_subtitle_bottom_margin">4dp</dimen>
+    <dimen name="preferences_icon_padding">8dp</dimen>
+
 
 
     <!-- other sizes -->
@@ -63,8 +72,9 @@
     <dimen name="intro_loading_progress_bar_size">56dp</dimen>
     <dimen name="sun_path_progress_bar_view_size">2dp</dimen>
     <dimen name="swipe_refresh_layout_offset">56dp</dimen>
-    <dimen name="cardview_corner_radius">2dp</dimen>
+    <dimen name="cardview_corner_radius">3dp</dimen>
     <dimen name="author_dialog_list_item_height">72dp</dimen>
+    <dimen name="intro_activity_settings_fragment_height">128dp</dimen>
 
     <!-- image sizes -->
     <dimen name="yahoo_logo_image_width">134px</dimen>
@@ -80,8 +90,9 @@
     <dimen name="info_activity_icons_size">24dp</dimen>
     <dimen name="author_dialog_icons_size">24dp</dimen>
     <dimen name="author_dialog_icons_background_size">40dp</dimen>
-    <dimen name="intro_activity_button_arrow_icon_size">48dp</dimen>
+    <dimen name="intro_activity_button_arrow_icon_size">24dp</dimen>
     <dimen name="intro_activity_units_fragment_icons_size">40dp</dimen>
+    <dimen name="intro_activity_units_fragment_spinner_arrow_icon_height">8dp</dimen>
 
 
     <!-- text sizes -->
