@@ -10,7 +10,6 @@ import android.widget.LinearLayout;
 import paweltypiak.matweather.dialogsInitializing.dialogInitializers.exitDialogInitializing.ExitDialogInitializer;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.introActivityInitializing.introActivityFragmentInitializing.introActivityConfigurationFragmentInitializing.OnSettingsFragmentViewCreatedListener;
-import paweltypiak.matweather.introActivityInitializing.introActivityFragmentInitializing.introActivityLocationFragmentInitializing.IntroActivityLocationFragment;
 import paweltypiak.matweather.introActivityInitializing.introActivityFragmentInitializing.introActivityLocationFragmentInitializing.ShowLocationFragmentAgainListener;
 import paweltypiak.matweather.usefulClasses.SharedPreferencesModifier;
 
@@ -30,6 +29,14 @@ public class IntroActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
         runDelayedInitializing();
+    }
+
+    public IntroActivityFragmentInsertionInitializer getFragmentInsertionInitializer() {
+        return fragmentInsertionInitializer;
+    }
+
+    public IntroActivityNextButtonInitializer getNextButtonInitializer() {
+        return nextButtonInitializer;
     }
 
     private void runDelayedInitializing(){
@@ -71,7 +78,9 @@ public class IntroActivity
     public void showLocationFragmentAgain(){
         nextButtonInitializer.setNextButtonVisible();
         nextButtonInitializer.setStep(3);
-        fragmentInsertionInitializer.setNestedConfigurationFragment(new IntroActivityLocationFragment(),"LocationFragment");
+        //fragmentInsertionInitializer.setNestedConfigurationFragment(new IntroActivityDefaultLocationFragment(),"LocationFragment");
+        fragmentInsertionInitializer.
+                insertDefaultLocationFragment(this);
     }
 
     @Override

@@ -1,12 +1,9 @@
 package paweltypiak.matweather.settingsActivityInitializing.dialogPreferencesInitializing;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.DialogPreference;
-import android.preference.PreferenceFragment;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -26,15 +23,6 @@ public abstract class CustomDialogPreference extends DialogPreference{
         super(context, attributeSet);
         setPositiveButtonText(getContext().getString(R.string.preferences_dialog_positive_button));
         setNegativeButtonText(getContext().getString(R.string.preferences_dialog_negative_button));
-    }
-
-    protected void setPreferenceIcon(String fragmentTag, String preferenceKey, int drawableId){
-        PreferenceFragment fragment=(PreferenceFragment)((Activity) getContext()).getFragmentManager().findFragmentByTag(fragmentTag);
-        CustomDialogPreference test = (CustomDialogPreference) fragment.findPreference(preferenceKey);
-        Drawable icon= UsefulFunctions.getColoredDrawable((Activity)getContext(), drawableId, ContextCompat.getColor(getContext(),R.color.colorPrimary));
-        Log.d("preference_test", "test: "+test);
-        Log.d("preference_test", "icon: "+icon);
-        test.setIcon(icon);
     }
 
     protected void setDialogTitle(String dialogTitle) {

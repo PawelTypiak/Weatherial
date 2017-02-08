@@ -1,4 +1,4 @@
-package paweltypiak.matweather.settingsActivityInitializing.dialogPreferencesInitializing;
+package paweltypiak.matweather.settingsActivityInitializing.dialogPreferencesInitializing.languageVersionDialogPreferenceInitializing;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -7,10 +7,11 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.settingsActivityInitializing.SettingsActivity;
+import paweltypiak.matweather.settingsActivityInitializing.dialogPreferencesInitializing.CustomDialogPreference;
 import paweltypiak.matweather.usefulClasses.SharedPreferencesModifier;
 import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
-public class LanguageVersionDialogPreference extends CustomDialogPreference{
+public class LanguageVersionDialogPreference extends CustomDialogPreference {
 
     private int selectedOption =-1;
 
@@ -66,9 +67,14 @@ public class LanguageVersionDialogPreference extends CustomDialogPreference{
         }
         SettingsActivity.setLanguagePreferencesChanged(true);
         //callback for refreshing view
-        RecreateSettingsListener recreateSettingsListener = SettingsActivity.getRefreshSettingsFragmentListener();
-        recreateSettingsListener.recreateSettings();
+        recreateSettings();
         Log.d("changed_preference",getTitle()+ " preference changed to: "+getSummary());
+    }
+
+    private void recreateSettings(){
+        OnLanguageVersionPreferenceChangeListener onLanguageVersionPreferenceChangeListener
+                = ((SettingsActivity)getContext()).getRefreshSettingsFragmentListener();
+        onLanguageVersionPreferenceChangeListener.recreateSettings();
     }
 
     protected void setPreferenceSummary(){
@@ -80,10 +86,5 @@ public class LanguageVersionDialogPreference extends CustomDialogPreference{
         else if(languageVersion==1){
             setSummary(getContext().getString(R.string.language_version_polish));
         }
-    }
-
-    public interface RecreateSettingsListener {
-        //listener for recreating settings activity
-        void recreateSettings();
     }
 }

@@ -9,16 +9,14 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import paweltypiak.matweather.R;
-import paweltypiak.matweather.introActivityInitializing.introActivityFragmentInitializing.IntroActivityUnitsFragment;
-import paweltypiak.matweather.introActivityInitializing.introActivityFragmentInitializing.introActivityLocationFragmentInitializing.IntroActivityLocationFragment;
 
-class IntroActivityNextButtonInitializer {
+public class IntroActivityNextButtonInitializer {
 
     private CardView nextButton;
     private int step;
     private IntroActivityFragmentInsertionInitializer fragmentInsertionInitializer;
 
-    IntroActivityNextButtonInitializer(Activity activity,
+    public IntroActivityNextButtonInitializer(Activity activity,
                                               IntroActivityFragmentInsertionInitializer fragmentInsertionInitializer){
         findNextButton(activity);
         this.fragmentInsertionInitializer=fragmentInsertionInitializer;
@@ -68,7 +66,7 @@ class IntroActivityNextButtonInitializer {
         }
         else if(step==2){
             Log.d("step", ""+step);
-            insertLocationFragment(activity);
+            insertDefaultLocationFragment(activity);
             step=3;
         }
         else if(step==3){
@@ -100,29 +98,26 @@ class IntroActivityNextButtonInitializer {
     }
 
     private void insertUnitsFragment(Activity activity){
-        fragmentInsertionInitializer.
-                setNestedConfigurationFragment(
-                        new IntroActivityUnitsFragment(),
-                        activity.getString(R.string.intro_activity_units_fragment_tag)
-                );
+        fragmentInsertionInitializer.insertUnitsFragment(activity);
     }
 
-    private void insertLocationFragment(Activity activity){
-        fragmentInsertionInitializer.
-                setNestedConfigurationFragment(
-                        new IntroActivityLocationFragment(),
-                        activity.getString(R.string.intro_activity_defeault_location_fragment_tag)
-                );
+    private void insertDefaultLocationFragment(Activity activity){
+        fragmentInsertionInitializer.insertDefaultLocationFragment(activity);
     }
 
     private void initializeLoadingLocation(){
+
         fragmentInsertionInitializer.
                 getConfigurationFragment().
-                initializeLoadingLocation(nextButton);
+                initializeLoadingLocation();
     }
 
-    void setNextButtonVisible(){
+    public void setNextButtonVisible(){
         nextButton.setVisibility(View.VISIBLE);
+    }
+
+    public void setNextButtonInvisible(){
+        nextButton.setVisibility(View.INVISIBLE);
     }
 
     private void setStartButtonDisabled(){

@@ -17,14 +17,6 @@ public class DefaultLocationDialogPreference extends CustomDialogPreference {
         super(context, attributeSet);
         setDialogTitle(getContext().getString(R.string.preferences_defeault_location_title));
         setPreferenceSummary();
-        //setPreferenceIcon();
-    }
-
-    private void setPreferenceIcon(){
-        String fragmentTag=getContext().getString(R.string.settings_activity_main_preferences_fragment_tag);
-        String preferenceTag=getContext().getString(R.string.preferences_default_location_key);
-        int drawableId=R.drawable.rate_icon;
-        super.setPreferenceIcon(fragmentTag,preferenceTag,drawableId);
     }
 
     protected void buildRadioGroup(RadioGroup radioGroup){

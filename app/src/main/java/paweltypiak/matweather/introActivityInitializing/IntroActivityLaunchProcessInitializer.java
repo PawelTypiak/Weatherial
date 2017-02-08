@@ -29,7 +29,7 @@ class IntroActivityLaunchProcessInitializer {
 
     private void initializeStartFragment(Activity activity,
                                          IntroActivityFragmentInsertionInitializer fragmentInsertionInitializer){
-        fragmentInsertionInitializer.initializeStartFragment(activity);
+        fragmentInsertionInitializer.insertStartFragment(activity);
     }
 
     private void initializeNextLaunch(Activity activity,

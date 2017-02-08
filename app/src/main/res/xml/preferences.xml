@@ -9,12 +9,12 @@
         android:key="@string/preferences_geolocalization_method_key"
         android:title="@string/preferences_geolocalization_method_title"
         />
+    <paweltypiak.matweather.settingsActivityInitializing.dialogPreferencesInitializing.languageVersionDialogPreferenceInitializing.LanguageVersionDialogPreference
+        android:key="@string/preferences_language_version_key"
+        android:title="@string/preferences_language_version_title"
+        />
     <Preference
         android:key="@string/preferences_units_key"
         android:title="@string/preferences_units_title"
         android:summary="@string/preferences_units_summary"/>
-    <paweltypiak.matweather.settingsActivityInitializing.dialogPreferencesInitializing.LanguageVersionDialogPreference
-        android:key="@string/preferences_language_version_key"
-        android:title="@string/preferences_language_version_title"
-        />
 </PreferenceScreen>
