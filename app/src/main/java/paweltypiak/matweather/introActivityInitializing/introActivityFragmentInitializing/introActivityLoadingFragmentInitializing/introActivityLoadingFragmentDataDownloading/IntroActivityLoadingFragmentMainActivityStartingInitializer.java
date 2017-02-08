@@ -18,7 +18,7 @@ public class IntroActivityLoadingFragmentMainActivityStartingInitializer {
                                                                        WeatherDataParser weatherDataParser){
         updateLayout(activity,dataDownloader);
         if(dataDownloader.isFirstLaunch()) {
-            saveDefeaultLocationData(activity,dataDownloader,weatherDataParser);
+            saveDefaultLocationData(activity,dataDownloader,weatherDataParser);
         }
         startMainActivity(activity,weatherDataParser);
     }
@@ -41,11 +41,11 @@ public class IntroActivityLoadingFragmentMainActivityStartingInitializer {
         progressBar.setVisibility(View.GONE);
     }
 
-    private void saveDefeaultLocationData(Activity activity,
-                                          IntroActivityLoadingFragmentDataDownloader dataDownloader,
-                                          WeatherDataParser weatherDataParser){
-        int selectedDefeaultLocationOption=dataDownloader.getSelectedDefeaultLocationOption();
-        if(selectedDefeaultLocationOption ==0){
+    private void saveDefaultLocationData(Activity activity,
+                                         IntroActivityLoadingFragmentDataDownloader dataDownloader,
+                                         WeatherDataParser weatherDataParser){
+        int selectedDefaultLocationOption=dataDownloader.getSelectedDefaultLocationOption();
+        if(selectedDefaultLocationOption ==0){
             saveDataForGeolocalization(activity,dataDownloader);
         }
         else{
@@ -56,14 +56,14 @@ public class IntroActivityLoadingFragmentMainActivityStartingInitializer {
 
     private void saveDataForGeolocalization(Activity activity,
                                             IntroActivityLoadingFragmentDataDownloader dataDownloader){
-        SharedPreferencesModifier.setGeolocalizationMethod(activity, dataDownloader.getSelectedDefeaultLocalizationMethod());
-        SharedPreferencesModifier.setDefeaultLocationGeolocalization(activity);
+        SharedPreferencesModifier.setGeolocalizationMethod(activity, dataDownloader.getSelectedDefaultLocalizationMethod());
+        SharedPreferencesModifier.setDefaultLocationGeolocalization(activity);
     }
 
     private void saveDataForDifferentLocation(Activity activity,
                                               WeatherDataParser weatherDataParser){
         String[] locationAddress=getDownloadedLocationAddress(weatherDataParser);
-        setDefeaultLocationAddress(activity,locationAddress);
+        setDefaultLocationAddress(activity,locationAddress);
         saveNewFavouritesItem(activity,locationAddress);
     }
 
@@ -75,13 +75,13 @@ public class IntroActivityLoadingFragmentMainActivityStartingInitializer {
         return locationAddress;
     }
 
-    private void setDefeaultLocationAddress(Activity activity,
-                                            String[] locationAddress){
+    private void setDefaultLocationAddress(Activity activity,
+                                           String[] locationAddress){
         String city=locationAddress[0];
         String region=locationAddress[1];
         String country=locationAddress[2];
         String locationAddressString=city+", "+region+", "+country;
-        SharedPreferencesModifier.setDefeaultLocationConstant(activity,locationAddressString);
+        SharedPreferencesModifier.setDefaultLocationConstant(activity,locationAddressString);
     }
 
     private void saveNewFavouritesItem(Activity activity,

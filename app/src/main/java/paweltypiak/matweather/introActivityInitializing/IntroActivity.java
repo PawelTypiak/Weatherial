@@ -114,7 +114,7 @@ public class IntroActivity
             }
             int step=nextButtonInitializer.getStep();
             if(step>3){
-                int locationOption=getSelectedDefeaultLocationOption();
+                int locationOption= getSelectedDefaultLocationOption();
                 if(locationOption==1&&step==4) exitDialog.show();
             }
             else {
@@ -123,8 +123,8 @@ public class IntroActivity
         }
     }
 
-    private int getSelectedDefeaultLocationOption(){
+    private int getSelectedDefaultLocationOption(){
         return fragmentInsertionInitializer.
-                getConfigurationFragment().getSelectedDefeaultLocationOption();
+                getConfigurationFragment().getSelectedDefaultLocationOption();
     }
 }

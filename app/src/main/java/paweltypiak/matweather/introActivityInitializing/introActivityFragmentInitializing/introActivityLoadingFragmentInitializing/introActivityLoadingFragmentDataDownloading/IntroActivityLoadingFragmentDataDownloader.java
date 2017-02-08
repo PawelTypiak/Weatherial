@@ -2,7 +2,6 @@ package paweltypiak.matweather.introActivityInitializing.introActivityFragmentIn
 
 import android.app.Activity;
 import android.support.v7.app.AlertDialog;
-import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import paweltypiak.matweather.R;
@@ -18,8 +17,8 @@ public class IntroActivityLoadingFragmentDataDownloader {
     private ShowLocationFragmentAgainListener locationListener;
     private OnRequestLocalizationPermissionsListener permissionsListener;
     private boolean isFirstLaunch;
-    private int selectedDefeaultLocationOption;
-    private int selectedDefeaultLocalizationMethod ;
+    private int selectedDefaultLocationOption;
+    private int selectedDefaultLocalizationMethod;
     private String differentLocationName;
     private String location;
     private boolean isNextLaunchAfterFailure=false;
@@ -33,11 +32,11 @@ public class IntroActivityLoadingFragmentDataDownloader {
                                                       ShowLocationFragmentAgainListener locationListener,
                                                       OnRequestLocalizationPermissionsListener permissionsListener,
                                                       boolean isFirstLaunch,
-                                                      int selectedDefeaultLocalizationMethod,
-                                                      int selectedDefeaultLocationOption,
+                                                      int selectedDefaultLocalizationMethod,
+                                                      int selectedDefaultLocationOption,
                                                       String differentLocationName){
-        this.selectedDefeaultLocalizationMethod=selectedDefeaultLocalizationMethod;
-        this.selectedDefeaultLocationOption=selectedDefeaultLocationOption;
+        this.selectedDefaultLocalizationMethod = selectedDefaultLocalizationMethod;
+        this.selectedDefaultLocationOption = selectedDefaultLocationOption;
         this.isFirstLaunch=isFirstLaunch;
         this.differentLocationName=differentLocationName;
         this.activity=activity;
@@ -78,10 +77,10 @@ public class IntroActivityLoadingFragmentDataDownloader {
     }
 
     private void initializeFirstLaunch(){
-        if(selectedDefeaultLocationOption ==0) {
+        if(selectedDefaultLocationOption ==0) {
             geolocalizationDownloader.initializeCurrentLocationDataDownloading();
         }
-        else if(selectedDefeaultLocationOption ==1){
+        else if(selectedDefaultLocationOption ==1){
             setLoadingViewsVisibility(true);
             location=differentLocationName;
             weatherDataDownloader.downloadWeatherData(location);
@@ -89,9 +88,9 @@ public class IntroActivityLoadingFragmentDataDownloader {
     }
 
     public void initializeNextLaunch(){
-        if(!SharedPreferencesModifier.isDefeaultLocationConstant(activity)){
-            selectedDefeaultLocalizationMethod =SharedPreferencesModifier.getGeolocalizationMethod(activity);
-            if(selectedDefeaultLocalizationMethod ==-1){
+        if(!SharedPreferencesModifier.isDefaultLocationConstant(activity)){
+            selectedDefaultLocalizationMethod =SharedPreferencesModifier.getGeolocalizationMethod(activity);
+            if(selectedDefaultLocalizationMethod ==-1){
                 showGeolocalizationMethodsDialog();
             }
             else{
@@ -100,7 +99,7 @@ public class IntroActivityLoadingFragmentDataDownloader {
         }
         else {
             setLoadingViewsVisibility(true);
-            location=SharedPreferencesModifier.getDefeaultLocation(activity);
+            location=SharedPreferencesModifier.getDefaultLocation(activity);
             weatherDataDownloader.downloadWeatherData(location);
         }
     }
@@ -108,7 +107,7 @@ public class IntroActivityLoadingFragmentDataDownloader {
     public void initializeNextLaunchAfterFailure(){
         isNextLaunchAfterFailure=true;
         if(changedLocation==null){
-            if(selectedDefeaultLocalizationMethod ==-1){
+            if(selectedDefaultLocalizationMethod ==-1){
                 setLoadingViewsVisibility(false);
                 showGeolocalizationMethodsDialog();
             }
@@ -153,12 +152,12 @@ public class IntroActivityLoadingFragmentDataDownloader {
         return isFirstLaunch;
     }
 
-    public int getSelectedDefeaultLocationOption() {
-        return selectedDefeaultLocationOption;
+    public int getSelectedDefaultLocationOption() {
+        return selectedDefaultLocationOption;
     }
 
-    public int getSelectedDefeaultLocalizationMethod() {
-        return selectedDefeaultLocalizationMethod;
+    public int getSelectedDefaultLocalizationMethod() {
+        return selectedDefaultLocalizationMethod;
     }
 
     public String getLocation() {

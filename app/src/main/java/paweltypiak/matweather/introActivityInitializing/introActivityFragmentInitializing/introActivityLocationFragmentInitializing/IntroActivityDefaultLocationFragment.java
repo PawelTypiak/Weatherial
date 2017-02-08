@@ -19,11 +19,11 @@ public class IntroActivityDefaultLocationFragment extends Fragment {
     private AlertDialog differentLocationDialog;
     private AlertDialog emptyLocationNameDialog;
     private RadioButton differentLocationRadioButton;
-    private int selectedDefeaultLocationOption;
+    private int selectedDefaultLocationOption;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.intro_activity_fragment_defeault_location, parent, false);
+        return inflater.inflate(R.layout.intro_activity_fragment_default_location, parent, false);
     }
 
     @Override
@@ -33,20 +33,20 @@ public class IntroActivityDefaultLocationFragment extends Fragment {
     }
 
     private void initializeRadioGroup(){
-        RadioGroup radioGroup=(RadioGroup)getActivity().findViewById(R.id.intro_activity_location_fragment_radio_group);
-        final RadioButton currentLocationRadioButton=(RadioButton)getActivity().findViewById(R.id.intro_activity_location_fragment_current_location_radio_button);
-        differentLocationRadioButton=(RadioButton)getActivity().findViewById(R.id.intro_activity_location_fragment_different_location_radio_button);
+        RadioGroup radioGroup=(RadioGroup)getActivity().findViewById(R.id.intro_activity_default_location_fragment_radio_group);
+        final RadioButton currentLocationRadioButton=(RadioButton)getActivity().findViewById(R.id.intro_activity_default_location_fragment_current_location_radio_button);
+        differentLocationRadioButton=(RadioButton)getActivity().findViewById(R.id.intro_activity_default_location_fragment_different_location_radio_button);
         radioGroup.check(currentLocationRadioButton.getId());
-        selectedDefeaultLocationOption =0;
+        selectedDefaultLocationOption =0;
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                if (i == R.id.intro_activity_location_fragment_current_location_radio_button) {
-                    selectedDefeaultLocationOption =0;
+                if (i == R.id.intro_activity_default_location_fragment_current_location_radio_button) {
+                    selectedDefaultLocationOption =0;
                     Log.d("defeault_location", "current location");
 
-                } else if (i == R.id.intro_activity_location_fragment_different_location_radio_button) {
-                    selectedDefeaultLocationOption =1;
+                } else if (i == R.id.intro_activity_default_location_fragment_different_location_radio_button) {
+                    selectedDefaultLocationOption =1;
                     Log.d("defeault_location", "different location");
                 }
             }
@@ -76,7 +76,7 @@ public class IntroActivityDefaultLocationFragment extends Fragment {
         return differentLocationString;
     }
 
-    public int getSelectedDefeaultLocationOption() {return selectedDefeaultLocationOption;}
+    public int getSelectedDefaultLocationOption() {return selectedDefaultLocationOption;}
 
     public void showNoDifferentLocationSelectedDialog(){
         if(emptyLocationNameDialog==null) {

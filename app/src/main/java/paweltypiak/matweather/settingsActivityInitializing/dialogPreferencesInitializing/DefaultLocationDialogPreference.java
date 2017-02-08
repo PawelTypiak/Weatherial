@@ -15,7 +15,7 @@ public class DefaultLocationDialogPreference extends CustomDialogPreference {
 
     public DefaultLocationDialogPreference(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
-        setDialogTitle(getContext().getString(R.string.preferences_defeault_location_title));
+        setDialogTitle(getContext().getString(R.string.preferences_default_location_title));
         setPreferenceSummary();
     }
 
@@ -37,7 +37,7 @@ public class DefaultLocationDialogPreference extends CustomDialogPreference {
 
             }
             RadioButton radioButton=setRadioButtonLayout(locationName,radioButtonId,radioButtonBottomMargin);
-            int checkedRadioButtonId=FavouritesEditor.getDefeaultLocationId(getContext());
+            int checkedRadioButtonId=FavouritesEditor.getDefaultLocationId(getContext());
             if(i==checkedRadioButtonId) {
                 radioButton.setChecked(true);
             }
@@ -58,20 +58,20 @@ public class DefaultLocationDialogPreference extends CustomDialogPreference {
         int selectedLocationID=FavouritesEditor.getSelectedFavouriteLocationID();
         int numberOfFavourites=FavouritesEditor.getNumberOfFavourites(getContext());
         if(selectedLocationID==numberOfFavourites) {
-            SharedPreferencesModifier.setDefeaultLocationGeolocalization(getContext());
+            SharedPreferencesModifier.setDefaultLocationGeolocalization(getContext());
             setSummary(getContext().getString(R.string.favourites_dialog_geolocalization_option));
         }
         else {
             defeaultLocationAddress=FavouritesEditor.getSelectedFavouriteLocationAddress(getContext());
-            SharedPreferencesModifier.setDefeaultLocationConstant(getContext(),defeaultLocationAddress);
+            SharedPreferencesModifier.setDefaultLocationConstant(getContext(),defeaultLocationAddress);
             setSummary(UsefulFunctions.fromHtml(FavouritesEditor.getSelectedFavouriteLocationEditedName()));
         }
         Log.d("changed_preference",getTitle()+ " preference changed to: "+getSummary());
     }
 
     protected void setPreferenceSummary(){
-        if(SharedPreferencesModifier.isDefeaultLocationConstant(getContext())){
-            String defeaultLocationEditedName=FavouritesEditor.getDefeaultLocationEditedName(getContext());
+        if(SharedPreferencesModifier.isDefaultLocationConstant(getContext())){
+            String defeaultLocationEditedName=FavouritesEditor.getDefaultLocationEditedName(getContext());
             setSummary(UsefulFunctions.fromHtml(defeaultLocationEditedName));
         }
         else{

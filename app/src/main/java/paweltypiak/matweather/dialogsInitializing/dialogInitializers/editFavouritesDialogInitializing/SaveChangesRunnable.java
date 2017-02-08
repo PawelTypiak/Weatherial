@@ -23,7 +23,7 @@ class SaveChangesRunnable implements Runnable {
 
     public void run() {
         updateFavouriteLocationName();
-        updateDefeaultLocation();
+        updateDefaultLocation();
     }
 
     private void updateFavouriteLocationName(){
@@ -57,15 +57,15 @@ class SaveChangesRunnable implements Runnable {
                 updateLocationName(title,subtitle);
     }
 
-    private void updateDefeaultLocation(){
+    private void updateDefaultLocation(){
         CheckBox checkBox=(CheckBox)dialogView.findViewById(R.id.edit_location_dialog_checkbox);
         if(checkBox.isChecked()){
             String currentLocationAddress= getLocationAddress();
-            SharedPreferencesModifier.setDefeaultLocationConstant(activity,currentLocationAddress);
+            SharedPreferencesModifier.setDefaultLocationConstant(activity,currentLocationAddress);
         }
         else{
-            if(FavouritesEditor.isDefeaultLocationEqual(activity,null)) {
-                SharedPreferencesModifier.setDefeaultLocationGeolocalization(activity);
+            if(FavouritesEditor.isDefaultLocationEqual(activity,null)) {
+                SharedPreferencesModifier.setDefaultLocationGeolocalization(activity);
             }
         }
     }

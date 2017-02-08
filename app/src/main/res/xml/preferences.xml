@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <paweltypiak.matweather.settingsActivityInitializing.dialogPreferencesInitializing.DefaultLocationDialogPreference
         android:key="@string/preferences_default_location_key"
-        android:title="@string/preferences_defeault_location_title"
+        android:title="@string/preferences_default_location_title"
         />
     <paweltypiak.matweather.settingsActivityInitializing.dialogPreferencesInitializing.GeolocalizationMethodDialogPreference
         android:key="@string/preferences_geolocalization_method_key"

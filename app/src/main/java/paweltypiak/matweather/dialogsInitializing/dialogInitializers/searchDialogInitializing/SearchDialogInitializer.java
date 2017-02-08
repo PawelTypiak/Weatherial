@@ -59,7 +59,7 @@ public class SearchDialogInitializer {
         locationEditText.requestFocus();
         if(type==0){
             String radioButtonString=radioButton.getText().toString();
-            if(!radioButtonString.equals(activity.getString(R.string.first_launch_defeault_location_different))){
+            if(!radioButtonString.equals(activity.getString(R.string.first_launch_default_location_different))){
                 locationEditText.setText(radioButtonString);
                 locationEditText.setSelection(radioButtonString.length());
             }

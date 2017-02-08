@@ -14,7 +14,7 @@ public class MainActivityInitialWeatherDataSetter {
                                              Bundle savedInstanceState,
                                              MainActivityLayoutInitializer layoutInitializer){
         WeatherDataParser weatherDataParser=getInitialWeatherData(activity,savedInstanceState);
-        updateLayoutForDefeaultLocation(activity,layoutInitializer,weatherDataParser);
+        updateLayoutForDefaultLocation(activity,layoutInitializer,weatherDataParser);
     }
 
 
@@ -35,11 +35,11 @@ public class MainActivityInitialWeatherDataSetter {
         return weatherDataParser;
     }
 
-    private static void updateLayoutForDefeaultLocation(Activity activity,
-                                                 MainActivityLayoutInitializer layoutInitializer,
-                                                 WeatherDataParser weatherDataParser){
+    private static void updateLayoutForDefaultLocation(Activity activity,
+                                                       MainActivityLayoutInitializer layoutInitializer,
+                                                       WeatherDataParser weatherDataParser){
         //delivering information if defeault location is constant, or is from geolocalization
-        boolean isDefeaultLocationConstant= SharedPreferencesModifier.isDefeaultLocationConstant(activity);
+        boolean isDefeaultLocationConstant= SharedPreferencesModifier.isDefaultLocationConstant(activity);
         if(isDefeaultLocationConstant) {
             layoutInitializer.updateLayoutOnWeatherDataChange(activity,weatherDataParser,true,false);
         }

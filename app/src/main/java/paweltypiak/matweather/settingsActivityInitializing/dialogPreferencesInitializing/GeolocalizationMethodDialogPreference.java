@@ -72,6 +72,6 @@ public class GeolocalizationMethodDialogPreference extends CustomDialogPreferenc
         else if(geolocalizationMethod==1){
             setSummary(getContext().getString(R.string.geolocalization_method_network));
         }
-        else  setSummary(getContext().getString(R.string.preferences_geolocalization_method_defeault_summary));
+        else  setSummary(getContext().getString(R.string.preferences_geolocalization_method_default_summary));
     }
 }

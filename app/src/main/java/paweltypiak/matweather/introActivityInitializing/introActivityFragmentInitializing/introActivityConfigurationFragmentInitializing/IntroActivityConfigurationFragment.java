@@ -21,7 +21,7 @@ public class IntroActivityConfigurationFragment extends Fragment{
 
     private boolean isFirstLaunch;
     private boolean isAfterChoosingGeolocalizationMethod =false;
-    private int selectedDefeaultLocationOption =-1;
+    private int selectedDefaultLocationOption =-1;
     private int selectedGeolocalizationMethod =-1;
 
     private IntroActivityFragmentInsertionInitializer fragmentInsertionInitializer;
@@ -93,8 +93,8 @@ public class IntroActivityConfigurationFragment extends Fragment{
                 initializeGeolocalizationDownloadingAfterGeolocalizationMethodsSelecting();
             }
             else{
-                selectedDefeaultLocationOption = getDefeaultLocationOptionFromLocationFragment();
-                if(selectedDefeaultLocationOption ==0){
+                selectedDefaultLocationOption = getDefaultLocationOptionFromLocationFragment();
+                if(selectedDefaultLocationOption ==0){
                     showGeolocalizationMethodsFragment();
                 }
                 else{
@@ -114,10 +114,10 @@ public class IntroActivityConfigurationFragment extends Fragment{
         isAfterChoosingGeolocalizationMethod =false;
     }
 
-    private int getDefeaultLocationOptionFromLocationFragment(){
-        //get information if selected defeault location is current location, or different location
+    private int getDefaultLocationOptionFromLocationFragment(){
+        //get information if selected default location is current location, or different location
         try{
-            return getDefaultLocationFragment().getSelectedDefeaultLocationOption();
+            return getDefaultLocationFragment().getSelectedDefaultLocationOption();
         }catch (Exception exception){
             return 0;
         }
@@ -138,14 +138,14 @@ public class IntroActivityConfigurationFragment extends Fragment{
     private void initializeWeatherDataDownloadingForDifferentLocation(){
         setNextButtonInvisible();
         String differentLocationName=getDifferentLocationNameFromLocationFragment();
-        if(differentLocationName.equals(getString(R.string.first_launch_defeault_location_different))){
+        if(differentLocationName.equals(getString(R.string.first_launch_default_location_different))){
             //dialog with information that user didn't provided location name
             showNoDifferentLocationSelectedDialogInLocationFragment();
         }
         else{
             insertLoadingFragment(
                     -1,
-                    selectedDefeaultLocationOption,
+                    selectedDefaultLocationOption,
                     differentLocationName);
         }
     }
@@ -160,7 +160,7 @@ public class IntroActivityConfigurationFragment extends Fragment{
     private IntroActivityDefaultLocationFragment getDefaultLocationFragment(){
         IntroActivityDefaultLocationFragment locationFragment
                 =(IntroActivityDefaultLocationFragment)fragmentInsertionInitializer.
-                getSettingsFragment(getString(R.string.intro_activity_defeault_location_fragment_tag));
+                getSettingsFragment(getString(R.string.intro_activity_default_location_fragment_tag));
         return locationFragment;
     }
 
@@ -191,7 +191,7 @@ public class IntroActivityConfigurationFragment extends Fragment{
         ((IntroActivity)getActivity()).getNextButtonInitializer().setNextButtonInvisible();
     }
 
-    public int getSelectedDefeaultLocationOption() {
-        return selectedDefeaultLocationOption;
+    public int getSelectedDefaultLocationOption() {
+        return selectedDefaultLocationOption;
     }
 }

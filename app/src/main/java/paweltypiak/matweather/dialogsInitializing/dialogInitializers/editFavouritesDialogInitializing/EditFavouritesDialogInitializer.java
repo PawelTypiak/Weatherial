@@ -59,7 +59,7 @@ public class EditFavouritesDialogInitializer {
 
     private static void initializeCheckbox(Activity activity,View dialogView){
         CheckBox checkBox=(CheckBox)dialogView.findViewById(R.id.edit_location_dialog_checkbox);
-        checkBox.setChecked(FavouritesEditor.isDefeaultLocationEqual(activity,null));
+        checkBox.setChecked(FavouritesEditor.isDefaultLocationEqual(activity,null));
     }
 
     private static AlertDialog buildAlertDialog(Activity activity,View dialogView){

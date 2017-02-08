@@ -26,7 +26,7 @@ class AddToFavouritesRunnable implements Runnable {
 
     public void run() {
         saveNewFavouritesItem();
-        updateDefeaultLocation();
+        updateDefaultLocation();
         updateAppBarLayout();
     }
 
@@ -48,7 +48,7 @@ class AddToFavouritesRunnable implements Runnable {
         return UsefulFunctions.getFormattedString(subtitle);
     }
 
-    private void updateDefeaultLocation(){
+    private void updateDefaultLocation(){
         CheckBox checkBox=(CheckBox)dialogView.findViewById(R.id.edit_location_dialog_checkbox);
         if(checkBox.isChecked()){
             Log.d("checkbox", "checked");
@@ -56,7 +56,7 @@ class AddToFavouritesRunnable implements Runnable {
             String region=OnWeatherDataChangeLayoutUpdater.getCurrentWeatherDataParser().getRegion();
             String country=OnWeatherDataChangeLayoutUpdater.getCurrentWeatherDataParser().getCountry();
             String currentLocationAddressString=city+", "+region+", "+ country;
-            SharedPreferencesModifier.setDefeaultLocationConstant(activity,currentLocationAddressString);
+            SharedPreferencesModifier.setDefaultLocationConstant(activity,currentLocationAddressString);
         }
     }
 

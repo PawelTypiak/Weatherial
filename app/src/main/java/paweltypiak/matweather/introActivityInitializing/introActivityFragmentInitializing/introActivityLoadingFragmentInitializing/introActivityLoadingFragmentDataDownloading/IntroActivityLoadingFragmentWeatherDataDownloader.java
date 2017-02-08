@@ -57,7 +57,7 @@ public class IntroActivityLoadingFragmentWeatherDataDownloader implements Weathe
     public void downloadWeatherData(String location){
         Log.d("weather", "start weather downloading");
         TextView messageTextView=dataDownloader.getMessageTextView();
-        if(dataDownloader.isFirstLaunch()&& dataDownloader.getSelectedDefeaultLocationOption() ==1) {
+        if(dataDownloader.isFirstLaunch()&& dataDownloader.getSelectedDefaultLocationOption() ==1) {
             messageTextView.setText(activity.getString(R.string.searching_location_progress_message));
         }
         else messageTextView.setText(activity.getString(R.string.downloading_weather_data_progress_message));
@@ -68,7 +68,7 @@ public class IntroActivityLoadingFragmentWeatherDataDownloader implements Weathe
     @Override
     public void weatherServiceSuccess(Channel channel) {
         WeatherDataParser weatherDataParser = new WeatherDataParser(channel);
-        if(dataDownloader.isFirstLaunch()&& dataDownloader.getSelectedDefeaultLocationOption() ==1){
+        if(dataDownloader.isFirstLaunch()&& dataDownloader.getSelectedDefaultLocationOption() ==1){
             showWeatherResultsForLocationDialog(weatherDataParser);
         }
         else {
@@ -99,7 +99,7 @@ public class IntroActivityLoadingFragmentWeatherDataDownloader implements Weathe
                 showDialog(noWeatherResultsForLocationDialog);
             }
             else {
-                if(!SharedPreferencesModifier.isDefeaultLocationConstant(activity)
+                if(!SharedPreferencesModifier.isDefaultLocationConstant(activity)
                         || (dataDownloader.getChangedLocation()==null&&dataDownloader.isNextLaunchAfterFailure()==true)){
                     showDialog(noWeatherResultsForLocationDialog);
                 }

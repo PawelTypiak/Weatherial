@@ -43,12 +43,12 @@ public class FavouritesEditor {
         return locationName;
     }
 
-    public static String getDefeaultLocationEditedName(Context context){
-        int defeaultLocationId=getDefeaultLocationId(context);
-        String header=favouritesHeaderNames[defeaultLocationId];
-        String subheader=favouritesSubheaderNames[defeaultLocationId];
-        String defeaultLocationName= makeLocationNameWithBoldHeader(header,subheader);
-        return defeaultLocationName;
+    public static String getDefaultLocationEditedName(Context context){
+        int defaultLocationId= getDefaultLocationId(context);
+        String header=favouritesHeaderNames[defaultLocationId];
+        String subheader=favouritesSubheaderNames[defaultLocationId];
+        String defaultLocationName= makeLocationNameWithBoldHeader(header,subheader);
+        return defaultLocationName;
     }
 
     private static String makeLocationNameWithBoldHeader(String header, String subheader){
@@ -183,15 +183,15 @@ public class FavouritesEditor {
         return isEqual;
     }
 
-    public static boolean isDefeaultLocationEqual(Context context, String currentLocationAddressString){
+    public static boolean isDefaultLocationEqual(Context context, String currentLocationAddressString){
         //check if current location is defeault
         if(currentLocationAddressString==null){
             currentLocationAddressString=getCurrentLocationAddressString();
         }
         boolean isEqual=false;
-        String defeaultLocation=SharedPreferencesModifier.getDefeaultLocation(context);
-        if(defeaultLocation!=null){
-            if(defeaultLocation.equals(currentLocationAddressString)) {
+        String defaultLocation=SharedPreferencesModifier.getDefaultLocation(context);
+        if(defaultLocation!=null){
+            if(defaultLocation.equals(currentLocationAddressString)) {
                 isEqual= true;
             }
         }
@@ -210,12 +210,12 @@ public class FavouritesEditor {
         return id;
     }
 
-    public static int getDefeaultLocationId(Context context){
+    public static int getDefaultLocationId(Context context){
         String[] addresses=SharedPreferencesModifier.getFavouriteLocationsAddresses(context);
         int id=-1;
         int size=addresses.length;
         for(int i=0;i<size;i++){
-            if(isDefeaultLocationEqual(context,addresses[i]))id=i;
+            if(isDefaultLocationEqual(context,addresses[i]))id=i;
         }
         return id;
     }

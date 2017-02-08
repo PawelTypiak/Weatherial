@@ -21,8 +21,8 @@ public class IntroActivityLoadingFragment
         OnRequestLocalizationPermissionsListener {
 
     private boolean isFirstLaunch;
-    private int selectedDefeaultLocationOption;
-    private int selectedDefeaultLocalizationMethod;
+    private int selectedDefaultLocationOption;
+    private int selectedDefaultLocalizationMethod;
     private String differentLocationName;
     private IntroActivityLoadingFragmentDataDownloader dataDownloader;
     private ShowLocationFragmentAgainListener showLocationFragmentAgainListener;
@@ -32,13 +32,13 @@ public class IntroActivityLoadingFragment
     public static IntroActivityLoadingFragment newInstance(
             Activity activity,
             boolean isFirstLaunch,
-            int selectedDefeaultLocationOption,
+            int selectedDefaultLocationOption,
             int selectedGeolocalizationMethod,
             String differentLocationName) {
         IntroActivityLoadingFragment loadingFragment = new IntroActivityLoadingFragment();
         Bundle extras = new Bundle();
         extras.putBoolean(activity.getString(R.string.extras_is_first_launch_key),isFirstLaunch);
-        extras.putInt(activity.getString(R.string.extras_selected_defeault_location_option_key), selectedDefeaultLocationOption);
+        extras.putInt(activity.getString(R.string.extras_selected_default_location_option_key), selectedDefaultLocationOption);
         extras.putInt(activity.getString(R.string.extras_selected_geolocalization_method_key),selectedGeolocalizationMethod);
         extras.putString(activity.getString(R.string.extras_different_location_name_key), differentLocationName);
         loadingFragment.setArguments(extras);
@@ -92,8 +92,8 @@ public class IntroActivityLoadingFragment
 
     private void getExtras(){
         isFirstLaunch=getArguments().getBoolean(getString(R.string.extras_is_first_launch_key));
-        selectedDefeaultLocationOption = getArguments().getInt(getString(R.string.extras_selected_defeault_location_option_key), -1);
-        selectedDefeaultLocalizationMethod =getArguments().getInt(getString(R.string.extras_selected_geolocalization_method_key), -1);
+        selectedDefaultLocationOption = getArguments().getInt(getString(R.string.extras_selected_default_location_option_key), -1);
+        selectedDefaultLocalizationMethod =getArguments().getInt(getString(R.string.extras_selected_geolocalization_method_key), -1);
         differentLocationName = getArguments().getString(getString(R.string.extras_different_location_name_key), null);
     }
 
@@ -112,8 +112,8 @@ public class IntroActivityLoadingFragment
                 showLocationFragmentAgainListener,
                 this,
                 isFirstLaunch,
-                selectedDefeaultLocalizationMethod,
-                selectedDefeaultLocationOption,
+                selectedDefaultLocalizationMethod,
+                selectedDefaultLocationOption,
                 differentLocationName
         );
     }

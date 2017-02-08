@@ -64,24 +64,24 @@ public class SharedPreferencesModifier {
         getSharedPreferences(context).edit().putInt(context.getString(R.string.shared_preferences_geolocalization_method_key),option).commit();
     }
 
-    public static String getDefeaultLocation(Context context){
-        String defeaultLocation=getSharedPreferences(context).getString(context.getString(R.string.shared_preferences_defeault_location_key),null);
-        Log.d("SharedPreferences", "defeaultLocation: "+defeaultLocation);
-        return defeaultLocation;
+    public static String getDefaultLocation(Context context){
+        String defaultLocation=getSharedPreferences(context).getString(context.getString(R.string.shared_preferences_default_location_key),null);
+        Log.d("SharedPreferences", "defeaultLocation: "+defaultLocation);
+        return defaultLocation;
     }
 
-    public static boolean isDefeaultLocationConstant(Context context){
-        String defeaultLocation= getDefeaultLocation(context);
-        if(defeaultLocation==null) return false;
+    public static boolean isDefaultLocationConstant(Context context){
+        String defaultLocation= getDefaultLocation(context);
+        if(defaultLocation==null) return false;
         else return true;
     }
 
-    public static void setDefeaultLocationConstant(Context context, String locationAddress){
-        getSharedPreferences(context).edit().putString(context.getString(R.string.shared_preferences_defeault_location_key), locationAddress).commit();
+    public static void setDefaultLocationConstant(Context context, String locationAddress){
+        getSharedPreferences(context).edit().putString(context.getString(R.string.shared_preferences_default_location_key), locationAddress).commit();
     }
 
-    public static void setDefeaultLocationGeolocalization(Context context){
-        getSharedPreferences(context).edit().putString(context.getString(R.string.shared_preferences_defeault_location_key), null).commit();
+    public static void setDefaultLocationGeolocalization(Context context){
+        getSharedPreferences(context).edit().putString(context.getString(R.string.shared_preferences_default_location_key), null).commit();
     }
 
     public static String[] getFavouriteLocationsNames(Context context){

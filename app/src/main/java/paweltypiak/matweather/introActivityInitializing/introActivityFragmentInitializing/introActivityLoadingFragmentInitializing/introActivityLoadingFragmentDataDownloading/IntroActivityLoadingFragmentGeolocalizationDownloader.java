@@ -98,7 +98,7 @@ public class IntroActivityLoadingFragmentGeolocalizationDownloader
                 null,
                 dataDownloader.getMessageTextView(),
                 dataDownloader.getLoadingProgressBar(),
-                dataDownloader.getSelectedDefeaultLocalizationMethod()
+                dataDownloader.getSelectedDefaultLocalizationMethod()
         );
     }
 

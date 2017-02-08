@@ -19,7 +19,7 @@ class DeleteFromFavouritesRunnable implements Runnable{
     public void run() {
         FavouritesEditor.deleteFavouritesItem(activity);
         updateAppBarLayout();
-        updateDefeaultLocation();
+        updateDefaultLocation();
     }
 
     private void updateAppBarLayout(){
@@ -53,9 +53,9 @@ class DeleteFromFavouritesRunnable implements Runnable{
                 updateLocationName(city,region+", "+ country);
     }
 
-    private void updateDefeaultLocation(){
-        if(FavouritesEditor.isDefeaultLocationEqual(activity,null)) {
-            SharedPreferencesModifier.setDefeaultLocationGeolocalization(activity);
+    private void updateDefaultLocation(){
+        if(FavouritesEditor.isDefaultLocationEqual(activity,null)) {
+            SharedPreferencesModifier.setDefaultLocationGeolocalization(activity);
         }
     }
 }

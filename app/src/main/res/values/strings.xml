@@ -12,14 +12,14 @@
     <string name="shared_preferences_name_key">paweltypiak.matweather.preference_file_key</string>
     <string name="shared_preferences_language_version_key">language_version_preferences_key</string>
     <string name="shared_preferences_units_key">units_preferences_key</string>
-    <string name="shared_preferences_defeault_location_key">defeault_location_key</string>
+    <string name="shared_preferences_default_location_key">default_location_key</string>
     <string name="shared_preferences_is_first_location_geolocalization_key">is_first_location_geolocalization_key</string>
     <string name="shared_preferences_geolocalization_method_key">geolocalization_method_key</string>
     <string name="shared_preferences_is_first_launch_key">is_first_launch_key</string>
     <string name="shared_preferences_favourite_locations_names_key">favourites_locations_key</string>
     <string name="shared_preferences_favourite_locations_addresses_key">favourites_locations_addresses_key</string>
     <string name="extras_is_first_launch_key">is_first_launch_key</string>
-    <string name="extras_selected_defeault_location_option_key">selected_defeault_location_option_key</string>
+    <string name="extras_selected_default_location_option_key">selected_default_location_option_key</string>
     <string name="extras_selected_geolocalization_method_key">selected_geolocalization_method_key</string>
     <string name="extras_different_location_name_key">different_location_name_key</string>
     <string name="extras_data_initializer_key">data_initializer_key</string>
@@ -37,7 +37,7 @@
     <string name="intro_activity_configuration_fragment_tag">intro_activity_configuration_fragment_tag</string>
     <string name="intro_activity_language_fragment_tag">intro_activity_language_fragment_tag</string>
     <string name="intro_activity_units_fragment_tag">intro_activity_units_fragment_tag</string>
-    <string name="intro_activity_defeault_location_fragment_tag">intro_activity_defeault_location_tag</string>
+    <string name="intro_activity_default_location_fragment_tag">intro_activity_default_location_tag</string>
     <string name="intro_activity_geolocaliztion_methods_fragment_tag">intro_activity_geolocaliztion_methods_fragment_tag</string>
     <string name="intro_activity_loading_fragment_tag">intro_activity_loading_fragment_tag</string>
     <string name="settings_activity_main_preferences_fragment_tag">settings_activity_main_preferences_fragment_tag</string>
@@ -121,13 +121,13 @@
     <string name="maps_dialog_negative_button">Cancel</string>
     <string name="maps_dialog_positive_button">Continue</string>
     <string name="add_location_dialog_title">Save location</string>
-    <string name="add_location_dialog_checkbox_message">set as defeault location</string>
+    <string name="add_location_dialog_checkbox_message">set as default location</string>
     <string name="add_location_dialog_positive_button">Save</string>
     <string name="add_location_dialog_negative_button">Cancel</string>
     <string name="edit_location_dialog_header_edit_text_hint">Header location name</string>
     <string name="edit_location_dialog_subheader_edit_text_hint">Subheader location name</string>
     <string name="edit_location_dialog_title">Edit location</string>
-    <string name="edit_location_dialog_checkbox_message">set as defeault location</string>
+    <string name="edit_location_dialog_checkbox_message">set as default location</string>
     <string name="edit_location_dialog_positive_button">Save</string>
     <string name="edit_location_dialog_negative_button">Cancel</string>
     <string name="edit_location_dialog_neutral_button">Delete</string>
@@ -199,9 +199,9 @@
         <item>24h</item>
         <item>12h</item>
     </string-array>
-    <string name="first_launch_location_header">Select defeault location:</string>
-    <string name="first_launch_defeault_location_current">Current location</string>
-    <string name="first_launch_defeault_location_different">Different location</string>
+    <string name="first_launch_location_header">Select default location:</string>
+    <string name="first_launch_default_location_current">Current location</string>
+    <string name="first_launch_default_location_different">Different location</string>
     <string name="first_launch_geolocalization_header">Select geolocalization method:</string>
     <string name="geolocalization_method_gps">GPS (accurate)</string>
     <string name="geolocalization_method_network">Network (fast)</string>
@@ -251,9 +251,9 @@
     <!-- Preferences -->
     <string name="preferences_dialog_positive_button">Select</string>
     <string name="preferences_dialog_negative_button">Cancel</string>
-    <string name="preferences_defeault_location_title">Defeault location</string>
+    <string name="preferences_default_location_title">Default location</string>
     <string name="preferences_geolocalization_method_title">Geolocalization method</string>
-    <string name="preferences_geolocalization_method_defeault_summary">Select geolocalization method</string>
+    <string name="preferences_geolocalization_method_default_summary">Select geolocalization method</string>
     <string name="preferences_units_title">Units</string>
     <string name="preferences_units_summary">Select measurement system</string>
     <string name="preferences_units_temperature_title">Temperature</string>

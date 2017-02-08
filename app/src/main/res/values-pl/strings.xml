@@ -128,8 +128,8 @@
     <string name="language_version_polish">Język polski</string>
     <string name="first_launch_units_header">Wybierz system jednostek:</string>
     <string name="first_launch_location_header">Wybierz domyślną lokację:</string>
-    <string name="first_launch_defeault_location_current">Bieżąca lokacja</string>
-    <string name="first_launch_defeault_location_different">Inna lokacja</string>
+    <string name="first_launch_default_location_current">Bieżąca lokacja</string>
+    <string name="first_launch_default_location_different">Inna lokacja</string>
     <string name="first_launch_geolocalization_header">Wybierz metodę geolokalizacji:</string>
     <string name="geolocalization_method_gps">GPS (dokładna)</string>
     <string name="geolocalization_method_network">Sieć (szybka)</string>
@@ -167,9 +167,9 @@
     <!-- Preferences -->
     <string name="preferences_dialog_positive_button">Wybierz</string>
     <string name="preferences_dialog_negative_button">Anuluj</string>
-    <string name="preferences_defeault_location_title">Lokacja domyślna</string>
+    <string name="preferences_default_location_title">Lokacja domyślna</string>
     <string name="preferences_geolocalization_method_title">Metoda geolokalizacji</string>
-    <string name="preferences_geolocalization_method_defeault_summary">Wybierz metodę geolokalizacji</string>
+    <string name="preferences_geolocalization_method_default_summary">Wybierz metodę geolokalizacji</string>
     <string name="preferences_units_title">Jednostki</string>
     <string name="preferences_units_summary">Wybierz system jednostek</string>
     <string name="preferences_units_temperature_title">Temperatura powietrza</string>

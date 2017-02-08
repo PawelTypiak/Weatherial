@@ -79,7 +79,7 @@ public class IntroActivityFragmentInsertionInitializer {
                 =new IntroActivityDefaultLocationFragment();
         insertSettingsFragment(
                 defaultLocationFragment,
-                activity.getString(R.string.intro_activity_defeault_location_fragment_tag)
+                activity.getString(R.string.intro_activity_default_location_fragment_tag)
         );
     }
 
