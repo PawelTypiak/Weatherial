@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,6 @@ import paweltypiak.matweather.introActivityInitializing.IntroActivity;
 import paweltypiak.matweather.introActivityInitializing.IntroActivityFragmentInsertionInitializer;
 import paweltypiak.matweather.introActivityInitializing.introActivityFragmentInitializing.IntroActivityGeolocalizationMethodFragment;
 import paweltypiak.matweather.introActivityInitializing.introActivityFragmentInitializing.introActivityLocationFragmentInitializing.IntroActivityDefaultLocationFragment;
-import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
 public class IntroActivityConfigurationFragment extends Fragment{
 
@@ -63,7 +61,7 @@ public class IntroActivityConfigurationFragment extends Fragment{
         final ImageView appIconImageView
                 =(ImageView)getActivity().findViewById(R.id.intro_activity_configuration_fragment_app_icon_image);
         Picasso.with(getActivity()).
-                load(R.drawable.logo_intro).
+                load(R.drawable.logo_intro_activity).
                 fit().
                 centerInside().
                 into(appIconImageView, new Callback() {

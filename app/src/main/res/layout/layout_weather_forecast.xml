@@ -3,17 +3,20 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
+        android:id="@+id/weather_forecast_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="@dimen/activity_normal_margin"
-        android:id="@+id/weather_forecast_layout"
+        android:paddingLeft="@dimen/main_activity_sublayout_horizontal_margin"
+        android:paddingRight="@dimen/main_activity_sublayout_horizontal_margin"
+        android:paddingTop="@dimen/main_activity_sublayout_vertical_margin"
+        android:paddingBottom="@dimen/main_activity_sublayout_vertical_margin"
         >
         <paweltypiak.matweather.customViews.RobotoMediumFontTextView
             android:id="@+id/weather_forecast_layout_header_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/activity_normal_margin"
+            android:layout_marginBottom="@dimen/main_activity_subheader_bottom_margin"
             android:textSize="@dimen/header_text_size"
             android:gravity="center"
             android:text="@string/forecast_header"
@@ -31,10 +34,11 @@
                 android:layout_centerVertical="true"
                 />
             <LinearLayout
+                android:id="@+id/weather_forecast_layout_days_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:id="@+id/weather_forecast_layout_days_layout">
+                >
                 <LinearLayout
                     android:id="@+id/weather_forecast_layout_day_layout_0"
                     android:layout_width="match_parent"

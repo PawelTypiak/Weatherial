@@ -2,6 +2,8 @@ package paweltypiak.matweather.mainActivityInitializing.mainActivityLayoutInitia
 
 import android.app.Activity;
 
+import paweltypiak.matweather.mainActivityInitializing.mainActivityLayoutInitializing.appBarInitializing.appBarButtonsInitializing.navigationDrawerInitializing.NavigationDrawerInitializer;
+
 public class AppBarLayoutButtonsInitializer {
 
     private NavigationDrawerInitializer navigationDrawerInitializer;

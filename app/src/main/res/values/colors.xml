@@ -6,8 +6,7 @@
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="grey">#727272</color>
-    <color name="transparent">#00000000</color>
-
+    <color name="transparent">#FFFFFFFF</color>
     <color name="backgroundLight">#FAFAFA</color>
     <color name="textPrimaryLightBackground">#DE000000</color>
     <color name="textSecondaryLightBackground">#8A000000</color>
@@ -16,16 +15,13 @@
     <color name="iconLightBackground">#61000000</color>
     <color name="dialogLightBackground">#424242</color>
     <color name="hintLightBackground">#BDBDBD</color>
-
     <color name="backgroundDark">#303030</color>
     <color name="textPrimaryDarkBackground">#FFFFFF</color>
     <color name="textSecondaryDarkBackground">#B3FFFFFF</color>
     <color name="textDisabledDarkBackground">#80FFFFFF</color>
     <color name="dividerDarkBackground">#1FFFFFFF</color>
     <color name="iconDarkBackground">#80FFFFFF</color>
-
     <color name="startButton">#26FFFFFF</color>
-
     <color name="ripple_effect_white">#26ffffff</color>
     <color name="ripple_effect_black">#26000000</color>
 </resources>

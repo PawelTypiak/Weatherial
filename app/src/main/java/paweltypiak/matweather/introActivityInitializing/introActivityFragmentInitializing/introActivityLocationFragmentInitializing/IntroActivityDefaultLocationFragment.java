@@ -31,7 +31,7 @@ public class IntroActivityDefaultLocationFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         initializeRadioGroup();
     }
-    
+
     private void initializeRadioGroup(){
         RadioGroup radioGroup=(RadioGroup)getActivity().findViewById(R.id.intro_activity_location_fragment_radio_group);
         final RadioButton currentLocationRadioButton=(RadioButton)getActivity().findViewById(R.id.intro_activity_location_fragment_current_location_radio_button);

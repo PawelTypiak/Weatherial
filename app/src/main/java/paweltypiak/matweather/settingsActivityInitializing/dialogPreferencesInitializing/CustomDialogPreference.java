@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.preference.DialogPreference;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.AppCompatRadioButton;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
@@ -30,7 +31,7 @@ public abstract class CustomDialogPreference extends DialogPreference{
     }
 
     protected RadioButton setRadioButtonLayout(String radioButtonText,int radioButtonId,int radioButtonBottomMargin){
-        RadioButton radioButton=new RadioButton(getContext());
+        AppCompatRadioButton radioButton=new AppCompatRadioButton(getContext());
         radioButton.setText(UsefulFunctions.fromHtml(radioButtonText));
         radioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX,getContext().getResources().getDimensionPixelSize(R.dimen.dialog_text_size));
         radioButton.setTextColor(ContextCompat.getColor(getContext(),R.color.textSecondaryLightBackground));

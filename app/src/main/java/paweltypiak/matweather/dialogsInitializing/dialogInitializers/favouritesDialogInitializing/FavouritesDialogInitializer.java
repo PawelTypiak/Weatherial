@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.AppCompatRadioButton;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
@@ -94,10 +95,11 @@ public class FavouritesDialogInitializer {
                                        int size,
                                        int i
                                        ){
-        RadioButton radioButton=new RadioButton(activity);
+        AppCompatRadioButton radioButton=new AppCompatRadioButton(activity);
         radioButton.setId(i);
         radioButton.setText(UsefulFunctions.fromHtml(getLocationName(activity,type,favouritesList,size,i)));
-        radioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX,activity.getResources().getDimensionPixelSize(R.dimen.locations_list_text_size));
+        radioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                activity.getResources().getDimensionPixelSize(R.dimen.dialog_text_size));
         radioButton.setSingleLine();
         radioButton.setEllipsize(TextUtils.TruncateAt.END);
         radioButton.setTextColor(ContextCompat.getColor(activity,R.color.textSecondaryLightBackground));

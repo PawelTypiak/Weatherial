@@ -419,7 +419,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/activity_normal_margin"
-                    android:layout_marginBottom="@dimen/activity_normal_margin"
                     android:orientation="horizontal"
                     android:background="?attr/selectableItemBackground"
                     >

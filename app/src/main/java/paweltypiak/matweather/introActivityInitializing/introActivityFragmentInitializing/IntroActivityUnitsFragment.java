@@ -64,7 +64,7 @@ public class IntroActivityUnitsFragment extends Fragment{
                 =(LinearLayout)getActivity().
                 findViewById(getResources().
                         getIdentifier
-                                ("intro_activity_units_fragment_image_and_spinner_layout_" + id,
+                                ("intro_activity_units_fragment_clickable_layout_" + id,
                                         "id",
                                         getActivity().getPackageName()
                                 )

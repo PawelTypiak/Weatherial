@@ -8,6 +8,7 @@ import android.widget.RelativeLayout;
 import com.squareup.picasso.Picasso;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.dialogsInitializing.dialogInitializers.rateDialogInitializing.RateDialogInitializer;
+import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
 public class InfoActivityAppBarInitializer {
 
@@ -26,9 +27,9 @@ public class InfoActivityAppBarInitializer {
     }
 
     private void setLogoImageViewsHeight(Activity activity,ImageView logoImageView){
-        float TEXT_LOGO_HEIGHT_FACTOR =0.2f;
+        float logoHeightMultiplier =0.25f;
         int logoImageViewHeight
-                = (int)(activity.getResources().getDisplayMetrics().heightPixels * TEXT_LOGO_HEIGHT_FACTOR);
+                = (int)(UsefulFunctions.getScreenHeight(activity) * logoHeightMultiplier);
         RelativeLayout.LayoutParams logoImageViewLayoutParams
                 = (RelativeLayout.LayoutParams)logoImageView.getLayoutParams();
         logoImageViewLayoutParams.height = logoImageViewHeight;
@@ -36,7 +37,7 @@ public class InfoActivityAppBarInitializer {
     }
 
     private void loadLogoImageView(Activity activity,ImageView logoImageView){
-        Picasso.with(activity).load(R.drawable.logo_small).fit().centerInside().noFade().into(logoImageView);
+        Picasso.with(activity).load(R.drawable.logo_info_activity).fit().centerInside().noFade().into(logoImageView);
     }
 
     private void initializeBackButton(final Activity activity){

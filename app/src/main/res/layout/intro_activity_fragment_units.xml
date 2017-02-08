@@ -30,17 +30,17 @@
             android:orientation="horizontal"
             >
             <RelativeLayout
-                android:id="@+id/intro_activity_units_fragment_image_and_spinner_clickable_layout_0"
+                android:id="@+id/intro_activity_units_fragment_layout_0"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="?selectableItemBackgroundBorderless">
+                android:layout_weight="1">
                 <LinearLayout
-                    android:id="@+id/intro_activity_units_fragment_image_and_spinner_layout_0"
+                    android:id="@+id/intro_activity_units_fragment_clickable_layout_0"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:orientation="vertical"
+                    android:background="?selectableItemBackgroundBorderless"
                     >
                     <ImageView
                         android:id="@+id/intro_activity_units_fragment_spinner_image_0"
@@ -88,12 +88,12 @@
                 </LinearLayout>
             </RelativeLayout>
             <RelativeLayout
-                android:id="@+id/intro_activity_units_fragment_image_and_spinner_clickable_layout_1"
+                android:id="@+id/intro_activity_units_fragment_layout_1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
                 <LinearLayout
-                    android:id="@+id/intro_activity_units_fragment_image_and_spinner_layout_1"
+                    android:id="@+id/intro_activity_units_fragment_clickable_layout_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
@@ -146,12 +146,12 @@
                 </LinearLayout>
             </RelativeLayout>
             <RelativeLayout
-                android:id="@+id/intro_activity_units_fragment_image_and_spinner_clickable_layout_2"
+                android:id="@+id/intro_activity_units_fragment_layout_2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
                 <LinearLayout
-                    android:id="@+id/intro_activity_units_fragment_image_and_spinner_layout_2"
+                    android:id="@+id/intro_activity_units_fragment_clickable_layout_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
@@ -204,12 +204,12 @@
                 </LinearLayout>
             </RelativeLayout>
             <RelativeLayout
-                android:id="@+id/intro_activity_units_fragment_image_and_spinner_clickable_layout_3"
+                android:id="@+id/intro_activity_units_fragment_layout_3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
                 <LinearLayout
-                    android:id="@+id/intro_activity_units_fragment_image_and_spinner_layout_3"
+                    android:id="@+id/intro_activity_units_fragment_clickable_layout_3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"

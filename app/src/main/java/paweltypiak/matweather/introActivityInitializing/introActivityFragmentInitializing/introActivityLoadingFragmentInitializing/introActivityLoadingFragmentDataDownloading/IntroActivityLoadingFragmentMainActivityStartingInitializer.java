@@ -2,12 +2,13 @@ package paweltypiak.matweather.introActivityInitializing.introActivityFragmentIn
 
 import android.app.Activity;
 import android.content.Intent;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.mainActivityInitializing.MainActivity;
 import paweltypiak.matweather.usefulClasses.FavouritesEditor;
 import paweltypiak.matweather.usefulClasses.SharedPreferencesModifier;
-import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 import paweltypiak.matweather.dataDownloading.weatherDataDownloading.WeatherDataParser;
 
 public class IntroActivityLoadingFragmentMainActivityStartingInitializer {
@@ -22,16 +23,25 @@ public class IntroActivityLoadingFragmentMainActivityStartingInitializer {
         startMainActivity(activity,weatherDataParser);
     }
 
-    private static void updateLayout(Activity activity,
+    private void updateLayout(Activity activity,
                               IntroActivityLoadingFragmentDataDownloader dataDownloader){
-        TextView messageTextView=dataDownloader.getMessageTextView();
-        messageTextView.setText(activity.getString(R.string.loading_content_progress_message));
-        UsefulFunctions.setViewVisible(messageTextView);
-        UsefulFunctions.setViewGone(dataDownloader.getLoadingProgressBar());
-        UsefulFunctions.setViewVisible(dataDownloader.getMarginView());
+        updateTextView(activity,dataDownloader);
+        updateProgressBar(dataDownloader);
     }
 
-    private static void saveDefeaultLocationData(Activity activity,
+    private void updateTextView(Activity activity,
+                                IntroActivityLoadingFragmentDataDownloader dataDownloader){
+        TextView messageTextView=dataDownloader.getMessageTextView();
+        messageTextView.setText(activity.getString(R.string.loading_content_progress_message));
+        messageTextView.setVisibility(View.VISIBLE);
+    }
+
+    private void updateProgressBar(IntroActivityLoadingFragmentDataDownloader dataDownloader){
+        ProgressBar progressBar=dataDownloader.getLoadingProgressBar();
+        progressBar.setVisibility(View.GONE);
+    }
+
+    private void saveDefeaultLocationData(Activity activity,
                                           IntroActivityLoadingFragmentDataDownloader dataDownloader,
                                           WeatherDataParser weatherDataParser){
         int selectedDefeaultLocationOption=dataDownloader.getSelectedDefeaultLocationOption();
@@ -44,20 +54,20 @@ public class IntroActivityLoadingFragmentMainActivityStartingInitializer {
         SharedPreferencesModifier.setNextLaunch(activity);
     }
 
-    private static void saveDataForGeolocalization(Activity activity,
+    private void saveDataForGeolocalization(Activity activity,
                                             IntroActivityLoadingFragmentDataDownloader dataDownloader){
         SharedPreferencesModifier.setGeolocalizationMethod(activity, dataDownloader.getSelectedDefeaultLocalizationMethod());
         SharedPreferencesModifier.setDefeaultLocationGeolocalization(activity);
     }
 
-    private static void saveDataForDifferentLocation(Activity activity,
+    private void saveDataForDifferentLocation(Activity activity,
                                               WeatherDataParser weatherDataParser){
         String[] locationAddress=getDownloadedLocationAddress(weatherDataParser);
         setDefeaultLocationAddress(activity,locationAddress);
         saveNewFavouritesItem(activity,locationAddress);
     }
 
-    private static String[] getDownloadedLocationAddress(WeatherDataParser weatherDataParser){
+    private String[] getDownloadedLocationAddress(WeatherDataParser weatherDataParser){
         String city=weatherDataParser.getCity();
         String region=weatherDataParser.getRegion();
         String country=weatherDataParser.getCountry();
@@ -65,7 +75,7 @@ public class IntroActivityLoadingFragmentMainActivityStartingInitializer {
         return locationAddress;
     }
 
-    private static void setDefeaultLocationAddress(Activity activity,
+    private void setDefeaultLocationAddress(Activity activity,
                                             String[] locationAddress){
         String city=locationAddress[0];
         String region=locationAddress[1];
@@ -74,7 +84,7 @@ public class IntroActivityLoadingFragmentMainActivityStartingInitializer {
         SharedPreferencesModifier.setDefeaultLocationConstant(activity,locationAddressString);
     }
 
-    private static void saveNewFavouritesItem(Activity activity,
+    private void saveNewFavouritesItem(Activity activity,
                                        String[] locationAddress){
         //saving selected location in favourites
         String city=locationAddress[0];
@@ -86,7 +96,7 @@ public class IntroActivityLoadingFragmentMainActivityStartingInitializer {
         FavouritesEditor.saveNewFavouritesItem(activity,locationNameTitle,locationNameSubtitle,locationAddressString);
     }
 
-    private static void startMainActivity(Activity activity,
+    private void startMainActivity(Activity activity,
                                    WeatherDataParser weatherDataParser){
         Intent intent = new Intent(activity, MainActivity.class);
         intent.putExtra(activity.getString(R.string.extras_data_initializer_key),weatherDataParser);

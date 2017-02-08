@@ -16,7 +16,7 @@
         <Space
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.5"
+            android:layout_weight="0.4"
             android:minHeight="@dimen/activity_very_big_margin"
             />
         <me.grantland.widget.AutofitTextView
@@ -32,24 +32,24 @@
         <Space
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.2"
+            android:layout_weight="0.25"
             />
         <ImageView
             android:id="@+id/weather_basic_info_layout_conditions_image"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="2"
+            android:layout_weight="1.5"
             />
         <Space
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.2"
+            android:layout_weight="0.25"
             />
         <RelativeLayout
             android:id="@+id/weather_basic_info_layout_temperature_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight="0.75"
             >
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -90,7 +90,7 @@
         <Space
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.5"
+            android:layout_weight="0.25"
             android:minHeight="@dimen/activity_very_big_margin"
             />
         <ImageView

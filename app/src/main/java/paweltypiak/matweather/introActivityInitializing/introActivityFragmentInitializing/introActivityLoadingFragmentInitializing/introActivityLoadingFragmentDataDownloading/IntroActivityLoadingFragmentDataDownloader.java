@@ -28,7 +28,6 @@ public class IntroActivityLoadingFragmentDataDownloader {
     private IntroActivityLoadingFragmentWeatherDataDownloader weatherDataDownloader;
     private TextView messageTextView;
     private ProgressBar loadingProgressBar;
-    private View marginView;
 
     public IntroActivityLoadingFragmentDataDownloader(Activity activity,
                                                       ShowLocationFragmentAgainListener locationListener,
@@ -53,7 +52,6 @@ public class IntroActivityLoadingFragmentDataDownloader {
     private void getViews(){
         loadingProgressBar=(ProgressBar)activity.findViewById(R.id.intro_activity_loading_fragment_progress_circle);
         messageTextView=(TextView)activity.findViewById(R.id.intro_activity_loading_fragment_message);
-        marginView=activity.findViewById(R.id.intro_activity_loading_fragment_margin_view);
     }
 
     private void initializeGeolocalizationDownloader(){
@@ -195,9 +193,5 @@ public class IntroActivityLoadingFragmentDataDownloader {
 
     public ProgressBar getLoadingProgressBar() {
         return loadingProgressBar;
-    }
-
-    public View getMarginView() {
-        return marginView;
     }
 }

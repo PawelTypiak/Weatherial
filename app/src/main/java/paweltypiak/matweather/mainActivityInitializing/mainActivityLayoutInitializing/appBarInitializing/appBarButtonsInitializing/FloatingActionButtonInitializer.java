@@ -1,9 +1,14 @@
 package paweltypiak.matweather.mainActivityInitializing.mainActivityLayoutInitializing.appBarInitializing.appBarButtonsInitializing;
 
 import android.app.Activity;
+import android.os.Build;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.design.widget.FloatingActionButton;
+import android.text.Html;
 import android.view.View;
+import android.widget.LinearLayout;
+
 import paweltypiak.matweather.R;
 import paweltypiak.matweather.dialogsInitializing.dialogInitializers.addToFavouritesDialogInitializing.AddToFavouritesDialogInitializer;
 import paweltypiak.matweather.dialogsInitializing.dialogInitializers.editFavouritesDialogInitializing.EditFavouritesDialogInitializer;
@@ -14,12 +19,35 @@ public class FloatingActionButtonInitializer {
     private int floatingActionButtonOnClickIndicator=0;
 
     public FloatingActionButtonInitializer(Activity activity){
+        findFloatingActionButton(activity);
+        setFloatingActionButtonMargin(activity);
         setFloatingActionButtonOnClickListener(
                 activity);
     }
 
-    private void setFloatingActionButtonOnClickListener(final Activity activity){
+    private void findFloatingActionButton(Activity activity){
         floatingActionButton =(FloatingActionButton) activity.findViewById(R.id.floating_action_button);
+    }
+
+    private void setFloatingActionButtonMargin(Activity activity){
+        CoordinatorLayout.LayoutParams floatingActionButtonLayoutParams
+                = (CoordinatorLayout.LayoutParams)floatingActionButton.getLayoutParams();
+        int margin=getMargin(activity);
+        floatingActionButtonLayoutParams.setMargins(0,0,margin,0);
+        floatingActionButton.setLayoutParams(floatingActionButtonLayoutParams);
+    }
+
+    private int getMargin(Activity activity){
+        int margin;
+        if (Build.VERSION.SDK_INT >= 21) {
+            margin=(int)activity.getResources().getDimension(R.dimen.floating_action_button_margin);
+        } else {
+            margin=(int)activity.getResources().getDimension(R.dimen.floating_action_button_pre_lollipop_margin);
+        }
+        return margin;
+    }
+
+    private void setFloatingActionButtonOnClickListener(final Activity activity){
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -9,6 +9,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import paweltypiak.matweather.dialogsInitializing.dialogInitializers.GeolocalizationProviderUnavailableDialogInitializer;
@@ -168,8 +169,8 @@ public class CurrentLocationCoordinatesDownloader {
         if(progressDialog!=null) progressDialog.dismiss();
         else{
             if(loadingBar!=null) {
-                UsefulFunctions.setViewInvisible(loadingBar);
-                UsefulFunctions.setViewInvisible(messageTextView);
+                loadingBar.setVisibility(View.INVISIBLE);
+                messageTextView.setVisibility(View.INVISIBLE);
             }
         }
     }

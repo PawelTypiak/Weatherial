@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
+import android.support.v7.widget.AppCompatRadioButton;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +15,6 @@ import paweltypiak.matweather.R;
 import paweltypiak.matweather.dialogsInitializing.AlertDialogBuilder;
 import paweltypiak.matweather.dialogsInitializing.alertDialogTools.AlertDialogButtonsCustomizer;
 import paweltypiak.matweather.usefulClasses.SharedPreferencesModifier;
-import paweltypiak.matweather.usefulClasses.UsefulFunctions;
 
 public class GeolocalizationMethodsDialogInitializer {
 
@@ -59,7 +59,7 @@ public class GeolocalizationMethodsDialogInitializer {
 
     private void initializeGpsRadioButton(Activity activity, RadioGroup radioGroup)
     {
-        RadioButton gpsRadioButton=new RadioButton(activity);
+        AppCompatRadioButton gpsRadioButton=new AppCompatRadioButton(activity);
         gpsRadioButton.setText(activity.getString(R.string.geolocalization_method_gps));
         gpsRadioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX,activity.getResources().getDimensionPixelSize(R.dimen.dialog_text_size));
         gpsRadioButton.setTextColor(ContextCompat.getColor(activity,R.color.textSecondaryLightBackground));
@@ -78,7 +78,7 @@ public class GeolocalizationMethodsDialogInitializer {
     }
 
     private void initializeNetworkRadioButton(Activity activity,RadioGroup radioGroup){
-        RadioButton networkRadioButton=new RadioButton(activity);
+        AppCompatRadioButton networkRadioButton=new AppCompatRadioButton(activity);
         networkRadioButton.setText(activity.getString(R.string.geolocalization_method_network));
         networkRadioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX,activity.getResources().getDimensionPixelSize(R.dimen.dialog_text_size));
         networkRadioButton.setTextColor(ContextCompat.getColor(activity,R.color.textSecondaryLightBackground));
@@ -107,9 +107,9 @@ public class GeolocalizationMethodsDialogInitializer {
         AlertDialogBuilder alertDialogBuilder=new AlertDialogBuilder(
                 activity,
                 dialogView,
-                R.style.LoadingDialogStyle,
+                R.style.DialogStyle,
                 activity.getString(R.string.geolocalization_methods_dialog_title),
-                R.drawable.localization_method_icon,
+                R.drawable.geolocalization_method_icon,
                 null,
                 isUncancelable(type),
                 activity.getString(R.string.geolocalization_methods_dialog_positive_button),
