@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android">
-        <paweltypiak.matweather.settingsActivityInitializing.dialogPreferencesInitializing.unitsDialogPreferences.TemperatureUnitsDialogPreference
+        <paweltypiak.weatherial.settingsActivityInitializing.dialogPreferencesInitializing.unitsDialogPreferences.TemperatureUnitsDialogPreference
             android:key="@string/preferences_temperature_unit_key"
             android:title="@string/preferences_units_temperature_title"/>
-        <paweltypiak.matweather.settingsActivityInitializing.dialogPreferencesInitializing.unitsDialogPreferences.SpeedUnitsDialogPreference
+        <paweltypiak.weatherial.settingsActivityInitializing.dialogPreferencesInitializing.unitsDialogPreferences.SpeedUnitsDialogPreference
             android:key="@string/preferences_speed_unit_key"
             android:title="@string/preferences_units_speed_title"/>
-        <paweltypiak.matweather.settingsActivityInitializing.dialogPreferencesInitializing.unitsDialogPreferences.PressureUnitsDialogPreference
+        <paweltypiak.weatherial.settingsActivityInitializing.dialogPreferencesInitializing.unitsDialogPreferences.PressureUnitsDialogPreference
             android:key="@string/preferences_pressure_unit_key"
             android:title="@string/preferences_units_pressure_title"/>
-        <paweltypiak.matweather.settingsActivityInitializing.dialogPreferencesInitializing.unitsDialogPreferences.TimeUnitsDialogPreference
+        <paweltypiak.weatherial.settingsActivityInitializing.dialogPreferencesInitializing.unitsDialogPreferences.TimeUnitsDialogPreference
             android:key="@string/preferences_time_unit_key"
             android:title="@string/preferences_units_time_title"/>
 </PreferenceScreen>

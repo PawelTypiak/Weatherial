@@ -12,7 +12,7 @@
         android:layout_centerHorizontal="true"
         android:orientation="vertical"
         >
-        <paweltypiak.matweather.customViews.RobotoMediumFontTextView
+        <paweltypiak.weatherial.customViews.RobotoMediumFontTextView
             android:id="@+id/intro_activity_language_fragment_header_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -3,71 +3,39 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
-
-    <style name="MainTheme" parent="@style/AppTheme">
+    <style name="MainActivityTheme" parent="@style/AppTheme">
         <item name="android:windowBackground">@color/colorPrimary</item>
     </style>
-
-    <style name="IntroTheme" parent="@style/AppTheme">
+    <style name="IntroActivityTheme" parent="@style/AppTheme">
         <item name="android:windowBackground">@drawable/splash_screen</item>
     </style>
-
-    <style name="SettingsTheme.base" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="SettingsActivityTheme.base" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:actionBarStyle">@style/ActionBarStyle</item>
     </style>
-
-    <style name="SettingsTheme" parent="SettingsTheme.base"/>
-
+    <style name="SettingsActivityTheme" parent="SettingsActivityTheme.base"/>
     <style name="ActionBarStyle" parent="@android:style/Widget.ActionBar">
         <item name="android:background">@color/colorPrimary</item>
     </style>
-
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
-    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
-        <item name="spinBars">true</item>
-        <item name="color">@color/white</item>
-    </style>
-
     <style name="DialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowMinWidthMajor">90%</item>
         <item name="android:windowMinWidthMinor">90%</item>
     </style>
-
-    <style name="LoadingDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:windowMinWidthMajor">90%</item>
-        <item name="android:windowMinWidthMinor">90%</item>
-    </style>
-
     <style name="AppTheme.White">
         <item name="colorAccent">@color/white</item>
     </style>
-
-    <style name="SelectableSpinnerStyle" parent="Widget.AppCompat.Light.Spinner.DropDown.ActionBar">
-        <item name="android:background">?android:selectableItemBackground</item>
-        <item name="android:dropDownSelector">?android:selectableItemBackground</item>
-        <item name="android:divider">@null</item>
-    </style>
-
-    <style name="SelectableTextStyle" parent="MainTheme">
-        <item name="android:background">?android:selectableItemBackground</item>
-    </style>
-
     <style name="CheckBoxStyle" parent="Base.Theme.AppCompat">
         <item name="colorAccent">@color/colorPrimary</item>
         <item name="android:textColorSecondary">@color/textSecondaryLightBackground</item>
     </style>
-
     <style name="TextAppearance.CollapsedTitle"
         parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textSize">@dimen/toolbar_collapsed_title_text_size</item>
@@ -79,12 +47,10 @@
         <item name="android:textSize">@dimen/toolbar_expanded_title_text_size</item>
         <item name="android:textColor">@color/textPrimaryDarkBackground</item>
     </style>
-
     <style name="EditTextStyle">
         <item name="colorControlNormal">@color/transparent</item>
     </style>
-
-    <style name="SpinnerStyle" parent="MainTheme">
+    <style name="SpinnerStyle" parent="MainActivityTheme">
         <item name="colorControlActivated">@color/colorAccent</item>
         <item name="colorControlHighlight">@color/ripple_effect_black</item>
     </style>

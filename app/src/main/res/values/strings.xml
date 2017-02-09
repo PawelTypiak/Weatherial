@@ -1,15 +1,12 @@
 <resources>
-    <string name="app_name">MatWeather</string>
+    <string name="app_name">Weatherial</string>
     <string name="app_version">v. 1.0</string>
-
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
     <string name="bullet">&#8226; </string>
     <string name="dagree_sign">°</string>
-
     <!-- Keys -->
-    <string name="shared_preferences_name_key">paweltypiak.matweather.preference_file_key</string>
+    <string name="shared_preferences_name_key">paweltypiak.weatherial.preference_file_key</string>
     <string name="shared_preferences_language_version_key">language_version_preferences_key</string>
     <string name="shared_preferences_units_key">units_preferences_key</string>
     <string name="shared_preferences_default_location_key">default_location_key</string>
@@ -31,7 +28,6 @@
     <string name="preferences_speed_unit_key">preferences_speed_units_key</string>
     <string name="preferences_temperature_unit_key">preferences_temperature_unit_key</string>
     <string name="preferences_time_unit_key">preferences_time_unit_key</string>
-
     <!-- Fragment Tags -->
     <string name="intro_activity_start_fragment_tag">intro_activity_start_fragment_tag</string>
     <string name="intro_activity_configuration_fragment_tag">intro_activity_configuration_fragment_tag</string>
@@ -42,7 +38,6 @@
     <string name="intro_activity_loading_fragment_tag">intro_activity_loading_fragment_tag</string>
     <string name="settings_activity_main_preferences_fragment_tag">settings_activity_main_preferences_fragment_tag</string>
     <string name="settings_activity_units_preferences_fragment_tag">settings_activity_units_preferences_fragment_tag</string>
-    
     <!-- Dialog strings -->
     <string name="failure_dialog_title">Failure</string>
     <string name="service_failure_dialog_message">Empty reply from server, probably caused by temporary service failure. Try again later.</string>
@@ -60,16 +55,9 @@
     <string name="yahoo_redirect_dialog_positive_button">Continue</string>
     <string name="yahoo_redirect_dialog_negative_button">Cancel</string>
     <string name="exit_dialog_title">Exit</string>
-    <string name="exit_dialog_message">Are you sure you want to leave <b>MatWeather</b>?</string>
+    <string name="exit_dialog_message">Are you sure you want to leave <b>Weatherial</b>?</string>
     <string name="exit_dialog_positive_button">Exit</string>
     <string name="exit_dialog_negative_button">Cancel</string>
-    <string name="about_dialog_header">Welcome to <b>MatWeather</b> - simple weather application created according to <i>Material Design</i> philosphy.</string>
-    <string name="about_dialog_description_additional_information">Additional information:</string>
-    <string name="about_dialog_description_part1">weather information: <b><a href="https://developer.yahoo.com/weather/">Yahoo Weather API</a></b></string>
-    <string name="about_dialog_description_part2">geocoding information: <b><a href="https://developers.google.com/maps/">Google Maps API</a></b></string>
-    <string name="about_dialog_description_part3">icons: <b><a href="http://www.flaticon.com/">Flaticon</a></b></string>
-    <string name="about_dialog_description_part4">repository: <b><a href="https://github.com/PawelTypiak/MatWeather">GitHub</a></b></string>
-    <string name="about_dialog_negative_button">Ok</string>
     <string name="feedback_dialog_title">Send feedback</string>
     <string name="feedback_dialog_message">If you have any questions or you want to express opinion, send me an email to address:</string>
     <string name="feedback_dialog_mail">pawel.p.typiak@gmail.com</string>
@@ -154,14 +142,13 @@
     <string name="rate_dialog_message">Do you like my application? Rate it in <i>Google Play</i>, because your opinion matters to me. It won\'t take you more that a few seconds. Thanks for your support!</string>
     <string name="rate_dialog_positive_button">Rate</string>
     <string name="rate_dialog_negative_button">Cancel</string>
-
     <!-- Info Activity texts -->
     <string name="info_activity_api_header">API</string>
     <string name="info_activity_external_libraries_header">External libraries</string>
     <string name="info_activity_application_source_header">Application license</string>
-    <string name="info_activity_application_description">Welcome to <i><b>MatWeather</b></i> - simple weather application created according to <i>Material Design</i> philosophy.</string>
-    <string name="info_activity_applicaton_source_repository_description"><i>MatWeather</i> is an <i>Open Source</i> project. You can find its repository below:</string>
-    <string name="info_activity_application_source_repository_header">github.com/PawelTypiak/MatWeather</string>
+    <string name="info_activity_application_description">Welcome to <i><b>Weatherial</b></i> - simple weather application created according to <i>Material Design</i> philosophy.</string>
+    <string name="info_activity_applicaton_source_repository_description"><i>Weatherial</i> is an <i>Open Source</i> project. You can find its repository below:</string>
+    <string name="info_activity_application_source_repository_header">github.com/PawelTypiak/Weatherial</string>
     <string name="info_activity_application_source_licence_description">Application is licensed under <i>Apache 2.0</i> license. You can read more about the terms of this license below:</string>
     <string name="info_activity_application_source_licence_header">apache.org/licenses/LICENSE-2.0</string>
     <string name="info_activity_api_description">APIs used in application:</string>
@@ -174,7 +161,6 @@
     <string name="info_activity_eexternal_libraries_picasso_name"><i>Picasso</i></string>
     <string name="info_activity_external_libraries_smooth_app_bar_name"><i>smooth-app-bar-layout</i></string>
     <string name="info_activity_external_libraries_multiline_collapsingtoolbar_name"><i>multiline-collapsingtoolbar</i></string>
-    <string name="info_activity_clipboard_toast_message">Address copied to clipboard</string>
 
     <!-- First launch layout strings-->
     <string name="first_launch_button_start_text">GET STARTED</string>
@@ -205,11 +191,9 @@
     <string name="first_launch_geolocalization_header">Select geolocalization method:</string>
     <string name="geolocalization_method_gps">GPS (accurate)</string>
     <string name="geolocalization_method_network">Network (fast)</string>
-
     <!-- Content Layout headers-->
     <string name="details_header">DETAILS</string>
     <string name="forecast_header">FORECAST</string>
-
     <!-- progress info messages-->
     <string name="searching_location_progress_message">Retrieving location...</string>
     <string name="waiting_for_localization_progress_message">Waiting for geolocalization...</string>
@@ -218,10 +202,8 @@
     <string name="loading_content_progress_message">Loading content...</string>
     <string name="refreshing_progress_message">REFRESHING...</string>
     <string name="refresh_message_pull_to_refresh">Pull to refresh</string>
-
     <!-- Clipboard texts-->
-    <string name="clipboard_feedback_mail_subject">MatWeather - feedback</string>
-
+    <string name="clipboard_feedback_mail_subject">Weatherial - feedback</string>
     <!-- Addresses & URLs-->
     <string name="mail_address">pawel.p.typiak@gmail.com</string>
     <string name="github_address">https://github.com/PawelTypiak?tab=repositories</string>
@@ -232,12 +214,11 @@
     <string name="picasso_library_address">http://square.github.io/picasso/</string>
     <string name="smooth_app_bar_layout_library_address">https://github.com/henrytao-me/smooth-app-bar-layout</string>
     <string name="multiline_collapsingtoolbar_library_address">https://github.com/opacapp/multiline-collapsingtoolbar</string>
-    <string name="project_repository_address">https://github.com/PawelTypiak/MatWeather</string>
+    <string name="project_repository_address">https://github.com/PawelTypiak/Weatherial</string>
     <string name="apache_license_address">https://www.apache.org/licenses/LICENSE-2.0</string>
-
     <!-- Toast messages-->
-    <string name="clipboard_toast_message">E-mail address copied</string>
-
+    <string name="feedback_dialog_clipboard_toast_message">E-mail address copied</string>
+    <string name="info_activity_clipboard_toast_message">Address copied to clipboard</string>
     <!-- Options in navigation drawer -->
     <string name="nav_drawer_locations_group_item">Locations</string>
     <string name="nav_drawer_others_group_item">Others</string>
@@ -247,13 +228,13 @@
     <string name="nav_drawer_feedback">Send feedback</string>
     <string name="nav_drawer_about">About</string>
     <string name="nav_drawer_author">Author</string>
-
     <!-- Preferences -->
     <string name="preferences_dialog_positive_button">Select</string>
     <string name="preferences_dialog_negative_button">Cancel</string>
     <string name="preferences_default_location_title">Default location</string>
     <string name="preferences_geolocalization_method_title">Geolocalization method</string>
     <string name="preferences_geolocalization_method_default_summary">Select geolocalization method</string>
+    <string name="preferences_language_version_title">Language version</string>
     <string name="preferences_units_title">Units</string>
     <string name="preferences_units_summary">Select measurement system</string>
     <string name="preferences_units_temperature_title">Temperature</string>
@@ -268,13 +249,7 @@
         <item>Atmospheric pressure</item>
         <item>Time format</item>
     </string-array>
-    <string name="preferences_language_version_title">Language version</string>
-
     <!-- Weather strings -->
-    <string name="weather_title">Weather</string>
-    <string name="weather_chill">Feels like</string>
-    <string name="weather_tomorrow_name">Tomorrow</string>
-
     <string name="condition_0">Tornado</string>
     <string name="condition_1">Tropical storm</string>
     <string name="condition_2">Hurricane</string>

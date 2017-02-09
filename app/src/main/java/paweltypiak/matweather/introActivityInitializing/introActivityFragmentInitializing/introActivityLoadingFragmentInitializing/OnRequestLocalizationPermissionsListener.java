@@ -1,5 +1,0 @@
-package paweltypiak.matweather.introActivityInitializing.introActivityFragmentInitializing.introActivityLoadingFragmentInitializing;
-
-public interface OnRequestLocalizationPermissionsListener {
-    void requestLocalizationPermissions();
-}

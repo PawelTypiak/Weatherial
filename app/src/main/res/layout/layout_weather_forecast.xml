@@ -12,7 +12,7 @@
         android:paddingTop="@dimen/main_activity_sublayout_vertical_margin"
         android:paddingBottom="@dimen/main_activity_sublayout_vertical_margin"
         >
-        <paweltypiak.matweather.customViews.RobotoMediumFontTextView
+        <paweltypiak.weatherial.customViews.RobotoMediumFontTextView
             android:id="@+id/weather_forecast_layout_header_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

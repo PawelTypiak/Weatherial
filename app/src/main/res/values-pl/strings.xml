@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!-- Info Activity texts -->
     <string name="info_activity_api_header">API</string>
     <string name="info_activity_external_libraries_header">Biblioteki zewnętrzne</string>
     <string name="info_activity_application_source_header">Licencja aplikacji</string>
-    <string name="info_activity_application_description">Witaj w <i><b>MatWeather</b></i> - prostej aplikacji pogodowej zaprojektowanej zgodnie z filozofią <i>Material Design</i>.</string>
-    <string name="info_activity_applicaton_source_repository_description">Aplikacja <i>MatWeather</i> jest projektem typu <i>Open Source</i>, a kod źródłowy jest dostępny pod adresem:</string>
+    <string name="info_activity_application_description">Witaj w <i><b>Weatherial</b></i> - prostej aplikacji pogodowej zaprojektowanej zgodnie z filozofią <i>Material Design</i>.</string>
+    <string name="info_activity_applicaton_source_repository_description">Aplikacja <i>Weatherial</i> jest projektem typu <i>Open Source</i>, a kod źródłowy jest dostępny pod adresem:</string>
     <string name="info_activity_application_source_licence_description">Kod projektu jest dostępny na licencji <i>Apache 2.0</i>, której treść można przeczytać poniżej:</string>
     <string name="info_activity_api_description">W aplikacji wykorzystano następujące API:</string>
     <string name="info_activity_api_weather_subheader">Informacje pogodowe</string>
     <string name="info_activity_api_geocoding_subheader">Informacje geolokalizacyjne</string>
     <string name="info_activity_external_libraries_description">W aplikacji zostały wykorzystane następujące zewnętrzne biblioteki Open-Source:</string>
     <string name="info_activity_external_libraries_licence_name"><u>Licencja <i>Apache 2.0</i> :</u></string>
-    <string name="info_activity_clipboard_toast_message">Skopiowano adres do schowka</string>
-
     <!-- Dialog strings -->
     <string name="failure_dialog_title">Niepowodzenie!</string>
     <string name="service_failure_dialog_message">Brak odpowiedzi z serwera, prawdopodobnie wywołany chwilowym błędem serwisu. Spróbuj ponownie póżniej.</string>
@@ -32,7 +29,7 @@
     <string name="yahoo_redirect_dialog_positive_button">Kontynuuj</string>
     <string name="yahoo_redirect_dialog_negative_button">Anuluj</string>
     <string name="exit_dialog_title">Wyjście</string>
-    <string name="exit_dialog_message">Czy na pewno chcesz wyjsć z <b>MatWeather</b>?</string>
+    <string name="exit_dialog_message">Czy na pewno chcesz wyjsć z <b>Waatherial</b>?</string>
     <string name="exit_dialog_positive_button">Wyjdź</string>
     <string name="exit_dialog_negative_button">Anuluj</string>
     <string name="feedback_dialog_title">Prześlij opinię</string>
@@ -119,7 +116,6 @@
     <string name="rate_dialog_message">Podoba ci się moja aplikacja? Oceń ją w <i>Google Play</i>, ponieważ twoja opinia ma dla mnie duże znaczenie. Nie zajmie ci to więcej niż kilka sekund. Dzięki za wsparcie!</string>
     <string name="rate_dialog_positive_button">Oceń</string>
     <string name="rate_dialog_negative_button">Anuluj</string>
-
     <!-- First launch layout strings-->
     <string name="first_launch_button_start_text">ROZPOCZNIJ</string>
     <string name="first_launch_button_continue_text">KONTYNUUJ</string>
@@ -133,11 +129,9 @@
     <string name="first_launch_geolocalization_header">Wybierz metodę geolokalizacji:</string>
     <string name="geolocalization_method_gps">GPS (dokładna)</string>
     <string name="geolocalization_method_network">Sieć (szybka)</string>
-
     <!-- Content Layout headers-->
     <string name="details_header">SZCZEGÓŁY</string>
     <string name="forecast_header">PROGNOZA</string>
-
     <!-- progress info messages-->
     <string name="searching_location_progress_message">Wyszukiwanie lokacji...</string>
     <string name="waiting_for_localization_progress_message">Oczekiwanie na lokalizację...</string>
@@ -146,13 +140,11 @@
     <string name="loading_content_progress_message">Ładowanie zawartości...</string>
     <string name="refreshing_progress_message">ODŚWIEŻANIE...</string>
     <string name="refresh_message_pull_to_refresh">Pociągnij, żeby odświeżyć</string>
-
     <!-- Clipboard texts-->
-    <string name="clipboard_feedback_mail_subject">MatWeather - opinia</string>
-
+    <string name="clipboard_feedback_mail_subject">Weatherial - opinia</string>
     <!-- Toast messages-->
-    <string name="clipboard_toast_message">Skopiowano adres E-mail</string>
-
+    <string name="feedback_dialog_clipboard_toast_message">Skopiowano adres E-mail</string>
+    <string name="info_activity_clipboard_toast_message">Skopiowano adres do schowka</string>
     <!-- Options in navigation drawer -->
     <string name="nav_drawer_locations_group_item">Lokacje</string>
     <string name="nav_drawer_others_group_item">Inne</string>
@@ -163,13 +155,13 @@
     <string name="nav_drawer_feedback">Prześlij opinię</string>
     <string name="nav_drawer_about">O aplikacji</string>
     <string name="nav_drawer_author">Autor</string>
-
     <!-- Preferences -->
     <string name="preferences_dialog_positive_button">Wybierz</string>
     <string name="preferences_dialog_negative_button">Anuluj</string>
     <string name="preferences_default_location_title">Lokacja domyślna</string>
     <string name="preferences_geolocalization_method_title">Metoda geolokalizacji</string>
     <string name="preferences_geolocalization_method_default_summary">Wybierz metodę geolokalizacji</string>
+    <string name="preferences_language_version_title">Wersja językowa</string>
     <string name="preferences_units_title">Jednostki</string>
     <string name="preferences_units_summary">Wybierz system jednostek</string>
     <string name="preferences_units_temperature_title">Temperatura powietrza</string>
@@ -184,13 +176,7 @@
         <item>Ciśnienie atmosferyczne</item>
         <item>Format czasu</item>
     </string-array>
-    <string name="preferences_language_version_title">Wersja językowa</string>
-
     <!-- Weather strings -->
-    <string name="weather_title">Pogoda</string>
-    <string name="weather_chill">Odczuwalna</string>
-    <string name="weather_tomorrow_name">Jutro</string>
-
     <string name="condition_0">Tornado</string>
     <string name="condition_1">Burza tropikalna</string>
     <string name="condition_2">Huragan</string>

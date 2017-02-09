@@ -13,7 +13,7 @@
         android:layout_centerHorizontal="true"
         android:orientation="vertical"
         >
-        <paweltypiak.matweather.customViews.RobotoMediumFontTextView
+        <paweltypiak.weatherial.customViews.RobotoMediumFontTextView
             android:id="@+id/intro_activity_units_fragment_header_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
                             android:rotation="180"
                             android:tint="@color/white"/>
                         <view
-                            class="paweltypiak.matweather.introActivityInitializing.introActivityFragmentInitializing.IntroActivityUnitsFragment$FirstLaunchSpinner"
+                            class="paweltypiak.weatherial.introActivityInitializing.introActivityFragmentInitializing.IntroActivityUnitsFragment$FirstLaunchSpinner"
                             android:id="@+id/intro_activity_units_fragment_spinner_0"
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
@@ -134,7 +134,7 @@
                             android:rotation="180"
                             android:tint="@color/white"/>
                         <view
-                            class="paweltypiak.matweather.introActivityInitializing.introActivityFragmentInitializing.IntroActivityUnitsFragment$FirstLaunchSpinner"
+                            class="paweltypiak.weatherial.introActivityInitializing.introActivityFragmentInitializing.IntroActivityUnitsFragment$FirstLaunchSpinner"
                             android:id="@+id/intro_activity_units_fragment_spinner_1"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
@@ -192,7 +192,7 @@
                             android:rotation="180"
                             android:tint="@color/white"/>
                         <view
-                            class="paweltypiak.matweather.introActivityInitializing.introActivityFragmentInitializing.IntroActivityUnitsFragment$FirstLaunchSpinner"
+                            class="paweltypiak.weatherial.introActivityInitializing.introActivityFragmentInitializing.IntroActivityUnitsFragment$FirstLaunchSpinner"
                             android:id="@+id/intro_activity_units_fragment_spinner_2"
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
@@ -250,7 +250,7 @@
                             android:rotation="180"
                             android:tint="@color/white"/>
                         <view
-                            class="paweltypiak.matweather.introActivityInitializing.introActivityFragmentInitializing.IntroActivityUnitsFragment$FirstLaunchSpinner"
+                            class="paweltypiak.weatherial.introActivityInitializing.introActivityFragmentInitializing.IntroActivityUnitsFragment$FirstLaunchSpinner"
                             android:id="@+id/intro_activity_units_fragment_spinner_3"
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
