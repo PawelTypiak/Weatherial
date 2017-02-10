@@ -17,8 +17,8 @@ import paweltypiak.weatherial.introActivityInitializing.introActivityFragmentIni
 public class IntroActivityFragmentInsertionInitializer {
 
     private boolean isFirstLaunch;
-    private FragmentManager fragmentMenager;
-    private FragmentManager childFragmentMenager;
+    private FragmentManager fragmentManager;
+    private FragmentManager childFragmentManager;
     private IntroActivityConfigurationFragment configurationFragment;
 
     public IntroActivityFragmentInsertionInitializer(boolean isFirstLaunch){
@@ -44,11 +44,11 @@ public class IntroActivityFragmentInsertionInitializer {
     }
 
     private void insertMainFragment(Activity activity,Fragment fragment,String tag){
-        if(fragmentMenager==null){
-            fragmentMenager  = ((FragmentActivity)activity).
+        if(fragmentManager ==null){
+            fragmentManager = ((FragmentActivity)activity).
                     getSupportFragmentManager();
         }
-        FragmentTransaction fragmentTransaction=fragmentMenager.beginTransaction();
+        FragmentTransaction fragmentTransaction= fragmentManager.beginTransaction();
         fragmentTransaction.replace(
                 R.id.intro_activity_main_fragment_placeholder,
                 fragment,
@@ -101,13 +101,13 @@ public class IntroActivityFragmentInsertionInitializer {
 
     public void insertLoadingFragment(Activity activity,
                                        int selectedGeolocalizationMethod,
-                                       int selectedDefeaultLocationOption,
+                                       int selectedDefaultLocationOption,
                                        String differentLocationName) {
         IntroActivityLoadingFragment loadingFragment
                 = IntroActivityLoadingFragment.newInstance(
                 activity,
                 isFirstLaunch,
-                selectedDefeaultLocationOption,
+                selectedDefaultLocationOption,
                 selectedGeolocalizationMethod,differentLocationName);
         insertSettingsFragment(
                 loadingFragment,
@@ -117,10 +117,10 @@ public class IntroActivityFragmentInsertionInitializer {
 
     private void insertSettingsFragment(android.support.v4.app.Fragment settingsFragment, String tag) {
         //set nested fragment
-        if(childFragmentMenager==null){
-            childFragmentMenager  = configurationFragment.getChildFragmentManager();
+        if(childFragmentManager ==null){
+            childFragmentManager = configurationFragment.getChildFragmentManager();
         }
-        FragmentTransaction fragmentTransaction = childFragmentMenager.beginTransaction();
+        FragmentTransaction fragmentTransaction = childFragmentManager.beginTransaction();
         fragmentTransaction.replace(
                 R.id.intro_activity_configuration_fragment_placeholder,
                 settingsFragment,
@@ -130,7 +130,7 @@ public class IntroActivityFragmentInsertionInitializer {
 
     public Fragment getSettingsFragment(String tag){
         //get child fragment by tag
-        Fragment childFragment = childFragmentMenager.findFragmentByTag(tag);
+        Fragment childFragment = childFragmentManager.findFragmentByTag(tag);
         return childFragment;
     }
 

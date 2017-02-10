@@ -2,13 +2,12 @@ package paweltypiak.weatherial.dialogsInitializing.dialogInitializers.favourites
 
 import android.app.Activity;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import paweltypiak.weatherial.mainActivityInitializing.MainActivity;
 import paweltypiak.weatherial.R;
 import paweltypiak.weatherial.dialogsInitializing.dialogInitializers.InternetFailureDialogInitializer;
 import paweltypiak.weatherial.dialogsInitializing.dialogInitializers.ProgressDialogInitializer;
 import paweltypiak.weatherial.dialogsInitializing.dialogInitializers.ServiceFailureDialogInitializer;
-import paweltypiak.weatherial.jsonHandling.Channel;
+import paweltypiak.weatherial.dataDownloading.jsonHandling.weatherServiceTagTreeInitializing.Channel;
 import paweltypiak.weatherial.usefulClasses.FavouritesEditor;
 import paweltypiak.weatherial.dataDownloading.weatherDataDownloading.WeatherDataDownloader;
 import paweltypiak.weatherial.dataDownloading.weatherDataDownloading.WeatherDataParser;
@@ -25,7 +24,6 @@ class FavouritesDialogRunnable implements Runnable,WeatherDownloadCallback {
 
     public void run() {
         String address= FavouritesEditor.getSelectedFavouriteLocationAddress(activity);
-        Log.d("selected adress", address);
         new WeatherDataDownloader(address,this);
         progressDialog
                 = ProgressDialogInitializer.getProgressDialog(

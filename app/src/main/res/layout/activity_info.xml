@@ -76,219 +76,52 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+            <paweltypiak.weatherial.customViews.RobotoMediumFontTextView
+                android:id="@+id/info_activity_application_description_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/activity_normal_margin"
+                android:paddingRight="@dimen/activity_normal_margin"
+                android:paddingTop="@dimen/activity_normal_margin"
+                android:layout_marginBottom="@dimen/activity_normal_margin"
+                android:textColor="@color/textPrimaryLightBackground"
+                android:textSize="@dimen/info_activity_description_text_size"
+                android:text="@string/info_activity_application_description"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/dividerLightBackground"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <paweltypiak.weatherial.customViews.RobotoMediumFontTextView
-                    android:id="@+id/info_activity_application_description_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="@dimen/activity_normal_margin"
-                    android:paddingRight="@dimen/activity_normal_margin"
-                    android:paddingTop="@dimen/activity_normal_margin"
-                    android:layout_marginBottom="@dimen/activity_normal_margin"
-                    android:textColor="@color/textPrimaryLightBackground"
-                    android:textSize="@dimen/info_activity_description_text_size"
-                    android:text="@string/info_activity_application_description"
-                    />
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/dividerLightBackground"/>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
-                    <paweltypiak.weatherial.customViews.RobotoMediumFontTextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/activity_normal_margin"
-                        android:textSize="@dimen/header_text_size"
-                        android:textColor="@color/textSecondaryLightBackground"
-                        android:text="@string/info_activity_application_source_header"
-                        />
-                    <TextView
-                        android:id="@+id/info_activity_application_source_repository_description_text"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="@dimen/activity_normal_margin"
-                        android:paddingRight="@dimen/activity_normal_margin"
-                        android:text="@string/info_activity_applicaton_source_repository_description"
-                        android:textColor="@color/textPrimaryLightBackground"
-                        android:textSize="@dimen/info_activity_description_text_size"
-                        />
-                    <LinearLayout
-                        android:id="@+id/info_activity_application_source_repository_web_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="@dimen/activity_normal_margin"
-                        android:paddingBottom="@dimen/activity_normal_margin"
-                        android:layout_marginTop="@dimen/activity_small_margin"
-                        android:layout_marginBottom="@dimen/activity_small_margin"
-                        android:background="?attr/selectableItemBackground">
-                        <RelativeLayout
-                            android:layout_width="@dimen/activity_huge_margin"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            >
-                            <ImageView
-                                android:id="@+id/info_activity_application_source_repository_web_icon_image"
-                                android:layout_width="@dimen/info_activity_icons_size"
-                                android:layout_height="@dimen/info_activity_icons_size"
-                                android:layout_marginLeft="@dimen/activity_normal_margin"
-                                android:src="@drawable/web_icon"
-                                android:tint="@color/colorPrimary"
-                                android:scaleType="centerInside"
-                                />
-                        </RelativeLayout>
-                        <paweltypiak.weatherial.customViews.RobotoMediumFontTextView
-                            android:id="@+id/info_activity_application_source_repository_address_text"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="@dimen/activity_normal_margin"
-                            android:layout_gravity="center_vertical"
-                            android:text="@string/info_activity_application_source_repository_header"
-                            android:textSize="@dimen/info_activity_description_text_size"
-                            android:textColor="@color/textPrimaryLightBackground"
-                            android:ellipsize="marquee"
-                            android:lines="1"
-                            />
-                    </LinearLayout>
-                    <TextView
-                        android:id="@+id/info_activity_application_source_licence_description_text"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="@dimen/activity_normal_margin"
-                        android:paddingRight="@dimen/activity_normal_margin"
-                        android:text="@string/info_activity_application_source_licence_description"
-                        android:textColor="@color/textPrimaryLightBackground"
-                        android:textSize="@dimen/info_activity_description_text_size"
-                        />
-                    <LinearLayout
-                        android:id="@+id/info_activity_application_source_license_web_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="@dimen/activity_normal_margin"
-                        android:paddingBottom="@dimen/activity_normal_margin"
-                        android:layout_marginTop="@dimen/activity_small_margin"
-                        android:layout_marginBottom="@dimen/activity_small_margin"
-                        android:background="?attr/selectableItemBackground">
-                        <RelativeLayout
-                            android:layout_width="@dimen/activity_huge_margin"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            >
-                            <ImageView
-                                android:id="@+id/info_activity_application_source_license_web_icon_image"
-                                android:layout_width="@dimen/info_activity_icons_size"
-                                android:layout_height="@dimen/info_activity_icons_size"
-                                android:layout_marginLeft="@dimen/activity_normal_margin"
-                                android:src="@drawable/web_icon"
-                                android:tint="@color/colorPrimary"
-                                android:scaleType="centerInside"
-                                />
-                        </RelativeLayout>
-                        <paweltypiak.weatherial.customViews.RobotoMediumFontTextView
-                            android:id="@+id/info_activity_application_source_licence_address_text"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="@dimen/activity_normal_margin"
-                            android:layout_gravity="center_vertical"
-                            android:text="@string/info_activity_application_source_licence_header"
-                            android:textSize="@dimen/info_activity_description_text_size"
-                            android:textColor="@color/textPrimaryLightBackground"
-                            android:ellipsize="marquee"
-                            android:lines="1"
-                            />
-                    </LinearLayout>
-                </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/dividerLightBackground"/>
+                android:orientation="vertical"
+                >
                 <paweltypiak.weatherial.customViews.RobotoMediumFontTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/activity_normal_margin"
                     android:textSize="@dimen/header_text_size"
                     android:textColor="@color/textSecondaryLightBackground"
-                    android:text="@string/info_activity_api_header"
+                    android:text="@string/info_activity_application_source_header"
                     />
                 <TextView
-                    android:id="@+id/info_activity_api_description_text"
+                    android:id="@+id/info_activity_application_source_repository_description_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="@dimen/activity_normal_margin"
                     android:paddingRight="@dimen/activity_normal_margin"
-                    android:paddingBottom="@dimen/activity_small_margin"
-                    android:text="@string/info_activity_api_description"
+                    android:text="@string/info_activity_applicaton_source_repository_description"
                     android:textColor="@color/textPrimaryLightBackground"
                     android:textSize="@dimen/info_activity_description_text_size"
                     />
                 <LinearLayout
-                    android:id="@+id/info_activity_api_weather_layout"
+                    android:id="@+id/info_activity_application_source_repository_web_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/activity_normal_margin"
                     android:paddingBottom="@dimen/activity_normal_margin"
-                    android:background="?attr/selectableItemBackground">
-                    <RelativeLayout
-                        android:layout_width="@dimen/activity_huge_margin"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        >
-                        <ImageView
-                            android:id="@+id/info_activity_api_weather_web_icon_image"
-                            android:layout_width="@dimen/info_activity_icons_size"
-                            android:layout_height="@dimen/info_activity_icons_size"
-                            android:layout_marginLeft="@dimen/activity_normal_margin"
-                            android:src="@drawable/web_icon"
-                            android:tint="@color/colorPrimary"
-                            android:scaleType="centerInside"
-                            />
-                    </RelativeLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="@dimen/activity_normal_margin"
-                        android:layout_gravity="center_vertical"
-                        android:orientation="vertical">
-                        <paweltypiak.weatherial.customViews.RobotoMediumFontTextView
-                            android:id="@+id/info_activity_api_weather_header_text"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginRight="@dimen/activity_normal_margin"
-                            android:text="@string/info_activity_api_weather_header"
-                            android:textSize="@dimen/info_activity_description_text_size"
-                            android:textColor="@color/textPrimaryLightBackground"
-                            android:ellipsize="marquee"
-                            android:lines="1"
-                            />
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/info_activity_api_weather_subheader"
-                            android:textSize="@dimen/info_activity_description_text_size"
-                            android:textColor="@color/textSecondaryLightBackground"
-                            android:ellipsize="marquee"
-                            android:lines="1"/>
-                    </LinearLayout>
-
-                </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="@dimen/activity_huge_margin"
-                    android:background="@color/dividerLightBackground"/>
-                <LinearLayout
-                    android:id="@+id/info_activity_api_geocoding_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/activity_normal_margin"
-                    android:paddingBottom="@dimen/activity_normal_margin"
+                    android:layout_marginTop="@dimen/activity_small_margin"
                     android:layout_marginBottom="@dimen/activity_small_margin"
                     android:background="?attr/selectableItemBackground">
                     <RelativeLayout
@@ -297,7 +130,7 @@
                         android:layout_gravity="center_vertical"
                         >
                         <ImageView
-                            android:id="@+id/info_activity_api_geocoding_web_icon_image"
+                            android:id="@+id/info_activity_application_source_repository_web_icon_image"
                             android:layout_width="@dimen/info_activity_icons_size"
                             android:layout_height="@dimen/info_activity_icons_size"
                             android:layout_marginLeft="@dimen/activity_normal_margin"
@@ -306,137 +139,299 @@
                             android:scaleType="centerInside"
                             />
                     </RelativeLayout>
-                    <LinearLayout
+                    <paweltypiak.weatherial.customViews.RobotoMediumFontTextView
+                        android:id="@+id/info_activity_application_source_repository_address_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/activity_normal_margin"
                         android:layout_gravity="center_vertical"
-                        android:orientation="vertical">
-                        <paweltypiak.weatherial.customViews.RobotoMediumFontTextView
-                            android:id="@+id/info_activity_api_geocoding_header_text"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/info_activity_api_geocoding_header"
-                            android:textSize="@dimen/info_activity_description_text_size"
-                            android:textColor="@color/textPrimaryLightBackground"
-                            android:ellipsize="marquee"
-                            android:lines="1"
-                            />
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/info_activity_api_geocoding_subheader"
-                            android:textSize="@dimen/info_activity_description_text_size"
-                            android:textColor="@color/textSecondaryLightBackground"
-                            android:ellipsize="marquee"
-                            android:lines="1"/>
-                    </LinearLayout>
+                        android:text="@string/info_activity_application_source_repository_header"
+                        android:textSize="@dimen/info_activity_description_text_size"
+                        android:textColor="@color/textPrimaryLightBackground"
+                        android:ellipsize="marquee"
+                        android:lines="1"
+                        />
                 </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/dividerLightBackground"/>
-                <paweltypiak.weatherial.customViews.RobotoMediumFontTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/activity_normal_margin"
-                    android:textSize="@dimen/header_text_size"
-                    android:textColor="@color/textSecondaryLightBackground"
-                    android:text="@string/info_activity_external_libraries_header"
-                    />
                 <TextView
-                    android:id="@+id/info_activity_external_libraries_description_text"
+                    android:id="@+id/info_activity_application_source_licence_description_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="@dimen/activity_normal_margin"
                     android:paddingRight="@dimen/activity_normal_margin"
-                    android:layout_marginBottom="@dimen/activity_very_small_margin"
+                    android:text="@string/info_activity_application_source_licence_description"
                     android:textColor="@color/textPrimaryLightBackground"
                     android:textSize="@dimen/info_activity_description_text_size"
-                    android:text="@string/info_activity_external_libraries_description"
                     />
-                <paweltypiak.weatherial.customViews.RobotoMediumFontTextView
-                    android:id="@+id/info_activity_external_libraries_license_text"
+                <LinearLayout
+                    android:id="@+id/info_activity_application_source_license_web_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/activity_normal_margin"
+                    android:paddingBottom="@dimen/activity_normal_margin"
+                    android:layout_marginTop="@dimen/activity_small_margin"
+                    android:layout_marginBottom="@dimen/activity_small_margin"
+                    android:background="?attr/selectableItemBackground">
+                    <RelativeLayout
+                        android:layout_width="@dimen/activity_huge_margin"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        >
+                        <ImageView
+                            android:id="@+id/info_activity_application_source_license_web_icon_image"
+                            android:layout_width="@dimen/info_activity_icons_size"
+                            android:layout_height="@dimen/info_activity_icons_size"
+                            android:layout_marginLeft="@dimen/activity_normal_margin"
+                            android:src="@drawable/web_icon"
+                            android:tint="@color/colorPrimary"
+                            android:scaleType="centerInside"
+                            />
+                    </RelativeLayout>
+                    <paweltypiak.weatherial.customViews.RobotoMediumFontTextView
+                        android:id="@+id/info_activity_application_source_licence_address_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/activity_normal_margin"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/info_activity_application_source_licence_header"
+                        android:textSize="@dimen/info_activity_description_text_size"
+                        android:textColor="@color/textPrimaryLightBackground"
+                        android:ellipsize="marquee"
+                        android:lines="1"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/dividerLightBackground"/>
+            <paweltypiak.weatherial.customViews.RobotoMediumFontTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/activity_normal_margin"
+                android:textSize="@dimen/header_text_size"
+                android:textColor="@color/textSecondaryLightBackground"
+                android:text="@string/info_activity_api_header"
+                />
+            <TextView
+                android:id="@+id/info_activity_api_description_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/activity_normal_margin"
+                android:paddingRight="@dimen/activity_normal_margin"
+                android:paddingBottom="@dimen/activity_small_margin"
+                android:text="@string/info_activity_api_description"
+                android:textColor="@color/textPrimaryLightBackground"
+                android:textSize="@dimen/info_activity_description_text_size"
+                />
+            <LinearLayout
+                android:id="@+id/info_activity_api_weather_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/activity_normal_margin"
+                android:paddingBottom="@dimen/activity_normal_margin"
+                android:background="?attr/selectableItemBackground">
+                <RelativeLayout
+                    android:layout_width="@dimen/activity_huge_margin"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    >
+                    <ImageView
+                        android:id="@+id/info_activity_api_weather_web_icon_image"
+                        android:layout_width="@dimen/info_activity_icons_size"
+                        android:layout_height="@dimen/info_activity_icons_size"
+                        android:layout_marginLeft="@dimen/activity_normal_margin"
+                        android:src="@drawable/web_icon"
+                        android:tint="@color/colorPrimary"
+                        android:scaleType="centerInside"
+                        />
+                </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/activity_normal_margin"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="vertical">
+                    <paweltypiak.weatherial.customViews.RobotoMediumFontTextView
+                        android:id="@+id/info_activity_api_weather_header_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="@dimen/activity_normal_margin"
+                        android:text="@string/info_activity_api_weather_header"
+                        android:textSize="@dimen/info_activity_description_text_size"
+                        android:textColor="@color/textPrimaryLightBackground"
+                        android:ellipsize="marquee"
+                        android:lines="1"
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/info_activity_api_weather_subheader"
+                        android:textSize="@dimen/info_activity_description_text_size"
+                        android:textColor="@color/textSecondaryLightBackground"
+                        android:ellipsize="marquee"
+                        android:lines="1"/>
+                </LinearLayout>
+
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="@dimen/activity_huge_margin"
+                android:background="@color/dividerLightBackground"/>
+            <LinearLayout
+                android:id="@+id/info_activity_api_geocoding_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/activity_normal_margin"
+                android:paddingBottom="@dimen/activity_normal_margin"
+                android:layout_marginBottom="@dimen/activity_small_margin"
+                android:background="?attr/selectableItemBackground">
+                <RelativeLayout
+                    android:layout_width="@dimen/activity_huge_margin"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    >
+                    <ImageView
+                        android:id="@+id/info_activity_api_geocoding_web_icon_image"
+                        android:layout_width="@dimen/info_activity_icons_size"
+                        android:layout_height="@dimen/info_activity_icons_size"
+                        android:layout_marginLeft="@dimen/activity_normal_margin"
+                        android:src="@drawable/web_icon"
+                        android:tint="@color/colorPrimary"
+                        android:scaleType="centerInside"
+                        />
+                </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/activity_normal_margin"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="vertical">
+                    <paweltypiak.weatherial.customViews.RobotoMediumFontTextView
+                        android:id="@+id/info_activity_api_geocoding_header_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/info_activity_api_geocoding_header"
+                        android:textSize="@dimen/info_activity_description_text_size"
+                        android:textColor="@color/textPrimaryLightBackground"
+                        android:ellipsize="marquee"
+                        android:lines="1"
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/info_activity_api_geocoding_subheader"
+                        android:textSize="@dimen/info_activity_description_text_size"
+                        android:textColor="@color/textSecondaryLightBackground"
+                        android:ellipsize="marquee"
+                        android:lines="1"/>
+                </LinearLayout>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/dividerLightBackground"/>
+            <paweltypiak.weatherial.customViews.RobotoMediumFontTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/activity_normal_margin"
+                android:textSize="@dimen/header_text_size"
+                android:textColor="@color/textSecondaryLightBackground"
+                android:text="@string/info_activity_external_libraries_header"
+                />
+            <TextView
+                android:id="@+id/info_activity_external_libraries_description_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/activity_normal_margin"
+                android:paddingRight="@dimen/activity_normal_margin"
+                android:layout_marginBottom="@dimen/activity_very_small_margin"
+                android:textColor="@color/textPrimaryLightBackground"
+                android:textSize="@dimen/info_activity_description_text_size"
+                android:text="@string/info_activity_external_libraries_description"
+                />
+            <paweltypiak.weatherial.customViews.RobotoMediumFontTextView
+                android:id="@+id/info_activity_external_libraries_license_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/info_activity_web_links_left_margin"
+                android:paddingLeft="@dimen/activity_very_small_margin"
+                android:paddingRight="@dimen/activity_very_small_margin"
+                android:paddingBottom="@dimen/activity_very_small_margin"
+                android:paddingTop="@dimen/activity_very_small_margin"
+                android:textSize="@dimen/info_activity_description_text_size"
+                android:textColor="@color/textPrimaryLightBackground"
+                android:text="@string/info_activity_external_libraries_licence_name"
+                />
+            <LinearLayout
+                android:id="@+id/info_activity_external_libraries_picasso_library_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/activity_normal_margin"
+                android:orientation="horizontal"
+                android:background="?attr/selectableItemBackground"
+                >
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/info_activity_web_links_left_margin"
-                    android:paddingLeft="@dimen/activity_very_small_margin"
-                    android:paddingRight="@dimen/activity_very_small_margin"
-                    android:paddingBottom="@dimen/activity_very_small_margin"
-                    android:paddingTop="@dimen/activity_very_small_margin"
+                    android:layout_marginRight="@dimen/activity_small_margin"
+                    android:text="@string/bullet"
                     android:textSize="@dimen/info_activity_description_text_size"
                     android:textColor="@color/textPrimaryLightBackground"
-                    android:text="@string/info_activity_external_libraries_licence_name"
                     />
-                <LinearLayout
-                    android:id="@+id/info_activity_external_libraries_picasso_library_layout"
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/activity_normal_margin"
-                    android:orientation="horizontal"
-                    android:background="?attr/selectableItemBackground"
-                    >
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="@dimen/activity_small_margin"
-                        android:text="@string/bullet"
-                        android:textSize="@dimen/info_activity_description_text_size"
-                        android:textColor="@color/textPrimaryLightBackground"
-                        />
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/info_activity_eexternal_libraries_picasso_name"
-                        android:textColor="@color/textPrimaryLightBackground"
-                        android:textSize="@dimen/info_activity_description_text_size"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/info_activity_external_libraries_smooth_app_bar_layout_library_layout"
+                    android:text="@string/info_activity_eexternal_libraries_picasso_name"
+                    android:textColor="@color/textPrimaryLightBackground"
+                    android:textSize="@dimen/info_activity_description_text_size"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/info_activity_external_libraries_smooth_app_bar_layout_library_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/activity_normal_margin"
+                android:orientation="horizontal"
+                android:background="?attr/selectableItemBackground"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/activity_small_margin"
+                    android:text="@string/bullet"
+                    android:textSize="@dimen/info_activity_description_text_size"
+                    android:textColor="@color/textPrimaryLightBackground"
+                    />
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/activity_normal_margin"
-                    android:orientation="horizontal"
-                    android:background="?attr/selectableItemBackground"
-                    >
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="@dimen/activity_small_margin"
-                        android:text="@string/bullet"
-                        android:textSize="@dimen/info_activity_description_text_size"
-                        android:textColor="@color/textPrimaryLightBackground"
-                        />
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/info_activity_external_libraries_smooth_app_bar_name"
-                        android:textColor="@color/textPrimaryLightBackground"
-                        android:textSize="@dimen/info_activity_description_text_size"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/info_activity_external_libraries_multiline_collapsingtoolbar_library_layout"
+                    android:text="@string/info_activity_external_libraries_smooth_app_bar_name"
+                    android:textColor="@color/textPrimaryLightBackground"
+                    android:textSize="@dimen/info_activity_description_text_size"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/info_activity_external_libraries_multiline_collapsingtoolbar_library_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/activity_normal_margin"
+                android:orientation="horizontal"
+                android:background="?attr/selectableItemBackground"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/activity_small_margin"
+                    android:text="@string/bullet"
+                    android:textSize="@dimen/info_activity_description_text_size"
+                    android:textColor="@color/textPrimaryLightBackground"
+                    />
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/activity_normal_margin"
-                    android:orientation="horizontal"
-                    android:background="?attr/selectableItemBackground"
-                    >
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="@dimen/activity_small_margin"
-                        android:text="@string/bullet"
-                        android:textSize="@dimen/info_activity_description_text_size"
-                        android:textColor="@color/textPrimaryLightBackground"
-                        />
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/info_activity_external_libraries_multiline_collapsingtoolbar_name"
-                        android:textColor="@color/textPrimaryLightBackground"
-                        android:textSize="@dimen/info_activity_description_text_size"/>
-                </LinearLayout>
+                    android:text="@string/info_activity_external_libraries_multiline_collapsingtoolbar_name"
+                    android:textColor="@color/textPrimaryLightBackground"
+                    android:textSize="@dimen/info_activity_description_text_size"/>
             </LinearLayout>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

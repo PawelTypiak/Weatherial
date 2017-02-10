@@ -8,9 +8,9 @@ import paweltypiak.weatherial.mainActivityInitializing.mainActivityLayoutInitial
 import paweltypiak.weatherial.usefulClasses.SharedPreferencesModifier;
 import paweltypiak.weatherial.dataDownloading.weatherDataDownloading.WeatherDataParser;
 
-public class MainActivityInitialWeatherDataSetter {
+class MainActivityInitialWeatherDataSetter {
 
-    public static void setInitialWeatherData(Activity activity,
+    static void setInitialWeatherData(Activity activity,
                                              Bundle savedInstanceState,
                                              MainActivityLayoutInitializer layoutInitializer){
         WeatherDataParser weatherDataParser=getInitialWeatherData(activity,savedInstanceState);
@@ -38,9 +38,9 @@ public class MainActivityInitialWeatherDataSetter {
     private static void updateLayoutForDefaultLocation(Activity activity,
                                                        MainActivityLayoutInitializer layoutInitializer,
                                                        WeatherDataParser weatherDataParser){
-        //delivering information if defeault location is constant, or is from geolocalization
-        boolean isDefeaultLocationConstant= SharedPreferencesModifier.isDefaultLocationConstant(activity);
-        if(isDefeaultLocationConstant) {
+        //delivering information if default location is constant, or is from geolocalization
+        boolean isDefaultLocationConstant= SharedPreferencesModifier.isDefaultLocationConstant(activity);
+        if(isDefaultLocationConstant) {
             layoutInitializer.updateLayoutOnWeatherDataChange(activity,weatherDataParser,true,false);
         }
         else{

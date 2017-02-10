@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/intro_activity_fragment_header_bottom_margin"
             android:textSize="@dimen/intro_activity_fragment_header_text_size"
-            android:text="@string/first_launch_location_header"
+            android:text="@string/intro_activity_location_header"
             android:layout_gravity="center_horizontal"
             android:textColor="@color/white"
             />
@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/intro_activity_fragment_radio_button_bottom_margin"
                 app:buttonTint="@color/textPrimaryDarkBackground"
-                android:text="@string/first_launch_default_location_current"
+                android:text="@string/intro_activity_default_location_current"
                 android:textSize="@dimen/intro_activity_fragment_text_size"
                 android:textColor="@color/textPrimaryDarkBackground"
                 android:gravity="center"
@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 app:buttonTint="@color/textPrimaryDarkBackground"
-                android:text="@string/first_launch_default_location_different"
+                android:text="@string/intro_activity_default_location_different"
                 android:textSize="@dimen/intro_activity_fragment_text_size"
                 android:textColor="@color/textPrimaryDarkBackground"
                 />

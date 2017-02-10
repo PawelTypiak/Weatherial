@@ -3,6 +3,10 @@
           package="paweltypiak.weatherial">
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <supports-screens android:smallScreens="false"
+                      android:normalScreens="true"
+                      android:largeScreens="true"
+                      android:xlargeScreens="true"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/app_icon"

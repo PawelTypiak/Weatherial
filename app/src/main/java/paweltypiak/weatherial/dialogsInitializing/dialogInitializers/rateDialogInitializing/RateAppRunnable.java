@@ -4,11 +4,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 
-public class RateAppRunnable implements Runnable{
+class RateAppRunnable implements Runnable{
 
     private Activity activity;
 
-    public RateAppRunnable(Activity activity){
+    RateAppRunnable(Activity activity){
         this.activity=activity;
     }
 

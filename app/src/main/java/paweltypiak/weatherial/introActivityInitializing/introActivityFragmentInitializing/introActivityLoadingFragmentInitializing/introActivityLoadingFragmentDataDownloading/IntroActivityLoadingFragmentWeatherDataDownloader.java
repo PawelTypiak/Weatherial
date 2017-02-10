@@ -2,14 +2,13 @@ package paweltypiak.weatherial.introActivityInitializing.introActivityFragmentIn
 
 import android.app.Activity;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.widget.TextView;
 import paweltypiak.weatherial.R;
 import paweltypiak.weatherial.introActivityInitializing.introActivityFragmentInitializing.introActivityLoadingFragmentInitializing.introActivityLoadingFragmentDataDownloading.introActivityLoadingFragmentDialogInitializing.IntroActivityLoadingFragmentNoWeatherResultsForLocationDialogInitializer;
 import paweltypiak.weatherial.introActivityInitializing.introActivityFragmentInitializing.introActivityLoadingFragmentInitializing.introActivityLoadingFragmentDataDownloading.introActivityLoadingFragmentDialogInitializing.IntroActivityLoadingFragmentWeatherInternetFailureDialogInitializer;
 import paweltypiak.weatherial.introActivityInitializing.introActivityFragmentInitializing.introActivityLoadingFragmentInitializing.introActivityLoadingFragmentDataDownloading.introActivityLoadingFragmentDialogInitializing.IntroActivityLoadingFragmentWeatherResultsForLocationDialogInitializer;
 import paweltypiak.weatherial.introActivityInitializing.introActivityFragmentInitializing.introActivityLoadingFragmentInitializing.introActivityLoadingFragmentDataDownloading.introActivityLoadingFragmentDialogInitializing.IntroActivityLoadingFragmentWeatherServiceFailureDialogInitializer;
-import paweltypiak.weatherial.jsonHandling.Channel;
+import paweltypiak.weatherial.dataDownloading.jsonHandling.weatherServiceTagTreeInitializing.Channel;
 import paweltypiak.weatherial.usefulClasses.SharedPreferencesModifier;
 import paweltypiak.weatherial.dataDownloading.weatherDataDownloading.WeatherDataDownloader;
 import paweltypiak.weatherial.dataDownloading.weatherDataDownloading.WeatherDataParser;
@@ -55,7 +54,6 @@ public class IntroActivityLoadingFragmentWeatherDataDownloader implements Weathe
     }
 
     public void downloadWeatherData(String location){
-        Log.d("weather", "start weather downloading");
         TextView messageTextView=dataDownloader.getMessageTextView();
         if(dataDownloader.isFirstLaunch()&& dataDownloader.getSelectedDefaultLocationOption() ==1) {
             messageTextView.setText(activity.getString(R.string.searching_location_progress_message));

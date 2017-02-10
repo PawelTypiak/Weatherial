@@ -18,7 +18,7 @@ import paweltypiak.weatherial.mainActivityInitializing.MainActivity;
 import paweltypiak.weatherial.settingsActivityInitializing.SettingsActivity;
 import paweltypiak.weatherial.usefulClasses.SharedPreferencesModifier;
 
-public class NavigationItemSelectedListenerSetter implements NavigationView.OnNavigationItemSelectedListener {
+class NavigationItemSelectedListenerSetter implements NavigationView.OnNavigationItemSelectedListener {
 
     private Activity activity;
     private SmoothActionBarDrawerToggle actionBarDrawerToggle;
@@ -28,7 +28,7 @@ public class NavigationItemSelectedListenerSetter implements NavigationView.OnNa
     private AlertDialog feedbackDialog;
     private AlertDialog authorDialog;
 
-    public NavigationItemSelectedListenerSetter (Activity activity,
+    NavigationItemSelectedListenerSetter (Activity activity,
                                                  SmoothActionBarDrawerToggle actionBarDrawerToggle,
                                                  DrawerLayout drawerLayout,
                                                  NavigationView navigationView){

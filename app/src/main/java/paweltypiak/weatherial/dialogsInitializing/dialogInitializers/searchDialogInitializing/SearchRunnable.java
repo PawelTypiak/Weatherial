@@ -10,7 +10,7 @@ import paweltypiak.weatherial.dialogsInitializing.dialogInitializers.InternetFai
 import paweltypiak.weatherial.dialogsInitializing.dialogInitializers.NoWeatherResultsForLocationDialogInitializer;
 import paweltypiak.weatherial.dialogsInitializing.dialogInitializers.ProgressDialogInitializer;
 import paweltypiak.weatherial.dialogsInitializing.dialogInitializers.WeatherResultsForLocationDialogInitializer;
-import paweltypiak.weatherial.jsonHandling.Channel;
+import paweltypiak.weatherial.dataDownloading.jsonHandling.weatherServiceTagTreeInitializing.Channel;
 import paweltypiak.weatherial.usefulClasses.UsefulFunctions;
 import paweltypiak.weatherial.dataDownloading.weatherDataDownloading.WeatherDataDownloader;
 import paweltypiak.weatherial.dataDownloading.weatherDataDownloading.WeatherDataParser;
@@ -25,13 +25,13 @@ class SearchRunnable implements Runnable, WeatherDownloadCallback {
     private AlertDialog progressDialog;
 
 
-    public SearchRunnable(Activity activity,String location){
+    private SearchRunnable(Activity activity,String location){
         //constructor for reload searchDialog
         this.activity=activity;
         this.location=location;
         isReused =true;
     }
-    public SearchRunnable(Activity activity,View dialogView){
+    SearchRunnable(Activity activity,View dialogView){
         //constructor for using searchDialog for the first time
         this.activity=activity;
         locationEditText=(EditText)dialogView.findViewById(R.id.search_edit_text);

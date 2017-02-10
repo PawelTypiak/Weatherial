@@ -3,7 +3,6 @@ package paweltypiak.weatherial.dataDownloading.currentLocationDataDownloading;
 import android.app.Activity;
 import android.location.Location;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -13,7 +12,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import paweltypiak.weatherial.R;
-import paweltypiak.weatherial.jsonHandling.Geocoding;
+import paweltypiak.weatherial.dataDownloading.jsonHandling.Geocoding;
 
 public class GeocodingDownloader {
 
@@ -43,10 +42,8 @@ public class GeocodingDownloader {
             protected void onPostExecute(String currentLocationAddress) {
                 try{
                     if (currentLocationAddress == null && error != null) {
-                        Log.d("geocoding", "service failure");
                         geocodingCallback.geocodingServiceFailure(getErrorCode(error));
                     } else {
-                        Log.d("geocoding", "service success");
                         geocodingCallback.geocodingServiceSuccess(currentLocationAddress);
                     }
                 }catch (Exception exception){
@@ -66,7 +63,6 @@ public class GeocodingDownloader {
                     location.getLatitude(),
                     location.getLongitude(),
                     "");
-            Log.d("geocoding", "endpoint: "+endpoint);
             URL url = new URL(endpoint);
             URLConnection connection = url.openConnection();
             connection.setUseCaches(false);
@@ -79,7 +75,6 @@ public class GeocodingDownloader {
             }
             return result;
         }catch(Exception e) {
-            Log.d("geocoding", "internet error");
             error = new GeocoderException("0");
             return null;
         }
@@ -95,7 +90,6 @@ public class GeocodingDownloader {
             return null;
         }
         if (results.length() == 0) {
-            Log.d("geocoding", "geocoding error");
             error = new GeocoderException("1");
             return null;
         }

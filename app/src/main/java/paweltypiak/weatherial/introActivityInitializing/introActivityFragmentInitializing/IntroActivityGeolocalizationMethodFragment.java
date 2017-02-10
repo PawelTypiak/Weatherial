@@ -3,7 +3,6 @@ package paweltypiak.weatherial.introActivityInitializing.introActivityFragmentIn
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,10 +32,8 @@ public class IntroActivityGeolocalizationMethodFragment extends Fragment{
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 if (i == R.id.intro_activity_geolocalization_methods_fragment_gps_radio_button) {
-                    Log.d("geolocalization_method", "gps");
                     selectedGeolocalizationMethod =0;
                 } else if (i == R.id.intro_activity_geolocalization_methods_fragment_network_radio_button) {
-                    Log.d("geolocalization_method", "network");
                     selectedGeolocalizationMethod =1;
                 }
             }

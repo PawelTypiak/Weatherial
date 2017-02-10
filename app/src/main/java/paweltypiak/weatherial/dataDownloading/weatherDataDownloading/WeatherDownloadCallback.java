@@ -1,6 +1,6 @@
 package paweltypiak.weatherial.dataDownloading.weatherDataDownloading;
 
-import paweltypiak.weatherial.jsonHandling.Channel;
+import paweltypiak.weatherial.dataDownloading.jsonHandling.weatherServiceTagTreeInitializing.Channel;
 
 public interface WeatherDownloadCallback {
 

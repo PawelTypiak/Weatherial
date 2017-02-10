@@ -5,9 +5,9 @@ import android.view.View;
 import android.widget.LinearLayout;
 import paweltypiak.weatherial.R;
 
-public class ApiSectionInitializer {
+class ApiSectionInitializer {
 
-    public ApiSectionInitializer(Activity activity,
+    ApiSectionInitializer(Activity activity,
                                  InfoActivityNestedScrollViewInitializer nestedScrollViewInitializer){
         setWeatherApiLayoutListeners(activity,nestedScrollViewInitializer);
         setGeocodingApiLayoutListeners(activity,nestedScrollViewInitializer);

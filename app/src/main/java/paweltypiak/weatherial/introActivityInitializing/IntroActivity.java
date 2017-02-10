@@ -78,9 +78,7 @@ public class IntroActivity
     public void showLocationFragmentAgain(){
         nextButtonInitializer.setNextButtonVisible();
         nextButtonInitializer.setStep(3);
-        //fragmentInsertionInitializer.setNestedConfigurationFragment(new IntroActivityDefaultLocationFragment(),"LocationFragment");
-        fragmentInsertionInitializer.
-                insertDefaultLocationFragment(this);
+        fragmentInsertionInitializer.insertDefaultLocationFragment(this);
     }
 
     @Override
@@ -103,7 +101,7 @@ public class IntroActivity
 
     @Override
     public void onBackPressed() {
-        //exit dialog availiblity depending on the current step
+        //exit dialog availability depending on the current step
         initializeExitDialogShowing();
     }
 

@@ -68,11 +68,11 @@ public class FeedbackDialogInitializer {
         });
     }
 
-    public static void copyToClipboard(Activity activity){
+    private static void copyToClipboard(Activity activity){
         ClipboardManager myClipboard;
         ClipData myClip;
         myClipboard = (ClipboardManager)activity.getSystemService(Context.CLIPBOARD_SERVICE);
-        String text=activity.getString(R.string.mail_address);
+        String text=activity.getString(R.string.app_email_address);
         myClip = ClipData.newPlainText("text", text);
         myClipboard.setPrimaryClip(myClip);
         Toast.makeText(activity, activity.getString(R.string.feedback_dialog_clipboard_toast_message),Toast.LENGTH_SHORT).show();

@@ -10,11 +10,11 @@ import paweltypiak.weatherial.R;
 import paweltypiak.weatherial.dialogsInitializing.dialogInitializers.rateDialogInitializing.RateDialogInitializer;
 import paweltypiak.weatherial.usefulClasses.UsefulFunctions;
 
-public class InfoActivityAppBarInitializer {
+class InfoActivityAppBarInitializer {
 
     private AlertDialog rateDialog;
 
-    public InfoActivityAppBarInitializer(Activity activity){
+    InfoActivityAppBarInitializer(Activity activity){
         setLogo(activity);
         initializeBackButton(activity);
         initializeRateButton(activity);

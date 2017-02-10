@@ -6,13 +6,13 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-public class SmoothActionBarDrawerToggle extends ActionBarDrawerToggle {
+class SmoothActionBarDrawerToggle extends ActionBarDrawerToggle {
     //smooth drawer toggle - action is called after drawer is hide
     private Activity activity;
     private Runnable runnable;
     //private Runnable invalidateOptionsMenuRunnable;
 
-    public SmoothActionBarDrawerToggle(Activity activity,
+    SmoothActionBarDrawerToggle(Activity activity,
                                        DrawerLayout drawerLayout,
                                        Toolbar toolbar,
                                        int openDrawerContentDescRes,

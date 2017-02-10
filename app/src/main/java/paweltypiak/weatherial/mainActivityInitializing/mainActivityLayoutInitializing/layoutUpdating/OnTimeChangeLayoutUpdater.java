@@ -1,8 +1,8 @@
 package paweltypiak.weatherial.mainActivityInitializing.mainActivityLayoutInitializing.layoutUpdating;
 
 import android.app.Activity;
+import android.os.Build;
 import android.text.format.DateFormat;
-import android.util.Log;
 import java.util.Calendar;
 import paweltypiak.weatherial.mainActivityInitializing.mainActivityLayoutInitializing.MainActivityLayoutInitializer;
 import paweltypiak.weatherial.usefulClasses.SharedPreferencesModifier;
@@ -58,7 +58,6 @@ public class OnTimeChangeLayoutUpdater {
             }
         };
         uiThread.start();
-        Log.d("uithread", "start");
     }
 
     private void onTimeUpdate(){
@@ -82,35 +81,48 @@ public class OnTimeChangeLayoutUpdater {
     }
 
     private String getTimeOutputFormat(){
-        // TODO: unit in weatherInitializer, passing only calendar
         String outputFormat;
         int[] units= SharedPreferencesModifier.getUnits(activity);
-        if(units[3]==0) outputFormat="HH:mm:ss";
-        else outputFormat="hh:mm:ss a";
+        if(units[3]==0) {
+            if(Build.VERSION.SDK_INT >= 18) {
+                outputFormat="HH:mm:ss";
+
+            } else {
+                outputFormat="kk:mm:ss";
+            }
+        }
+        else {
+            outputFormat="hh:mm:ss a";
+        }
         return outputFormat;
     }
 
     private void updateWeatherLayout(Calendar calendar){
-        String outputMinutesFormat="H:mm";
+        String outputMinutesFormat;
+        if(Build.VERSION.SDK_INT >= 18) {
+            outputMinutesFormat="H:mm";
+
+        } else {
+            outputMinutesFormat="k:mm";
+        }
         String outputMinutesString=DateFormat.format(outputMinutesFormat, calendar).toString();
         String[] sunPositionStrings=weatherDataFormatter.countSunPosition(outputMinutesString);
         if(newWeatherUpdate==true){
-            updateSunPostionData(sunPositionStrings);
+            updateSunPositionData(sunPositionStrings);
             newWeatherUpdate =false;
         }
         else{
             if(!currentDiffMinutesString.equals(sunPositionStrings[1])){
                 if(!isDayString.equals(sunPositionStrings[2])){
-                    Log.d("data setter", "change time of day");
                     changeTimeOfDay();
                 }
-                updateSunPostionData(sunPositionStrings);
+                updateSunPositionData(sunPositionStrings);
                 updateSunPathProgress();
             }
         }
     }
 
-    private void updateSunPostionData(String[] sunPositionStrings){
+    private void updateSunPositionData(String[] sunPositionStrings){
         currentDiffMinutesString=sunPositionStrings[1];
         isDayString=sunPositionStrings[2];
         sunsetSunriseDiffMinutes=Long.parseLong(sunPositionStrings[0]);

@@ -2,6 +2,7 @@ package paweltypiak.weatherial.introActivityInitializing.introActivityFragmentIn
 
 import android.app.Activity;
 import android.support.v7.app.AlertDialog;
+import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import paweltypiak.weatherial.R;
@@ -9,7 +10,6 @@ import paweltypiak.weatherial.introActivityInitializing.introActivityFragmentIni
 import paweltypiak.weatherial.introActivityInitializing.introActivityFragmentInitializing.introActivityLoadingFragmentInitializing.OnRequestLocalizationPermissionsListener;
 import paweltypiak.weatherial.introActivityInitializing.introActivityFragmentInitializing.introActivityLoadingFragmentInitializing.introActivityLoadingFragmentDataDownloading.introActivityLoadingFragmentDialogInitializing.IntroActivityLoadingFragmentGeolocalizationMethodsDialogInitializer;
 import paweltypiak.weatherial.usefulClasses.SharedPreferencesModifier;
-import paweltypiak.weatherial.usefulClasses.UsefulFunctions;
 
 public class IntroActivityLoadingFragmentDataDownloader {
 
@@ -131,12 +131,12 @@ public class IntroActivityLoadingFragmentDataDownloader {
 
     public void setLoadingViewsVisibility(boolean isVisible){
         if(isVisible==true){
-            UsefulFunctions.setViewVisible(loadingProgressBar);
-            UsefulFunctions.setViewVisible(messageTextView);
+            loadingProgressBar.setVisibility(View.VISIBLE);
+            messageTextView.setVisibility(View.VISIBLE);
         }
         else{
-            UsefulFunctions.setViewInvisible(loadingProgressBar);
-            UsefulFunctions.setViewInvisible(messageTextView);
+            loadingProgressBar.setVisibility(View.INVISIBLE);
+            messageTextView.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -182,9 +182,7 @@ public class IntroActivityLoadingFragmentDataDownloader {
 
     public IntroActivityLoadingFragmentGeolocalizationDownloader getGeolocalizationDownloader() {return geolocalizationDownloader;}
 
-    public IntroActivityLoadingFragmentWeatherDataDownloader getWeatherDataDownloader() {
-        return weatherDataDownloader;
-    }
+    public IntroActivityLoadingFragmentWeatherDataDownloader getWeatherDataDownloader() {return weatherDataDownloader;}
 
     public TextView getMessageTextView() {
         return messageTextView;

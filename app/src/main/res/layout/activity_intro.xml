@@ -54,7 +54,7 @@
                     android:layout_marginRight="@dimen/intro_activity_button_textview_right_margin"
                     android:layout_gravity="center_vertical"
                     android:textColor="@color/white"
-                    android:text="@string/first_launch_button_start_text"/>
+                    android:text="@string/intro_activity_button_start_text"/>
                 <ImageView
                     android:id="@+id/intro_activity_button_image"
                     android:layout_width="@dimen/intro_activity_button_arrow_icon_size"

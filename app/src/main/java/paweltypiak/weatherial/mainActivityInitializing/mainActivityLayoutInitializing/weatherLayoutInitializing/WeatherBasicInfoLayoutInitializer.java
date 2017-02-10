@@ -21,7 +21,7 @@ import paweltypiak.weatherial.mainActivityInitializing.mainActivityLayoutInitial
 import paweltypiak.weatherial.usefulClasses.UsefulFunctions;
 import paweltypiak.weatherial.dataDownloading.weatherDataDownloading.WeatherDataFormatter;
 
-public class WeatherBasicInfoLayoutInitializer {
+class WeatherBasicInfoLayoutInitializer {
 
     private CoordinatorLayout mainLayout;
     private TextView onRefreshMessageTextView;
@@ -29,11 +29,11 @@ public class WeatherBasicInfoLayoutInitializer {
     private ImageView conditionImageView;
     private TextView temperatureTextView;
     private TextView temperatureUnitTextView;
-    private TextView temperatureDagreeSignTextView;
+    private TextView temperatureDegreeSignTextView;
     private ImageView seeMoreImageView;
     private View currentDetailsDividerView;
 
-    public WeatherBasicInfoLayoutInitializer(Activity activity,
+    WeatherBasicInfoLayoutInitializer(Activity activity,
                                              MainActivityLayoutInitializer mainActivityLayoutInitializer,
                                              WeatherLayoutInitializer weatherLayoutInitializer){
         findLayoutViews(activity);
@@ -49,7 +49,7 @@ public class WeatherBasicInfoLayoutInitializer {
         conditionImageView =(ImageView)activity.findViewById(R.id.weather_basic_info_layout_conditions_image);
         temperatureTextView =(TextView)activity.findViewById(R.id.weather_basic_info_layout_temperature_text);
         temperatureUnitTextView=(TextView)activity.findViewById(R.id.weather_basic_info_temperature_unit_text);
-        temperatureDagreeSignTextView=(TextView)activity.findViewById(R.id.weather_basic_info_layout_temperature_dagree_sign_text);
+        temperatureDegreeSignTextView =(TextView)activity.findViewById(R.id.weather_basic_info_layout_temperature_dagree_sign_text);
         currentDetailsDividerView =activity.findViewById(R.id.weather_basic_info_layout_bottom_divider_divider);
         seeMoreImageView=(ImageView)activity.findViewById(R.id.weather_basic_info_layout_see_more_image);
     }
@@ -87,8 +87,8 @@ public class WeatherBasicInfoLayoutInitializer {
                 int currentTemperatureTextViewHeight=currentTemperatureLayout.getHeight();
                 TextView currentTemperatureTextView=(TextView)activity.findViewById(R.id.weather_basic_info_layout_temperature_text);
                 currentTemperatureTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, currentTemperatureTextViewHeight);
-                TextView currentTemperatureDagreeSignTextView=(TextView)activity.findViewById(R.id.weather_basic_info_layout_temperature_dagree_sign_text);
-                currentTemperatureDagreeSignTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, currentTemperatureTextViewHeight);
+                TextView currentTemperatureDegreeSignTextView=(TextView)activity.findViewById(R.id.weather_basic_info_layout_temperature_dagree_sign_text);
+                currentTemperatureDegreeSignTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, currentTemperatureTextViewHeight);
                 TextView currentTemperatureUnitTextView=(TextView)activity.findViewById(R.id.weather_basic_info_temperature_unit_text);
                 int currentTemperatureUnitTextViewHeight=(int)(currentTemperatureTextViewHeight/2.5f);
                 currentTemperatureUnitTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, currentTemperatureUnitTextViewHeight);
@@ -122,7 +122,7 @@ public class WeatherBasicInfoLayoutInitializer {
         });
     }
 
-    public static void crossFade(Context context, final View viewIn, final View viewOut) {
+    private static void crossFade(Context context, final View viewIn, final View viewOut) {
         int animationDuration = context.getResources().getInteger(android.R.integer.config_mediumAnimTime);
         if(viewIn!=null){
             viewIn.setAlpha(0f);
@@ -188,7 +188,7 @@ public class WeatherBasicInfoLayoutInitializer {
         onRefreshMessageTextView.setTextColor(textPrimaryColor);
         conditionTextView.setTextColor(textPrimaryColor);
         temperatureTextView.setTextColor(textPrimaryColor);
-        temperatureDagreeSignTextView.setTextColor(textPrimaryColor);
+        temperatureDegreeSignTextView.setTextColor(textPrimaryColor);
         int textDisabledColor=themeColorsUpdater.getTextDisabledColor();
         temperatureUnitTextView.setTextColor(textDisabledColor);
         int dividerColor=themeColorsUpdater.getDividerColor();

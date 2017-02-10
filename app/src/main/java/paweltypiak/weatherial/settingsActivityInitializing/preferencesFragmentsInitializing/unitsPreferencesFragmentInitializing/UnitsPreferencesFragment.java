@@ -20,7 +20,6 @@ import paweltypiak.weatherial.settingsActivityInitializing.dialogPreferencesInit
 import paweltypiak.weatherial.usefulClasses.UsefulFunctions;
 
 public class UnitsPreferencesFragment extends PreferenceFragment {
-    //fragment with units preferences
 
     private OnUnitsPreferenceFragmentInsertionListener fragmentInsertionListener;
 
@@ -84,26 +83,46 @@ public class UnitsPreferencesFragment extends PreferenceFragment {
     }
 
     private void setTemperaturePreferenceIcon(){
-        TemperatureUnitsDialogPreference preference = (TemperatureUnitsDialogPreference) findPreference(getString(R.string.preferences_temperature_unit_key));
-        Drawable icon= UsefulFunctions.getColoredDrawable(getActivity(), R.drawable.temperature_preferences_icon, ContextCompat.getColor(getActivity(),R.color.colorPrimary));
+        TemperatureUnitsDialogPreference preference
+                = (TemperatureUnitsDialogPreference) findPreference(getString(R.string.preferences_temperature_unit_key));
+        Drawable icon = UsefulFunctions.getColoredDrawable(
+                getActivity(),
+                R.drawable.temperature_preferences_icon,
+                ContextCompat.getColor(getActivity(),
+                        R.color.colorPrimary)
+        );
         preference.setIcon(icon);
     }
 
     private void setSpeedPreferenceIcon(){
-        SpeedUnitsDialogPreference preference = (SpeedUnitsDialogPreference) findPreference(getString(R.string.preferences_speed_unit_key));
-        Drawable icon= UsefulFunctions.getColoredDrawable(getActivity(), R.drawable.speed_preferences_icon, ContextCompat.getColor(getActivity(),R.color.colorPrimary));
+        SpeedUnitsDialogPreference preference
+                = (SpeedUnitsDialogPreference) findPreference(getString(R.string.preferences_speed_unit_key));
+        Drawable icon= UsefulFunctions.getColoredDrawable(
+                getActivity(),
+                R.drawable.speed_preferences_icon,
+                ContextCompat.getColor(getActivity(),
+                        R.color.colorPrimary)
+        );
         preference.setIcon(icon);
     }
 
     private void setPressurePreferenceIcon(){
-        PressureUnitsDialogPreference preference = (PressureUnitsDialogPreference) findPreference(getString(R.string.preferences_pressure_unit_key));
-        Drawable icon= UsefulFunctions.getColoredDrawable(getActivity(), R.drawable.pressure_preferences_icon, ContextCompat.getColor(getActivity(),R.color.colorPrimary));
+        PressureUnitsDialogPreference preference
+                = (PressureUnitsDialogPreference) findPreference(getString(R.string.preferences_pressure_unit_key));
+        Drawable icon= UsefulFunctions.getColoredDrawable(
+                getActivity(),
+                R.drawable.pressure_preferences_icon,
+                ContextCompat.getColor(getActivity(), R.color.colorPrimary)
+        );
         preference.setIcon(icon);
     }
 
     private void setTimePreferenceIcon(){
         TimeUnitsDialogPreference preference = (TimeUnitsDialogPreference) findPreference(getString(R.string.preferences_time_unit_key));
-        Drawable icon= UsefulFunctions.getColoredDrawable(getActivity(), R.drawable.time_preferences_icon, ContextCompat.getColor(getActivity(),R.color.colorPrimary));
+        Drawable icon= UsefulFunctions.getColoredDrawable(
+                getActivity(),
+                R.drawable.time_preferences_icon,
+                ContextCompat.getColor(getActivity(),R.color.colorPrimary));
         preference.setIcon(icon);
     }
 

@@ -39,7 +39,7 @@ public abstract class CustomDialogPreference extends DialogPreference{
         return radioButton;
     }
 
-    public void setRadioButtonMargins(RadioButton radioButton,int radioButtonBottomMargin){
+    private void setRadioButtonMargins(RadioButton radioButton,int radioButtonBottomMargin){
         LinearLayout.LayoutParams layoutParams = new RadioGroup.LayoutParams(
                 RadioGroup.LayoutParams.WRAP_CONTENT,
                 RadioGroup.LayoutParams.WRAP_CONTENT);

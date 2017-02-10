@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -27,7 +26,6 @@ public class IntroActivityNextButtonInitializer {
     }
 
     void setStartButton(Activity activity,boolean isFirstLaunch){
-
         if(isFirstLaunch ==true){
             //next button usable when first launch
             setStartButtonOnClickListener(activity);
@@ -50,32 +48,27 @@ public class IntroActivityNextButtonInitializer {
 
     private void setButtonText(Activity activity){
         TextView buttonTextView=(TextView)activity.findViewById(R.id.intro_activity_button_text);
-        buttonTextView.setText(activity.getString(R.string.first_launch_button_continue_text));
+        buttonTextView.setText(activity.getString(R.string.intro_activity_button_continue_text));
     }
 
     private void setNextStep(Activity activity){
         if(step==0){
-            Log.d("step", ""+step);
             initializeConfigurationFragment(activity);
             step=1;
         }
         else if (step == 1) {
-            Log.d("step", "" + step);
             insertUnitsFragment(activity);
             step = 2;
         }
         else if(step==2){
-            Log.d("step", ""+step);
             insertDefaultLocationFragment(activity);
             step=3;
         }
         else if(step==3){
-            Log.d("step", ""+step);
             initializeLoadingLocation();
             step=4;
         }
         else if(step==4){
-            Log.d("step", ""+step);
             initializeLoadingLocation();
             step=5;
         }

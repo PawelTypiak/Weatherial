@@ -20,7 +20,7 @@ public class IntroActivityLoadingFragmentWeatherResultsForLocationDialogInitiali
         this.activity=activity;
         this.dataDownloader=dataDownloader;
         this.weatherDataParser=weatherDataParser;
-        initializeWeatherResultsForLocationDialog();
+        weatherResultsForLocationDialog=initializeWeatherResultsForLocationDialog();
     }
 
     public AlertDialog getWeatherResultsForLocationDialog() {
@@ -28,7 +28,7 @@ public class IntroActivityLoadingFragmentWeatherResultsForLocationDialogInitiali
     }
 
     private AlertDialog initializeWeatherResultsForLocationDialog(){
-        weatherResultsForLocationDialog
+        AlertDialog weatherResultsForLocationDialog
                 = WeatherResultsForLocationDialogInitializer.getWeatherResultsForLocationDialog(
                 activity,
                 0,

@@ -4,7 +4,6 @@ import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,11 +42,9 @@ public class IntroActivityDefaultLocationFragment extends Fragment {
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 if (i == R.id.intro_activity_default_location_fragment_current_location_radio_button) {
                     selectedDefaultLocationOption =0;
-                    Log.d("defeault_location", "current location");
 
                 } else if (i == R.id.intro_activity_default_location_fragment_different_location_radio_button) {
                     selectedDefaultLocationOption =1;
-                    Log.d("defeault_location", "different location");
                 }
             }
         });
@@ -72,7 +69,6 @@ public class IntroActivityDefaultLocationFragment extends Fragment {
 
     public String getDifferentLocationName(){
         String differentLocationString=differentLocationRadioButton.getText().toString();
-        Log.d("different_location_name", differentLocationString);
         return differentLocationString;
     }
 

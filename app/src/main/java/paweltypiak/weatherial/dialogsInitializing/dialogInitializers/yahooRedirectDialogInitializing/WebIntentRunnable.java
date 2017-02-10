@@ -18,7 +18,7 @@ class WebIntentRunnable implements Runnable {
         initializeWebIntent(activity,url);
     }
 
-    public static void initializeWebIntent(Context context, String url){
+    private static void initializeWebIntent(Context context, String url){
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(url));
         context.startActivity(intent);

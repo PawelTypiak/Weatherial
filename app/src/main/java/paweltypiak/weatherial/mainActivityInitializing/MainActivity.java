@@ -4,8 +4,10 @@ import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.KeyEvent;
+
+import com.google.firebase.crash.FirebaseCrash;
+
 import paweltypiak.weatherial.R;
 import paweltypiak.weatherial.dialogsInitializing.dialogInitializers.exitDialogInitializing.ExitDialogInitializer;
 import paweltypiak.weatherial.mainActivityInitializing.mainActivityDataDownloading.MainActivityDataDownloader;
@@ -102,13 +104,11 @@ public class MainActivity extends AppCompatActivity {
                     //units change
                     refreshLayoutAfterUnitsPreferencesChange();
                     SettingsActivity.setUnitsPreferencesChanged(false);
-                    Log.d("preferences_changed", "units change");
                 }
                 if(SettingsActivity.isLanguagePreferencesChanged()){
                     //language change
                     recreate();
                     SettingsActivity.setLanguagePreferencesChanged(false);
-                    Log.d("preferences_changed", "language change");
                 }
             }
         }, 0);

@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.support.v7.app.AlertDialog;
 import android.content.pm.PackageManager;
 import android.support.v4.content.ContextCompat;
-
 import paweltypiak.weatherial.introActivityInitializing.introActivityFragmentInitializing.introActivityLoadingFragmentInitializing.introActivityLoadingFragmentDataDownloading.introActivityLoadingFragmentDialogInitializing.IntroActivityLoadingFragmentGeocodingInternetFailureInitializer;
 import paweltypiak.weatherial.introActivityInitializing.introActivityFragmentInitializing.introActivityLoadingFragmentInitializing.introActivityLoadingFragmentDataDownloading.introActivityLoadingFragmentDialogInitializing.IntroActivityLoadingFragmentGeolocalizationFailureInitializer;
 import paweltypiak.weatherial.introActivityInitializing.introActivityFragmentInitializing.introActivityLoadingFragmentInitializing.introActivityLoadingFragmentDataDownloading.introActivityLoadingFragmentDialogInitializing.IntroActivityLoadingFragmentPermissionsDeniedDialogInitializer;
@@ -14,8 +13,7 @@ import paweltypiak.weatherial.dataDownloading.currentLocationDataDownloading.Geo
 import paweltypiak.weatherial.dataDownloading.currentLocationDataDownloading.GeocodingDownloader;
 
 public class IntroActivityLoadingFragmentGeolocalizationDownloader
-        implements GeocodingCallback
-        {
+        implements GeocodingCallback {
 
     private Activity activity;
     private AlertDialog geocodingInternetFailureDialog;
@@ -114,10 +112,6 @@ public class IntroActivityLoadingFragmentGeolocalizationDownloader
 
     private void setLoadingViewsVisibility(boolean isVisible){
         dataDownloader.setLoadingViewsVisibility(isVisible);
-    }
-
-    public CurrentLocationCoordinatesDownloader getCurrentLocationCoordinatesDownloader(){
-        return currentLocationCoordinatesDownloader;
     }
 
     @Override

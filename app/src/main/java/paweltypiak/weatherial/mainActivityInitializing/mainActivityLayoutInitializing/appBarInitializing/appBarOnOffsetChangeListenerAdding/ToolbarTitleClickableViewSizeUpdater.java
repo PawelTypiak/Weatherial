@@ -22,7 +22,7 @@ public class ToolbarTitleClickableViewSizeUpdater implements  AppBarLayoutDataIn
     private int toolbarTitleTextViewHeightDifference;
     private int toolbarTitleTextViewWidthDifference;
     private Typeface robotoMediumTypeface;
-    private float lastScrollPrecentage;
+    private float lastScrollPercentage;
 
     public ToolbarTitleClickableViewSizeUpdater(Activity activity){
         findClickableView(activity);
@@ -90,7 +90,7 @@ public class ToolbarTitleClickableViewSizeUpdater implements  AppBarLayoutDataIn
     //// onAppBarOffsetChange
 
     public void updateToolbarTitleSize(float scrollPercentage){
-        lastScrollPrecentage=scrollPercentage;
+        lastScrollPercentage =scrollPercentage;
         int clickableViewTopMargin= getToolbarTitleClickableViewTopMargin(scrollPercentage);
         int clickableViewHeight= getToolbarTitleClickableViewHeight(scrollPercentage);
         int clickableViewWidth= getToolbarTitleClickableViewWidth(scrollPercentage);
@@ -129,7 +129,7 @@ public class ToolbarTitleClickableViewSizeUpdater implements  AppBarLayoutDataIn
     @Override
     public void onAppBarStringsChanged(Activity activity,String toolbarTitle){
         updateToolbarTitleWidth(activity,toolbarTitle);
-        updateToolbarTitleSize(lastScrollPrecentage);
+        updateToolbarTitleSize(lastScrollPercentage);
     }
 
     private void updateToolbarTitleWidth(Activity activity, String toolbarTitle){

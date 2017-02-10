@@ -1,8 +1,6 @@
 package paweltypiak.weatherial.introActivityInitializing;
 
 import android.app.Activity;
-import android.util.Log;
-
 import paweltypiak.weatherial.usefulClasses.SharedPreferencesModifier;
 import paweltypiak.weatherial.usefulClasses.UsefulFunctions;
 
@@ -36,7 +34,6 @@ class IntroActivityLaunchProcessInitializer {
                                       IntroActivityFragmentInsertionInitializer fragmentInsertionInitializer,
                                       IntroActivityNextButtonInitializer introActivityNextButtonInitializer){
         //every next launch of application
-        Log.d("launch", "next launch");
         setLanguageVersion(activity);
         initializeConfigurationFragment(activity,fragmentInsertionInitializer);
         setStartButton(activity,false,introActivityNextButtonInitializer);

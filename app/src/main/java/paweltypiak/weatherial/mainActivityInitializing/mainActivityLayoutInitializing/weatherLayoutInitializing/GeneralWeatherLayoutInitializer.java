@@ -98,11 +98,11 @@ public class GeneralWeatherLayoutInitializer {
         return nestedScrollView;
     }
 
-    public void setNestedScrollViewEnabled(){
+    private void setNestedScrollViewEnabled(){
         nestedScrollView.setScrollingEnabled(true);
     }
 
-    public void setNestedScrollViewDisabled(){
+    private void setNestedScrollViewDisabled(){
         nestedScrollView.setScrollingEnabled(false);
     }
 }

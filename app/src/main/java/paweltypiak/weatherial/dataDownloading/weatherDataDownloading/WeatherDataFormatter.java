@@ -1,9 +1,8 @@
 package paweltypiak.weatherial.dataDownloading.weatherDataDownloading;
 
 import android.app.Activity;
+import android.os.Build;
 import android.text.format.DateFormat;
-import android.util.Log;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -15,7 +14,6 @@ public class WeatherDataFormatter {
 
     private int[] units;
     private Activity activity;
-    private String chill;
     private String direction;
     private String directionName;
     private String speed;
@@ -35,13 +33,9 @@ public class WeatherDataFormatter {
     private String city;
     private String country;
     private String region;
-    private String time;
     private String time24;
-    private String unformattedTime;
     private String timezone;
     private String lastBuildDate;
-    private double latitude;
-    private double longitude;
     private boolean isDay;
     private long currentDiffMinutes;
     private long sunsetSunriseDiffMinutes;
@@ -70,9 +64,7 @@ public class WeatherDataFormatter {
     private void formatLastBuildDate(){
         //format last build date to get time zone
         lastBuildDate=lastBuildDate.substring(17);
-        unformattedTime =lastBuildDate.substring(0,8);
-        Log.d(unformattedTime, "formatLastBuildDate: "+unformattedTime);
-        time =formatTimeUnit(unformattedTime);
+        String unformattedTime =lastBuildDate.substring(0,8);
         time24=get24Time(unformattedTime);
         timezone=lastBuildDate.substring(9);
     }
@@ -95,10 +87,10 @@ public class WeatherDataFormatter {
     }
 
     private void formatForecast(){
-        String dagreeSign=activity.getString(R.string.dagree_sign);
+        String degreeSign=activity.getString(R.string.dagree_sign);
         for(int i=0;i<5;i++){
-            forecastLowTemperature[i]=formatTemperatureUnit(forecastLowTemperature[i])+dagreeSign;
-            forecastHighTemperature[i]=formatTemperatureUnit(forecastHighTemperature[i])+dagreeSign;
+            forecastLowTemperature[i]=formatTemperatureUnit(forecastLowTemperature[i])+degreeSign;
+            forecastHighTemperature[i]=formatTemperatureUnit(forecastHighTemperature[i])+degreeSign;
         }
     }
 
@@ -120,19 +112,31 @@ public class WeatherDataFormatter {
             directionName="W";
         else if( Integer.parseInt(direction)>=292 &&Integer.parseInt(direction)<337 )
             directionName="NW";
-        chill=formatTemperatureUnit(chill)+"\u00B0";
         speed= formatSpeedUnit(speed);
     }
 
     private void countHourDifference() {
         String timeHour=null;
         String actualTimeHour=null;
-        SimpleDateFormat inputFormat=new SimpleDateFormat("H:mm");
-        SimpleDateFormat outputFormat = new SimpleDateFormat("H");
+        SimpleDateFormat inputFormat;
+        SimpleDateFormat outputFormat;
+        if(Build.VERSION.SDK_INT >= 18) {
+            inputFormat=new SimpleDateFormat("H:mm");
+            outputFormat = new SimpleDateFormat("H");
+
+        } else {
+            inputFormat=new SimpleDateFormat("k:mm");
+            outputFormat = new SimpleDateFormat("k");
+        }
         Date date;
         Calendar calendar= Calendar.getInstance();
         try {
-            actualTimeHour = DateFormat.format("H", calendar).toString();
+            if(Build.VERSION.SDK_INT >= 18) {
+                actualTimeHour = DateFormat.format("H", calendar).toString();
+
+            } else {
+                actualTimeHour = DateFormat.format("k", calendar).toString();
+            }
             date = inputFormat.parse(time24);
             timeHour = outputFormat.format(date);
         } catch (ParseException pe) {
@@ -142,52 +146,24 @@ public class WeatherDataFormatter {
     }
 
     public String[] countSunPosition(String currentTime){
-        //count sun position on sun line between sunrise and sunshine
-        SimpleDateFormat outputFormat= new SimpleDateFormat("H:mm");
-        /*Date sunriseHour=null;
-        Date sunsetHour=null;
-        Date now=null;
+        SimpleDateFormat outputFormat;
+        if(Build.VERSION.SDK_INT >= 18) {
+            outputFormat= new SimpleDateFormat("H:mm");
 
-        try{
-            sunriseHour= inputFormat.parse(sunrise24);
-            sunsetHour= inputFormat.parse(sunset24);
-            now=inputFormat.parse(currentTime);
-        }catch(ParseException pe){
-            pe.printStackTrace();
-        }*/
-
+        } else {
+            outputFormat= new SimpleDateFormat("k:mm");
+        }
         Date[] dates= parseSunPositionDataDates(currentTime,outputFormat);
         Date sunriseHour=dates[0];
         Date sunsetHour=dates[1];
         Date now=dates[2];
-
         long[] sunPositionData;
         if((now.after(sunriseHour)&&now.before(sunsetHour))||now.equals(sunriseHour)||now.equals(sunsetHour)){
-            /*isDay =true;
-            sunsetSunriseDifference = Math.abs(sunsetHour.getTime() - sunriseHour.getTime());
-            currentDifference= Math.abs(now.getTime()-sunriseHour.getTime());*/
             sunPositionData=getSunPositionDataForDay(sunriseHour,sunsetHour,now);
         }
         else {
-            /*isDay=false;
-            try{
-                beforeMidnight=inputFormat.parse("23:59");
-                afterMidnight=inputFormat.parse("0:00");
-            }catch(ParseException pe){
-                pe.printStackTrace();
-            }
-            long twentyFourHours = Math.abs(beforeMidnight.getTime()-afterMidnight.getTime());
-            sunsetSunriseDifference=twentyFourHours-Math.abs(sunsetHour.getTime() - sunriseHour.getTime());
-            if(now.before(sunriseHour)){
-                currentDifference= sunsetSunriseDifference-Math.abs(now.getTime() - sunriseHour.getTime());
-            }
-            else {
-                currentDifference= Math.abs(now.getTime() - sunsetHour.getTime());
-            }*/
             sunPositionData=getSunPositionDataForNight(sunriseHour,sunsetHour,now,outputFormat) ;
         }
-        /*sunsetSunriseDiffMinutes = sunsetSunriseDifference / (60*1000);
-        currentDiffMinutes = currentDifference / (60*1000);*/
         countDiffMinutes(sunPositionData);
         String outputString[]={
                 Long.toString(sunsetSunriseDiffMinutes),
@@ -257,7 +233,13 @@ public class WeatherDataFormatter {
     private String get24Time(String time){
         String time24=null;
         SimpleDateFormat inputFormat = new SimpleDateFormat("h:mm a");
-        SimpleDateFormat outputFormat = new SimpleDateFormat("H:mm");
+        SimpleDateFormat outputFormat;
+        if(Build.VERSION.SDK_INT >= 18) {
+            outputFormat = new SimpleDateFormat("H:mm");
+
+        } else {
+            outputFormat = new SimpleDateFormat("k:mm");
+        }
         Date date;
         try {
             date = inputFormat.parse(time);
@@ -302,7 +284,14 @@ public class WeatherDataFormatter {
     private String formatTimeUnit(String time) {
         SimpleDateFormat inputFormat = new SimpleDateFormat("h:mm a");
         if (units[3] == 0) {
-            SimpleDateFormat outputFormat = new SimpleDateFormat("HH:mm");
+            SimpleDateFormat outputFormat;
+            if(Build.VERSION.SDK_INT >= 18) {
+                outputFormat = new SimpleDateFormat("HH:mm");
+
+            } else {
+                outputFormat = new SimpleDateFormat("kk:mm");
+            }
+
             Date date;
             try {
                 date = inputFormat.parse(time);
@@ -330,10 +319,7 @@ public class WeatherDataFormatter {
         city=dataInitializer.getCity();
         country=dataInitializer.getCountry();
         region=dataInitializer.getRegion();
-        latitude=dataInitializer.getLatitude();
-        longitude=dataInitializer.getLongitude();
         lastBuildDate=dataInitializer.getLastBuildDate();
-        chill = dataInitializer.getChill();
         direction= dataInitializer.getDirection();
         speed= dataInitializer.getSpeed();
         humidity= dataInitializer.getHumidity();
@@ -347,7 +333,6 @@ public class WeatherDataFormatter {
         forecastLowTemperature = dataInitializer.getForecastLowTemperature().clone();
     }
 
-    public String getChill() {return chill;}
     public String getDirection() {return direction;}
     public String getDirectionName() {return directionName;}
     public String getSpeed() {return speed;}
@@ -366,8 +351,6 @@ public class WeatherDataFormatter {
     public String getCountry() {return country;}
     public String getRegion() {return region;}
     public String getTimezone() {return timezone;}
-    public double getLatitude() {return latitude;}
-    public double getLongitude() {return longitude;}
     public boolean getDay() {return isDay;}
     public long getCurrentDiffMinutes() {return currentDiffMinutes;}
     public long getSunsetSunriseDiffMinutes() {return sunsetSunriseDiffMinutes;}

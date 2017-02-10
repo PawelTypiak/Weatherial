@@ -3,7 +3,7 @@ package paweltypiak.weatherial.dataDownloading.weatherDataDownloading;
 import android.os.Parcel;
 import android.os.Parcelable;
 import paweltypiak.weatherial.usefulClasses.UsefulFunctions;
-import paweltypiak.weatherial.jsonHandling.Channel;
+import paweltypiak.weatherial.dataDownloading.jsonHandling.weatherServiceTagTreeInitializing.Channel;
 
 public class WeatherDataParser implements Parcelable {
 
@@ -13,12 +13,10 @@ public class WeatherDataParser implements Parcelable {
     private String country;
     private String region;
     private String lastBuildDate;
-    private String chill;
     private String direction;
     private String speed;
     private String humidity;
     private String pressure;
-    private String visibility;
     private String sunrise;
     private String sunset;
     private int code;
@@ -38,7 +36,7 @@ public class WeatherDataParser implements Parcelable {
         initializeAtmosphere();
         initializeCondition();
         initializeForecast();
-        initizlizeWind();
+        initializeWind();
     }
 
     private void initializeLink(){
@@ -65,7 +63,6 @@ public class WeatherDataParser implements Parcelable {
     private void initializeAtmosphere(){
         humidity=channel.getAtmosphere().getHumidity();
         pressure=channel.getAtmosphere().getPressure();
-        visibility=channel.getAtmosphere().getVisibility();
     }
 
     private void initializeCondition(){
@@ -82,8 +79,7 @@ public class WeatherDataParser implements Parcelable {
         forecastLowTemperature =channel.getItem().getForecast().getLow();
     }
 
-    private void initizlizeWind(){
-        chill=channel.getWind().getChill();
+    private void initializeWind(){
         direction=channel.getWind().getDirection();
         speed=channel.getWind().getSpeed();
     }
@@ -98,9 +94,6 @@ public class WeatherDataParser implements Parcelable {
     public String getHumidity() {
         return humidity;
     }
-    public String getChill() {
-        return chill;
-    }
     public String getDirection() {
         return direction;
     }
@@ -109,9 +102,6 @@ public class WeatherDataParser implements Parcelable {
     }
     public String getPressure() {
         return pressure;
-    }
-    public String getVisibility() {
-        return visibility;
     }
     public String getSunrise() {
         return sunrise;
@@ -137,7 +127,7 @@ public class WeatherDataParser implements Parcelable {
 
     //create parcelable
     public WeatherDataParser(Parcel in){
-        String[] stringData = new String[17];
+        String[] stringData = new String[15];
         in.readStringArray(stringData);
         this.link=stringData[0];
         this.city=stringData[1];
@@ -147,15 +137,13 @@ public class WeatherDataParser implements Parcelable {
         this.longitude=Double.parseDouble(stringData[5]);
         this.lastBuildDate=stringData[6];
         this.humidity=stringData[7];
-        this.chill=stringData[8];
-        this.direction=stringData[9];
-        this.speed=stringData[10];
-        this.pressure=stringData[11];
-        this.visibility=stringData[12];
-        this.sunrise=stringData[13];
-        this.sunset=stringData[14];
-        this.code=Integer.parseInt(stringData[15]);
-        this.temperature=stringData[16];
+        this.direction=stringData[8];
+        this.speed=stringData[9];
+        this.pressure=stringData[10];
+        this.sunrise=stringData[11];
+        this.sunset=stringData[12];
+        this.code=Integer.parseInt(stringData[13]);
+        this.temperature=stringData[14];
         this.forecastCode=in.createIntArray();
         this.forecastHighTemperature=in.createStringArray();
         this.forecastLowTemperature=in.createStringArray();
@@ -179,11 +167,9 @@ public class WeatherDataParser implements Parcelable {
                         String.valueOf(this.longitude),
                         this.lastBuildDate,
                         this.humidity,
-                        this.chill,
                         this.direction,
                         this.speed,
                         this.pressure,
-                        this.visibility,
                         this.sunrise,
                         this.sunset,
                         String.valueOf(this.code),

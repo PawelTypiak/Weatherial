@@ -6,7 +6,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,15 +59,15 @@ public class IntroActivityLanguageFragment extends Fragment{
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getLayoutResources();
-        setOnRadioGroupCheckdedChangeListener();
+        setOnRadioGroupCheckedChangeListener();
         onSettingsFragmentViewCreatedListener.fadeInConfigurationFragmentLayout();
     }
 
     private void refreshFragmentLayout(){
-        languageVersionHeaderTextView.setText(getActivity().getText(R.string.first_launch_language_version_header));
+        languageVersionHeaderTextView.setText(getActivity().getText(R.string.intro_activity_language_version_header));
         englishRadioButton.setText(getActivity().getText(R.string.language_version_english));
         polishRadioButton.setText(getActivity().getText(R.string.language_version_polish));
-        nextButtonTextView.setText(getString(R.string.first_launch_button_continue_text));
+        nextButtonTextView.setText(getString(R.string.intro_activity_button_continue_text));
     }
 
     private void getLayoutResources(){
@@ -79,7 +78,7 @@ public class IntroActivityLanguageFragment extends Fragment{
         nextButtonTextView = (TextView)getActivity().findViewById(R.id.intro_activity_button_text);
     }
 
-    private void setOnRadioGroupCheckdedChangeListener(){
+    private void setOnRadioGroupCheckedChangeListener(){
         int currentLocale=UsefulFunctions.getLocale(getContext());
         if(currentLocale==0) {
             languageVersionRadioGroup.check(englishRadioButton.getId());
@@ -93,10 +92,8 @@ public class IntroActivityLanguageFragment extends Fragment{
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 if (i == R.id.intro_activity_language_fragment_english_radio_button) {
-                    Log.d("language", "english");
                     setSelectedLanguage(0);
                 } else if (i == R.id.intro_activity_language_fragment_polish_radio_button) {
-                    Log.d("language", "polish");
                     setSelectedLanguage(1);
                 }
                 UsefulFunctions.getLocale(getContext());
@@ -108,6 +105,5 @@ public class IntroActivityLanguageFragment extends Fragment{
     private void setSelectedLanguage(int type){
         SharedPreferencesModifier.setLanguage(getActivity(),type);
         UsefulFunctions.setLocale(getContext(),type);
-        Log.d("sprawdzenie", "setSelectedLanguage: "+SharedPreferencesModifier.getLanguageVersion(getContext()));
     }
 }

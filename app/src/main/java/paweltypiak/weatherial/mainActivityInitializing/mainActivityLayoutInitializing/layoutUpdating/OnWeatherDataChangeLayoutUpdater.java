@@ -77,7 +77,7 @@ public class OnWeatherDataChangeLayoutUpdater {
         }
     }
 
-    public void updateAppBarLayoutData(Activity activity,
+    private void updateAppBarLayoutData(Activity activity,
                                        MainActivityLayoutInitializer mainActivityLayoutInitializer,
                                        WeatherDataFormatter weatherDataFormatter,
                                        boolean isGeolocalizationMode){

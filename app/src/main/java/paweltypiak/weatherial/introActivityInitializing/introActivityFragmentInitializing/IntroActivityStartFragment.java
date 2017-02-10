@@ -8,10 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-
 import paweltypiak.weatherial.R;
 
 public class IntroActivityStartFragment extends Fragment{

@@ -6,7 +6,6 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-
 import paweltypiak.weatherial.R;
 import paweltypiak.weatherial.dialogsInitializing.AlertDialogBuilder;
 import paweltypiak.weatherial.dialogsInitializing.alertDialogTools.AlertDialogButtonsCustomizer;

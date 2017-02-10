@@ -23,7 +23,7 @@ public class GeolocalizationMethodsDialogInitializer {
     public GeolocalizationMethodsDialogInitializer(Activity activity,
                                                    int type,
                                                    Runnable positiveButtonRunnable){
-        initializeGeolocalizationMethodsDialog(activity,type,positiveButtonRunnable);
+        geolocalizationMethodsDialog=initializeGeolocalizationMethodsDialog(activity,type,positiveButtonRunnable);
     }
 
     public AlertDialog getGeolocalizationMethodsDialog() {
@@ -35,12 +35,12 @@ public class GeolocalizationMethodsDialogInitializer {
                                                               Runnable positiveButtonRunnable){
         View dialogView = initializeDialogView(activity);
         initializeRadioGroup(activity,dialogView);
-        geolocalizationMethodsDialog = buildAlertDialog(
+        AlertDialog geolocalizationMethodsDialog = buildAlertDialog(
                 activity,
                 type,
                 positiveButtonRunnable,
                 dialogView);
-        setAlertDialogOnShowListener(activity);
+        setAlertDialogOnShowListener(activity, geolocalizationMethodsDialog);
         return geolocalizationMethodsDialog;
     }
 
@@ -68,7 +68,7 @@ public class GeolocalizationMethodsDialogInitializer {
         radioGroup.addView(gpsRadioButton);
     }
 
-    public static void setRadioButtonMargins(Activity activity,RadioButton radioButton){
+    private static void setRadioButtonMargins(Activity activity,RadioButton radioButton){
         LinearLayout.LayoutParams layoutParams = new RadioGroup.LayoutParams(
                 RadioGroup.LayoutParams.WRAP_CONTENT,
                 RadioGroup.LayoutParams.WRAP_CONTENT);
@@ -132,7 +132,7 @@ public class GeolocalizationMethodsDialogInitializer {
         return isUncancelable;
     }
 
-    private void setAlertDialogOnShowListener(final Activity activity){
+    private void setAlertDialogOnShowListener(final Activity activity,final AlertDialog geolocalizationMethodsDialog){
         geolocalizationMethodsDialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialogInterface) {

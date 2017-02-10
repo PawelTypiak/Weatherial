@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public class KeyboardVisibilitySetter {

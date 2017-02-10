@@ -2,7 +2,6 @@ package paweltypiak.weatherial.settingsActivityInitializing.dialogPreferencesIni
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import paweltypiak.weatherial.R;
@@ -52,7 +51,7 @@ public class LanguageVersionDialogPreference extends CustomDialogPreference {
                 }
             }
         });
-    };
+    }
 
     protected void onPositiveResult(){
         if(selectedOption ==0){
@@ -68,7 +67,6 @@ public class LanguageVersionDialogPreference extends CustomDialogPreference {
         SettingsActivity.setLanguagePreferencesChanged(true);
         //callback for refreshing view
         recreateSettings();
-        Log.d("changed_preference",getTitle()+ " preference changed to: "+getSummary());
     }
 
     private void recreateSettings(){
@@ -79,7 +77,6 @@ public class LanguageVersionDialogPreference extends CustomDialogPreference {
 
     protected void setPreferenceSummary(){
         int languageVersion=SharedPreferencesModifier.getLanguageVersion(getContext());
-        Log.d("language_ver", ""+languageVersion);
         if(languageVersion==0){
             setSummary(getContext().getString(R.string.language_version_english));
         }

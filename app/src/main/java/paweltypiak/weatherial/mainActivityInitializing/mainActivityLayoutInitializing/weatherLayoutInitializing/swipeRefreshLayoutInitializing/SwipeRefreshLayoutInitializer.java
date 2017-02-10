@@ -25,14 +25,14 @@ public class SwipeRefreshLayoutInitializer {
     }
 
     private void setSwipeRefreshLayoutOffset(Activity activity, MainActivityLayoutInitializer mainActivityLayoutInitializer){
-        int swipeRefrehLayoutOffset = (int)activity.getResources().getDimension(R.dimen.swipe_refresh_layout_offset);
+        int swipeRefreshLayoutOffset = (int)activity.getResources().getDimension(R.dimen.swipe_refresh_layout_offset);
         int toolbarExpandedHeight=
                 mainActivityLayoutInitializer.
                 getAppBarLayoutInitializer().
                 getAppBarLayoutDimensionsSetter().
                 getToolbarExpandedHeight();
-        int progressViewStart = toolbarExpandedHeight-swipeRefrehLayoutOffset;
-        float pullRange=swipeRefrehLayoutOffset*1.5f;
+        int progressViewStart = toolbarExpandedHeight-swipeRefreshLayoutOffset;
+        float pullRange=swipeRefreshLayoutOffset*1.5f;
         int progressViewEnd = (int)(progressViewStart+pullRange);
         swipeRefreshLayout.setProgressViewOffset(true, progressViewStart, progressViewEnd);
     }
@@ -40,9 +40,9 @@ public class SwipeRefreshLayoutInitializer {
     private void initializeOnRefreshMessage(Activity activity){
         onRefreshMessageLayout =(LinearLayout)activity.findViewById(R.id.main_content_layout_on_refresh_message_layout);
         float onRefreshMessageLayoutTopMargin=activity.getResources().getDimension(R.dimen.on_refresh_message_layout_top_margin);
-        int swipeRefrehLayoutOffset = (int)activity.getResources().getDimension(R.dimen.swipe_refresh_layout_offset);
+        int swipeRefreshLayoutOffset = (int)activity.getResources().getDimension(R.dimen.swipe_refresh_layout_offset);
         RelativeLayout.LayoutParams onRefreshMessageLayoutParams=(RelativeLayout.LayoutParams)onRefreshMessageLayout.getLayoutParams();
-        onRefreshMessageLayoutParams.topMargin=(int)(swipeRefrehLayoutOffset+onRefreshMessageLayoutTopMargin);
+        onRefreshMessageLayoutParams.topMargin=(int)(swipeRefreshLayoutOffset+onRefreshMessageLayoutTopMargin);
         onRefreshMessageLayout.setLayoutParams(onRefreshMessageLayoutParams);
     }
 

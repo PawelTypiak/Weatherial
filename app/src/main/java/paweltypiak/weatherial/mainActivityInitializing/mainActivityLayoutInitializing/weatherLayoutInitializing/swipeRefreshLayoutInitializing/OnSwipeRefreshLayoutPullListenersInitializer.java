@@ -10,7 +10,7 @@ import paweltypiak.weatherial.customViews.LockableSmoothNestedScrollView;
 import paweltypiak.weatherial.mainActivityInitializing.mainActivityLayoutInitializing.weatherLayoutInitializing.WeatherLayoutInitializer;
 import paweltypiak.weatherial.usefulClasses.UsefulFunctions;
 
-public class OnSwipeRefreshLayoutPullListenersInitializer {
+class OnSwipeRefreshLayoutPullListenersInitializer {
 
     private LockableSmoothNestedScrollView nestedScrollView;
     private LinearLayout weatherLayout;
@@ -21,7 +21,7 @@ public class OnSwipeRefreshLayoutPullListenersInitializer {
     private float fadeOutOffset;
     private float fadeOutRange;
 
-    public OnSwipeRefreshLayoutPullListenersInitializer(Activity activity, WeatherLayoutInitializer weatherLayoutInitializer, SwipeRefreshLayout swipeRefreshLayout){
+    OnSwipeRefreshLayoutPullListenersInitializer(Activity activity, WeatherLayoutInitializer weatherLayoutInitializer, SwipeRefreshLayout swipeRefreshLayout){
         findResources(activity,weatherLayoutInitializer);
         addNestedScrollViewOnScrollListener(swipeRefreshLayout);
         setNestedScrollViewOnTouchListener(swipeRefreshLayout);
@@ -43,9 +43,9 @@ public class OnSwipeRefreshLayoutPullListenersInitializer {
     }
 
     private void findDimensions(Activity activity){
-        float swipeRefrehLayoutOffset=activity.getResources().getDimension(R.dimen.swipe_refresh_layout_offset);
+        float swipeRefreshLayoutOffset=activity.getResources().getDimension(R.dimen.swipe_refresh_layout_offset);
         fadeOutRange=activity.getResources().getDimension(R.dimen.swipe_refresh_layout_offset)*1.5f;
-        fadeOutOffset=swipeRefrehLayoutOffset+ UsefulFunctions.dpToPixels(1,activity);
+        fadeOutOffset=swipeRefreshLayoutOffset+ UsefulFunctions.dpToPixels(1,activity);
     }
 
     private void setNestedScrollViewOnTouchListener(final SwipeRefreshLayout swipeRefreshLayout){

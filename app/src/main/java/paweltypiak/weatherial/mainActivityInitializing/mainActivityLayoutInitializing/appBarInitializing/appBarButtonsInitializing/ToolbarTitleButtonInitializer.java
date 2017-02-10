@@ -6,9 +6,9 @@ import android.view.View;
 import paweltypiak.weatherial.R;
 import paweltypiak.weatherial.dialogsInitializing.dialogInitializers.mapsDialogInitializing.MapsDialogInitializer;
 
-public class ToolbarTitleButtonInitializer {
+class ToolbarTitleButtonInitializer {
 
-    public ToolbarTitleButtonInitializer(Activity activity){
+    ToolbarTitleButtonInitializer(Activity activity){
         setToolbarTitleButtonOnClickListener(activity);
     }
 

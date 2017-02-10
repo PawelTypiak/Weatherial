@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatRadioButton;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,13 +40,13 @@ public class FavouritesDialogInitializer {
                                                    Runnable negativeButtonRunnable){
         View dialogView=initializeDialogView(activity);
         initializeRadioGroup(activity,type,dialogView);
-        favouritesDialog = buildAlertDialog(
+        AlertDialog favouritesDialog = buildAlertDialog(
                 activity,
                 type,
                 positiveButtonRunnable,
                 negativeButtonRunnable,
                 dialogView);
-        setAlertDialogOnShowListener(activity);
+        setAlertDialogOnShowListener(activity, favouritesDialog);
         setAlertDialogOnClickListener(activity,favouritesDialog);
         return favouritesDialog;
     }
@@ -66,7 +65,6 @@ public class FavouritesDialogInitializer {
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 AlertDialogButtonsCustomizer.setDialogButtonEnabled(favouritesDialog,activity);
                 FavouritesEditor.setSelectedFavouriteLocationID(i);
-                Log.d("wybrane id", ""+i);
             }
         });
     }
@@ -166,10 +164,10 @@ public class FavouritesDialogInitializer {
     private String getTitle(Activity activity,int type){
         String title=null;
         if(type==0) {
-            title=activity.getString(R.string.favourites_dialog_first_launch_title);
+            title=activity.getString(R.string.favourites_dialog_title_type_0);
         }
         else if(type==1){
-            title=activity.getString(R.string.favourites_dialog_title);
+            title=activity.getString(R.string.favourites_dialog_title_type_1);
         }
         return  title;
     }
@@ -216,7 +214,8 @@ public class FavouritesDialogInitializer {
         return negativeButtonText;
     }
 
-    private void setAlertDialogOnShowListener(final Activity activity){
+    private void setAlertDialogOnShowListener(final Activity activity,
+                                              final AlertDialog favouritesDialog){
         favouritesDialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialogInterface) {

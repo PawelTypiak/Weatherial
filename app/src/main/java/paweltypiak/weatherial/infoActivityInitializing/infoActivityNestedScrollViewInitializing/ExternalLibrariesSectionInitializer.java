@@ -11,9 +11,9 @@ import android.widget.TextView;
 
 import paweltypiak.weatherial.R;
 
-public class ExternalLibrariesSectionInitializer {
+class ExternalLibrariesSectionInitializer {
 
-    public ExternalLibrariesSectionInitializer(Activity activity,
+    ExternalLibrariesSectionInitializer(Activity activity,
                                                InfoActivityNestedScrollViewInitializer nestedScrollViewInitializer){
         initializeExternalLibrariesLicenseHiperlink(activity,nestedScrollViewInitializer);
         initializeExternalLibrariesHiperlinks(activity,nestedScrollViewInitializer);
@@ -23,11 +23,11 @@ public class ExternalLibrariesSectionInitializer {
                                                              InfoActivityNestedScrollViewInitializer nestedScrollViewInitializer){
         TextView licenseTextView
                 =(TextView)activity.findViewById(R.id.info_activity_external_libraries_license_text);
-        setExternalLibrariesLicesceTextViewOnClickListener(activity,nestedScrollViewInitializer,licenseTextView);
+        setExternalLibrariesLicenseTextViewOnClickListener(activity,nestedScrollViewInitializer,licenseTextView);
         setExternalLibrariesLicenseTextViewHighlight(activity,licenseTextView);
     }
 
-    private void setExternalLibrariesLicesceTextViewOnClickListener(final Activity activity,
+    private void setExternalLibrariesLicenseTextViewOnClickListener(final Activity activity,
                                                                     final InfoActivityNestedScrollViewInitializer nestedScrollViewInitializer,
                                                                     TextView licenseTextView){
         licenseTextView.setOnClickListener(new View.OnClickListener() {

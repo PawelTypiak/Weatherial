@@ -24,57 +24,109 @@ import paweltypiak.weatherial.dataDownloading.weatherDataDownloading.WeatherData
 
 import static paweltypiak.weatherial.usefulClasses.UsefulFunctions.getColoredDrawable;
 
-public class WeatherForecastLayoutInitializer {
+class WeatherForecastLayoutInitializer {
 
-    private LinearLayout forecastLayout;
     private View forecastStepperView;
     private LinearLayout[] forecastDayLayout;
-    private RelativeLayout[] forecastDateLayout;
     private TextView[] forecastDayDateTextView;
     private TextView[] forecastDayNameTextView;
     private ImageView[] forecastDayConditionsImageView;
     private TextView[] forecastDayConditionsTextView;
-    private LinearLayout[] forecastTemperatureLayout;
     private ImageView[] forecastHighTemperatureImageView;
     private ImageView[] forecastLowTemperatureImageView;
     private TextView[] forecastHighTemperatureTextView;
     private TextView[] forecastLowTemperatureTextView;
     private View[] forecastDividerView;
 
-    public WeatherForecastLayoutInitializer(Activity activity){
+    WeatherForecastLayoutInitializer(Activity activity){
         findWeatherForecastLayoutViews(activity);
         rotateMinTemperatureImageView();
         setWeatherForecastLayoutSizes(activity);
     }
 
     private void findWeatherForecastLayoutViews(Activity activity){
-        forecastLayout=(LinearLayout)activity.findViewById(R.id.weather_forecast_layout);
+
         forecastStepperView=activity.findViewById(R.id.weather_forecast_layout_stepper_view);
         forecastDayLayout=new LinearLayout[5];
-        forecastDateLayout=new RelativeLayout[5];
         forecastDayDateTextView=new TextView[5];
         forecastDayNameTextView=new TextView[5];
         forecastDayConditionsImageView =new ImageView[5];
         forecastDayConditionsTextView=new TextView[5];
         forecastDividerView=new View[5];
-        forecastTemperatureLayout=new LinearLayout[5];
         forecastHighTemperatureTextView=new TextView[5];
         forecastLowTemperatureTextView=new TextView[5];
         forecastHighTemperatureImageView=new ImageView[5];
         forecastLowTemperatureImageView=new ImageView[5];
         for(int i=0;i<5;i++){
-            forecastDayLayout[i] =(LinearLayout) activity.findViewById(activity.getResources().getIdentifier("weather_forecast_layout_day_layout_"+(i), "id", activity.getPackageName()));
-            forecastDateLayout[i]=(RelativeLayout) activity.findViewById(activity.getResources().getIdentifier("weather_forecast_layout_day_date_layout_"+(i), "id", activity.getPackageName()));
-            forecastDayDateTextView[i] =(TextView)activity.findViewById(activity.getResources().getIdentifier("weather_forecast_layout_day_date_text_"+(i), "id", activity.getPackageName()));
-            forecastDayNameTextView[i] =(TextView)activity.findViewById(activity.getResources().getIdentifier("weather_forecast_layout_day_name_text_"+(i), "id", activity.getPackageName()));
-            forecastDayConditionsImageView[i] =(ImageView)activity.findViewById(activity.getResources().getIdentifier("weather_forecast_layout_day_conditions_image_"+(i), "id",activity.getPackageName()));
-            forecastDayConditionsTextView[i]=(TextView)activity.findViewById(activity.getResources().getIdentifier("weather_forecast_layout_day_conditions_text_"+(i), "id",activity.getPackageName()));
-            forecastDividerView[i]=activity.findViewById(activity.getResources().getIdentifier("weather_forecast_layout_day_divider_"+(i), "id",activity.getPackageName()));
-            forecastTemperatureLayout[i]=(LinearLayout) activity.findViewById(activity.getResources().getIdentifier("weather_forecast_layout_day_temperature_layout_"+(i), "id", activity.getPackageName()));
-            forecastHighTemperatureTextView[i]=(TextView)activity.findViewById(activity.getResources().getIdentifier("weather_forecast_layout_day_max_temperature_text_"+(i), "id",activity.getPackageName()));
-            forecastLowTemperatureTextView[i]=(TextView)activity.findViewById(activity.getResources().getIdentifier("weather_forecast_layout_day_min_temperature_text_"+(i),"id", activity.getPackageName()));
-            forecastHighTemperatureImageView[i]=(ImageView)activity.findViewById(activity.getResources().getIdentifier("weather_forecast_layout_day_max_temperature_image_"+(i),"id", activity.getPackageName()));
-            forecastLowTemperatureImageView[i]=(ImageView)activity.findViewById(activity.getResources().getIdentifier("weather_forecast_layout_day_min_temperature_image_"+(i),"id", activity.getPackageName()));
+            forecastDayLayout[i] =(LinearLayout) activity.findViewById(
+                    activity.getResources().getIdentifier(
+                            "weather_forecast_layout_day_layout_"+(i),
+                            "id",
+                            activity.getPackageName()
+                    )
+            );
+            forecastDayDateTextView[i] =(TextView)activity.findViewById(
+                    activity.getResources().getIdentifier(
+                            "weather_forecast_layout_day_date_text_"+(i),
+                            "id",
+                            activity.getPackageName()
+                    )
+            );
+            forecastDayNameTextView[i] =(TextView)activity.findViewById(
+                    activity.getResources().getIdentifier(
+                            "weather_forecast_layout_day_name_text_"+(i),
+                            "id",
+                            activity.getPackageName()
+                    )
+            );
+            forecastDayConditionsImageView[i] =(ImageView)activity.findViewById(
+                    activity.getResources().getIdentifier(
+                            "weather_forecast_layout_day_conditions_image_"+(i),
+                            "id",
+                            activity.getPackageName()
+                    )
+            );
+            forecastDayConditionsTextView[i]=(TextView)activity.findViewById(
+                    activity.getResources().getIdentifier(
+                            "weather_forecast_layout_day_conditions_text_"+(i),
+                            "id",
+                            activity.getPackageName())
+            );
+            forecastDividerView[i]=activity.findViewById(
+                    activity.getResources().getIdentifier(
+                            "weather_forecast_layout_day_divider_"+(i),
+                            "id",
+                            activity.getPackageName()
+                    )
+            );
+            forecastHighTemperatureTextView[i]=(TextView)activity.findViewById(
+                    activity.getResources().getIdentifier(
+                            "weather_forecast_layout_day_max_temperature_text_"+(i),
+                            "id",
+                            activity.getPackageName()
+                    )
+            );
+            forecastLowTemperatureTextView[i]=(TextView)activity.findViewById(
+                    activity.getResources().getIdentifier(
+                            "weather_forecast_layout_day_min_temperature_text_"+(i),
+                            "id",
+                            activity.getPackageName()
+                    )
+            );
+            forecastHighTemperatureImageView[i]=(ImageView)activity.findViewById(
+                    activity.getResources().getIdentifier(
+                            "weather_forecast_layout_day_max_temperature_image_"+(i),
+                            "id",
+                            activity.getPackageName()
+                    )
+            );
+            forecastLowTemperatureImageView[i]=(ImageView)activity.findViewById(
+                    activity.getResources().getIdentifier(
+                            "weather_forecast_layout_day_min_temperature_image_"+(i),
+                            "id",
+                            activity.getPackageName()
+                    )
+            );
         }
     }
 
@@ -85,7 +137,7 @@ public class WeatherForecastLayoutInitializer {
     }
 
     private void setWeatherForecastLayoutSizes(final Activity activity){
-        final LinearLayout forecastLayout=(LinearLayout)activity.findViewById(R.id.weather_forecast_layout);
+       final LinearLayout forecastLayout=(LinearLayout)activity.findViewById(R.id.weather_forecast_layout);
         ViewTreeObserver observer=forecastLayout.getViewTreeObserver();
         observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -113,7 +165,6 @@ public class WeatherForecastLayoutInitializer {
     }
 
     public void updateWeatherForecastLayoutData(Activity activity,WeatherDataFormatter weatherDataFormatter){
-
         String[] dayName = new String[5];
         String[] dayDate = new String[5];
         for (int i = 0; i < 5; i++) {
@@ -152,7 +203,6 @@ public class WeatherForecastLayoutInitializer {
             temperatureTextViewWidthList.add(getTemperatureTextViewWidth(activity,forecastLowTemperature));
         }
         int maxWidth= Collections.max(temperatureTextViewWidthList);
-        Log.d("temperature_width", "setTemperatureLayoutWidth: "+maxWidth);
         for(int i=0;i<5;i++){
             LinearLayout.LayoutParams highTemperatureTextViewParams=(LinearLayout.LayoutParams)forecastHighTemperatureTextView[i].getLayoutParams();
             highTemperatureTextViewParams.width=maxWidth+2;

@@ -1,5 +1,6 @@
 package paweltypiak.weatherial.introActivityInitializing.introActivityFragmentInitializing.introActivityLoadingFragmentInitializing;
 
 public interface OnRequestLocalizationPermissionsListener {
+
     void requestLocalizationPermissions();
 }

@@ -6,13 +6,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import paweltypiak.weatherial.R;
 
-public class ToolbarViewsTransparencyUpdater {
+class ToolbarViewsTransparencyUpdater {
 
     private RelativeLayout timezoneLayout;
     private TextView bottomLayout;
     private LinearLayout yahooLogoLayout;
 
-    public ToolbarViewsTransparencyUpdater(Activity activity){
+    ToolbarViewsTransparencyUpdater(Activity activity){
         findViews(activity);
     }
 
@@ -22,7 +22,7 @@ public class ToolbarViewsTransparencyUpdater {
         yahooLogoLayout=(LinearLayout)activity.findViewById(R.id.toolbar_layout_yahoo_logo_layout);
     }
 
-    public void updateViewsTransparencyOnAppBarOffsetChanged(float scrollPercentage) {
+    void updateViewsTransparencyOnAppBarOffsetChanged(float scrollPercentage) {
         animateTimeLayout(scrollPercentage);
         animateSecondaryLocationNameTextView(scrollPercentage);
         animateYahooLogoLayout(scrollPercentage);

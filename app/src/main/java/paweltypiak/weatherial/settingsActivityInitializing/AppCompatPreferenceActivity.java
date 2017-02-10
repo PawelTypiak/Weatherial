@@ -28,7 +28,7 @@ public abstract class AppCompatPreferenceActivity extends PreferenceActivity {
 
     }
 
-    public ActionBar getSupportActionBar() {
+    ActionBar getSupportActionBar() {
         return getDelegate().getSupportActionBar();
     }
 

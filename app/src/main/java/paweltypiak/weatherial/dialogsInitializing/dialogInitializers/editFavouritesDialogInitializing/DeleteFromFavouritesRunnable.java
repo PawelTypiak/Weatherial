@@ -1,7 +1,6 @@
 package paweltypiak.weatherial.dialogsInitializing.dialogInitializers.editFavouritesDialogInitializing;
 
 import android.app.Activity;
-
 import paweltypiak.weatherial.mainActivityInitializing.MainActivity;
 import paweltypiak.weatherial.mainActivityInitializing.mainActivityLayoutInitializing.layoutUpdating.OnWeatherDataChangeLayoutUpdater;
 import paweltypiak.weatherial.usefulClasses.FavouritesEditor;

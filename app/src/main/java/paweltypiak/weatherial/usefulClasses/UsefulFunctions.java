@@ -14,20 +14,15 @@ import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.Spanned;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.Locale;
-
 import paweltypiak.weatherial.R;
 
 public class UsefulFunctions {
-
-    //// TODO: split to different classes
 
     public static String getFormattedString(String string){
         //cut empty characters before and after string and set upper case
@@ -59,28 +54,6 @@ public class UsefulFunctions {
         string=getStringWithoutFirstSpace(string);
         if(string.length()!=0) string=string.substring(0, 1).toUpperCase() + string.substring(1);
         return string;
-    }
-
-    // TODO: delete
-
-    public static void setViewVisible(View view){
-        view.setVisibility(View.VISIBLE);
-    }
-
-    public static void setViewInvisible(View view){
-        view.setVisibility(View.INVISIBLE);
-    }
-
-    public static void setViewGone(View view){
-        view.setVisibility(View.GONE);
-    }
-
-    public static int pixelsToDp(int pixels,Activity activity){
-        DisplayMetrics metrics = new DisplayMetrics();
-        activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        float logicalDensity = metrics.density;
-        int dp = (int) Math.ceil(pixels / logicalDensity);
-        return dp;
     }
 
     public static int dpToPixels(int dp,Activity activity){
@@ -118,7 +91,6 @@ public class UsefulFunctions {
             languageString=context.getResources().getConfiguration().locale.toString();
         }
         languageString=languageString.substring(0,2);
-        Log.d("languagestring", languageString);
         int language;
         if(languageString.equals("pl")) language=1;
         else language=0;
@@ -203,7 +175,7 @@ public class UsefulFunctions {
         return textViewWidth;
     }
 
-    public static int[] getTextViewSize(Activity activity,
+    private static int[] getTextViewSize(Activity activity,
                                         String text,
                                         Typeface typeface,
                                         float textSize,
@@ -232,7 +204,8 @@ public class UsefulFunctions {
             int color = ContextCompat.getColor(activity,R.color.colorPrimaryDark);
             try {
                 Class<?> taskDescriptionClass = Class.forName("android.app.ActivityManager$TaskDescription");
-                Constructor<?> taskDescriptionConstructor = taskDescriptionClass.getConstructor(String.class, Bitmap.class, int.class);
+                Constructor<?> taskDescriptionConstructor
+                        = taskDescriptionClass.getConstructor(String.class, Bitmap.class, int.class);
                 Object taskDescription = taskDescriptionConstructor.newInstance(title, icon, color);
                 Method method = ((Object) activity).getClass().getMethod("setTaskDescription", taskDescriptionClass);
                 method.invoke(activity, taskDescription);

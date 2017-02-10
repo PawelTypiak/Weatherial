@@ -68,7 +68,7 @@ public class NavigationDrawerInitializer {
     }
 
     public void uncheckNavigationDrawerMenuItem(int itemId){
-        MenuItem geolocalizationItem=navigationView.getMenu().findItem(R.id.nav_button_geolocalization);;
+        MenuItem geolocalizationItem=navigationView.getMenu().findItem(R.id.nav_button_geolocalization);
         MenuItem favouritesItem=navigationView.getMenu().findItem(R.id.nav_button_favourites);
         if(itemId==0) {
             geolocalizationItem.setChecked(false);
@@ -79,7 +79,7 @@ public class NavigationDrawerInitializer {
     }
 
     public void checkNavigationDrawerMenuItem(int itemId){
-        MenuItem geolocalizationItem=navigationView.getMenu().findItem(R.id.nav_button_geolocalization);;
+        MenuItem geolocalizationItem=navigationView.getMenu().findItem(R.id.nav_button_geolocalization);
         MenuItem favouritesItem=navigationView.getMenu().findItem(R.id.nav_button_favourites);
         if(itemId==0) {
             geolocalizationItem.setCheckable(true);

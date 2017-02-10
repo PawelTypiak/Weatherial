@@ -15,7 +15,7 @@ public class IntroActivityLoadingFragmentGeolocalizationMethodsDialogInitializer
                                                                                IntroActivityLoadingFragmentDataDownloader dataDownloader){
         this.activity=activity;
         this.dataDownloader=dataDownloader;
-        initializeGeolocalizationMethodsDialog();
+        geolocalizationMethodsDialog=initializeGeolocalizationMethodsDialog();
     }
 
     public AlertDialog getGeolocalizationMethodsDialog(){
@@ -29,7 +29,7 @@ public class IntroActivityLoadingFragmentGeolocalizationMethodsDialogInitializer
                 0,
                 positiveButtonRunnable
                 );
-        geolocalizationMethodsDialog= geolocalizationMethodsDialogInitializer.getGeolocalizationMethodsDialog();
+        AlertDialog geolocalizationMethodsDialog= geolocalizationMethodsDialogInitializer.getGeolocalizationMethodsDialog();
         return geolocalizationMethodsDialog;
     }
 

@@ -5,7 +5,7 @@ import android.support.v4.content.ContextCompat;
 
 import paweltypiak.weatherial.R;
 
-public class WeatherLayoutThemeColorsUpdater {
+class WeatherLayoutThemeColorsUpdater {
 
     private int backgroundColor;
     private int textPrimaryColor;
@@ -14,7 +14,7 @@ public class WeatherLayoutThemeColorsUpdater {
     private int dividerColor;
     private int iconColor;
 
-    public WeatherLayoutThemeColorsUpdater(Activity activity, boolean isDay){
+    WeatherLayoutThemeColorsUpdater(Activity activity, boolean isDay){
         updateThemeColors(activity,isDay);
     }
 

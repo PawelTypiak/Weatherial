@@ -13,8 +13,8 @@ import paweltypiak.weatherial.usefulClasses.UsefulFunctions;
 
 public class SettingsActivity extends AppCompatPreferenceActivity
         implements OnLanguageVersionPreferenceChangeListener,
-        OnUnitsPreferenceFragmentInsertionListener
-{
+        OnUnitsPreferenceFragmentInsertionListener {
+
     private android.support.v7.app.ActionBar actionBar;
     private static boolean languagePreferencesChanged=false;
     private static boolean unitsPreferencesChanged=false;

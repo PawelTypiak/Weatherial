@@ -8,7 +8,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -19,7 +18,7 @@ public class CurrentLocationCoordinatesDownloader {
 
     private Activity activity;
     private LocationManager locationManager;
-    private GeocodingCallback geocodingCallack;
+    private GeocodingCallback geocodingCallback;
     private AlertDialog geolocalizationFailureDialog;
     private AlertDialog permissionDeniedDialog;
     private AlertDialog providerUnavailableDialog;
@@ -40,7 +39,7 @@ public class CurrentLocationCoordinatesDownloader {
                                                 ProgressBar loadingBar,
                                                 int geolocalizationMethod){
         this.activity=activity;
-        this.geocodingCallack=geocodingCallback;
+        this.geocodingCallback =geocodingCallback;
         this.geolocalizationFailureDialog =geolocalizationFailureDialog;
         this.permissionDeniedDialog=permissionDeniedDialog;
         this.progressDialog=progressDialog;
@@ -55,9 +54,8 @@ public class CurrentLocationCoordinatesDownloader {
         if(locationManager==null) locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
         Criteria locationCriteria = new Criteria();
         locationCriteria.setAccuracy(Criteria.ACCURACY_MEDIUM);
-        getProvidersAvaibility();
+        getProvidersAvailability();
         if(!gpsEnabled && !networkEnabled) {
-            Log.d("provider", "provider unavailable");
             showDialog(geolocalizationFailureDialog);
         }
         else{
@@ -72,7 +70,7 @@ public class CurrentLocationCoordinatesDownloader {
         }
     }
 
-    private void getProvidersAvaibility(){
+    private void getProvidersAvailability(){
         try{
             gpsEnabled=locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
             networkEnabled=locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
@@ -91,17 +89,14 @@ public class CurrentLocationCoordinatesDownloader {
     }
 
     private void requestLocationUpdateForGpsProvider(){
-        Log.d("provider", "gps");
         try {
             locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, locationListener, null);
         }catch (SecurityException exception){
             showDialog(permissionDeniedDialog);
-            Log.d("permissions", ""+exception);
         }
     }
 
     private void showGpsProviderUnavailableDialog(){
-        Log.d("provider", "gps unavailable");
         providerUnavailableDialog
                 = GeolocalizationProviderUnavailableDialogInitializer.getGeolocalizationProviderUnavailableDialog(
                 activity,0,gpsUnavailableRunnable
@@ -131,17 +126,14 @@ public class CurrentLocationCoordinatesDownloader {
     }
 
     private void requestLocationUpdateForNetworkProvider(){
-        Log.d("provider:", "network");
         try {
             locationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, locationListener, null);
         }catch (SecurityException exception){
             showDialog(permissionDeniedDialog);
-            Log.d("permissions", ""+exception);
         }
     }
 
     private void showNetworkProviderUnavailableDialog(){
-        Log.d("provider:", "network unavailable");
         providerUnavailableDialog
                 = GeolocalizationProviderUnavailableDialogInitializer.getGeolocalizationProviderUnavailableDialog(
                 activity,1,networkUnavailableRunnable
@@ -178,9 +170,7 @@ public class CurrentLocationCoordinatesDownloader {
         //listening for geolocalization result
         public void onLocationChanged(Location location) {
             CurrentLocationCoordinatesDownloader.this.location=location;
-            Log.d("coordinates", "longitude: "+location.getLongitude());
-            Log.d("coordinates", "latitude: "+location.getLatitude());
-            new GeocodingDownloader(activity,location,geocodingCallack,messageTextView);
+            new GeocodingDownloader(activity,location, geocodingCallback,messageTextView);
         }
         public void onProviderDisabled(String provider) {}
         public void onProviderEnabled(String provider){}

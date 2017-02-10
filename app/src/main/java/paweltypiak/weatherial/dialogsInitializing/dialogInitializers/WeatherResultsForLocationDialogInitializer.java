@@ -108,7 +108,7 @@ public class WeatherResultsForLocationDialogInitializer {
     private static String getNegativeButtonText(Activity activity,int type){
         String negativeButtonString=null;
         if(type==0){
-            negativeButtonString=activity.getString(R.string.first_launch_localization_results_dialog_negative_button_type_0);
+            negativeButtonString=activity.getString(R.string.weather_results_for_location_dialog_negative_button_type_0);
         }
         else if(type==1){
             negativeButtonString=activity.getString(R.string.weather_results_for_location_dialog_negative_button_type_1);

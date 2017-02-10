@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/intro_activity_fragment_header_text_size"
-            android:text="@string/first_launch_units_header"
+            android:text="@string/intro_activity_units_header"
             android:gravity="center"
             android:layout_marginBottom="@dimen/intro_activity_fragment_header_bottom_margin"
             android:textColor="@color/textPrimaryDarkBackground"
@@ -28,6 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:baselineAligned="false"
             >
             <RelativeLayout
                 android:id="@+id/intro_activity_units_fragment_layout_0"

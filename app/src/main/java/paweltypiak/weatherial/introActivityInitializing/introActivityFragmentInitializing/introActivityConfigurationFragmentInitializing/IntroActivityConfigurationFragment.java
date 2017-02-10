@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import paweltypiak.weatherial.R;
@@ -65,6 +64,7 @@ public class IntroActivityConfigurationFragment extends Fragment{
                 fit().
                 centerInside().
                 into(appIconImageView, new Callback() {
+
             @Override
             public void onSuccess() {
                 if(isFirstLaunch) {
@@ -138,7 +138,7 @@ public class IntroActivityConfigurationFragment extends Fragment{
     private void initializeWeatherDataDownloadingForDifferentLocation(){
         setNextButtonInvisible();
         String differentLocationName=getDifferentLocationNameFromLocationFragment();
-        if(differentLocationName.equals(getString(R.string.first_launch_default_location_different))){
+        if(differentLocationName.equals(getString(R.string.intro_activity_default_location_different))){
             //dialog with information that user didn't provided location name
             showNoDifferentLocationSelectedDialogInLocationFragment();
         }
@@ -171,18 +171,18 @@ public class IntroActivityConfigurationFragment extends Fragment{
         return geolocalizationMethodFragment;
     }
 
-    public void showNoDifferentLocationSelectedDialogInLocationFragment(){
+    private void showNoDifferentLocationSelectedDialogInLocationFragment(){
         //show dialog with information about empty location name
         getDefaultLocationFragment().showNoDifferentLocationSelectedDialog();
     }
 
     private void insertLoadingFragment(int selectedGeolocalizationMethod,
-                                       int selectedDefeaultLocationOption,
+                                       int selectedDefaultLocationOption,
                                        String differentLocationName) {
         fragmentInsertionInitializer.insertLoadingFragment(
                 getActivity(),
                 selectedGeolocalizationMethod,
-                selectedDefeaultLocationOption,
+                selectedDefaultLocationOption,
                 differentLocationName
                 );
     }

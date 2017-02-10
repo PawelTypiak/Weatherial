@@ -2,7 +2,6 @@ package paweltypiak.weatherial.settingsActivityInitializing.dialogPreferencesIni
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import java.util.List;
@@ -50,11 +49,11 @@ public class DefaultLocationDialogPreference extends CustomDialogPreference {
                 FavouritesEditor.setSelectedFavouriteLocationID(i);
             }
         });
-    };
+    }
 
     protected void onPositiveResult(){
         //this method is called when user clicks positive button
-        String defeaultLocationAddress;
+        String defaultLocationAddress;
         int selectedLocationID=FavouritesEditor.getSelectedFavouriteLocationID();
         int numberOfFavourites=FavouritesEditor.getNumberOfFavourites(getContext());
         if(selectedLocationID==numberOfFavourites) {
@@ -62,17 +61,16 @@ public class DefaultLocationDialogPreference extends CustomDialogPreference {
             setSummary(getContext().getString(R.string.favourites_dialog_geolocalization_option));
         }
         else {
-            defeaultLocationAddress=FavouritesEditor.getSelectedFavouriteLocationAddress(getContext());
-            SharedPreferencesModifier.setDefaultLocationConstant(getContext(),defeaultLocationAddress);
+            defaultLocationAddress=FavouritesEditor.getSelectedFavouriteLocationAddress(getContext());
+            SharedPreferencesModifier.setDefaultLocationConstant(getContext(),defaultLocationAddress);
             setSummary(UsefulFunctions.fromHtml(FavouritesEditor.getSelectedFavouriteLocationEditedName()));
         }
-        Log.d("changed_preference",getTitle()+ " preference changed to: "+getSummary());
     }
 
     protected void setPreferenceSummary(){
         if(SharedPreferencesModifier.isDefaultLocationConstant(getContext())){
-            String defeaultLocationEditedName=FavouritesEditor.getDefaultLocationEditedName(getContext());
-            setSummary(UsefulFunctions.fromHtml(defeaultLocationEditedName));
+            String defaultLocationEditedName=FavouritesEditor.getDefaultLocationEditedName(getContext());
+            setSummary(UsefulFunctions.fromHtml(defaultLocationEditedName));
         }
         else{
             setSummary(getContext().getString(R.string.favourites_dialog_geolocalization_option));

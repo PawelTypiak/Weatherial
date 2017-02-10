@@ -3,7 +3,6 @@ package paweltypiak.weatherial.settingsActivityInitializing.dialogPreferencesIni
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import paweltypiak.weatherial.R;
@@ -11,21 +10,21 @@ import paweltypiak.weatherial.settingsActivityInitializing.SettingsActivity;
 import paweltypiak.weatherial.settingsActivityInitializing.dialogPreferencesInitializing.CustomDialogPreference;
 import paweltypiak.weatherial.usefulClasses.SharedPreferencesModifier;
 
-public class UnitsDialogPreference extends CustomDialogPreference {
+class UnitsDialogPreference extends CustomDialogPreference {
 
     private int selectedOption =-1;
     private int unitId=-1;
     private String[] unitsArray;
 
-    public UnitsDialogPreference(Context context, AttributeSet attributeSet){
+    UnitsDialogPreference(Context context, AttributeSet attributeSet){
         super(context,attributeSet);
     }
 
-    protected void setUnitId(int unitId) {
+    void setUnitId(int unitId) {
         this.unitId = unitId;
     }
 
-    protected void setUnitDialogTitle(){
+    void setUnitDialogTitle(){
         String unitsNames[]=getContext().getResources().getStringArray(R.array.preferences_units_names_array);
         setDialogTitle(unitsNames[unitId]);
     }
@@ -48,12 +47,17 @@ public class UnitsDialogPreference extends CustomDialogPreference {
             SharedPreferencesModifier.setUnits(getContext(),unitPreferences);
             setSummary(unitsArray[1]);
         }
-        Log.d("changed_preference",getTitle()+ " preference changed to: "+getSummary());
         SettingsActivity.setUnitsPreferencesChanged(true);
     }
 
     protected void setPreferenceSummary(){
-        unitsArray=getContext().getResources().getStringArray(getContext().getResources().getIdentifier("units_array_"+unitId, "array", getContext().getPackageName()));
+        unitsArray=getContext().getResources().getStringArray(
+                getContext().getResources().getIdentifier(
+                        "units_array_"+unitId,
+                        "array",
+                        getContext().getPackageName()
+                )
+        );
         if(getUnitsPreferences()[unitId]==0){
             setSummary(unitsArray[0]);
         }
@@ -63,7 +67,13 @@ public class UnitsDialogPreference extends CustomDialogPreference {
     }
 
     private int[] getRadioButtonIds(){
-        TypedArray typedArray = getContext().getResources().obtainTypedArray(getContext().getResources().getIdentifier("units_ids_"+unitId, "array", getContext().getPackageName()));
+        TypedArray typedArray = getContext().getResources().obtainTypedArray(
+                getContext().getResources().getIdentifier(
+                        "units_ids_"+unitId,
+                        "array",
+                        getContext().getPackageName()
+                )
+        );
         int[] ids = new int[typedArray.length()];
         for(int ind=0; ind<typedArray.length(); ind++){
             ids[ind] = typedArray.getResourceId(ind,0);
@@ -79,7 +89,8 @@ public class UnitsDialogPreference extends CustomDialogPreference {
         unitRadioButtonMargin[0]=(int)getContext().getResources().getDimension(R.dimen.radio_button_bottom_margin);
         unitRadioButtonMargin[1]=0;
         for(int i=0;i<2;i++){
-            RadioButton unitRadioButton=setRadioButtonLayout(unitRadioButtonTexts[i],unitRadioButtonIds[i],unitRadioButtonMargin[i]);
+            RadioButton unitRadioButton
+                    =setRadioButtonLayout(unitRadioButtonTexts[i],unitRadioButtonIds[i],unitRadioButtonMargin[i]);
             radioGroup.addView(unitRadioButton);
             if(getUnitsPreferences()[unitId]==i) {
                 unitRadioButton.setChecked(true);

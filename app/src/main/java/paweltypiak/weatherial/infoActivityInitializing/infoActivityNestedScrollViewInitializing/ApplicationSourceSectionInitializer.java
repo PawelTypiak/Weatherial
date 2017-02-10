@@ -5,9 +5,9 @@ import android.view.View;
 import android.widget.LinearLayout;
 import paweltypiak.weatherial.R;
 
-public class ApplicationSourceSectionInitializer {
+class ApplicationSourceSectionInitializer {
 
-    public ApplicationSourceSectionInitializer(Activity activity,
+    ApplicationSourceSectionInitializer(Activity activity,
                                                InfoActivityNestedScrollViewInitializer nestedScrollViewInitializer){
         setRepositoryLayoutListeners(activity,nestedScrollViewInitializer);
         setLicenseLayoutListeners(activity,nestedScrollViewInitializer);

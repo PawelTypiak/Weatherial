@@ -11,7 +11,7 @@ class CopyToClipboardRunnable implements Runnable {
 
     private Activity activity;
 
-    public CopyToClipboardRunnable(Activity activity) {
+    CopyToClipboardRunnable(Activity activity) {
         this.activity=activity;
     }
 
@@ -19,11 +19,11 @@ class CopyToClipboardRunnable implements Runnable {
         copyToClipboard(activity);
     }
 
-    public static void copyToClipboard(Activity activity){
+    private static void copyToClipboard(Activity activity){
         ClipboardManager myClipboard;
         ClipData myClip;
         myClipboard = (ClipboardManager)activity.getSystemService(Context.CLIPBOARD_SERVICE);
-        String text=activity.getString(R.string.mail_address);
+        String text=activity.getString(R.string.author_email_address);
         myClip = ClipData.newPlainText("text", text);
         myClipboard.setPrimaryClip(myClip);
         Toast.makeText(

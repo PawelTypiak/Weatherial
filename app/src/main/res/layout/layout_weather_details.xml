@@ -28,6 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/main_activity_sublayout_vertical_margin"
             android:orientation="horizontal"
+            android:baselineAligned="false"
             >
             <LinearLayout
                 android:id="@+id/weather_details_layout_additional_conditions_layout_direction_layout"

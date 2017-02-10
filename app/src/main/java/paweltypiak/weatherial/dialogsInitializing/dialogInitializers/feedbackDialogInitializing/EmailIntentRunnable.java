@@ -19,12 +19,12 @@ class EmailIntentRunnable implements Runnable {
         initializeEmailIntent(activity);
     }
 
-    static void initializeEmailIntent(Activity activity){
+    private static void initializeEmailIntent(Activity activity){
         Intent intent = new Intent(Intent.ACTION_SENDTO);
         intent.setType("text/plain");
         String subject=activity.getString(R.string.clipboard_feedback_mail_subject);
         intent.putExtra(Intent.EXTRA_SUBJECT, subject);
-        String address=activity.getString(R.string.mail_address);
+        String address=activity.getString(R.string.app_email_address);
         intent.setData(Uri.parse("mailto:"+address));
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         try {

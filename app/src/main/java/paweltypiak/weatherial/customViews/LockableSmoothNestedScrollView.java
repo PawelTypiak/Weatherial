@@ -3,7 +3,6 @@ package paweltypiak.weatherial.customViews;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-
 import me.henrytao.smoothappbarlayout.widget.NestedScrollView;
 
 public class LockableSmoothNestedScrollView extends NestedScrollView {
@@ -24,10 +23,6 @@ public class LockableSmoothNestedScrollView extends NestedScrollView {
 
     public void setScrollingEnabled(boolean isScrollable) {
         this.isScrollable = isScrollable;
-    }
-
-    public boolean isScrollable() {
-        return isScrollable;
     }
 
     @Override
@@ -51,6 +46,5 @@ public class LockableSmoothNestedScrollView extends NestedScrollView {
                 return super.onInterceptTouchEvent(ev);
         }
     }
-
 }
 

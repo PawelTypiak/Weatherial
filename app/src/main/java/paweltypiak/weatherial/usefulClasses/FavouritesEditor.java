@@ -2,13 +2,11 @@ package paweltypiak.weatherial.usefulClasses;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
-
 import paweltypiak.weatherial.mainActivityInitializing.mainActivityLayoutInitializing.layoutUpdating.OnWeatherDataChangeLayoutUpdater;
 
 public class FavouritesEditor {
@@ -32,7 +30,6 @@ public class FavouritesEditor {
 
     public static String getSelectedFavouriteLocationAddress(Context context){
         String[] addresses=SharedPreferencesModifier.getFavouriteLocationsAddresses(context);
-        Log.d("favourites", "selected favourite location address: "+addresses[selectedFavouriteLocationId]);
         return addresses[selectedFavouriteLocationId];
     }
 
@@ -86,17 +83,16 @@ public class FavouritesEditor {
         return favouriteLocationsNamesDialogList;
     }
 
-    public static void saveNewFavouriteLocationName(Context context,String headerString,String subheaderString){
+    private static void saveNewFavouriteLocationName(Context context,String headerString,String subheaderString){
         String favourites[]= SharedPreferencesModifier.getFavouriteLocationsNames(context);
         StringBuilder stringBuilder=buildStringFromStringArray(favourites);
         String locationName=headerString+"%"+subheaderString;
         stringBuilder.append(locationName).append("|");
         String favouritesNamesString=stringBuilder.toString();
-        Log.d("favourites", "location name saved to favourites: "+favouritesNamesString);
         SharedPreferencesModifier.setFavouriteLocationNames(context,favouritesNamesString);
     }
 
-    public static void saveNewFavouriteLocationAddress(Context context,String currentLocationAddressString){
+    private static void saveNewFavouriteLocationAddress(Context context,String currentLocationAddressString){
         if(currentLocationAddressString==null){
             currentLocationAddressString=getCurrentLocationAddressString();
         }
@@ -104,7 +100,6 @@ public class FavouritesEditor {
         StringBuilder stringBuilder=buildStringFromStringArray(favourites);
         stringBuilder.append(currentLocationAddressString).append("|");
         String favouritesAddressesString=stringBuilder.toString();
-        Log.d("favourites", "location address saved to favourites: "+favouritesAddressesString);
         SharedPreferencesModifier.setFavouriteLocationAddresses(context,favouritesAddressesString);
     }
 
@@ -114,7 +109,6 @@ public class FavouritesEditor {
     }
 
     public static void editFavouriteLocationName(Context context,String headerString, String subheaderString){
-        Log.d("favourites", "name edited: "+headerString+", "+subheaderString);
         String namesString=getFavouritesStringAfterEdit(context,headerString,subheaderString);
         SharedPreferencesModifier.setFavouriteLocationNames(context,namesString);
     }
@@ -141,14 +135,12 @@ public class FavouritesEditor {
 
     private static String getFavouritesStringAfterRemove(Context context, String[] favourites){
         //new string to save in sharedPreferences
-        List<String> favouritesList = new LinkedList<String>(Arrays.asList(favourites));
+        List<String> favouritesList = new LinkedList<>(Arrays.asList(favourites));
         favourites=new String[favouritesList.size()-1];
         int id= getCurrentFavouriteLocationId(context);
         int i=0;
         for (Iterator<String> iter = favouritesList.listIterator(); iter.hasNext(); ) {
-            String locationItem = iter.next();
             if (i==id) {
-                Log.d("favourites", "location removed from favourites: "+locationItem);
                 iter.remove();
             }
             i++;
@@ -184,7 +176,7 @@ public class FavouritesEditor {
     }
 
     public static boolean isDefaultLocationEqual(Context context, String currentLocationAddressString){
-        //check if current location is defeault
+        //check if current location is default
         if(currentLocationAddressString==null){
             currentLocationAddressString=getCurrentLocationAddressString();
         }
@@ -228,7 +220,7 @@ public class FavouritesEditor {
         return currentLocationAddressString;
     }
 
-    public static StringBuilder buildStringFromStringArray(String[] stringArray){
+    private static StringBuilder buildStringFromStringArray(String[] stringArray){
         //build string from array of strings  for SharedPreferences
         int numberOfLocations=stringArray.length;
         StringBuilder stringBuilder = new StringBuilder();

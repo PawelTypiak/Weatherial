@@ -45,10 +45,10 @@ public class AuthorDialogInitializer {
         });
     }
 
-    public static void initializeEmailIntent(Activity activity){
+    private static void initializeEmailIntent(Activity activity){
         Intent intent = new Intent(Intent.ACTION_SENDTO);
         intent.setType("text/plain");
-        String address=activity.getString(R.string.mail_address);
+        String address=activity.getString(R.string.author_email_address);
         intent.setData(Uri.parse("mailto:"+address));
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         try {
@@ -69,7 +69,7 @@ public class AuthorDialogInitializer {
         });
     }
 
-    public static void initializeWebIntent(Context context, String url){
+    private static void initializeWebIntent(Context context, String url){
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(url));
         context.startActivity(intent);

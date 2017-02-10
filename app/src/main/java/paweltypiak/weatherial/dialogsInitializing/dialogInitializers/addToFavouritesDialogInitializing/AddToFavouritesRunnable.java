@@ -1,7 +1,6 @@
 package paweltypiak.weatherial.dialogsInitializing.dialogInitializers.addToFavouritesDialogInitializing;
 
 import android.app.Activity;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -51,7 +50,6 @@ class AddToFavouritesRunnable implements Runnable {
     private void updateDefaultLocation(){
         CheckBox checkBox=(CheckBox)dialogView.findViewById(R.id.edit_location_dialog_checkbox);
         if(checkBox.isChecked()){
-            Log.d("checkbox", "checked");
             String city= OnWeatherDataChangeLayoutUpdater.getCurrentWeatherDataParser().getCity();
             String region=OnWeatherDataChangeLayoutUpdater.getCurrentWeatherDataParser().getRegion();
             String country=OnWeatherDataChangeLayoutUpdater.getCurrentWeatherDataParser().getCountry();

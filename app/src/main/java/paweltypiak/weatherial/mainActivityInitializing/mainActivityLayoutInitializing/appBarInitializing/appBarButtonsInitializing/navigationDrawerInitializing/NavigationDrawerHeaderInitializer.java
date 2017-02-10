@@ -9,9 +9,9 @@ import android.widget.LinearLayout;
 import paweltypiak.weatherial.R;
 import paweltypiak.weatherial.usefulClasses.UsefulFunctions;
 
-public class NavigationDrawerHeaderInitializer {
+class NavigationDrawerHeaderInitializer {
 
-    public NavigationDrawerHeaderInitializer(Activity activity, NavigationView navigationView){
+    NavigationDrawerHeaderInitializer(Activity activity, NavigationView navigationView){
         View headerView=navigationView.getHeaderView(0);
         ImageView logoImageView=(ImageView)headerView.findViewById(R.id.navigation_drawer_header_logo_image);
         setLogoImageViewHeight(activity,logoImageView);

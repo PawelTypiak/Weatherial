@@ -1,10 +1,10 @@
 package paweltypiak.weatherial.mainActivityInitializing.mainActivityLayoutInitializing.appBarInitializing;
 
 import android.app.Activity;
+import android.view.View;
 import android.widget.TextView;
 import net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout;
 import paweltypiak.weatherial.R;
-import paweltypiak.weatherial.usefulClasses.UsefulFunctions;
 
 import static paweltypiak.weatherial.usefulClasses.UsefulFunctions.getFormattedString;
 
@@ -41,9 +41,9 @@ public class AppBarLayoutDataInitializer {
     }
 
     public void updateTimezone(String timezone){
-        UsefulFunctions.setViewGone(timezoneTextView);
+        timezoneTextView.setVisibility(View.GONE);
         timezoneTextView.setText(timezone);
-        UsefulFunctions.setViewVisible(timezoneTextView);
+        timezoneTextView.setVisibility(View.VISIBLE);
     }
 
     public void updateCurrentTime(CharSequence time){

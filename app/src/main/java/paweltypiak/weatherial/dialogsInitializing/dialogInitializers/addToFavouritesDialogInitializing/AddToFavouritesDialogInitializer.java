@@ -25,7 +25,7 @@ public class AddToFavouritesDialogInitializer {
         EditText[] editTextArray=initializeEditTexts(activity,dialogView);
         AlertDialog addToFavouritesDialog= buildAlertDialog(activity,dialogView);
         setDialogOnShowListener(activity,editTextArray,addToFavouritesDialog);
-        setDialogOnDissmissListener(activity,addToFavouritesDialog);
+        setDialogOnDismissListener(activity,addToFavouritesDialog);
         return addToFavouritesDialog;
     }
 
@@ -86,7 +86,7 @@ public class AddToFavouritesDialogInitializer {
         });
     }
 
-    private static void setDialogOnDissmissListener(final Activity activity,AlertDialog addToFavouritesDialog){
+    private static void setDialogOnDismissListener(final Activity activity, AlertDialog addToFavouritesDialog){
         addToFavouritesDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {

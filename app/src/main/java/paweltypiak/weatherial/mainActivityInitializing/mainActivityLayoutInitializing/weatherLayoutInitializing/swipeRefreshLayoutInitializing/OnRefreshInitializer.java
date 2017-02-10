@@ -48,7 +48,7 @@ public class OnRefreshInitializer implements SwipeRefreshLayout.OnRefreshListene
         downloadWeatherDataOnRefresh();
     }
 
-    public void downloadWeatherDataOnRefresh(){
+    private void downloadWeatherDataOnRefresh(){
         ((MainActivity)activity).
                 getMainActivityDataDownloader().
                 getWeatherDataDownloader().

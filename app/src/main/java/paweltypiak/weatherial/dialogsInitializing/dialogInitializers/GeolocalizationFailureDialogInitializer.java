@@ -85,14 +85,14 @@ public class GeolocalizationFailureDialogInitializer {
     }
 
     private static String getPositiveButtonText(Activity activity, int type){
-        String positiveButtontext=null;
+        String positiveButtonText=null;
         if(type==0){
-            positiveButtontext=activity.getString(R.string.geolocalization_failure_dialog_positive_button_type_0);
+            positiveButtonText=activity.getString(R.string.geolocalization_failure_dialog_positive_button_type_0);
         }
         else if(type==1){
-            positiveButtontext=activity.getString(R.string.geolocalization_failure_dialog_positive_button_type_1);
+            positiveButtonText=activity.getString(R.string.geolocalization_failure_dialog_positive_button_type_1);
         }
-        return positiveButtontext;
+        return positiveButtonText;
     }
 
     private static String getNegativeButtonText(Activity activity, int type){

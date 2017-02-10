@@ -7,9 +7,9 @@ import android.widget.LinearLayout;
 import paweltypiak.weatherial.R;
 import paweltypiak.weatherial.dialogsInitializing.dialogInitializers.yahooRedirectDialogInitializing.YahooRedirectDialogInitializer;
 
-public class YahooLogoButtonInitializer {
+class YahooLogoButtonInitializer {
 
-    public YahooLogoButtonInitializer(Activity activity){
+    YahooLogoButtonInitializer(Activity activity){
         setYahooLogoButtonOnClickListener(activity);
     }
 

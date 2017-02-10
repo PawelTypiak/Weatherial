@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import paweltypiak.weatherial.R;
 import paweltypiak.weatherial.usefulClasses.SharedPreferencesModifier;
 
@@ -43,10 +41,29 @@ public class IntroActivityUnitsFragment extends Fragment{
 
     private FirstLaunchSpinner initializeSpinner(int id){
         //initialize custom spinner
-        FirstLaunchSpinner spinner = (FirstLaunchSpinner) getActivity().findViewById(getActivity().getResources().getIdentifier("intro_activity_units_fragment_spinner_"+id, "id", getActivity().getPackageName()));
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity().getApplicationContext(),
+        FirstLaunchSpinner spinner
+                = (FirstLaunchSpinner) getActivity().findViewById(
+                getActivity().
+                        getResources().
+                        getIdentifier(
+                                "intro_activity_units_fragment_spinner_"+id,
+                                "id",
+                                getActivity().getPackageName()
+                        )
+        );
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
+                getActivity().getApplicationContext(),
                 R.layout.spinner_item,
-                getActivity().getResources().getStringArray(getActivity().getResources().getIdentifier("units_array_"+id, "array", getActivity().getPackageName())));
+                getActivity().
+                        getResources().
+                        getStringArray(
+                                getActivity().getResources().getIdentifier(
+                                        "units_array_"+id,
+                                        "array",
+                                        getActivity().getPackageName()
+                                )
+                        )
+        );
         arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         spinner.setAdapter(arrayAdapter);
         return spinner;
@@ -69,7 +86,6 @@ public class IntroActivityUnitsFragment extends Fragment{
                 spinner.performClick();
             }
         });
-
     }
 
     private void setSpinnerListener(final FirstLaunchSpinner spinner, final int id){
@@ -83,7 +99,6 @@ public class IntroActivityUnitsFragment extends Fragment{
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.d("units", "selected unit: "+spinner.getSelectedItem().toString());
                 units[id]=i;
                 SharedPreferencesModifier.setUnits(getActivity(),units);
                 unitTextView.setText(spinner.getSelectedItem().toString());

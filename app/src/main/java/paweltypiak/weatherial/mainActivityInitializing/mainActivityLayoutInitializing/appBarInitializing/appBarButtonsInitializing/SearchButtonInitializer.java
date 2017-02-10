@@ -7,9 +7,9 @@ import android.widget.ImageView;
 import paweltypiak.weatherial.R;
 import paweltypiak.weatherial.dialogsInitializing.dialogInitializers.searchDialogInitializing.SearchDialogInitializer;
 
-public class SearchButtonInitializer {
+class SearchButtonInitializer {
 
-    public SearchButtonInitializer(Activity activity){
+    SearchButtonInitializer(Activity activity){
         ImageView searchImageView =(ImageView) activity.findViewById(R.id.toolbar_layout_search_button_image);
         setSearchButtonOnClickListener(activity, searchImageView);
     }

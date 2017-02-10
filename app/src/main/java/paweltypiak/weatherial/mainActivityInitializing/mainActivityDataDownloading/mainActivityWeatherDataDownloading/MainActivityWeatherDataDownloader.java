@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import paweltypiak.weatherial.dialogsInitializing.dialogInitializers.InternetFailureDialogInitializer;
 import paweltypiak.weatherial.dialogsInitializing.dialogInitializers.NoWeatherResultsForLocationDialogInitializer;
-import paweltypiak.weatherial.jsonHandling.Channel;
+import paweltypiak.weatherial.dataDownloading.jsonHandling.weatherServiceTagTreeInitializing.Channel;
 import paweltypiak.weatherial.mainActivityInitializing.mainActivityDataDownloading.MainActivityDataDownloader;
 import paweltypiak.weatherial.mainActivityInitializing.mainActivityLayoutInitializing.MainActivityLayoutInitializer;
 import paweltypiak.weatherial.dataDownloading.weatherDataDownloading.WeatherDataDownloader;
