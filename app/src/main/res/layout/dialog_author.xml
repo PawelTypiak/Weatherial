@@ -1,105 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<!--
+  ~ Copyright 2017 Paweł Typiak
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+-->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/author_dialog_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/author_dialog_layout">
+    android:orientation="vertical"
+    >
     <RelativeLayout
+        android:layout_marginTop="@dimen/dialog_margin_top_size"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/dialog_margin_top_size">
+        android:layout_centerHorizontal="true">
         <LinearLayout
+            android:id="@+id/author_dialog_email_layout"
             android:layout_width="wrap_content"
-            android:layout_height="72dp"
+            android:layout_height="@dimen/author_dialog_list_item_height"
             android:paddingLeft="@dimen/dialog_margin_size"
             android:paddingRight="@dimen/dialog_margin_size"
-            android:id="@+id/author_dialog_mail_layout">
-            <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+            >
+            <FrameLayout
+                android:layout_width="@dimen/author_dialog_icons_background_size"
+                android:layout_height="@dimen/author_dialog_icons_background_size"
                 android:layout_gravity="center"
-                android:background="@drawable/circle_shape"
-                android:id="@+id/author_dialog_mail_image"/>
+                android:background="@drawable/blue_circle_background">
+                <ImageView
+                    android:id="@+id/author_dialog_email_image"
+                    android:layout_width="@dimen/author_dialog_icons_size"
+                    android:layout_height="@dimen/author_dialog_icons_size"
+                    android:layout_gravity="center"
+                    android:src="@drawable/email_icon"
+                    android:tint="@color/white"
+                    />
+            </FrameLayout>
             <LinearLayout
+                android:id="@+id/author_dialog_mail_text_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
                 android:layout_gravity="center"
                 android:orientation="vertical"
-                android:paddingLeft="16dp"
-                android:id="@+id/author_dialog_mail_text_layout">
-                <TextView
+                >
+                <paweltypiak.weatherial.customViews.RobotoMediumFontTextView
+                    android:id="@+id/author_dialog_mail_primary_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:textSize="@dimen/dialog_text_size"
                     android:text="@string/author_dialog_mail_address"
                     android:textColor="@color/textPrimaryLightBackground"
-                    android:id="@+id/author_dialog_mail_address_text"
+                    android:lines="1"
+                    android:ellipsize="end"
                     />
                 <TextView
+                    android:id="@+id/author_dialog_mail_secondary_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:textSize="@dimen/dialog_text_size"
                     android:text="@string/author_dialog_mail_description"
                     android:textColor="@color/textSecondaryLightBackground"
-                    android:id="@+id/author_dialog_mail_description_text"
                     />
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/author_dialog_github_layout"
             android:layout_width="wrap_content"
             android:layout_height="72dp"
             android:paddingLeft="@dimen/dialog_margin_size"
             android:paddingRight="@dimen/dialog_margin_size"
-            android:layout_below="@+id/author_dialog_mail_layout"
-            android:id="@+id/author_dialog_github_layout">
-            <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+            android:layout_below="@+id/author_dialog_email_layout"
+            >
+            <FrameLayout
+                android:layout_width="@dimen/author_dialog_icons_background_size"
+                android:layout_height="@dimen/author_dialog_icons_background_size"
                 android:layout_gravity="center"
-                android:background="@drawable/circle_shape"
-                android:id="@+id/author_dialog_github_image"/>
+                android:background="@drawable/blue_circle_background">
+                <ImageView
+                    android:id="@+id/author_dialog_github_image"
+                    android:layout_width="@dimen/author_dialog_icons_size"
+                    android:layout_height="@dimen/author_dialog_icons_size"
+                    android:layout_gravity="center"
+                    android:src="@drawable/github_icon"
+                    android:tint="@color/white"
+                    />
+            </FrameLayout>
             <LinearLayout
+                android:id="@+id/author_dialog_github_text_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
                 android:layout_gravity="center"
                 android:orientation="vertical"
-                android:paddingLeft="16dp"
-                android:id="@+id/author_dialog_github_text_layout">
-                <TextView
+                >
+                <paweltypiak.weatherial.customViews.RobotoMediumFontTextView
+                    android:id="@+id/author_dialog_github_address_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:textSize="@dimen/dialog_text_size"
                     android:text="@string/author_dialog_github"
                     android:textColor="@color/textPrimaryLightBackground"
-                    android:id="@+id/author_dialog_github_address_text"
+                    android:lines="1"
+                    android:ellipsize="end"
                     />
                 <TextView
+                    android:id="@+id/author_dialog_github_description_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:textSize="@dimen/dialog_text_size"
                     android:text="@string/author_dialog_github_description"
                     android:textColor="@color/textSecondaryLightBackground"
-                    android:id="@+id/author_dialog_github_description_text"
                     />
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
     <RelativeLayout
+        android:id="@+id/author_dialog_email_button_layout"
         android:layout_width="match_parent"
-        android:layout_height="72dp"
-        android:layout_marginTop="@dimen/dialog_margin_size"
-        android:background="?selectableItemBackground"
-        android:id="@+id/author_dialog_mail_button_layout">
+        android:layout_height="@dimen/author_dialog_list_item_height"
+        android:layout_marginTop="@dimen/dialog_margin_top_size"
+        android:background="?selectableItemBackground">
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="72dp"
-        android:layout_below="@+id/author_dialog_mail_button_layout"
+        android:layout_height="@dimen/author_dialog_list_item_height"
+        android:layout_below="@+id/author_dialog_email_button_layout"
         android:background="?selectableItemBackground"
         android:id="@+id/author_dialog_github_button_layout">
     </RelativeLayout>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2017 Paweł Typiak
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+-->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/intro_activity_language_fragment_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <LinearLayout
+        android:id="@+id/intro_activity_language_fragment_inner_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical"
+        >
+        <paweltypiak.weatherial.customViews.RobotoMediumFontTextView
+            android:id="@+id/intro_activity_language_fragment_header_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/intro_activity_fragment_header_bottom_margin"
+            android:textSize="@dimen/intro_activity_fragment_header_text_size"
+            android:text="@string/intro_activity_language_version_header"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/white"
+            />
+        <RadioGroup
+            android:id="@+id/intro_activity_language_fragment_radio_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            >
+            <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/intro_activity_language_fragment_english_radio_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/intro_activity_fragment_radio_button_bottom_margin"
+                app:buttonTint="@color/white"
+                android:text="@string/language_version_english"
+                android:textSize="@dimen/intro_activity_fragment_text_size"
+                android:textColor="@color/white"
+                />
+            <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/intro_activity_language_fragment_polish_radio_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/language_version_polish"
+                android:textSize="@dimen/intro_activity_fragment_text_size"
+                android:textColor="@color/white"
+                app:buttonTint="@color/white"
+                />
+        </RadioGroup>
+    </LinearLayout>
+</RelativeLayout>

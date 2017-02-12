@@ -15,4 +15,11 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
--keepnames class paweltypiak.matweather.settings.Settings$unitsSettingsFragment
+-keepnames class paweltypiak.matweather.settings.SettingsActivity$unitsSettingsFragment
+
+# OkHttp
+-keepattributes Signature
+-keepattributes *Annotation*
+-keep class com.squareup.okhttp.** { *; }
+-keep interface com.squareup.okhttp.** { *; }
+-dontwarn com.squareup.okhttp.**

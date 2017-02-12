@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <!-- Info Activity texts -->
+    <string name="info_activity_external_libraries_header">Biblioteki zewnętrzne</string>
+    <string name="info_activity_application_source_header">Licencja aplikacji</string>
+    <string name="info_activity_application_description">Witaj w <i><b>Weatherial</b></i> - prostej aplikacji pogodowej zaprojektowanej zgodnie z filozofią <i>Material Design</i>.</string>
+    <string name="info_activity_applicaton_source_repository_description">Aplikacja <i>Weatherial</i> jest projektem typu <i>Open Source</i>, a kod źródłowy jest dostępny pod adresem:</string>
+    <string name="info_activity_application_source_licence_description">Kod projektu jest dostępny na licencji <i>Apache 2.0</i>, której treść można przeczytać poniżej:</string>
+    <string name="info_activity_api_description">W aplikacji wykorzystano następujące API:</string>
+    <string name="info_activity_api_weather_subheader">Informacje pogodowe</string>
+    <string name="info_activity_api_geocoding_subheader">Informacje geolokalizacyjne</string>
+    <string name="info_activity_external_libraries_description">W aplikacji zostały wykorzystane następujące zewnętrzne biblioteki Open-Source:</string>
+    <string name="info_activity_external_libraries_licence_name"><u>Licencja <i>Apache 2.0</i> :</u></string>
     <!-- Dialog strings -->
     <string name="failure_dialog_title">Niepowodzenie!</string>
     <string name="service_failure_dialog_message">Brak odpowiedzi z serwera, prawdopodobnie wywołany chwilowym błędem serwisu. Spróbuj ponownie póżniej.</string>
@@ -13,31 +23,17 @@
     <string name="internet_failure_dialog_negative_button_type_1">Anuluj</string>
     <string name="yahoo_redirect_dialog_title">Przekierowanie</string>
     <string name="yahoo_redirect_dialog_message">Nastąpi przekierowanie na witrynę:</string>
-    <string name="yahoo_main_redirect_dialog_message_service_name">Yahoo.com</string>
-    <string name="yahoo_weather_redirect_dialog_message_service_name">Yahoo Weather</string>
     <string name="yahoo_redirect_dialog_positive_button">Kontynuuj</string>
     <string name="yahoo_redirect_dialog_negative_button">Anuluj</string>
     <string name="exit_dialog_title">Wyjście</string>
-    <string name="exit_dialog_message">Czy na pewno chcesz wyjsć z <b>MatWeather</b>?</string>
+    <string name="exit_dialog_message">Czy na pewno chcesz wyjsć z <b>Waatherial</b>?</string>
     <string name="exit_dialog_positive_button">Wyjdź</string>
     <string name="exit_dialog_negative_button">Anuluj</string>
-    <string name="about_dialog_header">Witaj w <b>MatWeather</b> - prostej aplikacji pogodowej zaprojektowanej zgodnie z filozofią <i>Material Design</i>.</string>
-    <string name="about_dialog_description_additional_information">Informacje dodatkowe:</string>
-    <string name="about_dialog_description_part1">informacje pogodowe: <b><a href="https://developer.yahoo.com/weather/">Yahoo Weather API</a></b></string>
-    <string name="about_dialog_description_part2">informacje o lokalizacji: <b><a href="https://developers.google.com/maps/">Google Maps API</a></b></string>
-    <string name="about_dialog_description_part3">ikony: <b><a href="http://www.flaticon.com/">Flaticon</a></b></string>
-    <string name="about_dialog_description_part4">repozytorium: <b><a href="https://github.com/PawelTypiak/MatWeather">GitHub</a></b></string>
-    <string name="about_dialog_negative_button">Cofnij</string>
     <string name="feedback_dialog_title">Prześlij opinię</string>
     <string name="feedback_dialog_message">Jeśli masz jakieś pytanie, bądź chcesz wyrazić opinię, wyślij wiadomość na adres:</string>
-    <string name="feedback_dialog_mail">pawel.p.typiak@gmail.com</string>
     <string name="feedback_dialog_positive_button">Wyślij wiadomość</string>
     <string name="feedback_dialog_negative_button">Anuluj</string>
     <string name="author_dialog_title">Autor</string>
-    <string name="author_dialog_mail_address">pawel.p.typiak@gmail.com</string>
-    <string name="author_dialog_mail_description">E-mail</string>
-    <string name="author_dialog_github">github.com/PawelTypiak</string>
-    <string name="author_dialog_github_description">GitHub</string>
     <string name="author_dialog_negative_button">Cofnij</string>
     <string name="no_email_application_dialog_title">Brak aplikacji!</string>
     <string name="no_email_application_dialog_message">Niestety nie wykryto aplikacji służącej do wysyłania wiadomości E-mail. Czy chcesz skopiować adres <b>pawel.p.typiak@gmail.com</b> do schowka?</string>
@@ -59,7 +55,7 @@
     <string name="weather_results_for_location_dialog_negative_button_type_1">Anuluj</string>
     <string name="weather_results_for_location_dialog_neutral_button">Zmień lokację</string>
     <string name="weather_results_for_location_dialog_positive_button">Kontynuuj</string>
-    <string name="first_launch_localization_results_dialog_negative_button_type_0">Wyjdź</string>
+    <string name="weather_results_for_location_dialog_negative_button_type_0">Wyjdź</string>
     <string name="permission_denied_dialog_title">Odmowa dostępu</string>
     <string name="permission_denied_dialog_positive_button_type_0">Zmień lokację</string>
     <string name="permission_denied_dialog_negative_button_type_0">Wyjdź</string>
@@ -95,96 +91,67 @@
     <string name="network_unavailable_dialog_title">Sieć niedostępna</string>
     <string name="network_unavailable_dialog_message">Nastąpi wyszukanie lokalizacji za pomocą GPS.</string>
     <string name="network_unavailable_dialog_positive_button">Ok</string>
-    <string name="favourites_dialog_title">Ulubione</string>
-    <string name="favourites_dialog_first_launch_title">Wybierz lokację</string>
+    <string name="favourites_dialog_title_type_1">Ulubione</string>
+    <string name="favourites_dialog_title_type_0">Wybierz lokację</string>
     <string name="favourites_dialog_positive_button">Wybierz</string>
     <string name="favourites_dialog_neutral_button">Inna lokacja</string>
     <string name="favourites_dialog_negative_button_type_0">Wyjdź</string>
     <string name="favourites_dialog_negative_button_type_1">Anuluj</string>
     <string name="favourites_dialog_geolocalization_option">Bieżąca lokacja</string>
-    <string name="no_favourites_dialog_title">Brak ulubionych</string>
-    <string name="no_favourites_dialog_positive_button">Ok</string>
+    <string name="no_favourites_available_dialog_title">Brak ulubionych</string>
+    <string name="no_favourites_available_dialog_positive_button">Ok</string>
     <string name="no_favourites_dialog_message">Nie masz żadnych zapisanych lokacji.</string>
     <string name="geolocalization_methods_dialog_title">Metoda geolokalizacji</string>
     <string name="geolocalization_methods_dialog_message">Wybierz metodę geolokalizacji:</string>
     <string name="geolocalization_methods_dialog_positive_button">Kontynuuj</string>
-
+    <string name="rate_dialog_title">Oceń aplikację</string>
+    <string name="rate_dialog_message">Podoba ci się moja aplikacja? Oceń ją w <i>Google Play</i>, ponieważ twoja opinia ma dla mnie duże znaczenie. Nie zajmie ci to więcej niż kilka sekund. Dzięki za wsparcie!</string>
+    <string name="rate_dialog_positive_button">Oceń</string>
+    <string name="rate_dialog_negative_button">Anuluj</string>
     <!-- First launch layout strings-->
-    <string name="first_launch_button_start_text">ROZPOCZNIJ</string>
-    <string name="first_launch_button_continue_text">KONTYNUUJ</string>
-    <string name="first_launch_language_version_header">Wybierz wersję językową:</string>
+    <string name="intro_activity_next_button_start_text">ROZPOCZNIJ</string>
+    <string name="intro_activity_next_button_continue_text">KONTYNUUJ</string>
+    <string name="intro_activity_language_version_header">Wybierz wersję językową:</string>
     <string name="language_version_english">Język angielski</string>
     <string name="language_version_polish">Język polski</string>
-    <string name="first_launch_units_header">Wybierz system jednostek:</string>
-    <string-array name="units_array_0">
-        <item>\u2103</item>
-        <item>\u2109</item>
-    </string-array>
-    <string-array name="units_array_1">
-        <item>km/h</item>
-        <item>mi/h</item>
-    </string-array>
-    <string-array name="units_array_2">
-        <item>km</item>
-        <item>mi</item>
-    </string-array>
-    <string-array name="units_array_3">
-        <item>hPa</item>
-        <item>mmHg</item>
-    </string-array>
-    <string-array name="units_array_4">
-        <item>24h</item>
-        <item>12h</item>
-    </string-array>
-    <string name="first_launch_location_header">Wybierz domyślną lokację:</string>
-    <string name="first_launch_defeault_location_current">Bieżąca lokacja</string>
-    <string name="first_launch_defeault_location_different">Inna lokacja</string>
-    <string name="first_launch_geolocalization_header">Wybierz metodę geolokalizacji:</string>
+    <string name="intro_activity_units_header">Wybierz system jednostek:</string>
+    <string name="intro_activity_location_header">Wybierz domyślną lokację:</string>
+    <string name="intro_activity_default_location_current">Bieżąca lokacja</string>
+    <string name="intro_activity_default_location_different">Inna lokacja</string>
+    <string name="intro_activity_geolocalization_header">Wybierz metodę geolokalizacji:</string>
     <string name="geolocalization_method_gps">GPS (dokładna)</string>
     <string name="geolocalization_method_network">Sieć (szybka)</string>
-
     <!-- Content Layout headers-->
     <string name="details_header">SZCZEGÓŁY</string>
     <string name="forecast_header">PROGNOZA</string>
-
     <!-- progress info messages-->
-    <string name="searching_location_progress_message">Wyszukiwanie lokacji...</string>
+    <string name="retrieving_location_progress_message">Wyszukiwanie lokacji...</string>
     <string name="waiting_for_localization_progress_message">Oczekiwanie na lokalizację...</string>
-    <string name="looking_for_address_progress_message">Wyszukiwanie adresu...</string>
+    <string name="retrieving_address_progress_message">Wyszukiwanie adresu...</string>
     <string name="downloading_weather_data_progress_message">Pobieranie informacji pogodowych...</string>
     <string name="loading_content_progress_message">Ładowanie zawartości...</string>
     <string name="refreshing_progress_message">ODŚWIEŻANIE...</string>
-    <string name="refresh_message_pull_to_refresh">Pociągnij, żeby odświeżyć</string>
-
     <!-- Clipboard texts-->
-    <string name="clipboard_mail_feedback_title">MatWeather - feedback</string>
-
-    <!-- Addresses & URLs-->
-    <string name="mail_address">pawel.p.typiak@gmail.com</string>
-    <string name="github_address">https://github.com/PawelTypiak?tab=repositories</string>
-    <string name="yahoo_address">https://www.yahoo.com/?ilc=401</string>
-    <string name="yahoo_weather_address">https://www.yahoo.com/news/weather/poland/greater-poland/poznan-514048</string>
-
+    <string name="clipboard_feedback_mail_subject">Weatherial - opinia</string>
     <!-- Toast messages-->
-    <string name="clipboard_toast_message">Skopiowano adres E-mail</string>
-
+    <string name="feedback_dialog_clipboard_toast_message">Skopiowano adres E-mail</string>
+    <string name="info_activity_clipboard_toast_message">Skopiowano adres do schowka</string>
     <!-- Options in navigation drawer -->
     <string name="nav_drawer_locations_group_item">Lokacje</string>
     <string name="nav_drawer_others_group_item">Inne</string>
     <string name="nav_drawer_geolocalization">Geolokalizacja</string>
     <string name="nav_drawer_favourites">Ulubione</string>
-    <string name="nav_drawer_search">Szukaj</string>
     <string name="nav_drawer_settings">Ustawienia</string>
     <string name="nav_drawer_feedback">Prześlij opinię</string>
     <string name="nav_drawer_about">O aplikacji</string>
     <string name="nav_drawer_author">Autor</string>
-
     <!-- Preferences -->
     <string name="preferences_dialog_positive_button">Wybierz</string>
     <string name="preferences_dialog_negative_button">Anuluj</string>
-    <string name="preferences_defeault_location_title">Lokacja domyślna</string>
+    <string name="preferences_default_location_title">Lokacja domyślna</string>
     <string name="preferences_geolocalization_method_title">Metoda geolokalizacji</string>
-    <string name="preferences_geolocalization_method_defeault_summary">Wybierz metodę geolokalizacji</string>
+    <string name="preferences_geolocalization_method_default_summary">Wybierz metodę geolokalizacji</string>
+    <string name="preferences_language_version_title">Wersja językowa</string>
     <string name="preferences_units_title">Jednostki</string>
     <string name="preferences_units_summary">Wybierz system jednostek</string>
     <string name="preferences_units_temperature_title">Temperatura powietrza</string>
@@ -199,13 +166,7 @@
         <item>Ciśnienie atmosferyczne</item>
         <item>Format czasu</item>
     </string-array>
-    <string name="preferences_language_version_title">Wersja językowa</string>
-
     <!-- Weather strings -->
-    <string name="weather_title">Pogoda</string>
-    <string name="weather_chill">Odczuwalna</string>
-    <string name="weather_tomorrow_name">Jutro</string>
-
     <string name="condition_0">Tornado</string>
     <string name="condition_1">Burza tropikalna</string>
     <string name="condition_2">Huragan</string>

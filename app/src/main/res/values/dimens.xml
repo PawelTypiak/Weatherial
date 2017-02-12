@@ -1,22 +1,4 @@
 <resources>
-    <dimen name="nav_header_vertical_spacing">16dp</dimen>
-    <dimen name="nav_header_height">160dp</dimen>
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
-
-    <dimen name="dialog_text_size">16dp</dimen>
-    <dimen name="dialog_margin_size">24dp</dimen>
-    <dimen name="dialog_margin_top_size">24dp</dimen>
-    <dimen name="first_activities_button_text_size">30dp</dimen>
-    <dimen name="action_bar_icon_size">40dp</dimen>
-    <dimen name="first_launch_configuration_title_text_size">20dp</dimen>
-    <dimen name="first_launch_configuration_text_size">18dp</dimen>
-    <dimen name="first_launch_units_dropdown_item_width">80dp</dimen>
-    <dimen name="first_launch_units_image_padding">24dp</dimen>
-    <dimen name="locations_list_text_size">16dp</dimen>
-    <dimen name="dialog_icon_padding_size">24dp</dimen>
-    <dimen name="units_icon_padding_size">48dp</dimen>
-
     <!-- margins & padding -->
     <dimen name="activity_very_small_margin">4dp</dimen>
     <dimen name="activity_small_margin">8dp</dimen>
@@ -28,7 +10,19 @@
     <dimen name="yahoo_logo_padding">4dp</dimen>
     <dimen name="toolbar_icons_padding">16dp</dimen>
     <dimen name="floating_action_button_margin">16dp</dimen>
-
+    <dimen name="floating_action_button_pre_lollipop_margin">4dp</dimen>
+    <dimen name="radio_button_bottom_margin">16dp</dimen>
+    <dimen name="intro_activity_button_vertical_padding">10dp</dimen>
+    <dimen name="intro_activity_button_left_padding">16dp</dimen>
+    <dimen name="intro_activity_button_right_padding">10dp</dimen>
+    <dimen name="intro_activity_button_textview_right_margin">12dp</dimen>
+    <dimen name="intro_activity_fragment_header_bottom_margin">16dp</dimen>
+    <dimen name="intro_activity_fragment_radio_button_bottom_margin">8dp</dimen>
+    <dimen name="intro_activity_units_fragment_icons_bottom_margin">8dp</dimen>
+    <dimen name="intro_activity_units_fragment_unit_bottom_margin">4dp</dimen>
+    <dimen name="intro_activity_button_vertical_margin">32dp</dimen>
+    <dimen name="intro_activity_settings_fragment_top_margin">32dp</dimen>
+    <dimen name="intro_activity_lading_fragment_header_bottom_margin">32dp</dimen>
     <dimen name="toolbar_expanded_title_top_padding">40dp</dimen>
     <dimen name="collapsed_toolbar_right_margin">78dp</dimen>
     <dimen name="additional_conditions_icons_bottom_margin">8dp</dimen>
@@ -40,6 +34,23 @@
     <dimen name="sun_path_progress_bar_progress_icon_margin">8dp</dimen>
     <dimen name="toolbar_clickable_view_horizontal_padding">16dp</dimen>
     <dimen name="on_refresh_message_layout_top_margin">32dp</dimen>
+    <dimen name="info_activity_logo_horizontal_margin">56dp</dimen>
+    <dimen name="info_activity_logo_vertical_margin">16dp</dimen>
+    <dimen name="info_activity_logo_top_margin">32dp</dimen>
+    <dimen name="divider_top_bottom_margin">8dp</dimen>
+    <dimen name="info_activity_web_links_left_margin">12dp</dimen>
+    <dimen name="main_activity_sublayout_horizontal_margin">16dp</dimen>
+    <dimen name="main_activity_sublayout_vertical_margin">24dp</dimen>
+    <dimen name="main_activity_subheader_bottom_margin">24dp</dimen>
+
+    <dimen name="dialog_margin_size">24dp</dimen>
+    <dimen name="dialog_margin_top_size">20dp</dimen>
+    <dimen name="progress_dialog_vertical_margin">32dp</dimen>
+    <dimen name="edit_location_dialog_location_title_bottom_margin">-4dp</dimen>
+    <dimen name="edit_location_dialog_location_subtitle_bottom_margin">4dp</dimen>
+    <dimen name="preferences_icon_padding">8dp</dimen>
+
+
 
     <!-- other sizes -->
     <dimen name="toolbar_collapsed_height">56dp</dimen>
@@ -48,24 +59,35 @@
     <dimen name="divider_size">1dp</dimen>
     <dimen name="scrollbar_size">3dp</dimen>
     <dimen name="forecast_stepper_size">2dp</dimen>
-    <dimen name="dialog_loading_progress_bar_size">48dp</dimen>
-    <dimen name="intro_loading_progress_bar_size">56dp</dimen>
+    <dimen name="progress_dialog_progress_bar_size">48dp</dimen>
+    <dimen name="intro_loading_progress_bar_size">64dp</dimen>
     <dimen name="sun_path_progress_bar_view_size">2dp</dimen>
     <dimen name="swipe_refresh_layout_offset">56dp</dimen>
+    <dimen name="cardview_corner_radius">3dp</dimen>
+    <dimen name="author_dialog_list_item_height">72dp</dimen>
+    <dimen name="intro_activity_settings_fragment_height">144dp</dimen>
 
     <!-- image sizes -->
     <dimen name="yahoo_logo_image_width">134px</dimen>
     <dimen name="yahoo_logo_image_height">29px</dimen>
     <dimen name="toolbar_icons_size">56dp</dimen>
     <dimen name="see_more_icon_size">24dp</dimen>
-    <dimen name="additional_conditions_icons_size">56dp</dimen>
+    <dimen name="additional_conditions_icons_size">40dp</dimen>
     <dimen name="sun_path_arrow_icon_size">18dp</dimen>
     <dimen name="sun_path_progress_bar_boundary_size">8dp</dimen>
     <dimen name="sun_path_progress_icon_size">32dp</dimen>
     <dimen name="forecast_condition_icon_size">64dp</dimen>
     <dimen name="forecast_max_min_temperature_image_size">12dp</dimen>
+    <dimen name="info_activity_icons_size">24dp</dimen>
+    <dimen name="author_dialog_icons_size">24dp</dimen>
+    <dimen name="author_dialog_icons_background_size">40dp</dimen>
+    <dimen name="intro_activity_button_arrow_icon_size">24dp</dimen>
+    <dimen name="intro_activity_units_fragment_icons_size">48dp</dimen>
+    <dimen name="intro_activity_units_fragment_spinner_arrow_icon_height">8dp</dimen>
+
 
     <!-- text sizes -->
+    <dimen name="dialog_text_size">16dp</dimen>
     <dimen name="toolbar_expanded_title_text_size">45dp</dimen>
     <dimen name="toolbar_collapsed_title_text_size">26dp</dimen>
     <dimen name="toolbar_time_layout_current_time_text_size">14dp</dimen>
@@ -79,5 +101,10 @@
     <dimen name="forecast_day_condition_text_size">20dp</dimen>
     <dimen name="forecast_max_min_temperature_text_size">14dp</dimen>
     <dimen name="on_refresh_message_text_size">16dp</dimen>
+    <dimen name="info_activity_description_text_size">14dp</dimen>
+    <dimen name="version_text_size">16dp</dimen>
+    <dimen name="intro_activity_button_text_size">24dp</dimen>
+    <dimen name="intro_activity_fragment_header_text_size">20dp</dimen>
+    <dimen name="intro_activity_fragment_text_size">18dp</dimen>
 
 </resources>

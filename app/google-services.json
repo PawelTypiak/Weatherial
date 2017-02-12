@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "696850672636",
+    "firebase_url": "https://weatherial.firebaseio.com",
+    "project_id": "weatherial",
+    "storage_bucket": "weatherial.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:696850672636:android:746a6813ad1fa316",
+        "android_client_info": {
+          "package_name": "paweltypiak.weatherial"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "696850672636-ng3lrc94961u9jshuj3uen0uejdbln7m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsa_CL1tehil4QlJ9ccTWVnWFnUyUhTE0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "696850672636-ng3lrc94961u9jshuj3uen0uejdbln7m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
