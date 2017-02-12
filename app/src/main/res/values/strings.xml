@@ -95,7 +95,7 @@
     <string name="permission_denied_dialog_negative_button_type_0">Exit</string>
     <string name="permission_denied_dialog_negative_button_type_1">Cancel</string>
     <string name="permission_denied_dialog_positive_button_type_1">Try again</string>
-    <string name="permission_denied_dialog_message">No permission for geolocalization!</string>
+    <string name="permission_denied_dialog_message">No permission to geolocalization!</string>
     <string name="geolocalization_failure_dialog_positive_button_type_0">Change location</string>
     <string name="geolocalization_failure_dialog_negative_button_type_0">Exit</string>
     <string name="geolocalization_failure_dialog_positive_button_type_1">Refresh</string>
@@ -146,7 +146,7 @@
     <string name="info_activity_api_header" translatable="false">API</string>
     <string name="info_activity_external_libraries_header">External libraries</string>
     <string name="info_activity_application_source_header">Application license</string>
-    <string name="info_activity_application_description">Welcome to <i><b>Weatherial</b></i> - simple weather application created according to <i>Material Design</i> philosophy.</string>
+    <string name="info_activity_application_description">Welcome to <i><b>Weatherial</b></i> - simple weather application inspired by <i>Material Design</i></string>
     <string name="info_activity_applicaton_source_repository_description"><i>Weatherial</i> is an <i>Open Source</i> project. You can find its repository below:</string>
     <string name="info_activity_application_source_repository_header" translatable="false">github.com/PawelTypiak/Weatherial</string>
     <string name="info_activity_application_source_licence_description">Application is licensed under <i>Apache 2.0</i> license. You can read more about the terms of this license below:</string>
@@ -162,8 +162,8 @@
     <string name="info_activity_external_libraries_smooth_app_bar_name" translatable="false"><i>smooth-app-bar-layout</i></string>
     <string name="info_activity_external_libraries_multiline_collapsingtoolbar_name" translatable="false"><i>multiline-collapsingtoolbar</i></string>
     <!-- Intro activity layout strings-->
-    <string name="intro_activity_button_start_text">GET STARTED</string>
-    <string name="intro_activity_button_continue_text">CONTINUE</string>
+    <string name="intro_activity_next_button_start_text">GET STARTED</string>
+    <string name="intro_activity_next_button_continue_text">CONTINUE</string>
     <string name="intro_activity_language_version_header">Select language version:</string>
     <string name="language_version_english">English</string>
     <string name="language_version_polish">Polish</string>
@@ -194,9 +194,9 @@
     <string name="details_header">DETAILS</string>
     <string name="forecast_header">FORECAST</string>
     <!-- progress info messages-->
-    <string name="searching_location_progress_message">Retrieving location...</string>
+    <string name="retrieving_location_progress_message">Retrieving location...</string>
     <string name="waiting_for_localization_progress_message">Waiting for geolocalization...</string>
-    <string name="looking_for_address_progress_message">Retrieving address...</string>
+    <string name="retrieving_address_progress_message">Retrieving address...</string>
     <string name="downloading_weather_data_progress_message">Downloading weather information...</string>
     <string name="loading_content_progress_message">Loading content...</string>
     <string name="refreshing_progress_message">REFRESHING...</string>
@@ -244,7 +244,6 @@
     <string-array name="preferences_units_names_array">
         <item>Temperature</item>
         <item>Wind speed</item>
-        <item>Field of vision</item>
         <item>Atmospheric pressure</item>
         <item>Time format</item>
     </string-array>

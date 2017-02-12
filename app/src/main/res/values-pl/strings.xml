@@ -109,8 +109,8 @@
     <string name="rate_dialog_positive_button">Oceń</string>
     <string name="rate_dialog_negative_button">Anuluj</string>
     <!-- First launch layout strings-->
-    <string name="intro_activity_button_start_text">ROZPOCZNIJ</string>
-    <string name="intro_activity_button_continue_text">KONTYNUUJ</string>
+    <string name="intro_activity_next_button_start_text">ROZPOCZNIJ</string>
+    <string name="intro_activity_next_button_continue_text">KONTYNUUJ</string>
     <string name="intro_activity_language_version_header">Wybierz wersję językową:</string>
     <string name="language_version_english">Język angielski</string>
     <string name="language_version_polish">Język polski</string>
@@ -125,9 +125,9 @@
     <string name="details_header">SZCZEGÓŁY</string>
     <string name="forecast_header">PROGNOZA</string>
     <!-- progress info messages-->
-    <string name="searching_location_progress_message">Wyszukiwanie lokacji...</string>
+    <string name="retrieving_location_progress_message">Wyszukiwanie lokacji...</string>
     <string name="waiting_for_localization_progress_message">Oczekiwanie na lokalizację...</string>
-    <string name="looking_for_address_progress_message">Wyszukiwanie adresu...</string>
+    <string name="retrieving_address_progress_message">Wyszukiwanie adresu...</string>
     <string name="downloading_weather_data_progress_message">Pobieranie informacji pogodowych...</string>
     <string name="loading_content_progress_message">Ładowanie zawartości...</string>
     <string name="refreshing_progress_message">ODŚWIEŻANIE...</string>

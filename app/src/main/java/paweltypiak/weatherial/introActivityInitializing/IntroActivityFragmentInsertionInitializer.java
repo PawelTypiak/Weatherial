@@ -1,3 +1,18 @@
+/*******************************************************************************
+ * Copyright 2017 Paweł Typiak
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *******************************************************************************/
 package paweltypiak.weatherial.introActivityInitializing;
 
 import android.app.Activity;
@@ -20,6 +35,7 @@ public class IntroActivityFragmentInsertionInitializer {
     private FragmentManager fragmentManager;
     private FragmentManager childFragmentManager;
     private IntroActivityConfigurationFragment configurationFragment;
+    private boolean isLoadingFragmentInserted=false;
 
     public IntroActivityFragmentInsertionInitializer(boolean isFirstLaunch){
         this.isFirstLaunch=isFirstLaunch;
@@ -81,6 +97,7 @@ public class IntroActivityFragmentInsertionInitializer {
                 defaultLocationFragment,
                 activity.getString(R.string.intro_activity_default_location_fragment_tag)
         );
+        isLoadingFragmentInserted=false;
     }
 
     public void insertGeolocalizationMethodsFragment(Activity activity) {
@@ -113,6 +130,7 @@ public class IntroActivityFragmentInsertionInitializer {
                 loadingFragment,
                 activity.getString(R.string.intro_activity_loading_fragment_tag)
         );
+        isLoadingFragmentInserted=true;
     }
 
     private void insertSettingsFragment(android.support.v4.app.Fragment settingsFragment, String tag) {
@@ -134,7 +152,11 @@ public class IntroActivityFragmentInsertionInitializer {
         return childFragment;
     }
 
-    public IntroActivityConfigurationFragment getConfigurationFragment() {
+    IntroActivityConfigurationFragment getConfigurationFragment() {
         return configurationFragment;
+    }
+
+    boolean isLoadingFragmentInserted() {
+        return isLoadingFragmentInserted;
     }
 }

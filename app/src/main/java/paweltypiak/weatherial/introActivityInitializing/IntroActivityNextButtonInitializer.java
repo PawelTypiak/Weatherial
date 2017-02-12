@@ -1,3 +1,18 @@
+/*******************************************************************************
+ * Copyright 2017 Paweł Typiak
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *******************************************************************************/
 package paweltypiak.weatherial.introActivityInitializing;
 
 import android.animation.Animator;
@@ -12,10 +27,11 @@ import paweltypiak.weatherial.R;
 public class IntroActivityNextButtonInitializer {
 
     private CardView nextButton;
+    private TextView nextButtonTextView;
     private int step;
     private IntroActivityFragmentInsertionInitializer fragmentInsertionInitializer;
 
-    public IntroActivityNextButtonInitializer(Activity activity,
+    IntroActivityNextButtonInitializer(Activity activity,
                                               IntroActivityFragmentInsertionInitializer fragmentInsertionInitializer){
         findNextButton(activity);
         this.fragmentInsertionInitializer=fragmentInsertionInitializer;
@@ -28,7 +44,7 @@ public class IntroActivityNextButtonInitializer {
     void setStartButton(Activity activity,boolean isFirstLaunch){
         if(isFirstLaunch ==true){
             //next button usable when first launch
-            setStartButtonOnClickListener(activity);
+            initializeStartButton(activity);
         }
         else{
             //next button invisible when next launch
@@ -36,19 +52,14 @@ public class IntroActivityNextButtonInitializer {
         }
     }
 
-    private void setStartButtonOnClickListener(final Activity activity){
-        setButtonText(activity);
+    private void initializeStartButton(final Activity activity){
+        setNextButtonText(activity,activity.getResources().getString(R.string.intro_activity_next_button_start_text));
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setNextStep(activity);
             }
         });
-    }
-
-    private void setButtonText(Activity activity){
-        TextView buttonTextView=(TextView)activity.findViewById(R.id.intro_activity_button_text);
-        buttonTextView.setText(activity.getString(R.string.intro_activity_button_continue_text));
     }
 
     private void setNextStep(Activity activity){
@@ -75,10 +86,12 @@ public class IntroActivityNextButtonInitializer {
     }
 
     private void initializeConfigurationFragment(final Activity activity){
-        final FrameLayout startFragmentLayout
+        setStartButtonDisabled();
+        setNextButtonText(activity,activity.getString(R.string.intro_activity_next_button_continue_text));
+        final FrameLayout fragmentPlaceholderLayout
                 =(FrameLayout)activity.findViewById(R.id.intro_activity_main_fragment_placeholder);
         long transitionTime=200;
-        startFragmentLayout.animate()
+        fragmentPlaceholderLayout.animate()
                 .alpha(0f)
                 .setDuration(transitionTime)
                 .setListener(new AnimatorListenerAdapter() {
@@ -87,7 +100,13 @@ public class IntroActivityNextButtonInitializer {
                         fragmentInsertionInitializer.insertConfigurationFragment(activity);
                     }
                 });
-        setStartButtonDisabled();
+    }
+
+    private void setNextButtonText(Activity activity, String text){
+        if(nextButtonTextView==null){
+            nextButtonTextView=(TextView)activity.findViewById(R.id.intro_activity_button_text);
+        }
+        nextButtonTextView.setText(text);
     }
 
     private void insertUnitsFragment(Activity activity){
@@ -99,13 +118,12 @@ public class IntroActivityNextButtonInitializer {
     }
 
     private void initializeLoadingLocation(){
-
         fragmentInsertionInitializer.
                 getConfigurationFragment().
                 initializeLoadingLocation();
     }
 
-    public void setNextButtonVisible(){
+    void setNextButtonVisible(){
         nextButton.setVisibility(View.VISIBLE);
     }
 
@@ -119,10 +137,6 @@ public class IntroActivityNextButtonInitializer {
 
     void setStartButtonEnabled(){
         nextButton.setClickable(true);
-    }
-
-    int getStep() {
-        return step;
     }
 
     void setStep(int step) {

@@ -1,3 +1,18 @@
+/*******************************************************************************
+ * Copyright 2017 Paweł Typiak
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *******************************************************************************/
 package paweltypiak.weatherial.introActivityInitializing;
 
 import android.os.Handler;
@@ -11,7 +26,7 @@ import paweltypiak.weatherial.dialogsInitializing.dialogInitializers.exitDialogI
 import paweltypiak.weatherial.R;
 import paweltypiak.weatherial.introActivityInitializing.introActivityFragmentInitializing.introActivityConfigurationFragmentInitializing.OnSettingsFragmentViewCreatedListener;
 import paweltypiak.weatherial.introActivityInitializing.introActivityFragmentInitializing.introActivityLocationFragmentInitializing.ShowLocationFragmentAgainListener;
-import paweltypiak.weatherial.usefulClasses.SharedPreferencesModifier;
+import paweltypiak.weatherial.utils.SharedPreferencesModifier;
 
 public class IntroActivity
         extends AppCompatActivity
@@ -75,7 +90,7 @@ public class IntroActivity
     }
 
     @Override
-    public void showLocationFragmentAgain(){
+    public void showDefaultLocationFragmentAgain(){
         nextButtonInitializer.setNextButtonVisible();
         nextButtonInitializer.setStep(3);
         fragmentInsertionInitializer.insertDefaultLocationFragment(this);
@@ -107,22 +122,12 @@ public class IntroActivity
 
     private void initializeExitDialogShowing(){
         if(isFirstLaunch ==true){
-            if(exitDialog==null){
-                exitDialog= ExitDialogInitializer.getExitDialog(this,1,null);
-            }
-            int step=nextButtonInitializer.getStep();
-            if(step>3){
-                int locationOption= getSelectedDefaultLocationOption();
-                if(locationOption==1&&step==4) exitDialog.show();
-            }
-            else {
+            if(!fragmentInsertionInitializer.isLoadingFragmentInserted()==true){
+                if(exitDialog==null){
+                    exitDialog= ExitDialogInitializer.getExitDialog(this,1,null);
+                }
                 exitDialog.show();
             }
         }
-    }
-
-    private int getSelectedDefaultLocationOption(){
-        return fragmentInsertionInitializer.
-                getConfigurationFragment().getSelectedDefaultLocationOption();
     }
 }

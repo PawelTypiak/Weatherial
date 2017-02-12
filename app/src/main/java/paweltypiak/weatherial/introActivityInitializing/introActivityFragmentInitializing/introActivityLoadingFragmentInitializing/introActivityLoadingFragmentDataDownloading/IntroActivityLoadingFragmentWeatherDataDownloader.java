@@ -1,3 +1,18 @@
+/*******************************************************************************
+ * Copyright 2017 Paweł Typiak
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *******************************************************************************/
 package paweltypiak.weatherial.introActivityInitializing.introActivityFragmentInitializing.introActivityLoadingFragmentInitializing.introActivityLoadingFragmentDataDownloading;
 
 import android.app.Activity;
@@ -9,7 +24,7 @@ import paweltypiak.weatherial.introActivityInitializing.introActivityFragmentIni
 import paweltypiak.weatherial.introActivityInitializing.introActivityFragmentInitializing.introActivityLoadingFragmentInitializing.introActivityLoadingFragmentDataDownloading.introActivityLoadingFragmentDialogInitializing.IntroActivityLoadingFragmentWeatherResultsForLocationDialogInitializer;
 import paweltypiak.weatherial.introActivityInitializing.introActivityFragmentInitializing.introActivityLoadingFragmentInitializing.introActivityLoadingFragmentDataDownloading.introActivityLoadingFragmentDialogInitializing.IntroActivityLoadingFragmentWeatherServiceFailureDialogInitializer;
 import paweltypiak.weatherial.dataDownloading.jsonHandling.weatherServiceTagTreeInitializing.Channel;
-import paweltypiak.weatherial.usefulClasses.SharedPreferencesModifier;
+import paweltypiak.weatherial.utils.SharedPreferencesModifier;
 import paweltypiak.weatherial.dataDownloading.weatherDataDownloading.WeatherDataDownloader;
 import paweltypiak.weatherial.dataDownloading.weatherDataDownloading.WeatherDataParser;
 import paweltypiak.weatherial.dataDownloading.weatherDataDownloading.WeatherDownloadCallback;
@@ -56,7 +71,7 @@ public class IntroActivityLoadingFragmentWeatherDataDownloader implements Weathe
     public void downloadWeatherData(String location){
         TextView messageTextView=dataDownloader.getMessageTextView();
         if(dataDownloader.isFirstLaunch()&& dataDownloader.getSelectedDefaultLocationOption() ==1) {
-            messageTextView.setText(activity.getString(R.string.searching_location_progress_message));
+            messageTextView.setText(activity.getString(R.string.retrieving_location_progress_message));
         }
         else messageTextView.setText(activity.getString(R.string.downloading_weather_data_progress_message));
         dataDownloader.setLoadingViewsVisibility(true);

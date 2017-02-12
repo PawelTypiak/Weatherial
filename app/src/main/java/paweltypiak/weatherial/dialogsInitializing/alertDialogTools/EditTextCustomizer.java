@@ -1,3 +1,18 @@
+/*******************************************************************************
+ * Copyright 2017 Paweł Typiak
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *******************************************************************************/
 package paweltypiak.weatherial.dialogsInitializing.alertDialogTools;
 
 import android.app.Activity;
@@ -6,28 +21,20 @@ import android.graphics.PorterDuff;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import paweltypiak.weatherial.R;
-import paweltypiak.weatherial.usefulClasses.UsefulFunctions;
+import paweltypiak.weatherial.utils.UsefulFunctions;
 
 public class EditTextCustomizer {
 
     public static void customizeEditText(final Activity activity, final AlertDialog alertDialog, final EditText editText){
-        updateLayoutOnAlertDialogShow(activity,alertDialog,editText);
         setEditTextOnFocusChangeListener(activity,editText);
         addEditTextTextChangedListener(activity,alertDialog,editText);
         setEditTextOnKeyListener(editText);
-    }
-    private static void updateLayoutOnAlertDialogShow(Activity activity,AlertDialog alertDialog,EditText editText){
-        if(editText.getText().length()!=0) {
-            editText.getBackground().mutate().setColorFilter(ContextCompat.getColor(activity, R.color.transparent), PorterDuff.Mode.SRC_ATOP);
-            editText.setHint("");
-        }
-        else {
-            AlertDialogButtonsCustomizer.setDialogButtonDisabled(alertDialog,activity);
-        }
+        updateLayoutOnAlertDialogShow(activity,alertDialog,editText);
     }
 
     private static void setEditTextOnFocusChangeListener(final Activity activity,final EditText editText){
@@ -64,6 +71,7 @@ public class EditTextCustomizer {
 
     private static void addEditTextTextChangedListener(final Activity activity,final AlertDialog alertDialog,final EditText editText){
         final String hint=editText.getHint().toString();
+        Log.d("hint", "hint: "+hint);
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -97,5 +105,14 @@ public class EditTextCustomizer {
                 return false;
             }
         });
+    }
+    private static void updateLayoutOnAlertDialogShow(Activity activity,AlertDialog alertDialog,EditText editText){
+        if(editText.getText().length()!=0) {
+            editText.getBackground().mutate().setColorFilter(ContextCompat.getColor(activity, R.color.transparent), PorterDuff.Mode.SRC_ATOP);
+            editText.setHint("");
+        }
+        else {
+            AlertDialogButtonsCustomizer.setDialogButtonDisabled(alertDialog,activity);
+        }
     }
 }

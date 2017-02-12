@@ -1,3 +1,18 @@
+/*******************************************************************************
+ * Copyright 2017 Paweł Typiak
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *******************************************************************************/
 package paweltypiak.weatherial.introActivityInitializing.introActivityFragmentInitializing;
 
 import android.app.Activity;
@@ -14,8 +29,8 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import paweltypiak.weatherial.R;
 import paweltypiak.weatherial.introActivityInitializing.introActivityFragmentInitializing.introActivityConfigurationFragmentInitializing.OnSettingsFragmentViewCreatedListener;
-import paweltypiak.weatherial.usefulClasses.SharedPreferencesModifier;
-import paweltypiak.weatherial.usefulClasses.UsefulFunctions;
+import paweltypiak.weatherial.utils.SharedPreferencesModifier;
+import paweltypiak.weatherial.utils.UsefulFunctions;
 
 public class IntroActivityLanguageFragment extends Fragment{
 
@@ -67,7 +82,7 @@ public class IntroActivityLanguageFragment extends Fragment{
         languageVersionHeaderTextView.setText(getActivity().getText(R.string.intro_activity_language_version_header));
         englishRadioButton.setText(getActivity().getText(R.string.language_version_english));
         polishRadioButton.setText(getActivity().getText(R.string.language_version_polish));
-        nextButtonTextView.setText(getString(R.string.intro_activity_button_continue_text));
+        nextButtonTextView.setText(getString(R.string.intro_activity_next_button_continue_text));
     }
 
     private void getLayoutResources(){

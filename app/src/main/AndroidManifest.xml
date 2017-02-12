@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="paweltypiak.weatherial.mainActivityInitializing.MainActivity"
+            android:name="paweltypiak.weatherial.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivityTheme"/>
