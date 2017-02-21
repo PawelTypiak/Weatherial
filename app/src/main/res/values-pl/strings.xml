@@ -26,7 +26,7 @@
     <string name="yahoo_redirect_dialog_positive_button">Kontynuuj</string>
     <string name="yahoo_redirect_dialog_negative_button">Anuluj</string>
     <string name="exit_dialog_title">Wyjście</string>
-    <string name="exit_dialog_message">Czy na pewno chcesz wyjsć z <b>Waatherial</b>?</string>
+    <string name="exit_dialog_message">Czy na pewno chcesz wyjsć z <b>Weatherial</b>?</string>
     <string name="exit_dialog_positive_button">Wyjdź</string>
     <string name="exit_dialog_negative_button">Anuluj</string>
     <string name="feedback_dialog_title">Prześlij opinię</string>
